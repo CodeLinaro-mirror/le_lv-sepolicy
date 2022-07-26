@@ -34,47 +34,36 @@ module qti_policy 1.0;
 
 require {
 	type systemd_gpt_generator_t;
-	type systemd_tmpfiles_t;
 	type unlabeled_t;
 	type var_t;
-	type kmod_t;
-	type systemd_detect_virt_t;
 	type init_var_run_t;
 	type bluetooth_conf_t;
 	type sysctl_kernel_t;
-	type systemd_sessions_t;
 	type chkpwd_t;
 	type setfiles_t;
 	type binderfs_t;
 	type device_t;
 	type local_login_t;
 	type configfs_t;
-	type mount_t;
 	type proc_t;
-	type systemd_logind_t;
 	type shadow_t;
 	type etc_t;
 	type init_t;
 	type sysctl_t;
 	type initrc_t;
-	type syslogd_t;
 	type ipsec_key_file_t;
 	type default_t;
 	type sysadm_t;
 	type syslogd_var_run_t;
 	type system_dbusd_t;
-	type systemd_rfkill_t;
 	type udev_t;
 	type ipsec_t;
 	type init_exec_t;
 	type cert_t;
 	type event_device_t;
-	type systemd_networkd_t;
-	type getty_t;
 	type auditd_t;
 	type tmpfs_t;
-	type alsa_t;
-	class file { entrypoint getattr ioctl map mounton open read write };
+	class file { entrypoint getattr ioctl map mounton open read write execute execute_no_trans };
 	class dir { add_name create getattr mounton relabelto remove_name rmdir search };
 	class process2 nnp_transition;
 	class process { signull transition };
@@ -91,67 +80,13 @@ require {
 	class filesystem associate;
 }
 
-#============= alsa_t ==============
-allow alsa_t default_t:dir search;
-allow alsa_t etc_t:file map;
-allow alsa_t var_t:file { getattr open read };
-
 #============= chkpwd_t ==============
 allow chkpwd_t etc_t:file map;
 allow chkpwd_t shadow_t:file map;
 
-#============= getty_t ==============
-allow getty_t etc_t:file map;
-allow getty_t tmpfs_t:dir search;
-
-#============= init_t ==============
-allow init_t initrc_t:process2 nnp_transition;
-allow init_t kmod_t:process2 nnp_transition;
-allow init_t sysadm_t:process transition;
-
-#============= initrc_t ==============
-allow initrc_t self:binder { call set_context_mgr transfer };
-allow initrc_t sysadm_t:binder transfer;
-allow initrc_t sysadm_t:process transition;
-
-#============= ipsec_t ==============
-
-#!!!! This avc can be allowed using the boolean 'authlogin_nsswitch_use_ldap'
-allow ipsec_t cert_t:dir search;
-
-#!!!! This avc can be allowed using the boolean 'authlogin_nsswitch_use_ldap'
-allow ipsec_t cert_t:file { getattr open read };
-allow ipsec_t ipsec_key_file_t:file map;
-
-#!!!! This avc can be allowed using the boolean 'nscd_use_shm'
-allow ipsec_t self:unix_stream_socket listen;
-
-#============= kmod_t ==============
-allow kmod_t self:capability dac_read_search;
-
 #============= local_login_t ==============
 allow local_login_t default_t:dir search;
 allow local_login_t etc_t:file map;
-
-#============= mount_t ==============
-
-#!!!! This avc can be allowed using the boolean 'allow_mount_anyfile'
-allow mount_t bluetooth_conf_t:dir mounton;
-
-#!!!! This avc can be allowed using the boolean 'allow_mount_anyfile'
-allow mount_t bluetooth_conf_t:file { getattr open read };
-allow mount_t configfs_t:dir { getattr mounton };
-
-#!!!! This avc can be allowed using the boolean 'allow_mount_anyfile'
-allow mount_t etc_t:dir mounton;
-
-#!!!! This avc can be allowed using the boolean 'allow_mount_anyfile'
-allow mount_t etc_t:file mounton;
-allow mount_t etc_t:file write;
-allow mount_t var_t:dir { add_name create remove_name rmdir };
-
-#!!!! This avc can be allowed using the boolean 'allow_mount_anyfile'
-allow mount_t var_t:file { open read };
 
 #============= setfiles_t ==============
 allow setfiles_t var_t:file { open read };
@@ -167,66 +102,16 @@ allow sysadm_t initrc_t:unix_stream_socket { connectto read write };
 allow sysadm_t self:bpf { prog_load prog_run };
 allow sysadm_t self:capability audit_write;
 allow sysadm_t self:system reload;
-
-#============= syslogd_t ==============
-allow syslogd_t auditd_t:process signull;
-allow syslogd_t init_var_run_t:file { open read };
-allow syslogd_t initrc_t:process signull;
-allow syslogd_t ipsec_t:process signull;
-allow syslogd_t local_login_t:process signull;
-allow syslogd_t self:capability audit_control;
-allow syslogd_t self:netlink_audit_socket nlmsg_write;
-allow syslogd_t sysadm_t:process signull;
-allow syslogd_t syslogd_var_run_t:sock_file create;
-allow syslogd_t systemd_logind_t:process signull;
-allow syslogd_t tmpfs_t:dir search;
-allow syslogd_t udev_t:process signull;
+allow sysadm_t default_t:file { entrypoint execute execute_no_trans };
+allow sysadm_t unlabeled_t:chr_file { ioctl map open read write };
 
 #============= system_dbusd_t ==============
 allow system_dbusd_t etc_t:file map;
-
-#============= systemd_detect_virt_t ==============
-allow systemd_detect_virt_t init_t:dir search;
-allow systemd_detect_virt_t init_t:file { getattr ioctl open read };
-allow systemd_detect_virt_t init_var_run_t:dir search;
-allow systemd_detect_virt_t proc_t:file { getattr ioctl open read };
-allow systemd_detect_virt_t sysctl_kernel_t:dir search;
-allow systemd_detect_virt_t sysctl_kernel_t:file { getattr ioctl open read };
-allow systemd_detect_virt_t sysctl_t:dir search;
 
 #============= systemd_gpt_generator_t ==============
 allow systemd_gpt_generator_t sysctl_kernel_t:dir search;
 allow systemd_gpt_generator_t sysctl_kernel_t:file { getattr ioctl open read };
 allow systemd_gpt_generator_t sysctl_t:dir search;
-
-#============= systemd_logind_t ==============
-allow systemd_logind_t etc_t:file map;
-allow systemd_logind_t initrc_t:dir search;
-allow systemd_logind_t initrc_t:file { getattr ioctl open read };
-
-#============= systemd_networkd_t ==============
-allow systemd_networkd_t etc_t:file map;
-allow systemd_networkd_t self:netlink_generic_socket { bind create getattr getopt setopt };
-
-#============= systemd_rfkill_t ==============
-allow systemd_rfkill_t sysctl_kernel_t:dir search;
-allow systemd_rfkill_t sysctl_kernel_t:file { getattr ioctl open read };
-allow systemd_rfkill_t sysctl_t:dir search;
-
-#============= systemd_sessions_t ==============
-allow systemd_sessions_t sysctl_kernel_t:dir search;
-allow systemd_sessions_t sysctl_kernel_t:file { getattr ioctl open read };
-allow systemd_sessions_t sysctl_t:dir search;
-
-#============= systemd_tmpfiles_t ==============
-allow systemd_tmpfiles_t etc_t:file map;
-
-#!!!! This avc can be allowed using the boolean 'systemd_tmpfiles_manage_all'
-allow systemd_tmpfiles_t init_var_run_t:file { getattr open read };
-allow systemd_tmpfiles_t self:capability2 mac_admin;
-
-#!!!! This avc can be allowed using the boolean 'systemd_tmpfiles_manage_all'
-allow systemd_tmpfiles_t unlabeled_t:dir relabelto;
 
 #============= unlabeled_t ==============
 allow unlabeled_t device_t:filesystem associate;

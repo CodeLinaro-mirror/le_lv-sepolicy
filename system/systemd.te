@@ -30,6 +30,11 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+gen_require(`
+    type default_t;
+    type auditd_log_t;
+    type unlabeled_t;
+')
 #systemd_update_done
 allow systemd_update_done_t sysctl_t:dir search;
 allow systemd_update_done_t sysctl_kernel_t:dir search;
@@ -49,14 +54,49 @@ allow systemd_update_done_t file_context_t:dir search;
 allow systemd_update_done_t file_context_t:file { read open getattr map };
 
 #systemd_passwd_agent_t
-gen_require(`
-    type default_t;
-')
 allow systemd_passwd_agent_t initrc_devpts_t:chr_file { read write ioctl };
 allow systemd_passwd_agent_t default_t:dir { getattr };
+allow systemd_passwd_agent_t sysctl_t:dir { search };
+allow systemd_passwd_agent_t sysctl_kernel_t:dir { search };
+allow systemd_passwd_agent_t sysctl_kernel_t:file { read open ioctl getattr };
 
-#systemd_tmpfiles_t
-allow systemd_tmpfiles_t default_t:dir getattr;
+#============= systemd_tmpfiles_t ==============
+allow systemd_tmpfiles_t auditd_log_t:dir getattr;
+allow systemd_tmpfiles_t default_t:dir { search getattr };
+allow systemd_tmpfiles_t etc_t:file map;
+allow systemd_tmpfiles_t init_var_run_t:file { getattr open read };
+allow systemd_tmpfiles_t self:capability2 mac_admin;
+allow systemd_tmpfiles_t unlabeled_t:dir { relabelto getattr search };
 
-#systemd_passwd_agent_t
-allow systemd_passwd_agent_t initrc_devpts_t:chr_file ioctl;
+#systemd_networkd_t
+allow systemd_networkd_t etc_t:file map;
+allow systemd_networkd_t self:netlink_generic_socket { write read bind create getattr getopt setopt };
+
+#============= systemd_detect_virt_t ==============
+allow systemd_detect_virt_t init_t:dir search;
+allow systemd_detect_virt_t init_t:file { getattr ioctl open read };
+allow systemd_detect_virt_t init_var_run_t:dir search;
+allow systemd_detect_virt_t proc_t:file { getattr ioctl open read };
+allow systemd_detect_virt_t sysctl_kernel_t:dir search;
+allow systemd_detect_virt_t sysctl_kernel_t:file { getattr ioctl open read };
+allow systemd_detect_virt_t sysctl_t:dir search;
+
+#============= systemd_logind_t ==============
+allow systemd_logind_t etc_t:file map;
+allow systemd_logind_t initrc_t:dir search;
+allow systemd_logind_t initrc_t:file { getattr ioctl open read };
+
+#============= systemd_resolved_t ==============
+allow systemd_resolved_t etc_t:file map;
+allow systemd_resolved_t initrc_var_run_t:file { getattr ioctl open read };
+
+#============= systemd_rfkill_t ==============
+allow systemd_rfkill_t sysctl_kernel_t:dir search;
+allow systemd_rfkill_t sysctl_kernel_t:file { getattr ioctl open read };
+allow systemd_rfkill_t sysctl_t:dir search;
+allow systemd_rfkill_t self:netlink_kobject_uevent_socket { bind create getattr read setopt };
+
+#============= systemd_sessions_t ==============
+allow systemd_sessions_t sysctl_kernel_t:dir search;
+allow systemd_sessions_t sysctl_kernel_t:file { getattr ioctl open read };
+allow systemd_sessions_t sysctl_t:dir search;

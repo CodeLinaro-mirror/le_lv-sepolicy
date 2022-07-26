@@ -30,21 +30,10 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-allow mount_t var_t:file { create write open read };
-allow mount_t var_t:dir { add_name create remove_name rmdir };
-allow mount_t etc_t:file { setattr link mounton write };
-allow mount_t etc_t:dir mounton;
-
+#============= alsa_t ==============
 gen_require(`
-    type systemd_journal_t;
-    type bluetooth_conf_t;
     type default_t;
-    type configfs_t;
 ')
-allow mount_t systemd_journal_t:dir mounton;
-allow mount_t bluetooth_conf_t:file { getattr open read };
-allow mount_t bluetooth_conf_t:dir mounton;
-allow mount_t default_t:file read;
-allow mount_t var_run_t:dir create;
-allow mount_t var_run_t:file { create link open rename setattr unlink write read };
-allow mount_t configfs_t:dir { getattr mounton };
+allow alsa_t default_t:dir search;
+allow alsa_t etc_t:file map;
+allow alsa_t var_t:file { getattr open read };

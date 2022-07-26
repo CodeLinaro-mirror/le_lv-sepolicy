@@ -30,21 +30,20 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-allow mount_t var_t:file { create write open read };
-allow mount_t var_t:dir { add_name create remove_name rmdir };
-allow mount_t etc_t:file { setattr link mounton write };
-allow mount_t etc_t:dir mounton;
-
+#============= hostapd_t ==============
 gen_require(`
-    type systemd_journal_t;
-    type bluetooth_conf_t;
+    type debugfs_t;
     type default_t;
-    type configfs_t;
+    type etc_runtime_t;
+    type initrc_var_run_t;
+    type tmp_t;
 ')
-allow mount_t systemd_journal_t:dir mounton;
-allow mount_t bluetooth_conf_t:file { getattr open read };
-allow mount_t bluetooth_conf_t:dir mounton;
-allow mount_t default_t:file read;
-allow mount_t var_run_t:dir create;
-allow mount_t var_run_t:file { create link open rename setattr unlink write read };
-allow mount_t configfs_t:dir { getattr mounton };
+allow hostapd_t debugfs_t:dir search;
+allow hostapd_t default_t:file { getattr write };
+allow hostapd_t etc_runtime_t:file { getattr open read };
+allow hostapd_t etc_t:file map;
+allow hostapd_t initrc_t:unix_dgram_socket sendto;
+allow hostapd_t initrc_var_run_t:dir { add_name remove_name search write };
+allow hostapd_t initrc_var_run_t:sock_file { create setattr unlink write };
+allow hostapd_t tmp_t:dir search;
+allow hostapd_t tmp_t:sock_file write;
