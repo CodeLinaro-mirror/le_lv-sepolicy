@@ -30,8 +30,6 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-allow auditd_t tmpfs_t:dir search;
-
 #============= syslogd_t ==============
 gen_require(`
     type hostapd_t;
@@ -56,3 +54,7 @@ allow syslogd_t syslogd_var_run_t:sock_file create;
 allow syslogd_t systemd_logind_t:process signull;
 allow syslogd_t tmpfs_t:dir search;
 allow syslogd_t udev_t:process signull;
+
+#============= auditd_t ==============
+allow auditd_t tmpfs_t:dir search;
+allow auditd_t etc_t:file map;
