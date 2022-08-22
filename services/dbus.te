@@ -30,19 +30,12 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#============= init_t ==============
 gen_require(`
-    type kmod_t;
-    type sysadm_t;
-    type pulseaudio_t;
+    type default_t;
 ')
-allow init_t initrc_t:process2 nnp_transition;
-allow init_t kmod_t:process2 nnp_transition;
-allow init_t sysadm_t:process transition;
 
-#============= initrc_t ==============
-allow initrc_t self:binder { call set_context_mgr transfer };
-allow initrc_t sysadm_t:binder transfer;
-allow initrc_t sysadm_t:process transition;
-allow initrc_t bin_t:service { start stop status };
-allow initrc_t pulseaudio_t:binder transfer;
+#============= system_dbusd_t ==============
+allow system_dbusd_t default_t:dir search;
+allow system_dbusd_t user_runtime_root_t:dir search;
+allow system_dbusd_t user_runtime_t:dir { add_name create getattr open read search write };
+allow system_dbusd_t etc_t:file map;

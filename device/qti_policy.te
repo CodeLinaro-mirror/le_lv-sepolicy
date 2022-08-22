@@ -55,7 +55,6 @@ require {
 	type default_t;
 	type sysadm_t;
 	type syslogd_var_run_t;
-	type system_dbusd_t;
 	type udev_t;
 	type ipsec_t;
 	type init_exec_t;
@@ -104,9 +103,6 @@ allow sysadm_t self:capability audit_write;
 allow sysadm_t self:system reload;
 allow sysadm_t default_t:file { entrypoint execute execute_no_trans };
 allow sysadm_t unlabeled_t:chr_file { ioctl map open read write };
-
-#============= system_dbusd_t ==============
-allow system_dbusd_t etc_t:file map;
 
 #============= systemd_gpt_generator_t ==============
 allow systemd_gpt_generator_t sysctl_kernel_t:dir search;

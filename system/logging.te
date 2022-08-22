@@ -39,6 +39,7 @@ gen_require(`
     type sysadm_t;
     type systemd_logind_t;
     type udev_t;
+    type default_t;
 ')
 allow syslogd_t auditd_t:process signull;
 allow syslogd_t hostapd_t:process signull;
@@ -54,6 +55,7 @@ allow syslogd_t syslogd_var_run_t:sock_file create;
 allow syslogd_t systemd_logind_t:process signull;
 allow syslogd_t tmpfs_t:dir search;
 allow syslogd_t udev_t:process signull;
+allow syslogd_t default_t:dir search;
 
 #============= auditd_t ==============
 allow auditd_t tmpfs_t:dir search;

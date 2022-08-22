@@ -105,3 +105,6 @@ allow systemd_rfkill_t self:netlink_kobject_uevent_socket { bind create getattr 
 allow systemd_sessions_t sysctl_kernel_t:dir search;
 allow systemd_sessions_t sysctl_kernel_t:file { getattr ioctl open read };
 allow systemd_sessions_t sysctl_t:dir search;
+
+#============= systemd_hostnamed_t ==============
+allow systemd_hostnamed_t initrc_t:dbus send_msg;
