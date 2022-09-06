@@ -60,3 +60,4 @@ allow syslogd_t default_t:dir search;
 #============= auditd_t ==============
 allow auditd_t tmpfs_t:dir search;
 allow auditd_t etc_t:file map;
+allow auditd_t audisp_t:process { siginh rlimitinh noatsecure };

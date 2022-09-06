@@ -31,20 +31,13 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 gen_require(`
-    type cert_t;
+    type default_t;
+    type sysadm_t;
 ')
-#============= ipsec_mgmt_t ==============
-allow ipsec_mgmt_t default_t:dir search;
-allow ipsec_mgmt_t default_t:file { execute execute_no_trans open read };
-allow ipsec_mgmt_t ipsec_supervisor_t:process { noatsecure rlimitinh siginh };
-allow ipsec_mgmt_t security_t:filesystem getattr;
-allow ipsec_mgmt_t selinux_config_t:dir search;
 
-#============= ipsec_t ==============
-allow ipsec_t ipsec_key_file_t:file map;
-allow ipsec_t self:unix_stream_socket listen;
-allow ipsec_t cert_t:dir search;
-allow ipsec_t cert_t:file { read open getattr };
-
-#============= ipsec_supervisor_t ==============
-allow ipsec_supervisor_t ipsec_t:process { noatsecure rlimitinh siginh };
+#============= local_login_t ==============
+allow local_login_t bin_t:file execute;
+allow local_login_t default_t:dir search;
+allow local_login_t etc_t:file map;
+allow local_login_t chkpwd_t:process { noatsecure rlimitinh siginh };
+allow local_login_t sysadm_t:process { noatsecure rlimitinh siginh };

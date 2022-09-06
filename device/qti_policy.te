@@ -33,59 +33,54 @@
 module qti_policy 1.0;
 
 require {
-	type systemd_gpt_generator_t;
-	type unlabeled_t;
-	type var_t;
-	type init_var_run_t;
-	type bluetooth_conf_t;
-	type sysctl_kernel_t;
-	type chkpwd_t;
-	type setfiles_t;
-	type binderfs_t;
-	type device_t;
-	type local_login_t;
-	type configfs_t;
-	type proc_t;
-	type shadow_t;
-	type etc_t;
-	type init_t;
-	type sysctl_t;
-	type initrc_t;
-	type ipsec_key_file_t;
-	type default_t;
-	type sysadm_t;
-	type syslogd_var_run_t;
-	type udev_t;
-	type ipsec_t;
-	type init_exec_t;
-	type cert_t;
-	type event_device_t;
-	type auditd_t;
-	type tmpfs_t;
-	class file { entrypoint getattr ioctl map mounton open read write execute execute_no_trans };
-	class dir { add_name create getattr mounton relabelto remove_name rmdir search };
-	class process2 nnp_transition;
-	class process { signull transition };
-	class capability { audit_control audit_write dac_read_search };
-	class unix_stream_socket { connectto ioctl listen read write };
-	class binder { call set_context_mgr transfer };
-	class netlink_audit_socket nlmsg_write;
-	class sock_file create;
-	class netlink_generic_socket { bind create getattr getopt setopt };
-	class bpf { prog_load prog_run };
-	class system reload;
-	class chr_file { create ioctl map open read unlink write };
-	class capability2 mac_admin;
-	class filesystem associate;
+    type systemd_gpt_generator_t;
+    type unlabeled_t;
+    type var_t;
+    type dri_device_t;
+    type init_var_run_t;
+    type bluetooth_conf_t;
+    type sysctl_kernel_t;
+    type chkpwd_t;
+    type setfiles_t;
+    type binderfs_t;
+    type device_t;
+    type configfs_t;
+    type proc_t;
+    type shadow_t;
+    type etc_t;
+    type init_t;
+    type sysctl_t;
+    type initrc_t;
+    type ipsec_key_file_t;
+    type default_t;
+    type sysadm_t;
+    type syslogd_var_run_t;
+    type udev_t;
+    type ipsec_t;
+    type init_exec_t;
+    type cert_t;
+    type event_device_t;
+    type tmpfs_t;
+    class file { entrypoint getattr ioctl map mounton open read write execute execute_no_trans };
+    class dir { add_name create getattr mounton relabelto remove_name rmdir search };
+    class process2 nnp_transition;
+    class process { signull transition setrlimit };
+    class capability { audit_control audit_write dac_read_search };
+    class unix_stream_socket { connectto ioctl listen read write };
+    class binder { call set_context_mgr transfer };
+    class netlink_audit_socket nlmsg_write;
+    class sock_file create;
+    class netlink_generic_socket { bind create getattr getopt setopt };
+    class bpf { prog_load prog_run };
+    class system reload;
+    class chr_file { create ioctl map open read unlink write };
+    class capability2 mac_admin;
+    class filesystem associate;
 }
 
 #============= chkpwd_t ==============
 allow chkpwd_t etc_t:file map;
 allow chkpwd_t shadow_t:file map;
-
-#============= local_login_t ==============
-allow local_login_t default_t:dir search;
-allow local_login_t etc_t:file map;
 
 #============= setfiles_t ==============
 allow setfiles_t var_t:file { open read };
@@ -103,6 +98,8 @@ allow sysadm_t self:capability audit_write;
 allow sysadm_t self:system reload;
 allow sysadm_t default_t:file { entrypoint execute execute_no_trans };
 allow sysadm_t unlabeled_t:chr_file { ioctl map open read write };
+allow sysadm_t dri_device_t:chr_file { read write ioctl open };
+allow sysadm_t self:process setrlimit;
 
 #============= systemd_gpt_generator_t ==============
 allow systemd_gpt_generator_t sysctl_kernel_t:dir search;

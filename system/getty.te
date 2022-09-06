@@ -30,8 +30,25 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+gen_require(`
+    type systemd_journal_t;
+    type system_dbusd_t;
+    type bluetooth_conf_t;
+    type default_t;
+    type configfs_t;
+    type sysadm_t;
+    class dbus acquire_svc;
+')
+
 #============= getty_t ==============
 allow getty_t etc_t:file map;
 allow getty_t tmpfs_t:dir search;
+allow getty_t local_login_t:process { noatsecure rlimitinh siginh };
 
 init_rw_stream_sockets(getty_t)
+
+#============= sysadm_t ==============
+allow sysadm_t self:dbus acquire_svc;
+allow sysadm_t system_dbusd_t:dbus acquire_svc;
+allow sysadm_t init_t:fd use;
+allow sysadm_t initrc_t:fd use;
