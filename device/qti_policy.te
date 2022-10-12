@@ -71,6 +71,10 @@ require {
     type weston_t;
     type security_t;
     type selinux_config_t;
+    type ais_server_t;
+    type qcarcam_test_t;
+    type qcarcam_rvc_t;
+    type syslogd_t;
     class file { entrypoint getattr ioctl map mounton open read write execute execute_no_trans };
     class dir { add_name create getattr mounton relabelto remove_name rmdir search };
     class process2 nnp_transition;
@@ -124,6 +128,8 @@ allow sysadm_t weston_lib_t:file { execute getattr map open read };
 allow sysadm_t weston_lib_t:lnk_file read;
 allow sysadm_t weston_t:fd use;
 allow sysadm_t weston_t:unix_stream_socket { read write };
+allow sysadm_t qcarcam_test_t:fd use;
+allow sysadm_t qcarcam_rvc_t:fd use;
 
 #============= systemd_gpt_generator_t ==============
 allow systemd_gpt_generator_t sysctl_kernel_t:dir search;
@@ -134,3 +140,8 @@ allow systemd_gpt_generator_t selinux_config_t:dir search;
 
 #============= unlabeled_t ==============
 allow unlabeled_t device_t:filesystem associate;
+
+
+#============= syslogd_t ============================
+allow syslogd_t ais_server_t:process signull;
+
