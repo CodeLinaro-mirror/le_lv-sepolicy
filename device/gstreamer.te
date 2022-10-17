@@ -1,0 +1,191 @@
+# Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted (subject to the limitations in the
+# disclaimer below) provided that the following conditions are met:
+#
+#    * Redistributions of source code must retain the above copyright
+#      notice, this list of conditions and the following disclaimer.
+#
+#    * Redistributions in binary form must reproduce the above
+#      copyright notice, this list of conditions and the following
+#      disclaimer in the documentation and/or other materials provided
+#      with the distribution.
+#
+#    * Neither the name of Qualcomm Innovation Center, Inc. nor the names of its
+#      contributors may be used to endorse or promote products derived
+#      from this software without specific prior written permission.
+#
+# NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE
+# GRANTED BY THIS LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT
+# HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED
+# WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+# IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+# ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+# GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER
+# IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+# OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+# IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+policy_module(gstreamer, 1.0)
+
+########################################
+#
+# Declarations
+#
+
+type gstreamer_t;
+type gstreamer_exec_t;
+type gstreamer_usr_t;
+type omx_t;
+type omx_exec_t;
+type omx_usr_t;
+
+init_daemon_domain(gstreamer_t, gstreamer_exec_t)
+init_daemon_domain(omx_t, omx_exec_t)
+
+require {
+                type alsa_etc_t;
+                type alsa_t;
+                type debugfs_t;
+                type default_t;
+                type device_t;
+                type devlog_t;
+                type dosfs_t;
+                type dri_device_t;
+                type etc_t;
+                type gstreamer_t;
+                type initrc_t;
+                type init_var_run_t;
+                type locale_t;
+                type omx_t;
+                type proc_t;
+                type pulseaudio_exec_t;
+                type random_device_t;
+                type sound_device_t;
+                type sysadm_t;
+                type sysctl_t;
+                type sysctl_vm_overcommit_t;
+                type sysctl_vm_t;
+                type sysfs_t;
+                type syslogd_t;
+                type syslogd_var_run_t;
+                type tmpfs_t;
+                type tmp_t;
+                type udev_var_run_t;
+                type unlabeled_t;
+                type urandom_device_t;
+                type user_runtime_root_t;
+                type user_runtime_t;
+                type user_tmpfs_t;
+                type user_tmp_t;
+                type usr_t;
+                type v4l_device_t;
+                class capability dac_override;
+                class capability sys_admin;
+                class chr_file { getattr ioctl open read write map };
+                class dir { add_name create getattr read remove_name search write open rmdir };
+                class fd use;
+                class fifo_file { getattr ioctl read write };
+                class file { execute execute_no_trans create getattr map open read rename unlink write lock };
+                class lnk_file { getattr read };
+                class netlink_kobject_uevent_socket { bind create getattr setopt };
+                class process { signal signull setcap setsched };
+                class sock_file write;
+                class unix_dgram_socket { connect create sendto write };
+                class unix_stream_socket connectto;
+}
+
+#============= gstreamer_t ==============
+allow gstreamer_t alsa_etc_t:dir { getattr read search open };
+allow gstreamer_t alsa_etc_t:file { getattr open read };
+allow gstreamer_t alsa_etc_t:lnk_file read;
+allow gstreamer_t debugfs_t:dir search;
+allow gstreamer_t default_t:dir { add_name create getattr remove_name search write };
+allow gstreamer_t default_t:file { create getattr map open read rename write lock unlink };
+allow gstreamer_t device_t:chr_file { ioctl open read write map };
+allow gstreamer_t device_t:sock_file write;
+allow gstreamer_t devlog_t:sock_file write;
+allow gstreamer_t dri_device_t:chr_file { ioctl open read write };
+allow gstreamer_t etc_t:file { getattr open read map };
+allow gstreamer_t etc_t:lnk_file read;
+allow gstreamer_t initrc_t:unix_stream_socket connectto;
+allow gstreamer_t init_var_run_t:dir search;
+allow gstreamer_t init_var_run_t:file { getattr open read };
+allow gstreamer_t locale_t:dir search;
+allow gstreamer_t locale_t:file { getattr open read };
+allow gstreamer_t proc_t:file { getattr open read };
+allow gstreamer_t pulseaudio_exec_t:file { execute execute_no_trans map open read };
+allow gstreamer_t random_device_t:chr_file { open read };
+allow gstreamer_t self:capability { dac_override sys_admin };
+allow gstreamer_t self:fifo_file { getattr ioctl read write };
+allow gstreamer_t self:netlink_kobject_uevent_socket { bind create getattr setopt };
+allow gstreamer_t self:process { signal setcap setsched };
+allow gstreamer_t self:unix_dgram_socket { connect create write };
+allow gstreamer_t sound_device_t:chr_file { read ioctl open };
+allow gstreamer_t sysadm_t:fd use;
+allow gstreamer_t sysadm_t:unix_stream_socket connectto;
+allow gstreamer_t sysctl_t:dir search;
+allow gstreamer_t sysctl_vm_overcommit_t:file { open read };
+allow gstreamer_t sysctl_vm_t:dir search;
+allow gstreamer_t sysfs_t:dir read;
+allow gstreamer_t sysfs_t:file { getattr open read write };
+allow gstreamer_t sysfs_t:lnk_file { getattr read };
+allow gstreamer_t syslogd_t:unix_dgram_socket sendto;
+allow gstreamer_t syslogd_var_run_t:dir search;
+allow gstreamer_t tmpfs_t:dir { getattr open read };
+allow gstreamer_t tmpfs_t:file { getattr map read write };
+allow gstreamer_t tmp_t:dir search;
+allow gstreamer_t tmp_t:sock_file write;
+allow gstreamer_t udev_var_run_t:dir search;
+allow gstreamer_t udev_var_run_t:file { getattr open read };
+allow gstreamer_t unlabeled_t:dir { add_name getattr read remove_name search write };
+allow gstreamer_t unlabeled_t:file { create getattr map open read rename unlink write };
+allow gstreamer_t urandom_device_t:chr_file { open read };
+allow gstreamer_t user_runtime_root_t:dir { getattr search };
+allow gstreamer_t user_runtime_t:dir { add_name remove_name search write getattr };
+allow gstreamer_t user_runtime_t:file { create map open read unlink write };
+allow gstreamer_t user_tmpfs_t:file { getattr map read write };
+allow gstreamer_t user_tmp_t:dir { getattr search open read rmdir };
+allow gstreamer_t user_tmp_t:sock_file write;
+allow gstreamer_t usr_t:file { getattr open read };
+allow gstreamer_t v4l_device_t:chr_file { getattr ioctl open read write };
+
+#============= omx_t ==============
+allow omx_t debugfs_t:dir search;
+allow omx_t default_t:dir { add_name search write getattr };
+allow omx_t default_t:file { create getattr open read write append };
+allow omx_t device_t:chr_file { ioctl open read write map };
+allow omx_t device_t:sock_file write;
+allow omx_t devlog_t:sock_file write;
+allow omx_t dosfs_t:dir search;
+allow omx_t dri_device_t:chr_file { ioctl open read write };
+allow omx_t etc_t:lnk_file read;
+allow omx_t initrc_t:unix_stream_socket connectto;
+allow omx_t init_var_run_t:dir search;
+allow omx_t locale_t:dir search;
+allow omx_t locale_t:file { getattr open read };
+allow omx_t proc_t:file { getattr open read };
+allow omx_t self:capability sys_admin;
+allow omx_t self:unix_dgram_socket { connect create write };
+allow omx_t sound_device_t:chr_file { ioctl open read };
+allow omx_t sysfs_t:file { getattr open read write };
+allow omx_t sysfs_t:lnk_file read;
+allow omx_t syslogd_t:unix_dgram_socket sendto;
+allow omx_t syslogd_var_run_t:dir search;
+allow omx_t tmp_t:dir search;
+allow omx_t unlabeled_t:dir { getattr read search };
+allow omx_t v4l_device_t:chr_file { ioctl open read write };
+
+#============= sysadm_t ==============
+allow sysadm_t gstreamer_t:fd use;
+allow sysadm_t v4l_device_t:chr_file { ioctl open read write };
+
+#============= syslogd_t ==============
+allow syslogd_t gstreamer_t:process signull;
+
+
+
