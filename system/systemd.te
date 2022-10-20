@@ -35,6 +35,7 @@ gen_require(`
     type auditd_log_t;
     type unlabeled_t;
     type system_dbusd_var_lib_t;
+    type sysadm_t;
 ')
 #systemd_update_done
 allow systemd_update_done_t sysctl_t:dir search;
@@ -113,5 +114,6 @@ allow systemd_sessions_t sysctl_t:dir search;
 
 #============= systemd_hostnamed_t ==============
 allow systemd_hostnamed_t initrc_t:dbus send_msg;
+allow systemd_hostnamed_t sysadm_t:dbus send_msg;
 allow systemd_hostnamed_t security_t:filesystem getattr;
 allow systemd_hostnamed_t selinux_config_t:file { getattr open read };
