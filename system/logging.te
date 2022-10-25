@@ -42,6 +42,7 @@ gen_require(`
     type default_t;
     type dmesg_t;
     type audio_vendor_t;
+    type weston_t;
 ')
 allow syslogd_t auditd_t:process signull;
 allow syslogd_t hostapd_t:process signull;
@@ -59,11 +60,16 @@ allow syslogd_t tmpfs_t:dir search;
 allow syslogd_t udev_t:process signull;
 allow syslogd_t default_t:dir search;
 allow syslogd_t audio_vendor_t:process signull;
+allow syslogd_t weston_t:process signull;
 
 #============= auditd_t ==============
 allow auditd_t tmpfs_t:dir search;
 allow auditd_t etc_t:file map;
 allow auditd_t audisp_t:process { siginh rlimitinh noatsecure };
+allow auditd_t auditd_etc_t:file map;
 
 #============= dmesg_t ==============
 allow dmesg_t default_t:file { write ioctl getattr };
+
+#============= auditctl_t ==============
+allow auditctl_t auditd_etc_t:file map;

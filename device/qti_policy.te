@@ -64,6 +64,13 @@ require {
     type pulseaudio_t;
     type pulseaudio_conf_t;
     type audio_vendor_t;
+    type weston_data_t;
+    type weston_etc_t;
+    type weston_exec_t;
+    type weston_lib_t;
+    type weston_t;
+    type security_t;
+    type selinux_config_t;
     class file { entrypoint getattr ioctl map mounton open read write execute execute_no_trans };
     class dir { add_name create getattr mounton relabelto remove_name rmdir search };
     class process2 nnp_transition;
@@ -78,8 +85,9 @@ require {
     class system reload;
     class chr_file { create ioctl map open read unlink write };
     class capability2 mac_admin;
-    class filesystem associate;
+    class filesystem { associate getattr };
     class fd use;
+    class lnk_file read;
 }
 
 #============= chkpwd_t ==============
@@ -109,11 +117,20 @@ allow sysadm_t pulseaudio_conf_t:file { read open getattr map };
 allow sysadm_t init_t:binder call;
 allow sysadm_t pulseaudio_t:fd use;
 allow sysadm_t audio_vendor_t:binder call;
+allow sysadm_t weston_data_t:file { getattr open read };
+allow sysadm_t weston_etc_t:file { getattr open read };
+allow sysadm_t weston_exec_t:file { execute execute_no_trans };
+allow sysadm_t weston_lib_t:file { execute getattr map open read };
+allow sysadm_t weston_lib_t:lnk_file read;
+allow sysadm_t weston_t:fd use;
+allow sysadm_t weston_t:unix_stream_socket { read write };
 
 #============= systemd_gpt_generator_t ==============
 allow systemd_gpt_generator_t sysctl_kernel_t:dir search;
 allow systemd_gpt_generator_t sysctl_kernel_t:file { getattr ioctl open read };
 allow systemd_gpt_generator_t sysctl_t:dir search;
+allow systemd_gpt_generator_t security_t:filesystem getattr;
+allow systemd_gpt_generator_t selinux_config_t:dir search;
 
 #============= unlabeled_t ==============
 allow unlabeled_t device_t:filesystem associate;

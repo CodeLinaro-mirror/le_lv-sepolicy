@@ -36,6 +36,7 @@ gen_require(`
     type unlabeled_t;
     type system_dbusd_var_lib_t;
     type sysadm_t;
+    type weston_t;
 ')
 #systemd_update_done
 allow systemd_update_done_t sysctl_t:dir search;
@@ -96,6 +97,9 @@ allow systemd_detect_virt_t selinux_config_t:dir search;
 allow systemd_logind_t etc_t:file map;
 allow systemd_logind_t initrc_t:dir search;
 allow systemd_logind_t initrc_t:file { getattr ioctl open read };
+allow systemd_logind_t weston_t:dir search;
+allow systemd_logind_t weston_t:file { getattr ioctl open read };
+allow systemd_logind_t weston_t:dbus send_msg;
 
 #============= systemd_resolved_t ==============
 allow systemd_resolved_t etc_t:file map;
@@ -106,6 +110,8 @@ allow systemd_rfkill_t sysctl_kernel_t:dir search;
 allow systemd_rfkill_t sysctl_kernel_t:file { getattr ioctl open read };
 allow systemd_rfkill_t sysctl_t:dir search;
 allow systemd_rfkill_t self:netlink_kobject_uevent_socket { bind create getattr read setopt };
+allow systemd_rfkill_t security_t:filesystem getattr;
+allow systemd_rfkill_t selinux_config_t:dir search;
 
 #============= systemd_sessions_t ==============
 allow systemd_sessions_t sysctl_kernel_t:dir search;

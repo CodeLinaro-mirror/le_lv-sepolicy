@@ -31,7 +31,7 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 allow mount_t var_t:file { create write open read };
-allow mount_t var_t:dir { add_name create remove_name rmdir write setattr };
+allow mount_t var_t:dir { add_name create remove_name rmdir setattr write };
 allow mount_t etc_t:file { setattr link mounton write };
 allow mount_t etc_t:dir mounton;
 
