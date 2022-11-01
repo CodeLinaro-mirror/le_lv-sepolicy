@@ -35,14 +35,22 @@ gen_require(`
     type kmod_t;
     type sysadm_t;
     type pulseaudio_t;
+    type pulseaudio_conf_t;
+    type audio_vendor_t;
 ')
 allow init_t initrc_t:process2 nnp_transition;
+allow init_t initrc_t:binder { call transfer };
 allow init_t kmod_t:process2 nnp_transition;
 allow init_t sysadm_t:process transition;
+allow init_t audio_vendor_t:file { execute execute_no_trans map open read };
 
 #============= initrc_t ==============
 allow initrc_t self:binder { call set_context_mgr transfer };
+allow initrc_t sysadm_t:system start;
 allow initrc_t sysadm_t:binder transfer;
 allow initrc_t sysadm_t:process transition;
 allow initrc_t bin_t:service { start stop status };
 allow initrc_t pulseaudio_t:binder transfer;
+allow initrc_t pulseaudio_conf_t:dir { getattr open read search };
+allow initrc_t pulseaudio_conf_t:file { read open getattr };
+allow initrc_t audio_vendor_t:file { getattr execute read open execute_no_trans map};

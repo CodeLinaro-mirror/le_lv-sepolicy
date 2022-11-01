@@ -30,40 +30,17 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#============= syslogd_t ==============
-gen_require(`
-    type hostapd_t;
-    type ipsec_supervisor_t;
-    type ipsec_t;
-    type local_login_t;
-    type sysadm_t;
-    type systemd_logind_t;
-    type udev_t;
-    type default_t;
-    type dmesg_t;
-    type audio_vendor_t;
-')
-allow syslogd_t auditd_t:process signull;
-allow syslogd_t hostapd_t:process signull;
-allow syslogd_t ipsec_supervisor_t:process signull;
-allow syslogd_t init_var_run_t:file { open read };
-allow syslogd_t initrc_t:process signull;
-allow syslogd_t ipsec_t:process signull;
-allow syslogd_t local_login_t:process signull;
-allow syslogd_t self:capability audit_control;
-allow syslogd_t self:netlink_audit_socket nlmsg_write;
-allow syslogd_t sysadm_t:process signull;
-allow syslogd_t syslogd_var_run_t:sock_file create;
-allow syslogd_t systemd_logind_t:process signull;
-allow syslogd_t tmpfs_t:dir search;
-allow syslogd_t udev_t:process signull;
-allow syslogd_t default_t:dir search;
-allow syslogd_t audio_vendor_t:process signull;
+# Used to generate file contexts for alsa
 
-#============= auditd_t ==============
-allow auditd_t tmpfs_t:dir search;
-allow auditd_t etc_t:file map;
-allow auditd_t audisp_t:process { siginh rlimitinh noatsecure };
+/usr/bin/alsaloop                  --  gen_context(system_u:object_r:alsa_exec_t,s0)
+/usr/bin/alsamixer                 --  gen_context(system_u:object_r:alsa_exec_t,s0)
+/usr/bin/alsaucm                   --  gen_context(system_u:object_r:alsa_exec_t,s0)
+/usr/bin/amixer                    --  gen_context(system_u:object_r:alsa_exec_t,s0)
+/usr/bin/aplay                     --  gen_context(system_u:object_r:alsa_exec_t,s0)
+/usr/bin/arecord                   -l  gen_context(system_u:object_r:alsa_exec_t,s0)
+/usr/bin/ahostless                 --  gen_context(system_u:object_r:alsa_exec_t,s0)
 
-#============= dmesg_t ==============
-allow dmesg_t default_t:file { write ioctl getattr };
+/usr/bin/a2b-app                   --  gen_context(system_u:object_r:audio_vendor_exec_t,s0)
+/usr/bin/audiod                    --  gen_context(system_u:object_r:audio_vendor_exec_t,s0)
+/usr/bin/audio-nxp-auto            --  gen_context(system_u:object_r:audio_vendor_exec_t,s0)
+/usr/bin/acdb_loader_service       --  gen_context(system_u:object_r:audio_vendor_exec_t,s0)
