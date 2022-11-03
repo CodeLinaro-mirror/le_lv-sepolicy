@@ -30,34 +30,25 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#============= syslogd_t ==============
 gen_require(`
-    type hostapd_t;
-    type ipsec_supervisor_t;
-    type ipsec_t;
-    type local_login_t;
-    type sysadm_t;
-    type systemd_logind_t;
-    type udev_t;
+    type systemd_journal_t;
+    type system_dbusd_t;
+    type bluetooth_conf_t;
     type default_t;
+    type configfs_t;
+    type sysadm_t;
+    class dbus acquire_svc;
 ')
-allow syslogd_t auditd_t:process signull;
-allow syslogd_t hostapd_t:process signull;
-allow syslogd_t ipsec_supervisor_t:process signull;
-allow syslogd_t init_var_run_t:file { open read };
-allow syslogd_t initrc_t:process signull;
-allow syslogd_t ipsec_t:process signull;
-allow syslogd_t local_login_t:process signull;
-allow syslogd_t self:capability audit_control;
-allow syslogd_t self:netlink_audit_socket nlmsg_write;
-allow syslogd_t sysadm_t:process signull;
-allow syslogd_t syslogd_var_run_t:sock_file create;
-allow syslogd_t systemd_logind_t:process signull;
-allow syslogd_t tmpfs_t:dir search;
-allow syslogd_t udev_t:process signull;
-allow syslogd_t default_t:dir search;
 
-#============= auditd_t ==============
-allow auditd_t tmpfs_t:dir search;
-allow auditd_t etc_t:file map;
-allow auditd_t audisp_t:process { siginh rlimitinh noatsecure };
+#============= getty_t ==============
+allow getty_t etc_t:file map;
+allow getty_t tmpfs_t:dir search;
+allow getty_t local_login_t:process { noatsecure rlimitinh siginh };
+
+init_rw_stream_sockets(getty_t)
+
+#============= sysadm_t ==============
+allow sysadm_t self:dbus acquire_svc;
+allow sysadm_t system_dbusd_t:dbus acquire_svc;
+allow sysadm_t init_t:fd use;
+allow sysadm_t initrc_t:fd use;

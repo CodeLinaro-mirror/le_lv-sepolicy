@@ -30,34 +30,28 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#============= syslogd_t ==============
 gen_require(`
-    type hostapd_t;
-    type ipsec_supervisor_t;
-    type ipsec_t;
-    type local_login_t;
-    type sysadm_t;
-    type systemd_logind_t;
-    type udev_t;
+    type binderfs_t;
+    type debugfs_t;
     type default_t;
+    type initrc_t;
+    type systemd_logind_var_run_t;
+    type systemd_sessions_var_run_t;
+    type system_dbusd_var_lib_t;
 ')
-allow syslogd_t auditd_t:process signull;
-allow syslogd_t hostapd_t:process signull;
-allow syslogd_t ipsec_supervisor_t:process signull;
-allow syslogd_t init_var_run_t:file { open read };
-allow syslogd_t initrc_t:process signull;
-allow syslogd_t ipsec_t:process signull;
-allow syslogd_t local_login_t:process signull;
-allow syslogd_t self:capability audit_control;
-allow syslogd_t self:netlink_audit_socket nlmsg_write;
-allow syslogd_t sysadm_t:process signull;
-allow syslogd_t syslogd_var_run_t:sock_file create;
-allow syslogd_t systemd_logind_t:process signull;
-allow syslogd_t tmpfs_t:dir search;
-allow syslogd_t udev_t:process signull;
-allow syslogd_t default_t:dir search;
-
-#============= auditd_t ==============
-allow auditd_t tmpfs_t:dir search;
-allow auditd_t etc_t:file map;
-allow auditd_t audisp_t:process { siginh rlimitinh noatsecure };
+#============= pulseaudio_t ==============
+allow pulseaudio_t init_var_run_t:file open;
+allow pulseaudio_t binderfs_t:chr_file { ioctl map open read write };
+allow pulseaudio_t binderfs_t:dir search;
+allow pulseaudio_t debugfs_t:dir search;
+allow pulseaudio_t default_t:dir { getattr create add_name open remove_name read write search};
+allow pulseaudio_t default_t:file { create getattr lock open read rename write };
+allow pulseaudio_t device_t:chr_file { ioctl open read write };
+allow pulseaudio_t etc_t:file map;
+allow pulseaudio_t init_var_run_t:file { getattr read };
+allow pulseaudio_t initrc_t:binder call;
+allow pulseaudio_t systemd_logind_var_run_t:dir search;
+allow pulseaudio_t systemd_logind_var_run_t:file { getattr open read };
+allow pulseaudio_t systemd_sessions_var_run_t:dir read;
+allow pulseaudio_t user_runtime_t:sock_file write;
+allow pulseaudio_t system_dbusd_var_lib_t:lnk_file read;

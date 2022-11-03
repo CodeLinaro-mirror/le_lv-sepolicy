@@ -30,34 +30,19 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#============= syslogd_t ==============
+#============= init_t ==============
 gen_require(`
-    type hostapd_t;
-    type ipsec_supervisor_t;
-    type ipsec_t;
-    type local_login_t;
+    type kmod_t;
     type sysadm_t;
-    type systemd_logind_t;
-    type udev_t;
-    type default_t;
+    type pulseaudio_t;
 ')
-allow syslogd_t auditd_t:process signull;
-allow syslogd_t hostapd_t:process signull;
-allow syslogd_t ipsec_supervisor_t:process signull;
-allow syslogd_t init_var_run_t:file { open read };
-allow syslogd_t initrc_t:process signull;
-allow syslogd_t ipsec_t:process signull;
-allow syslogd_t local_login_t:process signull;
-allow syslogd_t self:capability audit_control;
-allow syslogd_t self:netlink_audit_socket nlmsg_write;
-allow syslogd_t sysadm_t:process signull;
-allow syslogd_t syslogd_var_run_t:sock_file create;
-allow syslogd_t systemd_logind_t:process signull;
-allow syslogd_t tmpfs_t:dir search;
-allow syslogd_t udev_t:process signull;
-allow syslogd_t default_t:dir search;
+allow init_t initrc_t:process2 nnp_transition;
+allow init_t kmod_t:process2 nnp_transition;
+allow init_t sysadm_t:process transition;
 
-#============= auditd_t ==============
-allow auditd_t tmpfs_t:dir search;
-allow auditd_t etc_t:file map;
-allow auditd_t audisp_t:process { siginh rlimitinh noatsecure };
+#============= initrc_t ==============
+allow initrc_t self:binder { call set_context_mgr transfer };
+allow initrc_t sysadm_t:binder transfer;
+allow initrc_t sysadm_t:process transition;
+allow initrc_t bin_t:service { start stop status };
+allow initrc_t pulseaudio_t:binder transfer;
