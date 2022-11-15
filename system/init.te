@@ -59,3 +59,4 @@ allow initrc_t audio_vendor_t:file { getattr execute read open execute_no_trans 
 allow initrc_t weston_data_t:file getattr;
 allow initrc_t weston_lib_t:file getattr;
 allow initrc_t weston_lib_t:lnk_file getattr;
+allow initrc_t self:process execmem;
