@@ -86,12 +86,16 @@ require {
     type xkb_var_lib_t;
     type device_t;
     type tmp_t;
+    type adreno_device_t;
+    type user_tmp_t;
+    type user_tmpfs_t;
     class dbus send_msg;
 }
 
 init_daemon_domain(weston_t, weston_exec_t)
 
 #============= weston_t ==============
+allow weston_t adreno_device_t:chr_file getattr;
 allow weston_t debugfs_t:dir search;
 allow weston_t default_context_t:dir search;
 allow weston_t default_context_t:file { getattr open read };
@@ -123,11 +127,13 @@ allow weston_t self:capability { mknod net_admin setgid setuid sys_admin sys_nic
 allow weston_t self:netlink_kobject_uevent_socket { bind create getattr read setopt };
 allow weston_t self:process { setexec setkeycreate setsched };
 allow weston_t self:unix_dgram_socket { connect create write };
-allow weston_t self:unix_stream_socket listen;
+allow weston_t self:unix_stream_socket { accept connectto listen };
 allow weston_t selinux_config_t:dir search;
 allow weston_t selinux_config_t:file { getattr open read };
+allow weston_t sysadm_t:fd use;
 allow weston_t sysadm_t:key create;
 allow weston_t sysadm_t:process { noatsecure rlimitinh siginh signal transition };
+allow weston_t sysadm_t:unix_stream_socket connectto;
 allow weston_t sysctl_kernel_t:dir search;
 allow weston_t sysctl_kernel_t:file { open read };
 allow weston_t sysctl_t:dir search;
@@ -154,6 +160,9 @@ allow weston_t user_runtime_root_t:dir search;
 allow weston_t user_runtime_t:dir { add_name getattr remove_name search write };
 allow weston_t user_runtime_t:file { create lock open read unlink write };
 allow weston_t user_runtime_t:sock_file { create unlink };
+allow weston_t user_tmp_t:file unlink;
+allow weston_t user_tmp_t:sock_file { getattr unlink write };
+allow weston_t user_tmpfs_t:file { read write };
 allow weston_t user_tty_device_t:chr_file { ioctl relabelfrom relabelto };
 allow weston_t usr_t:dir read;
 allow weston_t usr_t:file { getattr open read };

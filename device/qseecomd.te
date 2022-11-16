@@ -54,6 +54,7 @@ require {
 	type init_var_run_t;
 	type scsi_generic_device_t;
 	type dri_device_t;
+	type adreno_device_t;
 	class file { append create getattr open read unlink write };
 	class dir { add_name create getattr open read remove_name rmdir search write };
 	class lnk_file read;
@@ -67,6 +68,7 @@ require {
 }
 
 #============= qseecomd_t ==============
+allow qseecomd_t adreno_device_t:chr_file { open read };
 allow qseecomd_t default_t:dir { add_name create getattr open read remove_name rmdir search write };
 allow qseecomd_t default_t:file { create getattr open read unlink write };
 allow qseecomd_t device_t:chr_file { ioctl open read write };

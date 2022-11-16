@@ -55,6 +55,7 @@ gen_require(`
     type binderfs_t;
     type sound_device_t;
     type alsa_etc_t;
+    type adreno_device_t;
 ')
 allow alsa_t default_t:dir { search write add_name remove_name };
 allow alsa_t default_t:file { create write open read getattr unlink };
@@ -63,6 +64,7 @@ allow alsa_t var_t:file { getattr open read };
 allow alsa_t debugfs_t:dir search;
 
 #============= audio_vendor_t ==============
+allow audio_vendor_t adreno_device_t:chr_file { open read };
 allow audio_vendor_t etc_t:lnk_file read;
 allow audio_vendor_t locale_t:dir search;
 allow audio_vendor_t locale_t:file { open read getattr };
