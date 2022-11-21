@@ -31,8 +31,5 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 # Used to generate file contexts for graphics
-/dev/kgsl-3d0                        -c       gen_context(system_u:object_r:adreno_device_t,s0)
-/dev/dri/renderD128                  -c       gen_context(system_u:object_r:adreno_device_t,s0)
-/dev/ion                             -c       gen_context(system_u:object_r:adreno_device_t,s0)
 /usr/bin/weston-simple-egl           --       gen_context(system_u:object_r:weston_exec_t,s0)
 /usr/bin/weston-simple-dmabuf-egl    --       gen_context(system_u:object_r:weston_exec_t,s0)
