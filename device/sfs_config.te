@@ -43,7 +43,7 @@ require {
 	type sysfs_t;
 	type proc_t;
 	class fifo_file { read write };
-	class file { open read };
+	class file { create getattr open read write };
 	class dir { add_name create getattr search setattr write };
 }
 
