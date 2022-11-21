@@ -86,7 +86,7 @@ require {
     type xkb_var_lib_t;
     type device_t;
     type tmp_t;
-    type adreno_device_t;
+    type dri_device_t;
     type user_tmp_t;
     type user_tmpfs_t;
     class dbus send_msg;
@@ -95,7 +95,7 @@ require {
 init_daemon_domain(weston_t, weston_exec_t)
 
 #============= weston_t ==============
-allow weston_t adreno_device_t:chr_file getattr;
+allow weston_t dri_device_t:chr_file getattr;
 allow weston_t debugfs_t:dir search;
 allow weston_t default_context_t:dir search;
 allow weston_t default_context_t:file { getattr open read };

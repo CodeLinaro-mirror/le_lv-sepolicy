@@ -75,7 +75,7 @@ require {
     type qcarcam_test_t;
     type qcarcam_rvc_t;
     type syslogd_t;
-    type adreno_device_t;
+    type dri_device_t;
     class file { entrypoint getattr ioctl map mounton open read write execute execute_no_trans };
     class dir { add_name create getattr mounton relabelto remove_name rmdir search };
     class process2 nnp_transition;
@@ -103,7 +103,7 @@ allow chkpwd_t shadow_t:file map;
 allow setfiles_t var_t:file { open read };
 
 #============= sysadm_t ==============
-allow sysadm_t adreno_device_t:chr_file { ioctl map open read write };
+allow sysadm_t dri_device_t:chr_file { ioctl map open read write };
 allow sysadm_t binderfs_t:chr_file { ioctl map open read write };
 allow sysadm_t device_t:chr_file { create ioctl map open read unlink write };
 allow sysadm_t event_device_t:chr_file write;

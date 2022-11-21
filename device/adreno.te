@@ -42,7 +42,7 @@ require {
         type device_t;
         type user_runtime_t;
         type user_runtime_root_t;
-        type adreno_device_t;
+        type dri_device_t;
         type sysfs_t;
         class unix_stream_socket connectto;
         class sock_file write;
@@ -52,12 +52,8 @@ require {
         class chr_file { ioctl map open read write };
 }
 
-type adreno_device_t;
-
-dev_node(adreno_device_t);
-
 #============= adreno_t ==============
-allow weston_t adreno_device_t:chr_file { ioctl map open read write };
+allow weston_t dri_device_t:chr_file { ioctl map open read write };
 allow weston_t debugfs_t:dir search;
 allow weston_t default_t:dir search;
 allow weston_t device_t:sock_file write;
