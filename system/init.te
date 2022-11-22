@@ -39,6 +39,7 @@ gen_require(`
     type audio_vendor_t;
     type weston_data_t;
     type weston_lib_t;
+    type audio_vendor_exec_t;
 ')
 allow init_t initrc_t:process2 nnp_transition;
 allow init_t initrc_t:binder { call transfer };
@@ -60,3 +61,4 @@ allow initrc_t weston_data_t:file getattr;
 allow initrc_t weston_lib_t:file getattr;
 allow initrc_t weston_lib_t:lnk_file getattr;
 allow initrc_t self:process execmem;
+allow initrc_t audio_vendor_exec_t:service { start status stop };
