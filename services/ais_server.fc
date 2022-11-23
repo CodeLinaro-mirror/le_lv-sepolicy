@@ -30,26 +30,16 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-policy_module(sfs_config, 1.0)
+# Used to generate file contexts for ais_server
+/usr/bin/ais_server     --             gen_context(system_u:object_r:ais_server_exec_t,s0)
+/tmp/ais_server.lock                   gen_context(system_u:object_r:ais_server_var_run_t,s0)
+/tmp/ais_log_server.log                gen_context(system_u:object_r:ais_server_var_run_t,s0)
+/tmp/ais_log.log                       gen_context(system_u:object_r:ais_server_var_run_t,s0)
+/tmp/ais_socket_*                      gen_context(system_u:object_r:ais_server_socket_device_t,s0)
+/usr/share/camera/camera_config.xml    gen_context(system_u:object_r:ais_server_etc_t,s0)
+/data/misc/camera/camera_config.xml    gen_context(system_u:object_r:ais_server_etc_t,s0)
+/usr/bin/camera_config.xml             gen_context(system_u:object_r:ais_server_etc_t,s0)
 
-type sfs_config_initrc_t;
-type sfs_config_initrc_exec_t;
-
-init_daemon_domain(sfs_config_initrc_t, sfs_config_initrc_exec_t)
-
-require {
-	type var_t;
-	type default_t;
-	type sysfs_t;
-	type proc_t;
-	class fifo_file { read write };
-	class file { create getattr open read write };
-	class dir { add_name create getattr search setattr write };
-}
-
-#============= sfs_config_initrc_t ==============
-allow sfs_config_initrc_t default_t:dir { add_name create getattr search setattr write };
-allow sfs_config_initrc_t self:fifo_file { read write };
-allow sfs_config_initrc_t sysfs_t:file { open read };
-allow sfs_config_initrc_t var_t:dir { add_name create setattr write };
-allow sfs_config_initrc_t proc_t:file { getattr open read };
+/usr/share/camera(/.*)?                gen_context(system_u:object_r:ais_server_data_t,s0)
+/data/misc/camera(/.*)?                gen_context(system_u:object_r:ais_server_data_t,s0)
+/usr/bin/ais_log_ais_server.conf       gen_context(system_u:object_r:ais_server_data_t,s0)

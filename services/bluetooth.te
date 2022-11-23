@@ -1,0 +1,97 @@
+# Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted (subject to the limitations in the
+# disclaimer below) provided that the following conditions are met:
+#
+#    * Redistributions of source code must retain the above copyright
+#      notice, this list of conditions and the following disclaimer.
+#
+#    * Redistributions in binary form must reproduce the above
+#      copyright notice, this list of conditions and the following
+#      disclaimer in the documentation and/or other materials provided
+#      with the distribution.
+#
+#    * Neither the name of Qualcomm Innovation Center, Inc. nor the names of its
+#      contributors may be used to endorse or promote products derived
+#      from this software without specific prior written permission.
+#
+# NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE
+# GRANTED BY THIS LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT
+# HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED
+# WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+# IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+# ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+# GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER
+# IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+# OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+# IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+require {
+    type lib_t;
+    type bluetooth_exec_t;
+    type systemd_rfkill_t;
+    type selinux_config_t;
+    type bluetooth_t;
+    type dosfs_t;
+    type default_t;
+    type fs_t;
+    type initrc_t;
+    type node_t;
+    type var_t;
+    type security_t;
+    type setfiles_t;
+    type sysadm_t;
+    type tmp_t;
+    type unreserved_port_t;
+    type user_tmp_t;
+    class dbus { acquire_svc send_msg };
+    class dir { add_name search write };
+    class fifo_file { read write };
+    class file { create execute execute_no_trans getattr open read unlink write };
+    class filesystem getattr;
+    class service { start status };
+    class sock_file { create write };
+    class tcp_socket { accept bind create listen name_bind node_bind read setopt write };
+    class unix_stream_socket connectto;
+}
+
+#============= bluetooth_t ==============
+allow bluetooth_t default_t:dir { add_name search write };
+allow bluetooth_t default_t:file { create open read write };
+allow bluetooth_t dosfs_t:dir search;
+allow bluetooth_t dosfs_t:file { getattr open read };
+allow bluetooth_t initrc_t:unix_stream_socket connectto;
+allow bluetooth_t node_t:tcp_socket node_bind;
+allow bluetooth_t selinux_config_t:dir search;
+allow bluetooth_t self:fifo_file { read write };
+allow bluetooth_t self:tcp_socket { accept bind create listen setopt read write };
+allow bluetooth_t sysadm_t:unix_stream_socket connectto;
+allow bluetooth_t unreserved_port_t:tcp_socket name_bind;
+allow bluetooth_t user_tmp_t:sock_file { write };
+allow bluetooth_t var_t:dir { add_name search write };
+allow bluetooth_t var_t:file { create getattr open read write };
+
+init_dbus_chat_script(bluetooth_t)
+
+#============= initrc_t ==============
+allow initrc_t lib_t:service { start status };
+
+#============= bluetooth_var_run_t ==============
+allow bluetooth_var_run_t fs_t:filesystem associate;
+
+#============= setfiles_t ==============
+allow setfiles_t bluetooth_var_run_t:file relabelto;
+
+#============= sysadm_t ==============
+allow sysadm_t bluetooth_exec_t:file { execute execute_no_trans };
+
+#============= syslogd_t ==============
+allow syslogd_t var_t:dir write;
+
+#============= systemd_rfkill_t ==============
+allow systemd_rfkill_t security_t:filesystem getattr;
+allow systemd_rfkill_t selinux_config_t:dir search;

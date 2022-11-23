@@ -30,26 +30,43 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-policy_module(sfs_config, 1.0)
-
-type sfs_config_initrc_t;
-type sfs_config_initrc_exec_t;
-
-init_daemon_domain(sfs_config_initrc_t, sfs_config_initrc_exec_t)
+policy_module(adreno, 1.0)
 
 require {
-	type var_t;
-	type default_t;
-	type sysfs_t;
-	type proc_t;
-	class fifo_file { read write };
-	class file { create getattr open read write };
-	class dir { add_name create getattr search setattr write };
+        type weston_t;
+        type initrc_t;
+        type tmpfs_t;
+        type dri_device_t;
+        type default_t;
+        type debugfs_t;
+        type device_t;
+        type user_runtime_t;
+        type user_runtime_root_t;
+        type adreno_device_t;
+        type sysfs_t;
+        class unix_stream_socket connectto;
+        class sock_file write;
+        class dir search;
+        class file { getattr map open read write };
+        class lnk_file read;
+        class chr_file { ioctl map open read write };
 }
 
-#============= sfs_config_initrc_t ==============
-allow sfs_config_initrc_t default_t:dir { add_name create getattr search setattr write };
-allow sfs_config_initrc_t self:fifo_file { read write };
-allow sfs_config_initrc_t sysfs_t:file { open read };
-allow sfs_config_initrc_t var_t:dir { add_name create setattr write };
-allow sfs_config_initrc_t proc_t:file { getattr open read };
+type adreno_device_t;
+
+dev_node(adreno_device_t);
+
+#============= adreno_t ==============
+allow weston_t adreno_device_t:chr_file { ioctl map open read write };
+allow weston_t debugfs_t:dir search;
+allow weston_t default_t:dir search;
+allow weston_t device_t:sock_file write;
+allow weston_t dri_device_t:chr_file { open read write };
+allow weston_t initrc_t:unix_stream_socket connectto;
+allow weston_t sysfs_t:file { getattr open read };
+allow weston_t sysfs_t:lnk_file read;
+allow weston_t tmpfs_t:file { map read write };
+allow weston_t user_runtime_root_t:dir search;
+allow weston_t user_runtime_t:dir search;
+allow weston_t user_runtime_t:sock_file write;
+

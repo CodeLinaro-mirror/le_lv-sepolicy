@@ -29,27 +29,53 @@
 # IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+policy_module(cnss2, 1.0)
+########################################
+#
+# Declarations
+#
 
-policy_module(sfs_config, 1.0)
-
-type sfs_config_initrc_t;
-type sfs_config_initrc_exec_t;
-
-init_daemon_domain(sfs_config_initrc_t, sfs_config_initrc_exec_t)
+type cnss2_t;
+type cnss2_exec_t;
+files_type(cnss2_exec_t)
+dev_read_sysfs(cnss2_t)
+init_system_domain(cnss2_t, cnss2_exec_t)
+kernel_load_module(cnss2_t)
 
 require {
+	type var_run_t;
+	type etc_t;
+	type modules_object_t;
+	type semanage_t;
+	type lib_t;
+	type dosfs_t;
 	type var_t;
+	type cnss2_t;
+	type usr_t;
 	type default_t;
-	type sysfs_t;
 	type proc_t;
-	class fifo_file { read write };
-	class file { create getattr open read write };
-	class dir { add_name create getattr search setattr write };
+	type kmod_exec_t;
+	type debugfs_t;
+	class capability sys_admin;
+	class unix_stream_socket { connect create };
+	class file { create getattr lock map open read rename setattr unlink write };
+	class dir { add_name create read remove_name rename rmdir search write };
 }
 
-#============= sfs_config_initrc_t ==============
-allow sfs_config_initrc_t default_t:dir { add_name create getattr search setattr write };
-allow sfs_config_initrc_t self:fifo_file { read write };
-allow sfs_config_initrc_t sysfs_t:file { open read };
-allow sfs_config_initrc_t var_t:dir { add_name create setattr write };
-allow sfs_config_initrc_t proc_t:file { getattr open read };
+allow cnss2_t default_t:dir search;
+allow cnss2_t dosfs_t:dir search;
+allow cnss2_t dosfs_t:file getattr;
+allow cnss2_t etc_t:file { read getattr map open };
+allow cnss2_t modules_object_t:file map;
+allow cnss2_t self:capability sys_admin;
+allow cnss2_t self:unix_stream_socket { create connect };
+allow cnss2_t usr_t:file { read open };
+allow cnss2_t var_run_t:dir search;
+allow cnss2_t proc_t:file read_file_perms;
+allow cnss2_t kmod_exec_t:file exec_file_perms;
+allow cnss2_t self:fifo_file rw_fifo_file_perms;
+dev_write_kmsg(cnss2_t)
+files_read_kernel_modules(cnss2_t)
+modutils_read_module_config(cnss2_t)
+modutils_read_module_deps(cnss2_t)
+dontaudit cnss2_t debugfs_t:dir { search };

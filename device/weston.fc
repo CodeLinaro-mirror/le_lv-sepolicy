@@ -30,26 +30,23 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-policy_module(sfs_config, 1.0)
+# Used to generate file contexts for weston
+/usr/bin/weston                               --  gen_context(system_u:object_r:weston_exec_t,s0)
+/usr/bin/weston-launch                        --  gen_context(system_u:object_r:weston_exec_t,s0)
+/usr/bin/weston-terminal                      --  gen_context(system_u:object_r:weston_exec_t,s0)
 
-type sfs_config_initrc_t;
-type sfs_config_initrc_exec_t;
+/usr/lib/libweston-8/.*                       --  gen_context(system_u:object_r:weston_lib_t,s0)
+/usr/lib/weston/.*                            --  gen_context(system_u:object_r:weston_lib_t,s0)
+/usr/lib/weston/.*                            -l  gen_context(system_u:object_r:weston_lib_t,s0)
 
-init_daemon_domain(sfs_config_initrc_t, sfs_config_initrc_exec_t)
+/usr/lib/libweston-8.so.*                     --  gen_context(system_u:object_r:weston_lib_t,s0)
+/usr/lib/libweston-8.so.*                     -l  gen_context(system_u:object_r:weston_lib_t,s0)
+/usr/lib/libweston-desktop-8.so.*             --  gen_context(system_u:object_r:weston_lib_t,s0)
+/usr/lib/libweston-desktop-8.so.*             -l  gen_context(system_u:object_r:weston_lib_t,s0)
 
-require {
-	type var_t;
-	type default_t;
-	type sysfs_t;
-	type proc_t;
-	class fifo_file { read write };
-	class file { create getattr open read write };
-	class dir { add_name create getattr search setattr write };
-}
+/usr/libexec/weston.*                         --  gen_context(system_u:object_r:weston_exec_t,s0)
+/etc/xdg/weston/weston.ini                    --  gen_context(system_u:object_r:weston_etc_t,s0)
 
-#============= sfs_config_initrc_t ==============
-allow sfs_config_initrc_t default_t:dir { add_name create getattr search setattr write };
-allow sfs_config_initrc_t self:fifo_file { read write };
-allow sfs_config_initrc_t sysfs_t:file { open read };
-allow sfs_config_initrc_t var_t:dir { add_name create setattr write };
-allow sfs_config_initrc_t proc_t:file { getattr open read };
+/usr/share/weston/.*                          --  gen_context(system_u:object_r:weston_data_t,s0)
+/usr/share/libweston-8/protocols/.*           --  gen_context(system_u:object_r:weston_data_t,s0)
+/usr/share/wayland-sessions/.*                --  gen_context(system_u:object_r:weston_data_t,s0)

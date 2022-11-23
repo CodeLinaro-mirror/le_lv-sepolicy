@@ -30,26 +30,20 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-policy_module(sfs_config, 1.0)
+# Used to generate file contexts for qti-bluetooth
+/usr/bin/synergy_bt_service_for_qca  --  gen_context(system_u:object_r:bluetooth_exec_t,s0)
+/usr/bin/synergy.sh                  --  gen_context(system_u:object_r:bluetooth_exec_t,s0)
+/usr/bin/bt_audio.sh                 --  gen_context(system_u:object_r:bluetooth_exec_t,s0)
+/usr/bin/bt_audio_service            --  gen_context(system_u:object_r:bluetooth_exec_t,s0)
+/usr/bin/synergy_audio_player        --  gen_context(system_u:object_r:bluetooth_exec_t,s0)
+/usr/bin/bt_bootstrap                --  gen_context(system_u:object_r:bluetooth_exec_t,s0)
+/usr/bin/btdiag                      --  gen_context(system_u:object_r:bluetooth_exec_t,s0)
+/usr/bin/btcli                       --  gen_context(system_u:object_r:bluetooth_exec_t,s0)
+/usr/bin/bt_test                     --  gen_context(system_u:object_r:bluetooth_exec_t,s0)
+/usr/bin/bt_test.sh                  --  gen_context(system_u:object_r:bluetooth_exec_t,s0)
+/data/Synergy_DataBaseStorage.db     --  gen_context(system_u:object_r:bluetooth_var_run_t,s0)
+/data/0000*                              gen_context(system_u:object_r:bluetooth_var_run_t,s0)
+/etc/bluetooth/bt.inf                --  gen_context(system_u:object_r:bluetooth_conf_rw_t,s0)
+/var/lib/csr_synergy(/.*)?               gen_context(system_u:object_r:bluetooth_var_lib_t,s0)
 
-type sfs_config_initrc_t;
-type sfs_config_initrc_exec_t;
-
-init_daemon_domain(sfs_config_initrc_t, sfs_config_initrc_exec_t)
-
-require {
-	type var_t;
-	type default_t;
-	type sysfs_t;
-	type proc_t;
-	class fifo_file { read write };
-	class file { create getattr open read write };
-	class dir { add_name create getattr search setattr write };
-}
-
-#============= sfs_config_initrc_t ==============
-allow sfs_config_initrc_t default_t:dir { add_name create getattr search setattr write };
-allow sfs_config_initrc_t self:fifo_file { read write };
-allow sfs_config_initrc_t sysfs_t:file { open read };
-allow sfs_config_initrc_t var_t:dir { add_name create setattr write };
-allow sfs_config_initrc_t proc_t:file { getattr open read };
+/usr/lib/systemd/user/bt-audio.service -- gen_context(system_u:object_r:bluetooth_unit_t,s0)

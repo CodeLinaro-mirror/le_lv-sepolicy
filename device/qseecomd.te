@@ -53,6 +53,8 @@ require {
 	type syslogd_t;
 	type init_var_run_t;
 	type scsi_generic_device_t;
+	type dri_device_t;
+	type adreno_device_t;
 	class file { append create getattr open read unlink write };
 	class dir { add_name create getattr open read remove_name rmdir search write };
 	class lnk_file read;
@@ -66,10 +68,13 @@ require {
 }
 
 #============= qseecomd_t ==============
+allow qseecomd_t adreno_device_t:chr_file { open read };
 allow qseecomd_t default_t:dir { add_name create getattr open read remove_name rmdir search write };
 allow qseecomd_t default_t:file { create getattr open read unlink write };
 allow qseecomd_t device_t:chr_file { ioctl open read write };
+allow qseecomd_t device_t:dir { remove_name write };
 allow qseecomd_t devlog_t:sock_file write;
+allow qseecomd_t dri_device_t:chr_file { getattr ioctl open read write };
 allow qseecomd_t etc_t:file { getattr open read };
 allow qseecomd_t etc_t:lnk_file read;
 
@@ -90,7 +95,8 @@ allow qseecomd_t self:unix_dgram_socket { bind connect create write };
 allow qseecomd_t sysfs_t:file { append open };
 allow qseecomd_t syslogd_t:unix_dgram_socket sendto;
 allow qseecomd_t syslogd_var_run_t:dir search;
-allow qseecomd_t var_t:dir read;
+allow qseecomd_t var_t:dir { add_name create read remove_name write };
+allow qseecomd_t var_t:file { create getattr open read unlink write };
 
 #============= syslogd_t ==============
 allow syslogd_t qseecomd_t:process signull;

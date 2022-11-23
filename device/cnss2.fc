@@ -30,26 +30,5 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-policy_module(sfs_config, 1.0)
-
-type sfs_config_initrc_t;
-type sfs_config_initrc_exec_t;
-
-init_daemon_domain(sfs_config_initrc_t, sfs_config_initrc_exec_t)
-
-require {
-	type var_t;
-	type default_t;
-	type sysfs_t;
-	type proc_t;
-	class fifo_file { read write };
-	class file { create getattr open read write };
-	class dir { add_name create getattr search setattr write };
-}
-
-#============= sfs_config_initrc_t ==============
-allow sfs_config_initrc_t default_t:dir { add_name create getattr search setattr write };
-allow sfs_config_initrc_t self:fifo_file { read write };
-allow sfs_config_initrc_t sysfs_t:file { open read };
-allow sfs_config_initrc_t var_t:dir { add_name create setattr write };
-allow sfs_config_initrc_t proc_t:file { getattr open read };
+/usr/bin/init.qti.wlan_on.sh -- gen_context(system_u:object_r:cnss2_exec_t,s0)
+/usr/bin/init.qti.wlan_off.sh -- gen_context(system_u:object_r:cnss2_exec_t,s0)

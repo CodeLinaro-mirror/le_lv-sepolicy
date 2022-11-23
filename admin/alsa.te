@@ -30,10 +30,63 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+type audio_vendor_t;
+type audio_vendor_exec_t;
+
+init_daemon_domain(audio_vendor_t, audio_vendor_exec_t);
+
 #============= alsa_t ==============
 gen_require(`
     type default_t;
+    type etc_t;
+    type var_t;
+    type init_t;
+    type initrc_t;
+    type debugfs_t;
+    type sysadm_t;
+    type locale_t;
+    type init_var_run_t;
+    type syslogd_var_run_t;
+    type devlog_t;
+    type sysfs_t;
+    type device_t;
+    type syslogd_t;
+    type proc_t;
+    type binderfs_t;
+    type sound_device_t;
+    type alsa_etc_t;
+    type adreno_device_t;
 ')
-allow alsa_t default_t:dir search;
+allow alsa_t default_t:dir { search write add_name remove_name };
+allow alsa_t default_t:file { create write open read getattr unlink };
 allow alsa_t etc_t:file map;
 allow alsa_t var_t:file { getattr open read };
+allow alsa_t debugfs_t:dir search;
+
+#============= audio_vendor_t ==============
+allow audio_vendor_t adreno_device_t:chr_file { open read };
+allow audio_vendor_t etc_t:lnk_file read;
+allow audio_vendor_t locale_t:dir search;
+allow audio_vendor_t locale_t:file { open read getattr };
+allow audio_vendor_t self:unix_dgram_socket { connect create write };
+allow audio_vendor_t init_var_run_t:dir search;
+allow audio_vendor_t syslogd_var_run_t:dir search;
+allow audio_vendor_t devlog_t:file write;
+allow audio_vendor_t devlog_t:sock_file write;
+allow audio_vendor_t device_t:sock_file write;
+allow audio_vendor_t device_t:chr_file { read write open ioctl };
+allow audio_vendor_t syslogd_t:unix_dgram_socket { sendto sendto };
+allow audio_vendor_t sysfs_t:file { write open append read getattr };
+allow audio_vendor_t proc_t:file { read open getattr };
+allow audio_vendor_t binderfs_t:dir search;
+allow audio_vendor_t binderfs_t:chr_file { read write open ioctl map };
+allow audio_vendor_t debugfs_t:dir search;
+allow audio_vendor_t initrc_t:binder { call transfer };
+allow audio_vendor_t initrc_t:unix_stream_socket connectto;
+allow audio_vendor_t sound_device_t:chr_file { read open ioctl write map };
+allow audio_vendor_t alsa_etc_t:dir { search read getattr open };
+allow audio_vendor_t alsa_etc_t:file { getattr read open };
+allow audio_vendor_t alsa_etc_t:lnk_file read;
+allow audio_vendor_t etc_t:file { read open getattr map };
+allow audio_vendor_t etc_t:lnk_file read;
+allow audio_vendor_t default_t:dir search;

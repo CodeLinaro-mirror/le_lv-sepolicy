@@ -30,11 +30,16 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+type pulseaudio_conf_t;
+
 gen_require(`
     type binderfs_t;
     type debugfs_t;
     type default_t;
     type initrc_t;
+    type init_t;
+    type sysadm_t;
+    type user_tmpfs_t;
     type systemd_logind_var_run_t;
     type systemd_sessions_var_run_t;
     type system_dbusd_var_lib_t;
@@ -55,3 +60,8 @@ allow pulseaudio_t systemd_logind_var_run_t:file { getattr open read };
 allow pulseaudio_t systemd_sessions_var_run_t:dir read;
 allow pulseaudio_t user_runtime_t:sock_file write;
 allow pulseaudio_t system_dbusd_var_lib_t:lnk_file read;
+allow pulseaudio_t pulseaudio_conf_t:dir search;
+allow pulseaudio_t pulseaudio_conf_t:file { read open getattr };
+allow pulseaudio_t sysadm_t:unix_stream_socket connectto;
+allow pulseaudio_t sysadm_t:fd use;
+allow pulseaudio_t user_tmpfs_t:file write;
