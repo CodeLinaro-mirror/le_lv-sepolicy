@@ -62,6 +62,7 @@ require {
         type device_t;
         type devlog_t;
         type etc_t;
+        type gstreamer_t;
         type init_var_run_t;
         type locale_t;
         type qcarcam_test_t;
@@ -92,6 +93,7 @@ allow ais_server_t default_t:dir search;
 allow ais_server_t device_t:chr_file { ioctl map open read write };
 allow ais_server_t devlog_t:sock_file write;
 allow ais_server_t etc_t:lnk_file read;
+allow ais_server_t gstreamer_t:fd use;
 allow ais_server_t init_var_run_t:dir search;
 allow ais_server_t locale_t:dir search;
 allow ais_server_t locale_t:file { open read getattr };
