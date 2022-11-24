@@ -49,7 +49,7 @@ require {
     type unreserved_port_t;
     type user_tmp_t;
     class dbus { acquire_svc send_msg };
-    class dir { add_name search write };
+    class dir { add_name remove_name search write };
     class fifo_file { read write };
     class file { create execute execute_no_trans getattr open read unlink write };
     class filesystem getattr;
@@ -60,8 +60,8 @@ require {
 }
 
 #============= bluetooth_t ==============
-allow bluetooth_t default_t:dir { add_name search write };
-allow bluetooth_t default_t:file { create open read write };
+allow bluetooth_t default_t:dir { add_name remove_name search write };
+allow bluetooth_t default_t:file { create open read unlink write };
 allow bluetooth_t dosfs_t:dir search;
 allow bluetooth_t dosfs_t:file { getattr open read };
 allow bluetooth_t initrc_t:unix_stream_socket connectto;
