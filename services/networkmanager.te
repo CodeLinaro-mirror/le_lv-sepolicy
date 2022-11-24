@@ -32,6 +32,7 @@
 
 gen_require(`
     type default_t;
+    class lnk_file read;
 ')
 #============= NetworkManager_t ==============
 allow NetworkManager_t default_t:file { getattr write };
@@ -41,6 +42,7 @@ allow NetworkManager_t etc_t:file { map unlink };
 #============= wpa_cli_t ==============
 allow wpa_cli_t default_t:dir { add_name search write };
 allow wpa_cli_t default_t:file { create getattr open read write };
+allow wpa_cli_t var_run_t:lnk_file read;
 
 #!!!! This avc can be allowed using the boolean 'global_ssp'
 allow wpa_cli_t urandom_device_t:chr_file { getattr ioctl open read };
