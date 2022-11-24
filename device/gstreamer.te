@@ -72,6 +72,8 @@ require {
     type pulseaudio_conf_t;
     type pulseaudio_exec_t;
     type random_device_t;
+    type security_t;
+    type selinux_config_t;
     type sound_device_t;
     type sysadm_t;
     type sysctl_t;
@@ -144,11 +146,13 @@ allow gstreamer_t pulseaudio_conf_t:dir search;
 allow gstreamer_t pulseaudio_conf_t:file { getattr open read };
 allow gstreamer_t pulseaudio_exec_t:file { execute execute_no_trans map open read };
 allow gstreamer_t random_device_t:chr_file { open read };
+allow gstreamer_t security_t:filesystem getattr;
 allow gstreamer_t self:capability { dac_override sys_admin };
 allow gstreamer_t self:fifo_file { getattr ioctl read write };
 allow gstreamer_t self:netlink_kobject_uevent_socket { bind create getattr setopt };
 allow gstreamer_t self:process { signal setcap setsched };
 allow gstreamer_t self:unix_dgram_socket { connect create write };
+allow gstreamer_t selinux_config_t:dir search;
 allow gstreamer_t sound_device_t:chr_file { read ioctl open };
 allow gstreamer_t sysadm_t:fd use;
 allow gstreamer_t sysadm_t:unix_stream_socket connectto;
@@ -213,6 +217,3 @@ allow sysadm_t v4l_device_t:chr_file { ioctl open read write };
 
 #============= syslogd_t ==============
 allow syslogd_t gstreamer_t:process signull;
-
-
-

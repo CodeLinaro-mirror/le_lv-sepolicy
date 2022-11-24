@@ -61,6 +61,7 @@ require {
     type cert_t;
     type event_device_t;
     type tmpfs_t;
+    type alsa_t;
     type pulseaudio_t;
     type pulseaudio_conf_t;
     type audio_vendor_t;
@@ -118,6 +119,7 @@ allow sysadm_t default_t:file { entrypoint execute execute_no_trans };
 allow sysadm_t unlabeled_t:chr_file { ioctl map open read write };
 allow sysadm_t dri_device_t:chr_file { read write ioctl open };
 allow sysadm_t self:process setrlimit;
+allow sysadm_t alsa_t:fd use;
 allow sysadm_t pulseaudio_conf_t:dir search;
 allow sysadm_t pulseaudio_conf_t:file { read open getattr map };
 allow sysadm_t init_t:binder call;
@@ -143,7 +145,5 @@ allow systemd_gpt_generator_t selinux_config_t:dir search;
 #============= unlabeled_t ==============
 allow unlabeled_t device_t:filesystem associate;
 
-
 #============= syslogd_t ============================
 allow syslogd_t ais_server_t:process signull;
-

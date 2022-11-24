@@ -46,6 +46,7 @@ gen_require(`
     type sysadm_t;
     type locale_t;
     type init_var_run_t;
+    type initrc_devpts_t;
     type syslogd_var_run_t;
     type devlog_t;
     type sysfs_t;
@@ -56,13 +57,27 @@ gen_require(`
     type sound_device_t;
     type alsa_etc_t;
     type dri_device_t;
+    type pulseaudio_conf_t;
+    type user_tmp_t;
+    type security_t;
+    type selinux_config_t;
 ')
 allow alsa_t default_t:dir { search write add_name remove_name };
-allow alsa_t default_t:file { create write open read getattr unlink };
+allow alsa_t default_t:file { create write open read getattr unlink lock };
 allow alsa_t etc_t:file map;
 allow alsa_t var_t:file { getattr open read };
 allow alsa_t debugfs_t:dir search;
-
+allow alsa_t init_var_run_t:file { read open getattr };
+allow alsa_t initrc_devpts_t:chr_file { read write ioctl getattr };
+allow alsa_t self:fifo_file { write read };
+allow alsa_t pulseaudio_conf_t:dir search;
+allow alsa_t pulseaudio_conf_t:file { read open getattr };
+allow alsa_t user_tmp_t:file { read write open getattr map };
+allow alsa_t user_tmp_t:sock_file write;
+allow alsa_t sysadm_t:fd use;
+allow alsa_t sysadm_t:unix_stream_socket connectto;
+allow alsa_t security_t:filesystem getattr;
+allow alsa_t selinux_config_t:dir search;
 #============= audio_vendor_t ==============
 allow audio_vendor_t dri_device_t:chr_file { open read };
 allow audio_vendor_t etc_t:lnk_file read;
