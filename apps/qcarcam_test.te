@@ -82,6 +82,7 @@ allow qcarcam_test_t ais_server_data_t:dir search;
 allow qcarcam_test_t ais_server_data_t:file { getattr open read };
 allow qcarcam_test_t ais_server_t:unix_stream_socket connectto;
 allow qcarcam_test_t default_t:dir search;
+allow qcarcam_test_t default_t:file { getattr open read };
 allow qcarcam_test_t device_t:chr_file { ioctl open read };
 allow qcarcam_test_t devlog_t:sock_file write;
 allow qcarcam_test_t dri_device_t:chr_file { ioctl open read write };
