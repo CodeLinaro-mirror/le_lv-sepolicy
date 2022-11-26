@@ -100,6 +100,7 @@ allow systemd_logind_t initrc_t:file { getattr ioctl open read };
 allow systemd_logind_t weston_t:dir search;
 allow systemd_logind_t weston_t:file { getattr ioctl open read };
 allow systemd_logind_t weston_t:dbus send_msg;
+allow systemd_logind_t etc_runtime_t:file { read open };
 
 #============= systemd_resolved_t ==============
 allow systemd_resolved_t etc_t:file map;
