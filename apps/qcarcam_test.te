@@ -64,10 +64,12 @@ require {
         type syslogd_t;
         type syslogd_var_run_t;
         type tmp_t;
+        type tmpfs_t;
         type user_runtime_root_t;
         type user_runtime_t;
         type user_tmp_t;
         type usr_t;
+        type weston_t;
         class capability { dac_override sys_admin };
         class chr_file { ioctl open read write };
         class dir  { search add_name write };
@@ -100,8 +102,11 @@ allow qcarcam_test_t syslogd_var_run_t:dir search;
 allow qcarcam_test_t tmp_t:dir { search add_name write };
 allow qcarcam_test_t tmp_t:file { append create getattr open read write };
 allow qcarcam_test_t tmp_t:sock_file write;
+allow qcarcam_test_t tmpfs_t:sock_file write;
 allow qcarcam_test_t user_runtime_root_t:dir search;
 allow qcarcam_test_t user_runtime_t:dir search;
+allow qcarcam_test_t user_runtime_t:sock_file write;
 allow qcarcam_test_t user_tmp_t:sock_file write;
 allow qcarcam_test_t usr_t:file { getattr open read };
+allow qcarcam_test_t weston_t:unix_stream_socket connectto;
 

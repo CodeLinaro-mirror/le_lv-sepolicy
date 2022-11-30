@@ -71,6 +71,7 @@ require {
         type syslogd_t;
         type syslogd_var_run_t;
         type tmp_t;
+        type tmpfs_t;
         type v4l_device_t;
         class chr_file { ioctl map open read write };
         class capability { chown fowner fsetid sys_nice };
@@ -109,6 +110,9 @@ allow ais_server_t syslogd_t:unix_dgram_socket sendto;
 allow ais_server_t syslogd_var_run_t:dir search;
 allow ais_server_t tmp_t:dir { add_name remove_name search write };
 allow ais_server_t tmp_t:file { open create read append unlink getattr };
-allow ais_server_t tmp_t:sock_file { create setattr unlink };
+allow ais_server_t tmp_t:sock_file { create setattr unlink write};
+allow ais_server_t tmpfs_t:dir { add_name remove_name search write };
+allow ais_server_t tmpfs_t:file { open create read append unlink getattr };
+allow ais_server_t tmpfs_t:sock_file { create setattr unlink write};
 allow ais_server_t v4l_device_t:chr_file { ioctl open read write };
 

@@ -89,7 +89,10 @@ require {
     type dri_device_t;
     type user_tmp_t;
     type user_tmpfs_t;
+    type qcarcam_rvc_t;
+    type qcarcam_test_t;
     class dbus send_msg;
+    class fd use;
 }
 
 init_daemon_domain(weston_t, weston_exec_t)
@@ -179,3 +182,5 @@ allow weston_t weston_lib_t:lnk_file read;
 allow weston_t wtmp_t:file { lock open write };
 allow weston_t xkb_var_lib_t:dir { getattr read search };
 allow weston_t xkb_var_lib_t:file { getattr map open read };
+allow weston_t qcarcam_rvc_t:fd use;
+allow weston_t qcarcam_test_t:fd use;
