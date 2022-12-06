@@ -40,6 +40,8 @@ gen_require(`
     type weston_data_t;
     type weston_lib_t;
     type audio_vendor_exec_t;
+    type gstreamer_data_t;
+    type gstreamer_lib_t;
 ')
 allow init_t initrc_t:process2 nnp_transition;
 allow init_t initrc_t:binder { call transfer };
@@ -63,3 +65,5 @@ allow initrc_t weston_lib_t:file getattr;
 allow initrc_t weston_lib_t:lnk_file getattr;
 allow initrc_t self:process execmem;
 allow initrc_t audio_vendor_exec_t:service { start status stop };
+allow initrc_t gstreamer_data_t:file getattr;
+allow initrc_t gstreamer_lib_t:file getattr;
