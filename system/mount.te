@@ -45,6 +45,7 @@ allow mount_t systemd_journal_t:dir mounton;
 allow mount_t bluetooth_conf_t:file { getattr open read };
 allow mount_t bluetooth_conf_t:dir mounton;
 allow mount_t default_t:file read;
+allow mount_t default_t:lnk_file { getattr read };
 allow mount_t var_run_t:dir create;
 allow mount_t var_run_t:file { create link open rename setattr unlink write read };
 allow mount_t configfs_t:dir { getattr mounton };
