@@ -52,6 +52,7 @@ require {
     type sysadm_t;
     type var_log_t;
     type user_tty_device_t;
+    type var_run_t;
     type user_runtime_t;
     type systemd_sessions_var_run_t;
     type initrc_var_run_t;
@@ -174,6 +175,8 @@ allow weston_t var_log_t:lnk_file read;
 allow weston_t var_spool_t:dir search;
 allow weston_t var_t:dir { add_name remove_name write };
 allow weston_t var_t:file { create getattr link lock map open read rename unlink write };
+allow weston_t var_run_t:dir { write add_name };
+allow weston_t var_run_t:file { create append open getattr };
 allow weston_t weston_etc_t:file { getattr open read };
 allow weston_t weston_exec_t:file execute_no_trans;
 allow weston_t weston_data_t:file { getattr open read };

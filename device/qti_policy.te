@@ -77,6 +77,7 @@ require {
     type qcarcam_rvc_t;
     type syslogd_t;
     type dri_device_t;
+    type kernel_t;
     class file { entrypoint getattr ioctl map mounton open read write execute execute_no_trans };
     class dir { add_name create getattr mounton relabelto remove_name rmdir search };
     class process2 nnp_transition;
@@ -145,7 +146,10 @@ allow systemd_gpt_generator_t selinux_config_t:dir search;
 #============= unlabeled_t ==============
 allow unlabeled_t device_t:filesystem associate;
 
-
 #============= syslogd_t ============================
 allow syslogd_t ais_server_t:process signull;
 
+#============= kernel_t ============================
+allow kernel_t weston_data_t:file { open read };
+allow kernel_t weston_etc_t:file { open read };
+allow kernel_t weston_lib_t:file { open read };
