@@ -39,6 +39,7 @@ gen_require(`
     type sysadm_t;
     type systemd_logind_t;
     type udev_t;
+    type unconfined_t;
     type default_t;
     type dmesg_t;
     type audio_vendor_t;
@@ -58,6 +59,7 @@ allow syslogd_t syslogd_var_run_t:sock_file create;
 allow syslogd_t systemd_logind_t:process signull;
 allow syslogd_t tmpfs_t:dir search;
 allow syslogd_t udev_t:process signull;
+allow syslogd_t unconfined_t:process signull;
 allow syslogd_t default_t:dir search;
 allow syslogd_t audio_vendor_t:process signull;
 allow syslogd_t weston_t:process signull;

@@ -153,3 +153,4 @@ allow syslogd_t ais_server_t:process signull;
 allow kernel_t weston_data_t:file { open read };
 allow kernel_t weston_etc_t:file { open read };
 allow kernel_t weston_lib_t:file { open read };
+allow kernel_t weston_lib_t:lnk_file { read };
