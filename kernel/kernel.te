@@ -1,4 +1,4 @@
-# Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -30,12 +30,7 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-type binderfs_t;
-fs_noxattr_type(binderfs_t)
-files_mountpoint(binderfs_t)
-genfscon binder / gen_context(system_u:object_r:binderfs_t,s0)
-
-type functionfs_t;
-fs_noxattr_type(functionfs_t)
-files_mountpoint(functionfs_t)
-genfscon functionfs / gen_context(system_u:object_r:functionfs_t,s0)
+type kernel;
+role r;
+domain_base_type(kernel)
+role r types kernel;

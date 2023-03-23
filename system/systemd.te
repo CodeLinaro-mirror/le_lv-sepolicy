@@ -33,9 +33,12 @@
 gen_require(`
     type default_t;
     type auditd_log_t;
+    type init_var_run_t;
+    type initrc_var_run_t;
     type unlabeled_t;
     type system_dbusd_var_lib_t;
     type sysadm_t;
+    type syslogd_var_run_t;
     type weston_t;
 ')
 #systemd_update_done

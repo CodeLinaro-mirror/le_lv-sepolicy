@@ -38,6 +38,7 @@ gen_require(`
     type default_t;
     type initrc_t;
     type init_t;
+    type init_var_run_t;
     type sysadm_t;
     type user_tmpfs_t;
     type systemd_logind_var_run_t;

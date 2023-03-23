@@ -35,6 +35,7 @@ gen_require(`
     type hostapd_t;
     type ipsec_supervisor_t;
     type ipsec_t;
+    type init_var_run_t;
     type local_login_t;
     type sysadm_t;
     type systemd_logind_t;
