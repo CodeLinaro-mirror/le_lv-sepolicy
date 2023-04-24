@@ -40,6 +40,15 @@
 /usr/bin/gst-discoverer-1.0      --    gen_context(system_u:object_r:gstreamer_exec_t,s0)
 /usr/bin/gst-stats-1.0           --    gen_context(system_u:object_r:gstreamer_exec_t,s0)
 
+/usr/libexec/gstreamer-1.0/.*    --    gen_context(system_u:object_r:gstreamer_exec_t,s0)
+
+/usr/lib/gstreamer-1.0/.*        --    gen_context(system_u:object_r:gstreamer_lib_t,s0)
+
+/usr/share/gst-plugins-base/.*   --    gen_context(system_u:object_r:gstreamer_data_t,s0)
+/usr/share/gstreamer-1.0/.*      --    gen_context(system_u:object_r:gstreamer_data_t,s0)
+
+/etc/xdg/gstomx.conf             --    gen_context(system_u:object_r:gstreamer_etc_t,s0)
+
 /usr/bin/mm-vdec-omx-test-lite   --   gen_context(system_u:object_r:omx_exec_t,s0)
 /usr/bin/mm-venc-omx-test-lite   --   gen_context(system_u:object_r:omx_exec_t,s0)
 /usr/bin/mm-vidc-omx-test        --   gen_context(system_u:object_r:omx_exec_t,s0)

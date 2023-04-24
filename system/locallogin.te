@@ -33,6 +33,7 @@
 gen_require(`
     type default_t;
     type sysadm_t;
+    type unconfined_t;
 ')
 
 #============= local_login_t ==============
@@ -41,3 +42,4 @@ allow local_login_t default_t:dir search;
 allow local_login_t etc_t:file map;
 allow local_login_t chkpwd_t:process { noatsecure rlimitinh siginh };
 allow local_login_t sysadm_t:process { noatsecure rlimitinh siginh };
+allow local_login_t unconfined_t:process { noatsecure rlimitinh siginh };

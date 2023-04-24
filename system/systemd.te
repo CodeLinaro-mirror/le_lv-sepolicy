@@ -92,6 +92,7 @@ allow systemd_detect_virt_t sysctl_kernel_t:file { getattr ioctl open read };
 allow systemd_detect_virt_t sysctl_t:dir search;
 allow systemd_detect_virt_t security_t:filesystem getattr;
 allow systemd_detect_virt_t selinux_config_t:dir search;
+allow systemd_detect_virt_t sysfs_t:dir read;
 
 #============= systemd_logind_t ==============
 allow systemd_logind_t etc_t:file map;

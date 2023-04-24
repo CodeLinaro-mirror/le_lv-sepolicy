@@ -33,6 +33,7 @@
 # Used to generate file contexts for qti-bluetooth
 /usr/bin/synergy_bt_service_for_qca  --  gen_context(system_u:object_r:bluetooth_exec_t,s0)
 /usr/bin/synergy.sh                  --  gen_context(system_u:object_r:bluetooth_exec_t,s0)
+/usr/bin/btpower.sh                  --  gen_context(system_u:object_r:bluetooth_exec_t,s0)
 /usr/bin/bt_audio.sh                 --  gen_context(system_u:object_r:bluetooth_exec_t,s0)
 /usr/bin/bt_audio_service            --  gen_context(system_u:object_r:bluetooth_exec_t,s0)
 /usr/bin/synergy_audio_player        --  gen_context(system_u:object_r:bluetooth_exec_t,s0)
