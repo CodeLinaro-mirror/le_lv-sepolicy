@@ -92,8 +92,10 @@ require {
     type user_tmpfs_t;
     type qcarcam_rvc_t;
     type qcarcam_test_t;
+    type gstreamer_t;
     class dbus send_msg;
     class fd use;
+    class file { getattr map open read };
 }
 
 init_daemon_domain(weston_t, weston_exec_t)
@@ -104,6 +106,7 @@ allow weston_t debugfs_t:dir search;
 allow weston_t default_context_t:dir search;
 allow weston_t default_context_t:file { getattr open read };
 allow weston_t default_t:dir search;
+allow weston_t default_t:file { getattr open read };
 allow weston_t device_t:chr_file { create ioctl map open read unlink write };
 allow weston_t device_t:dir { add_name remove_name write };
 allow weston_t device_t:sock_file write;
@@ -115,6 +118,7 @@ allow weston_t event_device_t:chr_file { getattr ioctl open read write };
 allow weston_t fonts_t:dir { getattr open read search };
 allow weston_t fonts_t:file { getattr map open read };
 allow weston_t fs_t:filesystem getattr;
+allow weston_t gstreamer_t:fd use;
 allow weston_t init_var_run_t:dir search;
 allow weston_t initrc_t:unix_stream_socket connectto;
 allow weston_t initrc_var_run_t:file { lock open read };
@@ -162,7 +166,7 @@ allow weston_t udev_var_run_t:dir search;
 allow weston_t udev_var_run_t:file { getattr open read };
 allow weston_t user_runtime_root_t:dir search;
 allow weston_t user_runtime_t:dir { add_name getattr remove_name search write };
-allow weston_t user_runtime_t:file { create lock open read unlink write };
+allow weston_t user_runtime_t:file { create lock open read unlink write map };
 allow weston_t user_runtime_t:sock_file { create unlink };
 allow weston_t user_tmp_t:file unlink;
 allow weston_t user_tmp_t:sock_file { getattr unlink write };

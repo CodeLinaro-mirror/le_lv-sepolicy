@@ -98,6 +98,7 @@ require {
     type v4l_device_t;
     type var_t;
     type var_log_t;
+    type weston_t;
     class capability dac_override;
     class capability sys_admin;
     class chr_file { getattr ioctl open read write map };
@@ -182,6 +183,7 @@ allow gstreamer_t urandom_device_t:chr_file { open read };
 allow gstreamer_t user_runtime_root_t:dir { getattr search };
 allow gstreamer_t user_runtime_t:dir { add_name remove_name search write getattr };
 allow gstreamer_t user_runtime_t:file { create map open read unlink write };
+allow gstreamer_t user_runtime_t:sock_file write;
 allow gstreamer_t user_tmpfs_t:file { getattr map read write };
 allow gstreamer_t user_tmp_t:dir { getattr search open read rmdir };
 allow gstreamer_t user_tmp_t:sock_file write;
@@ -190,6 +192,7 @@ allow gstreamer_t usr_t:dir read;
 allow gstreamer_t v4l_device_t:chr_file { getattr ioctl open read write };
 allow gstreamer_t var_log_t:file { getattr write };
 allow gstreamer_t var_t:file { getattr map open read };
+allow gstreamer_t weston_t:unix_stream_socket connectto;
 
 #============= omx_t ==============
 allow omx_t debugfs_t:dir search;
@@ -223,3 +226,5 @@ allow sysadm_t v4l_device_t:chr_file { ioctl open read write };
 
 #============= syslogd_t ==============
 allow syslogd_t gstreamer_t:process signull;
+allow syslogd_t default_t:dir write;
+

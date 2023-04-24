@@ -61,6 +61,7 @@ gen_require(`
     type user_tmp_t;
     type security_t;
     type selinux_config_t;
+    type event_device_t;
 ')
 allow alsa_t default_t:dir { search write add_name remove_name };
 allow alsa_t default_t:file { create write open read getattr unlink lock };
@@ -105,3 +106,4 @@ allow audio_vendor_t alsa_etc_t:lnk_file read;
 allow audio_vendor_t etc_t:file { read open getattr map };
 allow audio_vendor_t etc_t:lnk_file read;
 allow audio_vendor_t default_t:dir search;
+allow audio_vendor_t event_device_t:chr_file read;
