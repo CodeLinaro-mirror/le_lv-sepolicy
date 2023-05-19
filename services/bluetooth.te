@@ -56,6 +56,7 @@ require {
     class service { start status };
     class sock_file { create write };
     class tcp_socket { accept bind create listen name_bind node_bind read setopt write };
+    class netlink_socket { bind create read setopt shutdown write };
     class unix_stream_socket connectto;
 }
 
@@ -69,6 +70,7 @@ allow bluetooth_t node_t:tcp_socket node_bind;
 allow bluetooth_t selinux_config_t:dir search;
 allow bluetooth_t self:fifo_file { read write };
 allow bluetooth_t self:tcp_socket { accept bind create listen setopt read write };
+allow bluetooth_t self:netlink_socket { bind create read setopt shutdown write };
 allow bluetooth_t sysadm_t:unix_stream_socket connectto;
 allow bluetooth_t unreserved_port_t:tcp_socket name_bind;
 allow bluetooth_t user_tmp_t:sock_file { write };
