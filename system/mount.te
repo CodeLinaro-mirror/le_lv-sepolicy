@@ -45,7 +45,7 @@ allow mount_t configfs_t:dir { getattr mounton };
 allow mount_t initrc_tmp_t:file write;
 allow mount_t var_t:file { create write open read };
 allow mount_t var_t:dir { add_name create remove_name rmdir setattr write };
-allow mount_t etc_t:file { setattr link mounton write };
+allow mount_t etc_t:file { setattr link mounton write map };
 allow mount_t etc_t:dir mounton;
 allow mount_t self:cap_userns sys_admin;
 allow mount_t systemd_journal_t:dir mounton;
