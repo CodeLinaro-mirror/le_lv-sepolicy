@@ -42,12 +42,19 @@ require {
 	type default_t;
 	type sysfs_t;
 	type proc_t;
-    type security_t;
-    type selinux_config_t;
+	type initrc_t;
+	type security_t;
+	type selinux_config_t;
+	type qseecomd_data_t;
+	type qseecomd_persist_t;
 	class fifo_file { read write getattr };
 	class file { create getattr open read write };
 	class dir { add_name create getattr search setattr write };
+	class chr_file relabelto;
 }
+
+filetrans_pattern(sfs_config_initrc_t, default_t, qseecomd_data_t, dir, "tzstorage")
+filetrans_pattern(sfs_config_initrc_t, var_t, qseecomd_persist_t, dir, "data")
 
 #============= sfs_config_initrc_t ==============
 allow sfs_config_initrc_t default_t:dir { add_name create getattr search setattr write };
@@ -57,3 +64,11 @@ allow sfs_config_initrc_t var_t:dir { add_name create setattr write };
 allow sfs_config_initrc_t proc_t:file { getattr open read };
 allow sfs_config_initrc_t security_t:filesystem getattr;
 allow sfs_config_initrc_t selinux_config_t:dir search;
+allow sfs_config_initrc_t qseecomd_data_t:dir { getattr setattr create };
+allow sfs_config_initrc_t qseecomd_persist_t:dir { create getattr setattr };
+
+#============= initrc_t ==============
+allow initrc_t qseecomd_persist_t:dir { getattr open read write search};
+allow initrc_t qseecomd_data_t:dir { getattr open read write search};
+allow initrc_t qseecomd_data_t:file getattr;
+

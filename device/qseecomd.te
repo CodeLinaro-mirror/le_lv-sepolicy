@@ -49,20 +49,22 @@ require {
 	type proc_t;
 	type default_t;
 	type fixed_disk_device_t;
+	type fs_t;
 	type etc_t;
 	type syslogd_t;
+	type setfiles_t;
 	type init_var_run_t;
 	type scsi_generic_device_t;
 	type dri_device_t;
-	class file { append create getattr open read unlink write };
-	class dir { add_name create getattr open read remove_name rmdir search write };
+	class file { append create getattr open read unlink write relabelfrom };
+	class dir { add_name create getattr open read remove_name rmdir search write relabelfrom rmdir };
 	class lnk_file read;
 	class unix_dgram_socket { bind connect create sendto write };
 	class capability sys_rawio;
-	class process { setcap signull };
+	class process { setcap signull noatsecure rlimitinh siginh transition };
 	class capability2 block_suspend;
 	class sock_file write;
-	class chr_file { ioctl open read write };
+	class chr_file { ioctl open read write relabelto };
 	class blk_file { open read write };
 }
 
@@ -97,5 +99,23 @@ allow qseecomd_t syslogd_var_run_t:dir search;
 allow qseecomd_t var_t:dir { add_name create read remove_name write };
 allow qseecomd_t var_t:file { create getattr open read unlink write };
 
-#============= syslogd_t ==============
-allow syslogd_t qseecomd_t:process signull;
+allow qseecomd_t qseecomd_data_t:dir { add_name create getattr open read remove_name rmdir search write };
+allow qseecomd_t qseecomd_data_t:file { create getattr open read unlink write };
+allow qseecomd_t qseecomd_persist_t:dir { add_name create getattr open read remove_name rmdir search write };
+allow qseecomd_t qseecomd_persist_t:file { create getattr open read unlink write };
+
+#============= qseecomd_data_t ==============
+allow qseecomd_data_t fs_t:filesystem associate;
+
+#============= qseecomd_persist_t ==============
+allow qseecomd_persist_t fs_t:filesystem associate;
+
+#============= setfiles_t ==============
+allow setfiles_t qseecomd_data_t:dir { getattr read relabelfrom open search };
+allow setfiles_t qseecomd_data_t:file { getattr read relabelfrom };
+
+#============= initrc_t ==============
+allow initrc_t qseecomd_data_t:dir { rmdir remove_name };
+allow initrc_t qseecomd_data_t:file { getattr unlink };
+allow initrc_t qseecomd_persist_t:dir { remove_name rmdir };
+allow initrc_t qseecomd_persist_t:file { getattr unlink };
