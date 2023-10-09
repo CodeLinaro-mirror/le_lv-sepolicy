@@ -202,6 +202,7 @@ allow omx_t device_t:chr_file { ioctl open read write map };
 allow omx_t device_t:sock_file write;
 allow omx_t devlog_t:sock_file write;
 allow omx_t dosfs_t:dir search;
+allow omx_t dosfs_t:file { getattr open read };
 allow omx_t dri_device_t:chr_file { ioctl open read write };
 allow omx_t etc_t:lnk_file read;
 allow omx_t initrc_t:unix_stream_socket connectto;
