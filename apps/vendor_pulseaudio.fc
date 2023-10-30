@@ -30,4 +30,14 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# Used to generate file contexts for qti_policy
+# Used to generate file contexts for pulseaudio
+
+/usr/bin/pacat                         --  gen_context(system_u:object_r:pulseaudio_exec_t,s0)
+/usr/bin/pactl                         --  gen_context(system_u:object_r:pulseaudio_exec_t,s0)
+/usr/bin/paplay                        -l  gen_context(system_u:object_r:pulseaudio_exec_t,s0)
+/usr/bin/parec                         -l  gen_context(system_u:object_r:pulseaudio_exec_t,s0)
+/usr/bin/parecord                      -l  gen_context(system_u:object_r:pulseaudio_exec_t,s0)
+/usr/bin/pahostless                    --  gen_context(system_u:object_r:pulseaudio_exec_t,s0)
+/usr/bin/pp_ctl                        --  gen_context(system_u:object_r:pulseaudio_exec_t,s0)
+/etc/pulse(/.*)?                           gen_context(system_u:object_r:pulseaudio_conf_t,s0)
+/usr/share/alsa/ucm/(.*?)snd-card(/.*)?    gen_context(system_u:object_r:pulseaudio_conf_t,s0)

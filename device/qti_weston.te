@@ -1,0 +1,190 @@
+# Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted (subject to the limitations in the
+# disclaimer below) provided that the following conditions are met:
+#
+#    * Redistributions of source code must retain the above copyright
+#      notice, this list of conditions and the following disclaimer.
+#
+#    * Redistributions in binary form must reproduce the above
+#      copyright notice, this list of conditions and the following
+#      disclaimer in the documentation and/or other materials provided
+#      with the distribution.
+#
+#    * Neither the name of Qualcomm Innovation Center, Inc. nor the names of its
+#      contributors may be used to endorse or promote products derived
+#      from this software without specific prior written permission.
+#
+# NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE
+# GRANTED BY THIS LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT
+# HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED
+# WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+# IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+# ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+# GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER
+# IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+# OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+# IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+policy_module(qti_weston, 1.0)
+
+require {
+    type default_context_t;
+    type default_t;
+    type devlog_t;
+    type user_runtime_root_t;
+    type sysadm_t;
+    type var_log_t;
+    type user_tty_device_t;
+    type var_run_t;
+    type user_runtime_t;
+    type systemd_sessions_var_run_t;
+    type initrc_var_run_t;
+    type etc_t;
+    type syslogd_t;
+    type tty_device_t;
+    type locale_t;
+    type var_spool_t;
+    type syslogd_var_run_t;
+    type systemd_logind_t;
+    type system_dbusd_t;
+    type selinux_config_t;
+    type system_dbusd_var_run_t;
+    type wtmp_t;
+    type security_t;
+    type sysctl_kernel_t;
+    type tmpfs_t;
+    type lastlog_t;
+    type event_device_t;
+    type init_var_run_t;
+    type initrc_t;
+    type sysctl_t;
+    type debugfs_t;
+    type fonts_t;
+    type dri_device_t;
+    type fs_t;
+    type mnt_t;
+    type proc_t;
+    type sysfs_t;
+    type udev_var_run_t;
+    type usr_t;
+    type var_t;
+    type xkb_var_lib_t;
+    type device_t;
+    type tmp_t;
+    type dri_device_t;
+    type user_tmp_t;
+    type user_tmpfs_t;
+    type qcarcam_rvc_t;
+    type qcarcam_test_t;
+    class dbus send_msg;
+    class fd use;
+}
+
+########################################
+#
+# Declarations
+#
+
+type weston_t;
+permissive weston_t;
+type weston_exec_t;
+type weston_lib_t;
+type weston_etc_t;
+type weston_data_t;
+
+init_daemon_domain(weston_t, weston_exec_t)
+
+#============= weston_t ==============
+allow weston_t dri_device_t:chr_file getattr;
+allow weston_t debugfs_t:dir search;
+allow weston_t default_context_t:dir search;
+allow weston_t default_context_t:file { getattr open read };
+allow weston_t default_t:dir search;
+allow weston_t device_t:chr_file { create ioctl map open read unlink write };
+allow weston_t device_t:dir { add_name remove_name write };
+allow weston_t device_t:sock_file write;
+allow weston_t devlog_t:sock_file write;
+allow weston_t dri_device_t:chr_file { getattr ioctl open read unlink write };
+allow weston_t etc_t:file { getattr map open read };
+allow weston_t etc_t:lnk_file read;
+allow weston_t event_device_t:chr_file { getattr ioctl open read write };
+allow weston_t fonts_t:dir { getattr open read search };
+allow weston_t fonts_t:file { getattr map open read };
+allow weston_t fs_t:filesystem getattr;
+allow weston_t init_var_run_t:dir search;
+allow weston_t initrc_t:unix_stream_socket connectto;
+allow weston_t initrc_var_run_t:file { lock open read };
+allow weston_t lastlog_t:file { lock open read write };
+allow weston_t locale_t:dir search;
+allow weston_t locale_t:file { getattr map open read };
+allow weston_t mnt_t:dir search;
+allow weston_t proc_t:file { open read };
+allow weston_t security_t:dir search;
+allow weston_t security_t:file { map open read write };
+allow weston_t security_t:filesystem getattr;
+allow weston_t security_t:security { check_context compute_relabel compute_user };
+allow weston_t self:capability { mknod net_admin setgid setuid sys_admin sys_nice sys_tty_config };
+allow weston_t self:netlink_kobject_uevent_socket { bind create getattr read setopt };
+allow weston_t self:process { setexec setkeycreate setsched };
+allow weston_t self:unix_dgram_socket { connect create write };
+allow weston_t self:unix_stream_socket { accept connectto listen };
+allow weston_t selinux_config_t:dir search;
+allow weston_t selinux_config_t:file { getattr open read };
+allow weston_t sysadm_t:fd use;
+allow weston_t sysadm_t:key create;
+allow weston_t sysadm_t:process { noatsecure rlimitinh siginh signal transition };
+allow weston_t sysadm_t:unix_stream_socket connectto;
+allow weston_t sysctl_kernel_t:dir search;
+allow weston_t sysctl_kernel_t:file { open read };
+allow weston_t sysctl_t:dir search;
+allow weston_t sysfs_t:dir read;
+allow weston_t sysfs_t:file { getattr open read write };
+allow weston_t sysfs_t:lnk_file { getattr read };
+allow weston_t syslogd_t:unix_dgram_socket sendto;
+allow weston_t syslogd_var_run_t:dir search;
+allow weston_t system_dbusd_t:unix_stream_socket connectto;
+allow weston_t system_dbusd_t:dbus send_msg;
+allow weston_t system_dbusd_var_run_t:dir search;
+allow weston_t system_dbusd_var_run_t:sock_file write;
+allow weston_t systemd_logind_t:fd use;
+allow weston_t systemd_logind_t:dbus send_msg;
+allow weston_t systemd_sessions_var_run_t:fifo_file write;
+allow weston_t tmp_t:dir { add_name search write };
+allow weston_t tmp_t:file { append create getattr open };
+allow weston_t tmpfs_t:dir search;
+allow weston_t tmpfs_t:file { map read write };
+allow weston_t tty_device_t:chr_file { getattr ioctl open read write relabelfrom relabelto };
+allow weston_t udev_var_run_t:dir search;
+allow weston_t udev_var_run_t:file { getattr open read };
+allow weston_t user_runtime_root_t:dir search;
+allow weston_t user_runtime_t:dir { add_name getattr remove_name search write };
+allow weston_t user_runtime_t:file { create lock open read unlink write };
+allow weston_t user_runtime_t:sock_file { create unlink };
+allow weston_t user_tmp_t:file unlink;
+allow weston_t user_tmp_t:sock_file { getattr unlink write };
+allow weston_t user_tmpfs_t:file { read write };
+allow weston_t user_tty_device_t:chr_file { ioctl relabelfrom relabelto };
+allow weston_t usr_t:dir read;
+allow weston_t usr_t:file { getattr open read };
+allow weston_t var_log_t:dir search;
+allow weston_t var_log_t:lnk_file read;
+allow weston_t var_spool_t:dir search;
+allow weston_t var_t:dir { add_name remove_name write };
+allow weston_t var_t:file { create getattr link lock map open read rename unlink write };
+allow weston_t var_run_t:dir { write add_name };
+allow weston_t var_run_t:file { create append open getattr };
+allow weston_t weston_etc_t:file { getattr open read };
+allow weston_t weston_exec_t:file execute_no_trans;
+allow weston_t weston_data_t:file { getattr open read };
+allow weston_t weston_lib_t:file { execute getattr map open read };
+allow weston_t weston_lib_t:lnk_file read;
+allow weston_t wtmp_t:file { lock open write };
+allow weston_t xkb_var_lib_t:dir { getattr read search };
+allow weston_t xkb_var_lib_t:file { getattr map open read };
+allow weston_t qcarcam_rvc_t:fd use;
+allow weston_t qcarcam_test_t:fd use;

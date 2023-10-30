@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -30,4 +30,19 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# Used to generate file contexts for qti_policy
+policy_module(qti_compatible, 1.0)
+
+########################################
+#
+# Declarations
+#
+type user_runtime_t; 
+type user_runtime_root_t;
+type alsa_etc_t;
+type systemd_sessions_var_run_t;
+type bluetooth_unit_t;
+type systemd_journal_t;
+type ipsec_supervisor_t;
+type systemd_detect_virt_t;
+type systemd_update_done_t;
+type systemd_sessions_t;

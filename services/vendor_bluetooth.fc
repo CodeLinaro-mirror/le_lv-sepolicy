@@ -30,4 +30,20 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# Used to generate file contexts for qti_policy
+# Used to generate file contexts for qti-bluetooth
+/usr/bin/synergy_bt_service_for_qca  --  gen_context(system_u:object_r:bluetooth_exec_t,s0)
+/usr/bin/synergy.sh                  --  gen_context(system_u:object_r:bluetooth_exec_t,s0)
+/usr/bin/bt_audio.sh                 --  gen_context(system_u:object_r:bluetooth_exec_t,s0)
+/usr/bin/bt_audio_service            --  gen_context(system_u:object_r:bluetooth_exec_t,s0)
+/usr/bin/synergy_audio_player        --  gen_context(system_u:object_r:bluetooth_exec_t,s0)
+/usr/bin/bt_bootstrap                --  gen_context(system_u:object_r:bluetooth_exec_t,s0)
+/usr/bin/btdiag                      --  gen_context(system_u:object_r:bluetooth_exec_t,s0)
+/usr/bin/btcli                       --  gen_context(system_u:object_r:bluetooth_exec_t,s0)
+/usr/bin/bt_test                     --  gen_context(system_u:object_r:bluetooth_exec_t,s0)
+/usr/bin/bt_test.sh                  --  gen_context(system_u:object_r:bluetooth_exec_t,s0)
+/data/Synergy_DataBaseStorage.db     --  gen_context(system_u:object_r:bluetooth_var_run_t,s0)
+/data/0000*                              gen_context(system_u:object_r:bluetooth_var_run_t,s0)
+/etc/bluetooth/bt.inf                --  gen_context(system_u:object_r:bluetooth_conf_rw_t,s0)
+/var/lib/csr_synergy(/.*)?               gen_context(system_u:object_r:bluetooth_var_lib_t,s0)
+
+/usr/lib/systemd/user/bt-audio.service -- gen_context(system_u:object_r:bluetooth_unit_t,s0)

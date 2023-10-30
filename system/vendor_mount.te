@@ -30,4 +30,34 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# Used to generate file contexts for qti_policy
+policy_module(vendor_mount, 1.0)
+
+gen_require(`
+    type bluetooth_conf_t;
+    type configfs_t;
+    type cgroup_t;
+    type default_t;
+    type etc_t;
+    type initrc_tmp_t;
+    type mount_t;
+    type systemd_journal_t;
+    type var_t;
+    type var_run_t;
+')
+
+#============= mount_t ==============
+allow mount_t cgroup_t:filesystem getattr;
+allow mount_t configfs_t:dir { getattr mounton };
+allow mount_t initrc_tmp_t:file write;
+allow mount_t var_t:file { create write open read };
+allow mount_t var_t:dir { add_name create remove_name rmdir setattr write };
+allow mount_t etc_t:file { setattr link mounton write };
+allow mount_t etc_t:dir mounton;
+allow mount_t self:cap_userns sys_admin;
+allow mount_t systemd_journal_t:dir mounton;
+allow mount_t bluetooth_conf_t:file { getattr open read };
+allow mount_t bluetooth_conf_t:dir mounton;
+allow mount_t default_t:file read;
+allow mount_t default_t:lnk_file { getattr read };
+allow mount_t var_run_t:dir create;
+allow mount_t var_run_t:file { create link open rename setattr unlink write read };

@@ -30,4 +30,5 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# Used to generate file contexts for qti_policy
+/usr/bin/init.qti.wlan_on.sh -- gen_context(system_u:object_r:cnss2_exec_t,s0)
+/usr/bin/init.qti.wlan_off.sh -- gen_context(system_u:object_r:cnss2_exec_t,s0)

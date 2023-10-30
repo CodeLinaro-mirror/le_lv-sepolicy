@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -30,4 +30,18 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# Used to generate file contexts for qti_policy
+policy_module(vendor_selinuxutil, 1.0)
+
+gen_require(`
+	type etc_t;
+	type lib_t;
+	type semanage_t;
+	type var_t;
+')
+
+#============= semanage_t ==============
+allow semanage_t etc_t:file map;
+allow semanage_t lib_t:dir { add_name create remove_name write };
+allow semanage_t lib_t:file { create rename write };
+allow semanage_t var_t:dir { add_name create read remove_name rename rmdir write };
+allow semanage_t var_t:file { create getattr lock open read rename setattr unlink write };

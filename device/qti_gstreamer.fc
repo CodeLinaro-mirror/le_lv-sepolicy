@@ -30,4 +30,31 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# Used to generate file contexts for qti_policy
+# Used to generate file contexts for gstreamer policy
+
+/usr/bin/gst-play-1.0      --    gen_context(system_u:object_r:gstreamer_exec_t,s0)
+/usr/bin/gst-launch-1.0    --    gen_context(system_u:object_r:gstreamer_exec_t,s0)
+/usr/bin/gst-inspect-1.0   --    gen_context(system_u:object_r:gstreamer_exec_t,s0)
+/usr/bin/gst-device-monitor-1.0  --    gen_context(system_u:object_r:gstreamer_exec_t,s0)
+/usr/bin/gst-typefind-1.0        --    gen_context(system_u:object_r:gstreamer_exec_t,s0)
+/usr/bin/gst-discoverer-1.0      --    gen_context(system_u:object_r:gstreamer_exec_t,s0)
+/usr/bin/gst-stats-1.0           --    gen_context(system_u:object_r:gstreamer_exec_t,s0)
+
+/usr/libexec/gstreamer-1.0/.*    --    gen_context(system_u:object_r:gstreamer_exec_t,s0)
+
+/usr/lib/gstreamer-1.0/.*        --    gen_context(system_u:object_r:gstreamer_lib_t,s0)
+
+/usr/share/gst-plugins-base/.*   --    gen_context(system_u:object_r:gstreamer_data_t,s0)
+/usr/share/gstreamer-1.0/.*      --    gen_context(system_u:object_r:gstreamer_data_t,s0)
+
+/etc/xdg/gstomx.conf             --    gen_context(system_u:object_r:gstreamer_etc_t,s0)
+
+/usr/bin/mm-vdec-omx-test-lite   --   gen_context(system_u:object_r:omx_exec_t,s0)
+/usr/bin/mm-venc-omx-test-lite   --   gen_context(system_u:object_r:omx_exec_t,s0)
+/usr/bin/mm-vidc-omx-test        --   gen_context(system_u:object_r:omx_exec_t,s0)
+/usr/bin/mm-swvdec-test          --   gen_context(system_u:object_r:omx_exec_t,s0)
+/usr/bin/mm-c2d-test             --   gen_context(system_u:object_r:omx_exec_t,s0)
+/usr/bin/venc-omx-sample         --   gen_context(system_u:object_r:omx_exec_t,s0)
+/usr/bin/vdec-omx-sample         --   gen_context(system_u:object_r:omx_exec_t,s0)
+
+
