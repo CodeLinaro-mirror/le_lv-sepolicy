@@ -50,10 +50,13 @@ require {
     type kmod_exec_t;
     type debugfs_t;
     type selinux_config_t;
+    type cnss2_t;
+    type kernel_t;
     class capability sys_admin;
     class unix_stream_socket { connect create };
     class file { create getattr lock map open read rename setattr unlink write };
     class dir { add_name create read remove_name rename rmdir search write };
+    class key search;
 }
 
 type cnss2_t;
@@ -80,6 +83,7 @@ allow cnss2_t self:capability sys_admin;
 allow cnss2_t self:unix_stream_socket { create connect };
 allow cnss2_t security_t:filesystem getattr;
 allow cnss2_t selinux_config_t:dir search;
+allow cnss2_t kernel_t:key search;
 
 dev_write_kmsg(cnss2_t)
 files_read_kernel_modules(cnss2_t)
