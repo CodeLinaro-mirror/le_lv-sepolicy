@@ -30,4 +30,9 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# Used to generate file contexts for qti_policy
+# Used to generate file contexts for qcarcam_rvc
+/usr/bin/qcarcam_rvc     --             gen_context(system_u:object_r:qcarcam_rvc_exec_t,s0)
+
+/usr/share/camera/ais_log_qcarcam_rvc.conf       gen_context(system_u:object_r:qcarcam_rvc_data_t,s0)
+/data/misc/camera/ais_log_qcarcam_rvc.conf       gen_context(system_u:object_r:qcarcam_rvc_data_t,s0)
+/usr/bin/ais_log_qcarcam_rvc.conf                gen_context(system_u:object_r:qcarcam_rvc_data_t,s0)

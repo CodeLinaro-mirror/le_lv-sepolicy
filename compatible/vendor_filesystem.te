@@ -30,4 +30,14 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# Used to generate file contexts for qti_policy
+policy_module(vendor_filesystem, 1.0)
+
+type binderfs_t;
+fs_noxattr_type(binderfs_t)
+files_mountpoint(binderfs_t)
+genfscon binder / gen_context(system_u:object_r:binderfs_t,s0)
+
+type functionfs_t;
+fs_noxattr_type(functionfs_t)
+files_mountpoint(functionfs_t)
+genfscon functionfs / gen_context(system_u:object_r:functionfs_t,s0)

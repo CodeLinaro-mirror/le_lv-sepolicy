@@ -30,4 +30,26 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# Used to generate file contexts for qti_policy
+policy_module(vendor_hostapd, 1.0)
+
+gen_require(`
+    type debugfs_t;
+    type default_t;
+    type etc_t;
+    type etc_runtime_t;
+    type hostapd_t;
+    type initrc_t;
+    type initrc_var_run_t;
+    type tmp_t;
+')
+
+#============= hostapd_t ==============
+allow hostapd_t debugfs_t:dir search;
+allow hostapd_t default_t:file { getattr write };
+allow hostapd_t etc_runtime_t:file { getattr open read };
+allow hostapd_t etc_t:file map;
+allow hostapd_t initrc_t:unix_dgram_socket sendto;
+allow hostapd_t initrc_var_run_t:dir { add_name remove_name search write };
+allow hostapd_t initrc_var_run_t:sock_file { create setattr unlink write };
+allow hostapd_t tmp_t:dir search;
+allow hostapd_t tmp_t:sock_file write;

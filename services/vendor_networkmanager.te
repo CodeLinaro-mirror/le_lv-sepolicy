@@ -30,4 +30,28 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# Used to generate file contexts for qti_policy
+policy_module(vendor_networkmanager, 1.0)
+
+gen_require(`
+    type default_t;
+    type etc_t;
+    type etc_runtime_t;
+    type NetworkManager_t;
+    type urandom_device_t;
+    type var_run_t;
+    type wpa_cli_t;
+    class lnk_file read;
+')
+#============= NetworkManager_t ==============
+allow NetworkManager_t default_t:file { getattr write };
+allow NetworkManager_t etc_runtime_t:file unlink;
+allow NetworkManager_t etc_t:file { map unlink };
+
+#============= wpa_cli_t ==============
+allow wpa_cli_t default_t:dir { add_name search write };
+allow wpa_cli_t default_t:file { create getattr open read write };
+allow wpa_cli_t var_run_t:lnk_file read;
+
+#!!!! This avc can be allowed using the boolean 'global_ssp'
+allow wpa_cli_t urandom_device_t:chr_file { getattr ioctl open read };
+allow wpa_cli_t var_run_t:dir search;

@@ -30,4 +30,22 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# Used to generate file contexts for qti_policy
+policy_module(vendor_locallogin, 1.0)
+
+gen_require(`
+    type bin_t;
+    type chkpwd_t;
+    type default_t;
+    type etc_t;
+    type local_login_t;
+    type sysadm_t;
+    type unconfined_t;
+')
+
+#============= local_login_t ==============
+allow local_login_t bin_t:file execute;
+allow local_login_t default_t:dir search;
+allow local_login_t etc_t:file map;
+allow local_login_t chkpwd_t:process { noatsecure rlimitinh siginh };
+allow local_login_t sysadm_t:process { noatsecure rlimitinh siginh };
+allow local_login_t unconfined_t:process { noatsecure rlimitinh siginh };

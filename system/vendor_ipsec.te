@@ -30,4 +30,31 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# Used to generate file contexts for qti_policy
+policy_module(vendor_ipsec, 1.0)
+
+gen_require(`
+    type cert_t;
+    type default_t;
+    type ipsec_t;
+    type ipsec_key_file_t;
+    type ipsec_mgmt_t;
+    type ipsec_supervisor_t;
+    type security_t;
+    type selinux_config_t;
+')
+
+#============= ipsec_mgmt_t ==============
+allow ipsec_mgmt_t default_t:dir search;
+allow ipsec_mgmt_t default_t:file { execute execute_no_trans open read };
+allow ipsec_mgmt_t ipsec_supervisor_t:process { noatsecure rlimitinh siginh };
+allow ipsec_mgmt_t security_t:filesystem getattr;
+allow ipsec_mgmt_t selinux_config_t:dir search;
+
+#============= ipsec_t ==============
+allow ipsec_t ipsec_key_file_t:file map;
+allow ipsec_t self:unix_stream_socket listen;
+allow ipsec_t cert_t:dir search;
+allow ipsec_t cert_t:file { read open getattr };
+
+#============= ipsec_supervisor_t ==============
+allow ipsec_supervisor_t ipsec_t:process { noatsecure rlimitinh siginh };

@@ -30,4 +30,17 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# Used to generate file contexts for qti_policy
+# Used to generate file contexts for alsa
+
+/usr/bin/alsaloop                  --  gen_context(system_u:object_r:alsa_exec_t,s0)
+/usr/bin/alsamixer                 --  gen_context(system_u:object_r:alsa_exec_t,s0)
+/usr/bin/alsaucm                   --  gen_context(system_u:object_r:alsa_exec_t,s0)
+/usr/bin/amixer                    --  gen_context(system_u:object_r:alsa_exec_t,s0)
+/usr/bin/aplay                     --  gen_context(system_u:object_r:alsa_exec_t,s0)
+/usr/bin/arecord                   -l  gen_context(system_u:object_r:alsa_exec_t,s0)
+/usr/bin/ahostless                 --  gen_context(system_u:object_r:alsa_exec_t,s0)
+
+/usr/bin/a2b-app                   --  gen_context(system_u:object_r:audio_vendor_exec_t,s0)
+/usr/bin/audiod                    --  gen_context(system_u:object_r:audio_vendor_exec_t,s0)
+/usr/bin/audio-nxp-auto            --  gen_context(system_u:object_r:audio_vendor_exec_t,s0)
+/usr/bin/acdb_loader_service       --  gen_context(system_u:object_r:audio_vendor_exec_t,s0)

@@ -30,4 +30,39 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# Used to generate file contexts for qti_policy
+policy_module(qti_adreno, 1.0)
+
+gen_require(`
+    type weston_t;
+    type initrc_t;
+    type tmpfs_t;
+    type dri_device_t;
+    type default_t;
+    type debugfs_t;
+    type device_t;
+    type user_runtime_t;
+    type user_runtime_root_t;
+    type dri_device_t;
+    type sysfs_t;
+    class unix_stream_socket connectto;
+    class sock_file write;
+    class dir search;
+    class file { getattr map open read write };
+    class lnk_file read;
+    class chr_file { ioctl map open read write };
+')
+
+#============= adreno_t ==============
+allow weston_t dri_device_t:chr_file { ioctl map open read write };
+allow weston_t debugfs_t:dir search;
+allow weston_t default_t:dir search;
+allow weston_t device_t:sock_file write;
+allow weston_t dri_device_t:chr_file { open read write };
+allow weston_t initrc_t:unix_stream_socket connectto;
+allow weston_t sysfs_t:file { getattr open read };
+allow weston_t sysfs_t:lnk_file read;
+allow weston_t tmpfs_t:file { map read write };
+allow weston_t user_runtime_root_t:dir search;
+allow weston_t user_runtime_t:dir search;
+allow weston_t user_runtime_t:sock_file write;
+

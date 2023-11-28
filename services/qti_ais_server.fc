@@ -30,4 +30,16 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# Used to generate file contexts for qti_policy
+# Used to generate file contexts for ais_server
+/usr/bin/ais_server     --             gen_context(system_u:object_r:ais_server_exec_t,s0)
+/tmp/ais_server.lock                   gen_context(system_u:object_r:ais_server_var_run_t,s0)
+/tmp/ais_log_server.log                gen_context(system_u:object_r:ais_server_var_run_t,s0)
+/tmp/ais_log.log                       gen_context(system_u:object_r:ais_server_var_run_t,s0)
+/tmp/ais_socket_*                      gen_context(system_u:object_r:ais_server_socket_device_t,s0)
+/usr/share/camera/camera_config.xml    gen_context(system_u:object_r:ais_server_etc_t,s0)
+/data/misc/camera/camera_config.xml    gen_context(system_u:object_r:ais_server_etc_t,s0)
+/usr/bin/camera_config.xml             gen_context(system_u:object_r:ais_server_etc_t,s0)
+
+/usr/share/camera(/.*)?                gen_context(system_u:object_r:ais_server_data_t,s0)
+/data/misc/camera(/.*)?                gen_context(system_u:object_r:ais_server_data_t,s0)
+/usr/bin/ais_log_ais_server.conf       gen_context(system_u:object_r:ais_server_data_t,s0)
