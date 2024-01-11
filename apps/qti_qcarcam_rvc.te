@@ -52,7 +52,6 @@ require {
         type user_runtime_root_t;
         type user_runtime_t;
         type user_tmp_t;
-        type weston_t;
         class capability { dac_override sys_admin };
         class chr_file { ioctl open read write };
         class dir search;
@@ -106,4 +105,3 @@ allow qcarcam_rvc_t user_runtime_root_t:dir search;
 allow qcarcam_rvc_t user_runtime_t:dir search;
 allow qcarcam_rvc_t user_runtime_t:sock_file write;
 allow qcarcam_rvc_t user_tmp_t:sock_file write;
-allow qcarcam_rvc_t weston_t:unix_stream_socket connectto;

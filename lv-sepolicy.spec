@@ -43,7 +43,7 @@ done;
 %prep
 %setup -q -n lv-sepolicy
 mkdir -p compile
-mask_modules="vendor_filesystem qti_weston"
+mask_modules="vendor_filesystem qti_weston qti_adreno"
 for i in `find . -name *.te`;do
     MODULE_DIR="$(basename $(dirname $i))"
     MODULE_NAME=$(basename $i .te)
