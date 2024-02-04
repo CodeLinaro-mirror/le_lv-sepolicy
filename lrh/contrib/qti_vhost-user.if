@@ -1,4 +1,4 @@
-# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -30,23 +30,56 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-policy_module(rh_unconfined, 1.0)
+## <summary>Policy for SELinux policy and userland applications.</summary>
 
-require {
-    type unconfined_service_t;
-    type unconfined_t;
-}
+######################################
+## <summary>
+##  Read and write generic the vhost-aud, vhost-cam devices.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`vhost_user_rw_vhost_dev',`
+    gen_require(`
+        type device_t, vhost_user_device_t;
+    ')
 
-qseecomd_manage_data(unconfined_service_t)
-qseecomd_setattr_data(unconfined_service_t)
-qseecomd_setattr_persist(unconfined_service_t)
-qseecomd_rw_persist(unconfined_service_t)
+    rw_chr_files_pattern($1, device_t, vhost_user_device_t)
+')
 
-# shell domain is unconfined_t instead of unconfined_service_t when login with ssh or serials.
-qseecomd_manage_data(unconfined_t)
-qseecomd_setattr_data(unconfined_t)
-qseecomd_setattr_persist(unconfined_t)
-qseecomd_rw_persist(unconfined_t)
+######################################
+## <summary>
+##  Write vhost-user corresponding sockets.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`vhost_user_write_vhost_socket',`
+    gen_require(`
+        type vhost_user_tmp_t;
+    ')
 
-vhost_user_write_vhost_socket(unconfined_service_t)
-vhost_user_write_vhost_socket(unconfined_t)
+    allow $1 vhost_user_tmp_t:sock_file write;
+')
+
+######################################
+## <summary>
+##  Create vhost-user corresponding sockets.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`vhost_user_create_vhost_socket',`
+    files_tmp_filetrans($1, $2, sock_file, $3)
+    fs_associate_tmpfs($2)
+    allow $1 $2:sock_file create;
+')
