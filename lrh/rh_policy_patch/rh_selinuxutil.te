@@ -1,4 +1,4 @@
-# Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -30,6 +30,21 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#/usr/bin/qseecomd               --      gen_context(system_u:object_r:qseecomd_exec_t,s0)
-#/data/tzstorage(/.*)?            gen_context(system_u:object_r:qseecomd_data_t,s0)
-#/persist/data(/.*)?                     gen_context(system_u:object_r:qseecomd_persist_t,s0)
+policy_module(rh_selinuxutil, 1.0)
+
+require {
+    type setfiles_t;
+    type load_policy_t;
+}
+
+# restorecon /data/misc and /data/tzstorage
+qseecomd_relabel_data(setfiles_t)
+
+# restorecon /persist/data
+qseecomd_relabel_persist(setfiles_t)
+
+# Need to load policy once more time after install new lv-sepolicy rpm pacakge
+term_use_generic_ptys(load_policy_t)
+
+# Because qseecomd service set corresponding capability
+allow setfiles_t self:capability dac_override;

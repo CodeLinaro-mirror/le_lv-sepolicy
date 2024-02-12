@@ -1,4 +1,4 @@
-# Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -30,6 +30,3 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#/usr/bin/qseecomd               --      gen_context(system_u:object_r:qseecomd_exec_t,s0)
-#/data/tzstorage(/.*)?            gen_context(system_u:object_r:qseecomd_data_t,s0)
-#/persist/data(/.*)?                     gen_context(system_u:object_r:qseecomd_persist_t,s0)

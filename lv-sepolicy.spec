@@ -1,16 +1,16 @@
 %global selinuxtype targeted
 
 Summary: Qcom vendor selinux policy
-Name: lv-sepolicy
+Name:    lv-sepolicy
 Version: 1.0
 Release: r0
 License: BSD-3-Clause-Clear
 Source0: %{name}-%{version}.tar.gz
 
-BuildArch: noarch
-BuildRequires: checkpolicy, selinux-policy-devel
-Requires: selinux-policy-targeted
-Requires(post): selinux-policy-targeted
+BuildArch:      noarch
+BuildRequires:  checkpolicy, selinux-policy-devel
+Requires:       selinux-policy-%{selinuxtype}, setools-console
+Requires(post): selinux-policy-%{selinuxtype}
 %{?selinux_requires}
 
 %description
@@ -37,6 +37,10 @@ for module in $vendor_modules; do \
     install -D -p -m 0644 ${module}.if %{buildroot}%{_datadir}/selinux/devel/include/distributed/${module}.if \
 done;
 
+%define selinux_relabel_postun() \
+%{_sbindir}/restorecon -RF /usr/bin &> /dev/null \
+%nil
+
 %pre
 %selinux_relabel_pre -s %{selinuxtype}
 
@@ -44,14 +48,14 @@ done;
 %setup -q -n lv-sepolicy
 mkdir -p compile
 mask_modules="vendor_filesystem qti_weston qti_adreno"
-for i in `find . -name *.te`;do
+for i in `find ./lrh -name *.te`;do
     MODULE_DIR="$(basename $(dirname $i))"
     MODULE_NAME=$(basename $i .te)
     if [[ "${mask_modules}" =~ "${MODULE_NAME}" ]];then
         echo "Don't compile this module"
         continue
     fi
-    cp -r ${MODULE_DIR}/${MODULE_NAME}.*[^0-9] compile
+    cp -r lrh/${MODULE_DIR}/${MODULE_NAME}.*[^0-9] compile
     echo ${MODULE_NAME} >> vendor_module_list
 done
 
@@ -73,6 +77,13 @@ for module in $vendor_modules; do
 done;
 %selinux_modules_install -s %{selinuxtype} -p 100 ${Modules_String}
 %selinux_relabel_post -s %{selinuxtype}
+
+%preun
+vendor_modules=`cat %{_datadir}/selinux/%{selinuxtype}/qti-modules.lst`
+%selinux_modules_uninstall -s %{selinuxtype} -p 100 ${vendor_modules}
+
+%postun
+%selinux_relabel_postun
 
 %files
 %fileList targeted
