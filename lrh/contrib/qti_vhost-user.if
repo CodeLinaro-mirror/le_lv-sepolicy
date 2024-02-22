@@ -70,6 +70,24 @@ interface(`vhost_user_write_vhost_socket',`
 
 ######################################
 ## <summary>
+##  getattr vhost-user corresponding sockets.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`vhost_user_getattr_vhost_socket',`
+    gen_require(`
+        type vhost_user_tmp_t;
+    ')
+
+    allow $1 vhost_user_tmp_t:sock_file getattr;
+')
+
+######################################
+## <summary>
 ##  Create vhost-user corresponding sockets.
 ## </summary>
 ## <param name="domain">

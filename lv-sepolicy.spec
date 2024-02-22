@@ -1,4 +1,5 @@
 %global selinuxtype targeted
+%global selinuxmode enforcing
 
 Summary: Qcom vendor selinux policy
 Name:    lv-sepolicy
@@ -77,6 +78,9 @@ for module in $vendor_modules; do
 done;
 %selinux_modules_install -s %{selinuxtype} -p 100 ${Modules_String}
 %selinux_relabel_post -s %{selinuxtype}
+if [ -s %{_sysconfdir}/selinux/config ] && [ "${selinuxmode}" == "permissive" ]; then
+    sed -i -e "s:SELINUX=enforcing:SELINUX=permissive:g" %{_sysconfdir}/selinux/config
+fi
 
 %preun
 vendor_modules=`cat %{_datadir}/selinux/%{selinuxtype}/qti-modules.lst`

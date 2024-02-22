@@ -1,0 +1,108 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted (subject to the limitations in the
+# disclaimer below) provided that the following conditions are met:
+#
+#    * Redistributions of source code must retain the above copyright
+#      notice, this list of conditions and the following disclaimer.
+#
+#    * Redistributions in binary form must reproduce the above
+#      copyright notice, this list of conditions and the following
+#      disclaimer in the documentation and/or other materials provided
+#      with the distribution.
+#
+#    * Neither the name of Qualcomm Innovation Center, Inc. nor the names of its
+#      contributors may be used to endorse or promote products derived
+#      from this software without specific prior written permission.
+#
+# NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE
+# GRANTED BY THIS LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT
+# HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED
+# WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+# IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+# ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+# GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER
+# IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+# OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+# IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+policy_module(qti_weston, 1.0)
+
+type weston_t;
+type weston_exec_t;
+type weston_lib_t;
+
+init_daemon_domain(weston_t, weston_exec_t)
+
+weston_map_lib_files(weston_t)
+logging_send_syslog_msg(weston_t)
+fs_getattr_cgroup(weston_t)
+init_signal(weston_t)
+dbus_send_system_bus(weston_t)
+systemd_dbus_chat_logind(weston_t)
+unconfined_server_ptrace(weston_t)
+kernel_read_proc_files(weston_t)
+fs_getattr_xattr_fs(weston_t)
+
+# /run/systemd/seats/seat0
+systemd_read_logind_sessions_files(weston_t)
+systemd_login_read_pid_files(weston_t)
+
+dbus_stream_connect_system_dbusd(weston_t)
+dbus_chat_session_bus(weston_t)
+dbus_write_pid_sock_files(weston_t)
+
+dev_read_sysfs(weston_t)
+
+# /tmp/weston.log
+files_manage_generic_tmp_files(weston_t)
+
+# /var/log/weston-*.log
+logging_create_generic_logs(weston_t)
+logging_read_generic_logs(weston_t)
+
+# port:22222
+corenet_tcp_connect_generic_port(weston_t)
+
+# libopenwfd.so
+owfds_map_lib_files(weston_t)
+
+# /dev/dma_heap/system
+dev_rw_generic_dma_dev(weston_t)
+
+# /dev/kiumd
+dev_rw_kiumd_dev(weston_t)
+
+# /dev/input/event0
+dev_rw_input_dev(weston_t)
+
+# /etc/hosts
+sysnet_read_config(weston_t)
+
+# /dev/shm/lrmc_rq_*
+fs_map_tmpfs_files(weston_t)
+fs_manage_tmpfs_files(weston_t)
+
+# /data/misc
+qseecomd_search_data(weston_t)
+
+# /run/user/0/wayland-0
+userdom_manage_user_tmp_dirs(weston_t)
+userdom_manage_user_tmp_files(weston_t)
+userdom_create_user_tmp_sockets(weston_t)
+userdom_manage_tmp_sockets(weston_t)
+
+# /run/udev/data
+udev_read_pid_files(weston_t)
+
+allow weston_t self:unix_dgram_socket { create connect };
+allow weston_t self:tcp_socket create_socket_perms;
+allow weston_t self:process { setrlimit signull setsched siginh };
+allow weston_t self:capability { sys_resource sys_nice setuid net_admin };
+allow weston_t self:capability2 { bpf };
+allow weston_t self:netlink_kobject_uevent_socket create_socket_perms;
+allow weston_t weston_exec_t:file execute_no_trans;

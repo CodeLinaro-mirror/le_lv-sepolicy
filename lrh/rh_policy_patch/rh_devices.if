@@ -86,3 +86,57 @@ interface(`dev_rw_smcinvoke',`
 
     rw_chr_files_pattern($1, device_t, smcinvoke_device_t)
 ')
+
+########################################
+## <summary>
+##  Read and write gunyah devices (/dev/gunyah).
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`dev_rw_gunyah_dev',`
+    gen_require(`
+        type device_t, gunyah_device_t;
+    ')
+
+    rw_chr_files_pattern($1, device_t, gunyah_device_t)
+')
+
+########################################
+## <summary>
+##  Read and write kiumd devices (/dev/kiumd).
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`dev_rw_kiumd_dev',`
+    gen_require(`
+        type device_t, kiumd_device_t;
+    ')
+
+    rw_chr_files_pattern($1, device_t, kiumd_device_t)
+')
+
+########################################
+## <summary>
+##  Read and write gpio devices (/dev/gpiochip0).
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`dev_rw_gpio_dev',`
+    gen_require(`
+        type device_t, gpio_device_t;
+    ')
+
+    rw_chr_files_pattern($1, device_t, gpio_device_t)
+')

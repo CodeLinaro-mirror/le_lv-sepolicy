@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -30,29 +30,74 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-policy_module(qti_ssr-rm, 1.0)
+######################################
+## <summary>
+##  Map weston lib files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`weston_map_lib_files',`
+    gen_require(`
+        type weston_lib_t;
+    ')
 
-type ssr_rm_t;
-type ssr_rm_exec_t;
+    allow $1 weston_lib_t:file mmap_file_perms;
+')
 
-init_daemon_domain(ssr_rm_t, ssr_rm_exec_t)
+########################################
+## <summary>
+##  Read to weston library files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`weston_read_lib_files',`
+    gen_require(`
+        type weston_lib_t;
+    ')
 
-logging_create_devlog_dev(ssr_rm_t)
-kernel_dgram_send(ssr_rm_t)
-unconfined_server_signull(ssr_rm_t)
+    allow $1 weston_lib_t:file read_file_perms;
+')
 
-# /tmp/lrms_log_*.txt
-files_rw_generic_tmp_dir(ssr_rm_t)
-files_manage_generic_tmp_files(ssr_rm_t)
+######################################
+## <summary>
+##  Send signull to weston_t.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`weston_signull',`
+    gen_require(`
+        type weston_t;
+    ')
 
-# /ssr-lrm
-fs_manage_tmpfs_files(ssr_rm_t)
+    allow $1 weston_t:process signull;
+')
 
-# Map /dev/shm/lrmc_rq_
-fs_map_tmpfs_files(ssr_rm_t)
+######################################
+## <summary>
+##  ptrace to weston_t.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`weston_ptrace',`
+    gen_require(`
+        type weston_t;
+    ')
 
-glinkserver_signull(ssr_rm_t)
-
-allow ssr_rm_t self:unix_dgram_socket create_socket_perms;
-allow ssr_rm_t self:process { setrlimit setsched };
-allow ssr_rm_t self:capability { sys_resource net_admin sys_nice };
+    allow $1 weston_t:process ptrace;
+')

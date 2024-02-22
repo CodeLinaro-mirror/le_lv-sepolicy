@@ -136,6 +136,24 @@ interface(`qseecomd_manage_data',`
 
 ########################################
 ## <summary>
+##	Search qseecomd data.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`qseecomd_search_data',`
+    gen_require(`
+        type qseecomd_data_t;
+    ')
+
+    allow $1 qseecomd_data_t:dir search_dir_perms;
+')
+
+########################################
+## <summary>
 ##      setattr to /data/misc directory.
 ## </summary>
 ## <param name="domain">

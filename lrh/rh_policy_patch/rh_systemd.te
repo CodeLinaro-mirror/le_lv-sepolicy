@@ -33,7 +33,16 @@
 policy_module(rh_systemd, 1.0)
 
 require {
-        type systemd_logind_t;
+    type systemd_logind_t;
+    type systemd_tmpfiles_t;
+    type systemd_coredump_t;
 }
 
+vhost_user_getattr_vhost_socket(systemd_tmpfiles_t)
+term_getattr_generic_ptys(systemd_logind_t)
+
+weston_map_lib_files(systemd_coredump_t)
+owfds_map_lib_files(systemd_coredump_t)
+
 allow systemd_logind_t self:capability net_admin;
+allow systemd_tmpfiles_t self:capability net_admin;
