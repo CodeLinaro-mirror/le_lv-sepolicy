@@ -127,6 +127,9 @@ rw_files_pattern(weston_t, weston_tmpfs_t, weston_tmpfs_t)
 manage_sock_files_pattern(weston_t, weston_tmpfs_t, weston_tmpfs_t)
 userdom_manage_tmp_sockets(weston_t)
 
+#libkiumd
+libkiumd_mmap_exec_lib_file(weston_t)
+
 allow weston_t self:unix_dgram_socket { create connect };
 allow weston_t self:tcp_socket create_socket_perms;
 allow weston_t self:process { setrlimit signull setsched siginh };

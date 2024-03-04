@@ -41,6 +41,9 @@ init_daemon_domain(sail_mailbox_t, sail_mailbox_exec_t)
 
 logging_send_syslog_msg(sail_mailbox_t)
 
+#libkiumd
+libkiumd_mmap_exec_lib_file(sail_mailbox_t)
+
 dev_rw_kiumd_dev(sail_mailbox_t)
 dev_rw_vfio_dev(sail_mailbox_t)
 dev_read_sysfs(sail_mailbox_t)

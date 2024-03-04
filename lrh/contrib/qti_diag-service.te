@@ -68,3 +68,7 @@ files_tmpfs_file(diag_service_tmpfs_t)
 fs_tmpfs_filetrans(diag_service_t, diag_service_tmpfs_t, { dir file })
 create_files_pattern(diag_service_t, diag_service_tmpfs_t, diag_service_tmpfs_t)
 mmap_rw_files_pattern(diag_service_t, diag_service_tmpfs_t, diag_service_tmpfs_t)
+
+#libkiumd
+libkiumd_mmap_exec_lib_file(diag_service_t)
+

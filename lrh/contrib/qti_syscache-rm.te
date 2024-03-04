@@ -47,6 +47,9 @@ dev_read_sysfs(syscache_rm_t)
 
 safetymonitor_rw_tmpfs_files(syscache_rm_t)
 
+#libkiumd
+libkiumd_mmap_exec_lib_file(syscache_rm_t)
+
 # ========== local ==========
 allow syscache_rm_t self:unix_dgram_socket { create connect getopt setopt };
 allow syscache_rm_t self:process { setrlimit setsched };

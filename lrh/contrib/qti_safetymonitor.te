@@ -60,6 +60,9 @@ unconfined_server_signull(safetymonitor_t)
 evauto_mmap_rw_tmpfs_files(safetymonitor_t)
 syscacherm_mmap_rw_tmpfs_files(safetymonitor_t)
 
+#libkiumd
+libkiumd_mmap_exec_lib_file(safetymonitor_t)
+
 # ========== local ==========
 allow safetymonitor_t self:unix_dgram_socket { create connect };
 allow safetymonitor_t self:process { setrlimit setsched };

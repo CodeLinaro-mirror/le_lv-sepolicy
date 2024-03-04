@@ -78,6 +78,9 @@ fs_tmpfs_filetrans(adreno200_t, adreno200_tmpfs_t, { dir file })
 create_files_pattern(adreno200_t, adreno200_tmpfs_t, adreno200_tmpfs_t)
 adreno200_mmap_rw_tmpfs_files(adreno200_t)
 
+#libkiumd
+libkiumd_mmap_exec_lib_file(adreno200_t)
+
 # ========== local ==========
 allow adreno200_t self:unix_dgram_socket { create connect };
 allow adreno200_t self:tcp_socket { create connect setopt read write bind accept listen };
