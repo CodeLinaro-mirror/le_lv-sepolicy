@@ -1,4 +1,4 @@
-# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -30,16 +30,30 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-policy_module(rh_devices, 1.0)
+policy_module(qti_hyp-video-be, 1.0)
 
-type smcinvoke_device_t;
-type gunyah_device_t;
-type kiumd_device_t;
-type scmnode_device_t;
-type hab_device_t;
+type hyp_video_t;
+type hyp_video_exec_t;
+type hyp_video_tmp_t;
 
-dev_node(smcinvoke_device_t)
-dev_node(gunyah_device_t)
-dev_node(kiumd_device_t)
-dev_node(scmnode_device_t)
-dev_node(hab_device_t)
+init_daemon_domain(hyp_video_t, hyp_video_exec_t)
+
+logging_send_syslog_msg(hyp_video_t)
+fs_manage_tmpfs_files(hyp_video_t)
+
+# Todo, unlabeled_t, could remove after setting selinxu context to /data mount
+files_mounton_isid_type_dirs(hyp_video_t)
+
+dev_rw_hab_dev(hyp_video_t)
+
+qseecomd_search_data(hyp_video_t)
+
+# ========== local ==========
+allow hyp_video_t self:unix_dgram_socket { create connect getopt setopt };
+allow hyp_video_t self:process { setsched };
+allow hyp_video_t self:capability { sys_resource sys_nice net_admin };
+
+files_tmp_file(hyp_video_tmp_t)
+files_tmp_filetrans(hyp_video_t, hyp_video_tmp_t, { dir fifo_file file lnk_file })
+create_dirs_pattern(hyp_video_t, hyp_video_tmp_t, hyp_video_tmp_t)
+manage_fifo_files_pattern(hyp_video_t, hyp_video_tmp_t, hyp_video_tmp_t)

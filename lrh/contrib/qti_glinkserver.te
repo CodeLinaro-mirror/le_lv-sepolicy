@@ -42,6 +42,10 @@ fs_manage_tmpfs_files(glinkserver_t)
 unconfined_server_signull(glinkserver_t)
 dev_read_sysfs(glinkserver_t)
 
+fastrpc_rm_signull(glinkserver_t)
+diag_service_signull(glinkserver_t)
+audio_service_signull(glinkserver_t)
+
 # /tmp/lrms_log_*.txt
 files_rw_generic_tmp_dir(glinkserver_t)
 files_manage_generic_tmp_files(glinkserver_t)

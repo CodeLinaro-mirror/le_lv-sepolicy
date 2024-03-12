@@ -30,93 +30,47 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-######################################
-## <summary>
-##  Map weston lib files.
-## </summary>
-## <param name="domain">
-##  <summary>
-##  Domain allowed.
-##  </summary>
-## </param>
-#
-interface(`weston_map_lib_files',`
-    gen_require(`
-        type weston_lib_t;
-    ')
+policy_module(qti_video-driver, 1.0)
 
-    allow $1 weston_lib_t:file mmap_file_perms;
-')
+type video_driver_t;
+type video_driver_exec_t;
+type video_driver_tmp_t;
 
-########################################
-## <summary>
-##  Read to weston library files.
-## </summary>
-## <param name="domain">
-##  <summary>
-##  Domain allowed access.
-##  </summary>
-## </param>
-#
-interface(`weston_read_lib_files',`
-    gen_require(`
-        type weston_lib_t;
-    ')
+init_daemon_domain(video_driver_t, video_driver_exec_t)
 
-    allow $1 weston_lib_t:file read_file_perms;
-')
+logging_send_syslog_msg(video_driver_t)
 
-######################################
-## <summary>
-##  Send signull to weston_t.
-## </summary>
-## <param name="domain">
-##  <summary>
-##  Domain allowed.
-##  </summary>
-## </param>
-#
-interface(`weston_signull',`
-    gen_require(`
-        type weston_t;
-    ')
+# Todo, unlabeled_t, could remove after setting selinxu context to /data mount
+files_mounton_isid_type_dirs(video_driver_t)
 
-    allow $1 weston_t:process signull;
-')
+# /dev/shm/lrmc_rq_*
+fs_map_tmpfs_files(video_driver_t)
+fs_manage_tmpfs_files(video_driver_t)
 
-######################################
-## <summary>
-##  ptrace to weston_t.
-## </summary>
-## <param name="domain">
-##  <summary>
-##  Domain allowed.
-##  </summary>
-## </param>
-#
-interface(`weston_ptrace',`
-    gen_require(`
-        type weston_t;
-    ')
+dev_rw_scmnode_dev(video_driver_t)
+dev_rw_dma_dev(video_driver_t)
+dev_rw_kiumd_dev(video_driver_t)
+dev_rw_vfio_dev(video_driver_t)
+dev_read_sysfs(video_driver_t)
 
-    allow $1 weston_t:process ptrace;
-')
+qseecomd_search_data(video_driver_t)
 
-######################################
-## <summary>
-##  Check weston related process infomation.
-## </summary>
-## <param name="domain">
-##  <summary>
-##  Domain allowed.
-##  </summary>
-## </param>
-#
-interface(`weston_read_pid',`
-    gen_require(`
-        type weston_t;
-    ')
+hyp_video_read_pid(video_driver_t)
 
-    files_search_pids($1)
-    read_files_pattern($1, weston_t, weston_t)
-')
+# ========== local ==========
+allow video_driver_t self:unix_dgram_socket { create connect getopt setopt };
+allow video_driver_t self:process { setrlimit setsched };
+allow video_driver_t self:capability { sys_resource net_admin sys_nice };
+
+files_tmp_file(video_driver_tmp_t)
+files_tmp_filetrans(video_driver_t, video_driver_tmp_t, { dir fifo_file file lnk_file })
+manage_dirs_pattern(video_driver_t, video_driver_tmp_t, video_driver_tmp_t)
+manage_fifo_files_pattern(video_driver_t, video_driver_tmp_t, video_driver_tmp_t)
+manage_files_pattern(video_driver_t, video_driver_tmp_t, video_driver_tmp_t)
+
+# ========== Todo ==========
+# video-driver related process access the unknown process with unconfined_service_t domain, including
+# its process information in /proc/(pid), not sure which process it is, so allow video_driver_t domain
+# to access this unconfined domain for the moment. Note below rules are unreasonable.
+unconfined_server_ptrace(video_driver_t)
+unconfined_server_read_files(video_driver_t)

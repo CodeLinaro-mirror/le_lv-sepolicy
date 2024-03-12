@@ -32,7 +32,7 @@
 
 ######################################
 ## <summary>
-##  Map weston lib files.
+##  Send signull to display-be related process.
 ## </summary>
 ## <param name="domain">
 ##  <summary>
@@ -40,35 +40,17 @@
 ##  </summary>
 ## </param>
 #
-interface(`weston_map_lib_files',`
+interface(`display_be_signull',`
     gen_require(`
-        type weston_lib_t;
+        type display_be_t;
     ')
 
-    allow $1 weston_lib_t:file mmap_file_perms;
-')
-
-########################################
-## <summary>
-##  Read to weston library files.
-## </summary>
-## <param name="domain">
-##  <summary>
-##  Domain allowed access.
-##  </summary>
-## </param>
-#
-interface(`weston_read_lib_files',`
-    gen_require(`
-        type weston_lib_t;
-    ')
-
-    allow $1 weston_lib_t:file read_file_perms;
+    allow $1 display_be_t:process signull;
 ')
 
 ######################################
 ## <summary>
-##  Send signull to weston_t.
+##  Check display-be related process infomation, such as ps tool.
 ## </summary>
 ## <param name="domain">
 ##  <summary>
@@ -76,47 +58,66 @@ interface(`weston_read_lib_files',`
 ##  </summary>
 ## </param>
 #
-interface(`weston_signull',`
+interface(`display_be_read_pid',`
     gen_require(`
-        type weston_t;
-    ')
-
-    allow $1 weston_t:process signull;
-')
-
-######################################
-## <summary>
-##  ptrace to weston_t.
-## </summary>
-## <param name="domain">
-##  <summary>
-##  Domain allowed.
-##  </summary>
-## </param>
-#
-interface(`weston_ptrace',`
-    gen_require(`
-        type weston_t;
-    ')
-
-    allow $1 weston_t:process ptrace;
-')
-
-######################################
-## <summary>
-##  Check weston related process infomation.
-## </summary>
-## <param name="domain">
-##  <summary>
-##  Domain allowed.
-##  </summary>
-## </param>
-#
-interface(`weston_read_pid',`
-    gen_require(`
-        type weston_t;
+        type display_be_t;
     ')
 
     files_search_pids($1)
-    read_files_pattern($1, weston_t, weston_t)
+    read_files_pattern($1, display_be_t, display_be_t)
+')
+
+######################################
+## <summary>
+##  ptrace to display-be related process.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`display_be_ptrace',`
+    gen_require(`
+        type display_be_t;
+    ')
+
+    allow $1 display_be_t:process ptrace;
+')
+
+
+######################################
+## <summary>
+##  Read, write, and map display-be tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`display_be_mmap_rw_tmpfs_files',`
+    gen_require(`
+        type display_be_tmpfs_t;
+    ')
+
+    mmap_rw_files_pattern($1, display_be_tmpfs_t, display_be_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Delete display-be tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`display_be_delete_tmpfs_files',`
+    gen_require(`
+        type display_be_tmpfs_t;
+    ')
+
+    allow $1 display_be_tmpfs_t:file delete_file_perms;
 ')

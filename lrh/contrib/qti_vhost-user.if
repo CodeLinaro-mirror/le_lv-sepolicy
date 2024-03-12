@@ -101,3 +101,21 @@ interface(`vhost_user_create_vhost_socket',`
     fs_associate_tmpfs($2)
     allow $1 $2:sock_file create;
 ')
+
+########################################
+## <summary>
+##  Connect to vhost_user_qti_t over a unix stream socket.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`vhost_user_stream_connect_vhostu',`
+    gen_require(`
+        type vhost_user_qti_t;
+    ')
+
+    allow $1 vhost_user_qti_t:unix_stream_socket connectto;
+')

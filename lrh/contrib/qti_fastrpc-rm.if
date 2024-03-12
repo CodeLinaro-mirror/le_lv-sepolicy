@@ -1,4 +1,4 @@
-# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -30,16 +30,57 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-policy_module(rh_devices, 1.0)
+######################################
+## <summary>
+##  Send signull to fastrpc-rm related process.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`fastrpc_rm_signull',`
+    gen_require(`
+        type fastrpc_rm_t;
+    ')
 
-type smcinvoke_device_t;
-type gunyah_device_t;
-type kiumd_device_t;
-type scmnode_device_t;
-type hab_device_t;
+    allow $1 fastrpc_rm_t:process signull;
+')
 
-dev_node(smcinvoke_device_t)
-dev_node(gunyah_device_t)
-dev_node(kiumd_device_t)
-dev_node(scmnode_device_t)
-dev_node(hab_device_t)
+######################################
+## <summary>
+##  Check fastrpc-rm related process infomation, such as ps tool.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`fastrpc_rm_read_pid',`
+    gen_require(`
+        type fastrpc_rm_t;
+    ')
+
+    files_search_pids($1)
+    read_files_pattern($1, fastrpc_rm_t, fastrpc_rm_t)
+')
+
+######################################
+## <summary>
+##  ptrace to fastrpc-rm related process.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`fastrpc_rm_ptrace',`
+    gen_require(`
+        type fastrpc_rm_t;
+    ')
+
+    allow $1 fastrpc_rm_t:process ptrace;
+')

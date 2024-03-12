@@ -1,4 +1,4 @@
-# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -30,16 +30,21 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-policy_module(rh_devices, 1.0)
+######################################
+## <summary>
+##  Read sail-mailbox proc infomation.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`sailmb_read_pid',`
+    gen_require(`
+        type sail_mailbox_t;
+    ')
 
-type smcinvoke_device_t;
-type gunyah_device_t;
-type kiumd_device_t;
-type scmnode_device_t;
-type hab_device_t;
-
-dev_node(smcinvoke_device_t)
-dev_node(gunyah_device_t)
-dev_node(kiumd_device_t)
-dev_node(scmnode_device_t)
-dev_node(hab_device_t)
+    files_search_pids($1)
+    read_files_pattern($1, sail_mailbox_t, sail_mailbox_t)
+')

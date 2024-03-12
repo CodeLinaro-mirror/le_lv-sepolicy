@@ -1,4 +1,4 @@
-# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -30,16 +30,44 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-policy_module(rh_devices, 1.0)
+policy_module(qti_adreno200-binaries, 1.0)
 
-type smcinvoke_device_t;
-type gunyah_device_t;
-type kiumd_device_t;
-type scmnode_device_t;
-type hab_device_t;
+type adreno200_t;
+type adreno200_exec_t;
 
-dev_node(smcinvoke_device_t)
-dev_node(gunyah_device_t)
-dev_node(kiumd_device_t)
-dev_node(scmnode_device_t)
-dev_node(hab_device_t)
+init_daemon_domain(adreno200_t, adreno200_exec_t)
+
+logging_send_syslog_msg(adreno200_t)
+fs_map_tmpfs_files(adreno200_t)
+fs_manage_tmpfs_files(adreno200_t)
+files_manage_generic_tmp_files(adreno200_t)
+
+dev_rw_dma_dev(adreno200_t)
+dev_rw_kiumd_dev(adreno200_t)
+dev_rw_vfio_dev(adreno200_t)
+dev_rw_hab_dev(adreno200_t)
+dev_read_sysfs(adreno200_t)
+
+# /var/log/kgsl-(ip).log
+logging_create_generic_logs(adreno200_t)
+logging_read_generic_logs(adreno200_t)
+
+# port 22222
+corenet_tcp_connect_generic_port(adreno200_t)
+corenet_tcp_bind_generic_port(adreno200_t)
+corenet_tcp_bind_generic_node(adreno200_t)
+
+# /etc/hosts
+sysnet_read_config(adreno200_t)
+
+weston_read_pid(adreno200_t)
+weston_ptrace(adreno200_t)
+
+# unconfined process
+unconfined_server_read_files(adreno200_t)
+
+# ========== local ==========
+allow adreno200_t self:unix_dgram_socket { create connect };
+allow adreno200_t self:tcp_socket { create connect setopt read write bind accept listen };
+allow adreno200_t self:process { signull ptrace setrlimit setsched };
+allow adreno200_t self:capability { sys_resource sys_nice };

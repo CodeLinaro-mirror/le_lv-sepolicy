@@ -1,4 +1,4 @@
-# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -30,16 +30,26 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-policy_module(rh_devices, 1.0)
+policy_module(qti_eva-auto, 1.0)
 
-type smcinvoke_device_t;
-type gunyah_device_t;
-type kiumd_device_t;
-type scmnode_device_t;
-type hab_device_t;
+type eva_auto_t;
+type eva_auto_exec_t;
+type eva_auto_tmp_t;
 
-dev_node(smcinvoke_device_t)
-dev_node(gunyah_device_t)
-dev_node(kiumd_device_t)
-dev_node(scmnode_device_t)
-dev_node(hab_device_t)
+init_daemon_domain(eva_auto_t, eva_auto_exec_t)
+
+logging_send_syslog_msg(eva_auto_t)
+fs_map_tmpfs_files(eva_auto_t)
+fs_manage_tmpfs_files(eva_auto_t)
+
+kernel_search_debugfs(eva_auto_t)
+fs_rw_tracefs_files(eva_auto_t)
+
+# ========== local ==========
+allow eva_auto_t self:unix_dgram_socket { create connect };
+allow eva_auto_t self:process { setrlimit setsched };
+allow eva_auto_t self:capability { sys_resource sys_nice };
+
+files_tmp_file(eva_auto_tmp_t)
+files_tmp_filetrans(eva_auto_t, eva_auto_tmp_t, { dir fifo_file file lnk_file })
+manage_files_pattern(eva_auto_t, eva_auto_tmp_t, eva_auto_tmp_t)

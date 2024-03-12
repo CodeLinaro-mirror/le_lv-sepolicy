@@ -1,4 +1,4 @@
-# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -30,16 +30,27 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-policy_module(rh_devices, 1.0)
+policy_module(qti_subsys-ramdump-util, 1.0)
 
-type smcinvoke_device_t;
-type gunyah_device_t;
-type kiumd_device_t;
-type scmnode_device_t;
-type hab_device_t;
+type subsys_ramdump_util_t;
+type subsys_ramdump_util_exec_t;
+type ssrdump_var_t;
 
-dev_node(smcinvoke_device_t)
-dev_node(gunyah_device_t)
-dev_node(kiumd_device_t)
-dev_node(scmnode_device_t)
-dev_node(hab_device_t)
+init_daemon_domain(subsys_ramdump_util_t, subsys_ramdump_util_exec_t)
+
+logging_send_syslog_msg(subsys_ramdump_util_t)
+fs_manage_tmpfs_files(subsys_ramdump_util_t)
+files_manage_generic_tmp_files(subsys_ramdump_util_t)
+
+dev_rw_kiumd_dev(subsys_ramdump_util_t)
+dev_rw_vfio_dev(subsys_ramdump_util_t)
+dev_read_sysfs(subsys_ramdump_util_t)
+
+# ========== local ==========
+allow subsys_ramdump_util_t self:unix_dgram_socket { create connect };
+allow subsys_ramdump_util_t self:process { setrlimit setsched };
+allow subsys_ramdump_util_t self:capability { sys_resource sys_nice };
+
+# /var/ssrdump
+files_var_filetrans(subsys_ramdump_util_t, ssrdump_var_t, dir)
+manage_dirs_pattern(subsys_ramdump_util_t, ssrdump_var_t, ssrdump_var_t)

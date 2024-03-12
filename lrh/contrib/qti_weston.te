@@ -38,15 +38,27 @@ type weston_lib_t;
 
 init_daemon_domain(weston_t, weston_exec_t)
 
-weston_map_lib_files(weston_t)
 logging_send_syslog_msg(weston_t)
 fs_getattr_cgroup(weston_t)
-init_signal(weston_t)
+fs_getattr_xattr_fs(weston_t)
+
+# Todo, unlabeled_t, could remove after setting selinxu context to /data mount
+files_mounton_isid_type_dirs(weston_t)
+
 dbus_send_system_bus(weston_t)
 systemd_dbus_chat_logind(weston_t)
-unconfined_server_ptrace(weston_t)
+
+init_signal(weston_t)
+init_read_state(weston_t)
+
 kernel_read_proc_files(weston_t)
-fs_getattr_xattr_fs(weston_t)
+kernel_search_debugfs(weston_t)
+
+weston_map_lib_files(weston_t)
+
+# may be unconfined interface calling need to refine
+unconfined_server_ptrace(weston_t)
+adreno200_ptrace(weston_t)
 
 # /run/systemd/seats/seat0
 systemd_read_logind_sessions_files(weston_t)

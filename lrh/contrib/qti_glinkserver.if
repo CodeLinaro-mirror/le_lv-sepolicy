@@ -47,3 +47,21 @@ interface(`glinkserver_signull',`
 
     allow $1 glinkserver_t:process signull;
 ')
+
+######################################
+## <summary>
+##  ptrace to glink-service-lrm related process.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`glinkserver_ptrace',`
+    gen_require(`
+        type glinkserver_t;
+    ')
+
+    allow $1 glinkserver_t:process ptrace;
+')

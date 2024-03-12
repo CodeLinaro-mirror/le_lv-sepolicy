@@ -40,6 +40,7 @@ init_daemon_domain(ssr_rm_t, ssr_rm_exec_t)
 logging_create_devlog_dev(ssr_rm_t)
 kernel_dgram_send(ssr_rm_t)
 unconfined_server_signull(ssr_rm_t)
+pil_rm_signull(ssr_rm_t)
 
 # /tmp/lrms_log_*.txt
 files_rw_generic_tmp_dir(ssr_rm_t)
@@ -52,6 +53,9 @@ fs_manage_tmpfs_files(ssr_rm_t)
 fs_map_tmpfs_files(ssr_rm_t)
 
 glinkserver_signull(ssr_rm_t)
+fastrpc_rm_signull(ssr_rm_t)
+diag_service_signull(ssr_rm_t)
+audio_service_signull(ssr_rm_t)
 
 allow ssr_rm_t self:unix_dgram_socket create_socket_perms;
 allow ssr_rm_t self:process { setrlimit setsched };

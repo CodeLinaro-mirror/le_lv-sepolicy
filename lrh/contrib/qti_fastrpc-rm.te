@@ -1,4 +1,4 @@
-# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -30,16 +30,33 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-policy_module(rh_devices, 1.0)
+policy_module(qti_fastrpc-rm, 1.0)
 
-type smcinvoke_device_t;
-type gunyah_device_t;
-type kiumd_device_t;
-type scmnode_device_t;
-type hab_device_t;
+type fastrpc_rm_t;
+type fastrpc_rm_exec_t;
+type fastrpc_rm_tmp_t;
 
-dev_node(smcinvoke_device_t)
-dev_node(gunyah_device_t)
-dev_node(kiumd_device_t)
-dev_node(scmnode_device_t)
-dev_node(hab_device_t)
+init_daemon_domain(fastrpc_rm_t, fastrpc_rm_exec_t)
+
+logging_send_syslog_msg(fastrpc_rm_t)
+fs_map_tmpfs_files(fastrpc_rm_t)
+fs_manage_tmpfs_files(fastrpc_rm_t)
+
+dev_rw_dma_dev(fastrpc_rm_t)
+dev_rw_kiumd_dev(fastrpc_rm_t)
+dev_rw_vfio_dev(fastrpc_rm_t)
+dev_read_sysfs(fastrpc_rm_t)
+
+glinkserver_ptrace(fastrpc_rm_t)
+
+audio_service_signull(fastrpc_rm_t)
+
+# ========== local ==========
+allow fastrpc_rm_t self:unix_dgram_socket { create connect getopt setopt };
+allow fastrpc_rm_t self:capability { sys_resource sys_nice net_admin };
+allow fastrpc_rm_t self:process { setrlimit setsched };
+
+# /tmp/lrmc_log_(pid).txt
+files_tmp_file(fastrpc_rm_tmp_t)
+files_tmp_filetrans(fastrpc_rm_t, fastrpc_rm_tmp_t, { dir file })
+manage_files_pattern(fastrpc_rm_t, fastrpc_rm_tmp_t, fastrpc_rm_tmp_t)

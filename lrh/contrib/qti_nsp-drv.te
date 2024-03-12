@@ -1,4 +1,4 @@
-# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -30,16 +30,19 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-policy_module(rh_devices, 1.0)
+policy_module(qti_nsp-drv, 1.0)
 
-type smcinvoke_device_t;
-type gunyah_device_t;
-type kiumd_device_t;
-type scmnode_device_t;
-type hab_device_t;
+type nsp_drv_t;
+type nsp_drv_exec_t;
 
-dev_node(smcinvoke_device_t)
-dev_node(gunyah_device_t)
-dev_node(kiumd_device_t)
-dev_node(scmnode_device_t)
-dev_node(hab_device_t)
+init_daemon_domain(nsp_drv_t, nsp_drv_exec_t)
+
+logging_send_syslog_msg(nsp_drv_t)
+fs_map_tmpfs_files(nsp_drv_t)
+fs_manage_tmpfs_files(nsp_drv_t)
+files_manage_generic_tmp_files(nsp_drv_t)
+
+## ========== local ==========
+allow nsp_drv_t self:unix_dgram_socket { create connect getopt setopt };
+allow nsp_drv_t self:process { setrlimit };
+allow nsp_drv_t self:capability { sys_resource net_admin };
