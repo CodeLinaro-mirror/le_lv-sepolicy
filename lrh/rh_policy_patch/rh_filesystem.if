@@ -1,4 +1,4 @@
-# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -30,23 +30,22 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-policy_module(rh_unconfined, 1.0)
+## <summary>Policy for SELinux policy and userland applications.</summary>
 
-require {
-    type unconfined_service_t;
-    type unconfined_t;
-}
+##################################
+## <summary>
+##  Map files on tmpfs filesystems.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`fs_map_tmpfs_files',`
+    gen_require(`
+        type tmpfs_t;
+    ')
 
-qseecomd_manage_data(unconfined_service_t)
-qseecomd_setattr_data(unconfined_service_t)
-qseecomd_setattr_persist(unconfined_service_t)
-qseecomd_rw_persist(unconfined_service_t)
-
-# shell domain is unconfined_t instead of unconfined_service_t when login with ssh or serials.
-qseecomd_manage_data(unconfined_t)
-qseecomd_setattr_data(unconfined_t)
-qseecomd_setattr_persist(unconfined_t)
-qseecomd_rw_persist(unconfined_t)
-
-vhost_user_write_vhost_socket(unconfined_service_t)
-vhost_user_write_vhost_socket(unconfined_t)
+    allow $1 tmpfs_t:file map;
+')

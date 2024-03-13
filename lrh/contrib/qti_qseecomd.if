@@ -71,6 +71,7 @@ interface(`qseecomd_relabel_data',`
 
     # restorecon /data
     allow $1 qseecomd_data_t:dir { relabelto_dir_perms read open search };
+    allow $1 qseecomd_data_t:file { getattr };
     allow qseecomd_data_t fs_t:filesystem { associate };
 ')
 
