@@ -37,17 +37,23 @@ type bridgeship_server_exec_t;
 type openwfd_server_t;
 type openwfd_server_exec_t;
 type openwfd_lib_t;
+type openwfd_tmp_t;
+type openwfd_tmpfs_t;
 
 init_daemon_domain(bridgeship_server_t, bridgeship_server_exec_t)
 init_daemon_domain(openwfd_server_t, openwfd_server_exec_t)
 
+files_tmp_file(openwfd_tmp_t)
+files_tmpfs_file(openwfd_tmpfs_t)
+
 #============ bridgeship_server_t ===========
 logging_send_syslog_msg(bridgeship_server_t)
-fs_manage_tmpfs_files(bridgeship_server_t)
 
 # /tmp/lrms_log_*.txt
-files_rw_generic_tmp_dir(bridgeship_server_t)
-files_manage_generic_tmp_files(bridgeship_server_t)
+files_tmp_filetrans(bridgeship_server_t, openwfd_tmp_t, { dir file })
+fs_tmpfs_filetrans(bridgeship_server_t, openwfd_tmpfs_t, { dir file })
+manage_files_pattern(bridgeship_server_t, openwfd_tmp_t, openwfd_tmp_t)
+manage_files_pattern(bridgeship_server_t, openwfd_tmpfs_t, openwfd_tmpfs_t)
 
 allow bridgeship_server_t self:unix_dgram_socket { create connect write getopt setopt };
 allow bridgeship_server_t self:process { setrlimit setsched };
@@ -55,16 +61,19 @@ allow bridgeship_server_t self:capability { sys_resource sys_nice net_admin };
 
 #============ openwfd_server_t ===========
 logging_send_syslog_msg(openwfd_server_t)
-fs_manage_tmpfs_files(openwfd_server_t)
+
+userdom_rw_user_tmp_files(openwfd_server_t)
+userdom_delete_user_tmp_files(openwfd_server_t)
+userdom_map_tmp_files(openwfd_server_t)
 
 dev_rw_kiumd_dev(openwfd_server_t)
 dev_rw_vfio_dev(openwfd_server_t)
 dev_rw_gpio_dev(openwfd_server_t)
-files_rw_generic_tmp_dir(openwfd_server_t)
-files_manage_generic_tmp_files(openwfd_server_t)
 
 unconfined_server_signull(openwfd_server_t)
 unconfined_server_ptrace(openwfd_server_t)
+unconfined_signull(openwfd_server_t)
+unconfined_ptrace(openwfd_server_t)
 weston_signull(openwfd_server_t)
 weston_ptrace(openwfd_server_t)
 
@@ -74,11 +83,20 @@ display_be_ptrace(openwfd_server_t)
 display_be_mmap_rw_tmpfs_files(openwfd_server_t)
 display_be_delete_tmpfs_files(openwfd_server_t)
 
+owfds_create_tmpfs_files(openwfd_server_t)
+owfds_rw_tmpfs_files(openwfd_server_t)
+weston_mmap_rw_tmpfs_files(openwfd_server_t)
+
+weston_delete_tmpfs_files(openwfd_server_t)
+
 # /sys/devices/soc0/soc_id
 dev_read_sysfs(openwfd_server_t)
 
 # /dev/shm/lrmc_rq_*
+# Todo, not clear which domain create tmpfs_t objects which audio-service access,
+# so file transition rules can't work, use below two interface for the moment
 fs_map_tmpfs_files(openwfd_server_t)
+fs_rw_tmpfs_files(openwfd_server_t)
 
 # /dev/i2c-18
 term_use_unallocated_ttys(openwfd_server_t)
@@ -86,3 +104,9 @@ term_use_unallocated_ttys(openwfd_server_t)
 allow openwfd_server_t self:unix_dgram_socket { create connect getopt setopt };
 allow openwfd_server_t self:process { setrlimit setsched };
 allow openwfd_server_t self:capability { sys_resource sys_nice net_admin };
+
+files_tmp_filetrans(openwfd_server_t, openwfd_tmp_t, { dir file })
+manage_files_pattern(openwfd_server_t, openwfd_tmp_t, openwfd_tmp_t)
+
+fs_tmpfs_filetrans(openwfd_server_t, openwfd_tmpfs_t, { dir file })
+manage_files_pattern(openwfd_server_t, openwfd_tmpfs_t, openwfd_tmpfs_t)

@@ -35,12 +35,19 @@ policy_module(qti_safetymonitor, 1.0)
 type safetymonitor_t;
 type safetymonitor_exec_t;
 type safetymonitor_tmp_t;
+type safetymonitor_tmpfs_t;
 
 init_daemon_domain(safetymonitor_t, safetymonitor_exec_t)
 
 logging_send_syslog_msg(safetymonitor_t)
+
+userdom_rw_user_tmp_files(safetymonitor_t)
+userdom_map_tmp_files(safetymonitor_t)
+
+# Todo, not clear which domain create tmpfs_t objects which safetymonitor access,
+# so file transition rules can't work, use below two interface for the moment
 fs_map_tmpfs_files(safetymonitor_t)
-fs_manage_tmpfs_files(safetymonitor_t)
+fs_rw_tmpfs_files(safetymonitor_t)
 
 dev_rw_kiumd_dev(safetymonitor_t)
 dev_rw_vfio_dev(safetymonitor_t)
@@ -50,6 +57,9 @@ syscache_rm_signull(safetymonitor_t)
 eva_auto_signull(safetymonitor_t)
 unconfined_server_signull(safetymonitor_t)
 
+evauto_mmap_rw_tmpfs_files(safetymonitor_t)
+syscacherm_mmap_rw_tmpfs_files(safetymonitor_t)
+
 # ========== local ==========
 allow safetymonitor_t self:unix_dgram_socket { create connect };
 allow safetymonitor_t self:process { setrlimit setsched };
@@ -58,3 +68,7 @@ allow safetymonitor_t self:capability { sys_resource sys_nice };
 files_tmp_file(safetymonitor_tmp_t)
 files_tmp_filetrans(safetymonitor_t, safetymonitor_tmp_t, { dir fifo_file file lnk_file })
 manage_files_pattern(safetymonitor_t, safetymonitor_tmp_t, safetymonitor_tmp_t)
+
+files_tmpfs_file(safetymonitor_tmpfs_t)
+fs_tmpfs_filetrans(safetymonitor_t, safetymonitor_tmpfs_t, { dir file })
+manage_files_pattern(safetymonitor_t, safetymonitor_tmpfs_t, safetymonitor_tmpfs_t)

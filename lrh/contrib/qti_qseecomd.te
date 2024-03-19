@@ -64,7 +64,7 @@ files_list_mnt(qseecomd_t)
 
 # local
 allow qseecomd_t self:unix_dgram_socket { create connect };
-allow qseecomd_t self:capability { setgid setpcap setuid dac_override sys_rawio };
+allow qseecomd_t self:capability { setgid setpcap setuid dac_override sys_rawio dac_read_search };
 allow qseecomd_t self:process { setcap };
 
 # search root directory
@@ -85,11 +85,10 @@ qseecomd_manage_persist(qseecomd_t)
 kernel_read_proc_files(qseecomd_t)
 
 # rw /dev/dma_heap/linux,cma
-dev_rw_generic_dma_dev(qseecomd_t)
+dev_rw_dma_dev(qseecomd_t)
 
 # /dev/smcinvoke
-#dev_filetrans_qti_named_dev(qseecomd_t)
-dev_rw_smcinvoke(qseecomd_t)
+dev_rw_smcinvoke_dev(qseecomd_t)
 
 # search unlabeled_t type on /data
 files_mounton_isid_type_dirs(qseecomd_t)

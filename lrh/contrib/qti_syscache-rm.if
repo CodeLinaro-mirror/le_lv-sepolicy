@@ -66,3 +66,21 @@ interface(`syscache_rm_signull',`
 
     allow $1 syscache_rm_t:process signull;
 ')
+
+######################################
+## <summary>
+##  Map, read and write syscache-rm tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`syscacherm_mmap_rw_tmpfs_files',`
+    gen_require(`
+        type syscache_rm_tmpfs_t;
+    ')
+
+    mmap_rw_files_pattern($1, syscache_rm_tmpfs_t, syscache_rm_tmpfs_t)
+')

@@ -39,13 +39,11 @@ type display_be_tmpfs_t;
 
 init_daemon_domain(display_be_t, display_be_exec_t)
 
-# tmpfs_t not filetrans
-fs_manage_tmpfs_files(display_be_t)
-
 dev_rw_dma_dev(display_be_t)
 dev_rw_hab_dev(display_be_t)
 
 owfds_map_lib_files(display_be_t)
+owfds_rw_tmpfs_files(display_be_t)
 
 # ========== local ==========
 allow display_be_t self:unix_dgram_socket { create connect };

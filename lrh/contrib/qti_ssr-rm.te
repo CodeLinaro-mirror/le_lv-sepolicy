@@ -34,28 +34,39 @@ policy_module(qti_ssr-rm, 1.0)
 
 type ssr_rm_t;
 type ssr_rm_exec_t;
+type ssr_rm_tmp_t;
+type ssr_rm_tmpfs_t;
 
 init_daemon_domain(ssr_rm_t, ssr_rm_exec_t)
 
 logging_create_devlog_dev(ssr_rm_t)
 kernel_dgram_send(ssr_rm_t)
+
 unconfined_server_signull(ssr_rm_t)
-pil_rm_signull(ssr_rm_t)
-
-# /tmp/lrms_log_*.txt
-files_rw_generic_tmp_dir(ssr_rm_t)
-files_manage_generic_tmp_files(ssr_rm_t)
-
-# /ssr-lrm
-fs_manage_tmpfs_files(ssr_rm_t)
-
-# Map /dev/shm/lrmc_rq_
-fs_map_tmpfs_files(ssr_rm_t)
 
 glinkserver_signull(ssr_rm_t)
 fastrpc_rm_signull(ssr_rm_t)
 diag_service_signull(ssr_rm_t)
 audio_service_signull(ssr_rm_t)
+pil_rm_signull(ssr_rm_t)
+
+glinkserver_mmap_rw_tmpfs_files(ssr_rm_t)
+fastrpc_rm_mmap_rw_tmpfs_files(ssr_rm_t)
+diagservice_mmap_rw_tmpfs_files(ssr_rm_t)
+pilrm_mmap_rw_tmpfs_files(ssr_rm_t)
+audioservice_mmap_rw_tmpfs_files(ssr_rm_t)
+
+# /tmp/lrms_log_*.txt
+files_tmp_file(ssr_rm_tmp_t)
+files_tmp_filetrans(ssr_rm_t, ssr_rm_tmp_t, { dir file })
+manage_files_pattern(ssr_rm_t, ssr_rm_tmp_t, ssr_rm_tmp_t)
+
+# /ssr-lrm
+# Map /dev/shm/lrmc_rq_
+files_tmpfs_file(ssr_rm_tmpfs_t)
+fs_tmpfs_filetrans(ssr_rm_t, ssr_rm_tmpfs_t, { dir file })
+ssrrm_create_tmpfs_files(ssr_rm_t)
+ssrrm_rw_tmpfs_files(ssr_rm_t)
 
 allow ssr_rm_t self:unix_dgram_socket create_socket_perms;
 allow ssr_rm_t self:process { setrlimit setsched };

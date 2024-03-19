@@ -30,42 +30,38 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-policy_module(qti_subsys-ramdump-util, 1.0)
+######################################
+## <summary>
+##  create files under tmpfs filesystem for vmm.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`vmm_create_tmpfs_files',`
+    gen_require(`
+        type vmm_tmpfs_t;
+    ')
 
-type subsys_ramdump_util_t;
-type subsys_ramdump_util_exec_t;
-type ssrdump_var_t;
-type ssrdump_tmp_t;
-type ssrdump_tmpfs_t;
+    create_files_pattern($1, vmm_tmpfs_t, vmm_tmpfs_t)
+')
 
-init_daemon_domain(subsys_ramdump_util_t, subsys_ramdump_util_exec_t)
+######################################
+## <summary>
+##  Map, read and write vmm tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`vmm_mmap_rw_tmpfs_files',`
+    gen_require(`
+        type vmm_tmpfs_t;
+    ')
 
-logging_send_syslog_msg(subsys_ramdump_util_t)
-
-# Seems checkDiskSpace function in subsys-ramdump-util_main binary
-# trigger this fs associate related permission
-fs_associate(ssrdump_var_t)
-
-dev_rw_kiumd_dev(subsys_ramdump_util_t)
-dev_rw_vfio_dev(subsys_ramdump_util_t)
-dev_read_sysfs(subsys_ramdump_util_t)
-
-# ========== local ==========
-allow subsys_ramdump_util_t self:unix_dgram_socket { create connect };
-allow subsys_ramdump_util_t self:process { setrlimit setsched };
-allow subsys_ramdump_util_t self:capability { sys_resource sys_nice };
-
-# /var/ssrdump
-files_var_filetrans(subsys_ramdump_util_t, ssrdump_var_t, dir)
-manage_dirs_pattern(subsys_ramdump_util_t, ssrdump_var_t, ssrdump_var_t)
-files_poly(ssrdump_var_t)
-
-files_tmp_file(ssrdump_tmp_t)
-files_tmp_filetrans(subsys_ramdump_util_t, ssrdump_tmp_t, { dir file })
-create_files_pattern(subsys_ramdump_util_t, ssrdump_tmp_t, ssrdump_tmp_t)
-manage_files_pattern(subsys_ramdump_util_t, ssrdump_tmp_t, ssrdump_tmp_t)
-
-files_tmpfs_file(ssrdump_tmpfs_t)
-fs_tmpfs_filetrans(subsys_ramdump_util_t, ssrdump_tmpfs_t, { dir file })
-create_files_pattern(subsys_ramdump_util_t, ssrdump_tmpfs_t, ssrdump_tmpfs_t)
-manage_files_pattern(subsys_ramdump_util_t, ssrdump_tmpfs_t, ssrdump_tmpfs_t)
+    mmap_rw_files_pattern($1, vmm_tmpfs_t, vmm_tmpfs_t)
+')

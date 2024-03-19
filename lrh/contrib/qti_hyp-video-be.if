@@ -84,3 +84,21 @@ interface(`hyp_video_ptrace',`
 
     allow $1 hyp_video_t:process ptrace;
 ')
+
+######################################
+## <summary>
+##  Read and write hyp-video-be tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`hypvb_rw_tmpfs_files',`
+    gen_require(`
+        type hyp_video_tmpfs_t;
+    ')
+
+    rw_files_pattern($1, hyp_video_tmpfs_t, hyp_video_tmpfs_t)
+')

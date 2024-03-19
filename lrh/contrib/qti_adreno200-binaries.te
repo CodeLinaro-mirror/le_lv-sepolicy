@@ -34,13 +34,14 @@ policy_module(qti_adreno200-binaries, 1.0)
 
 type adreno200_t;
 type adreno200_exec_t;
+type adreno200_tmp_t;
+type adreno200_tmpfs_t;
 
 init_daemon_domain(adreno200_t, adreno200_exec_t)
 
 logging_send_syslog_msg(adreno200_t)
-fs_map_tmpfs_files(adreno200_t)
-fs_manage_tmpfs_files(adreno200_t)
-files_manage_generic_tmp_files(adreno200_t)
+
+pilrm_rw_tmpfs_files(adreno200_t)
 
 dev_rw_dma_dev(adreno200_t)
 dev_rw_kiumd_dev(adreno200_t)
@@ -65,6 +66,17 @@ weston_ptrace(adreno200_t)
 
 # unconfined process
 unconfined_server_read_files(adreno200_t)
+
+unconfined_server_ptrace(adreno200_t)
+
+files_tmp_file(adreno200_tmp_t)
+files_tmp_filetrans(adreno200_t, adreno200_tmp_t, { dir file })
+manage_files_pattern(adreno200_t, adreno200_tmp_t, adreno200_tmp_t)
+
+files_tmpfs_file(adreno200_tmpfs_t)
+fs_tmpfs_filetrans(adreno200_t, adreno200_tmpfs_t, { dir file })
+create_files_pattern(adreno200_t, adreno200_tmpfs_t, adreno200_tmpfs_t)
+adreno200_mmap_rw_tmpfs_files(adreno200_t)
 
 # ========== local ==========
 allow adreno200_t self:unix_dgram_socket { create connect };

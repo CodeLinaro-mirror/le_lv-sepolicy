@@ -34,6 +34,8 @@ policy_module(qti_vmm, 1.0)
 
 type vmm_t;
 type vmm_exec_t;
+type vmm_tmp_t;
+type vmm_tmpfs_t;
 
 init_daemon_domain(vmm_t, vmm_exec_t)
 
@@ -53,13 +55,17 @@ dev_rw_input_dev(vmm_t)
 # /dev/gunyah
 dev_rw_gunyah_dev(vmm_t)
 
-# map /dev/shm/lrmc_rq_777_1
-fs_map_tmpfs_files(vmm_t)
-fs_manage_tmpfs_files(vmm_t)
-
 # /tmp/lrms_log_*.txt
-files_rw_generic_tmp_dir(vmm_t)
-files_manage_generic_tmp_files(vmm_t)
+files_tmp_file(vmm_tmp_t)
+files_tmp_filetrans(vmm_t, vmm_tmp_t, { dir file })
+manage_files_pattern(vmm_t, vmm_tmp_t, vmm_tmp_t)
+mmap_read_files_pattern(vmm_t, vmm_tmp_t, vmm_tmp_t)
+
+# map /dev/shm/lrmc_rq_777_1
+files_tmpfs_file(vmm_tmpfs_t)
+fs_tmpfs_filetrans(vmm_t, vmm_tmpfs_t, { dir file })
+vmm_create_tmpfs_files(vmm_t)
+vmm_mmap_rw_tmpfs_files(vmm_t)
 
 allow vmm_t self:unix_dgram_socket { create connect };
 allow vmm_t self:capability { sys_resource sys_nice net_admin };

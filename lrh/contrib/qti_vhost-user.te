@@ -36,14 +36,14 @@ type vhost_user_qti_t;
 type vhost_user_qti_exec_t;
 type vhost_user_device_t;
 type vhost_user_tmp_t;
+type vhost_user_tmpfs_t;
 
 init_daemon_domain(vhost_user_qti_t, vhost_user_qti_exec_t)
 
 dev_node(vhost_user_device_t)
 
 vhost_user_rw_vhost_dev(vhost_user_qti_t)
-
-files_rw_generic_tmp_dir(vhost_user_qti_t)
+vhost_user_delete_vhost_dev(vhost_user_qti_t)
 
 vhost_user_create_vhost_socket(vhost_user_qti_t, vhost_user_tmp_t, "linux-vm2-aud-skt")
 vhost_user_create_vhost_socket(vhost_user_qti_t, vhost_user_tmp_t, "linux-vm2-cam-skt")

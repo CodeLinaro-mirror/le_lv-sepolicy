@@ -51,5 +51,7 @@ qseecomd_rw_persist(unconfined_t)
 vhost_user_write_vhost_socket(unconfined_service_t)
 vhost_user_write_vhost_socket(unconfined_t)
 
-# Todo, currently VirtIOGPU2DBack run under unconfine_service_t domain.
 owfds_map_lib_files(unconfined_service_t)
+owfds_map_lib_files(unconfined_t)
+owfds_read_lib_files(unconfined_service_t)
+owfds_read_lib_files(unconfined_t)

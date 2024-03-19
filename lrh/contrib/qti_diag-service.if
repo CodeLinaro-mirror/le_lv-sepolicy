@@ -84,3 +84,57 @@ interface(`diag_service_ptrace',`
 
     allow $1 diag_service_t:process ptrace;
 ')
+
+######################################
+## <summary>
+##  create files under tmpfs filesystem for diag-service.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`diagservice_create_tmpfs_files',`
+    gen_require(`
+        type diag_service_tmpfs_t;
+    ')
+
+    create_files_pattern($1, diag_service_tmpfs_t, diag_service_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Map, read and write diag-service tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`diagservice_mmap_rw_tmpfs_files',`
+    gen_require(`
+        type diag_service_tmpfs_t;
+    ')
+
+    mmap_rw_files_pattern($1, diag_service_tmpfs_t, diag_service_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Read and write diagservice-service tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`diagservice_rw_tmpfs_files',`
+    gen_require(`
+        type diag_service_tmpfs_t;
+    ')
+
+    rw_files_pattern($1, diag_service_tmpfs_t, diag_service_tmpfs_t)
+')

@@ -34,11 +34,12 @@ policy_module(qti_glinkserver, 1.0)
 
 type glinkserver_t;
 type glinkserver_exec_t;
+type glinkserver_tmp_t;
+type glinkserver_tmpfs_t;
 
 init_daemon_domain(glinkserver_t, glinkserver_exec_t)
 
 logging_send_syslog_msg(glinkserver_t)
-fs_manage_tmpfs_files(glinkserver_t)
 unconfined_server_signull(glinkserver_t)
 dev_read_sysfs(glinkserver_t)
 
@@ -46,21 +47,30 @@ fastrpc_rm_signull(glinkserver_t)
 diag_service_signull(glinkserver_t)
 audio_service_signull(glinkserver_t)
 
-# /tmp/lrms_log_*.txt
-files_rw_generic_tmp_dir(glinkserver_t)
-files_manage_generic_tmp_files(glinkserver_t)
-
-# /dev/shm/lrmc_rq_*
-fs_map_tmpfs_files(glinkserver_t)
+ssrrm_rw_tmpfs_files(glinkserver_t)
+fastrpc_rm_mmap_rw_tmpfs_files(glinkserver_t)
+diagservice_mmap_rw_tmpfs_files(glinkserver_t)
+audioservice_mmap_rw_tmpfs_files(glinkserver_t)
 
 # /dev/dma_heap/system
-dev_rw_generic_dma_dev(glinkserver_t)
+dev_rw_dma_dev(glinkserver_t)
 
 # /dev/kiumd
 dev_rw_kiumd_dev(glinkserver_t)
 
 # /dev/vfio/vfio
 dev_rw_vfio_dev(glinkserver_t)
+
+# /tmp/lrms_log_*.txt
+files_tmp_file(glinkserver_tmp_t)
+files_tmp_filetrans(glinkserver_t, glinkserver_tmp_t, { dir file })
+manage_files_pattern(glinkserver_t, glinkserver_tmp_t, glinkserver_tmp_t)
+
+# /dev/shm/lrmc_rq_*
+files_tmpfs_file(glinkserver_tmpfs_t)
+fs_tmpfs_filetrans(glinkserver_t, glinkserver_tmpfs_t, { dir file })
+glinkserver_create_tmpfs_files(glinkserver_t)
+glinkserver_mmap_rw_tmpfs_files(glinkserver_t)
 
 allow glinkserver_t self:unix_dgram_socket { create connect write getopt setopt };
 allow glinkserver_t self:process { setrlimit signull setsched };

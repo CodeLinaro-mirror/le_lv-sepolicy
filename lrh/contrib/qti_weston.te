@@ -35,6 +35,8 @@ policy_module(qti_weston, 1.0)
 type weston_t;
 type weston_exec_t;
 type weston_lib_t;
+type weston_tmp_t;
+type weston_tmpfs_t;
 
 init_daemon_domain(weston_t, weston_exec_t)
 
@@ -71,7 +73,7 @@ dbus_write_pid_sock_files(weston_t)
 dev_read_sysfs(weston_t)
 
 # /tmp/weston.log
-files_manage_generic_tmp_files(weston_t)
+# files_manage_generic_tmp_files(weston_t)
 
 # /var/log/weston-*.log
 logging_create_generic_logs(weston_t)
@@ -84,7 +86,7 @@ corenet_tcp_connect_generic_port(weston_t)
 owfds_map_lib_files(weston_t)
 
 # /dev/dma_heap/system
-dev_rw_generic_dma_dev(weston_t)
+dev_rw_dma_dev(weston_t)
 
 # /dev/kiumd
 dev_rw_kiumd_dev(weston_t)
@@ -95,21 +97,35 @@ dev_rw_input_dev(weston_t)
 # /etc/hosts
 sysnet_read_config(weston_t)
 
-# /dev/shm/lrmc_rq_*
-fs_map_tmpfs_files(weston_t)
-fs_manage_tmpfs_files(weston_t)
-
 # /data/misc
 qseecomd_search_data(weston_t)
 
 # /run/user/0/wayland-0
-userdom_manage_user_tmp_dirs(weston_t)
-userdom_manage_user_tmp_files(weston_t)
-userdom_create_user_tmp_sockets(weston_t)
-userdom_manage_tmp_sockets(weston_t)
+# userdom_manage_user_tmp_dirs(weston_t)
+# userdom_manage_user_tmp_files(weston_t)
+# userdom_create_user_tmp_sockets(weston_t)
+# userdom_manage_tmp_sockets(weston_t)
 
 # /run/udev/data
 udev_read_pid_files(weston_t)
+
+owfds_rw_tmpfs_files(weston_t)
+
+files_tmp_file(weston_tmp_t)
+files_tmp_filetrans(weston_t, weston_tmp_t, { dir file })
+manage_files_pattern(weston_t, weston_tmp_t, weston_tmp_t)
+
+# /dev/shm/lrmc_rq_*
+files_tmpfs_file(weston_tmpfs_t)
+fs_tmpfs_filetrans(weston_t, weston_tmpfs_t, { dir file })
+create_files_pattern(weston_t, weston_tmpfs_t, weston_tmpfs_t)
+weston_mmap_rw_tmpfs_files(weston_t)
+
+userdom_user_tmp_filetrans(weston_t, weston_tmpfs_t, { dir file sock_file })
+create_files_pattern(weston_t, weston_tmpfs_t, weston_tmpfs_t)
+rw_files_pattern(weston_t, weston_tmpfs_t, weston_tmpfs_t)
+manage_sock_files_pattern(weston_t, weston_tmpfs_t, weston_tmpfs_t)
+userdom_manage_tmp_sockets(weston_t)
 
 allow weston_t self:unix_dgram_socket { create connect };
 allow weston_t self:tcp_socket create_socket_perms;

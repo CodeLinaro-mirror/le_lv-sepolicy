@@ -66,3 +66,21 @@ interface(`eva_auto_signull',`
 
     allow $1 eva_auto_t:process signull;
 ')
+
+######################################
+## <summary>
+##  Map, read and write eva-auto tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`evauto_mmap_rw_tmpfs_files',`
+    gen_require(`
+        type eva_auto_tmpfs_t;
+    ')
+
+    mmap_rw_files_pattern($1, eva_auto_tmpfs_t, eva_auto_tmpfs_t)
+')

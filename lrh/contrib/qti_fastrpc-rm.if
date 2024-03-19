@@ -84,3 +84,57 @@ interface(`fastrpc_rm_ptrace',`
 
     allow $1 fastrpc_rm_t:process ptrace;
 ')
+
+######################################
+## <summary>
+##  create files under tmpfs filesystem for fastrpc-rm.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`fastrpc_rm_create_tmpfs_files',`
+    gen_require(`
+        type fastrpc_rm_tmpfs_t;
+    ')
+
+    create_files_pattern($1, fastrpc_rm_tmpfs_t, fastrpc_rm_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Map, read and write fastrpc-rm tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`fastrpc_rm_mmap_rw_tmpfs_files',`
+    gen_require(`
+        type fastrpc_rm_tmpfs_t;
+    ')
+
+    mmap_rw_files_pattern($1, fastrpc_rm_tmpfs_t, fastrpc_rm_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Read and write fastrpc-rm tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`fastrpc_rm_rw_tmpfs_files',`
+    gen_require(`
+        type fastrpc_rm_tmpfs_t;
+    ')
+
+    rw_files_pattern($1, fastrpc_rm_tmpfs_t, fastrpc_rm_tmpfs_t)
+')

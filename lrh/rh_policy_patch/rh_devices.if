@@ -32,43 +32,6 @@
 
 ## <summary>Policy for SELinux policy and userland applications.</summary>
 
-######################################
-## <summary>
-##  Read and write generic the dma devices.
-## </summary>
-## <param name="domain">
-##  <summary>
-##  Domain allowed.
-##  </summary>
-## </param>
-#
-interface(`dev_rw_generic_dma_dev',`
-    gen_require(`
-        type device_t, dma_device_t;
-    ')
-
-    rw_chr_files_pattern($1, device_t, dma_device_t)
-')
-
-########################################
-## <summary>
-##  Create all named devices with the correct label,
-##  this interface imitates from dev_filetrans_all_named_dev of oss policy
-## </summary>
-## <param name="domain">
-##  <summary>
-##      Domain allowed access.
-##  </summary>
-## </param>
-#
-interface(`dev_filetrans_qti_named_dev',`
-    gen_require(`
-        type device_t;
-        type smcinvoke_device_t;
-    ')
-    filetrans_pattern($1, device_t, smcinvoke_device_t, chr_file, "smcinvoke")
-')
-
 ########################################
 ## <summary>
 ##  Read and write smcinvoke
@@ -79,7 +42,7 @@ interface(`dev_filetrans_qti_named_dev',`
 ##  </summary>
 ## </param>
 #
-interface(`dev_rw_smcinvoke',`
+interface(`dev_rw_smcinvoke_dev',`
     gen_require(`
         type smcinvoke_device_t;
     ')

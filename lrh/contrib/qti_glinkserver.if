@@ -65,3 +65,57 @@ interface(`glinkserver_ptrace',`
 
     allow $1 glinkserver_t:process ptrace;
 ')
+
+######################################
+## <summary>
+##  create files under tmpfs filesystem for glink-service-lrm.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`glinkserver_create_tmpfs_files',`
+    gen_require(`
+        type glinkserver_tmpfs_t;
+    ')
+
+    create_files_pattern($1, glinkserver_tmpfs_t, glinkserver_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Map, read and write glink-service-lrm tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`glinkserver_mmap_rw_tmpfs_files',`
+    gen_require(`
+        type glinkserver_tmpfs_t;
+    ')
+
+    mmap_rw_files_pattern($1, glinkserver_tmpfs_t, glinkserver_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Read and write glink-service-lrm tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`glinkserver_rw_tmpfs_files',`
+    gen_require(`
+        type glinkserver_tmpfs_t;
+    ')
+
+    rw_files_pattern($1, glinkserver_tmpfs_t, glinkserver_tmpfs_t)
+')

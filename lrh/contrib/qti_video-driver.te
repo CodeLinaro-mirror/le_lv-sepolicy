@@ -35,17 +35,29 @@ policy_module(qti_video-driver, 1.0)
 type video_driver_t;
 type video_driver_exec_t;
 type video_driver_tmp_t;
+type video_driver_tmpfs_t;
 
 init_daemon_domain(video_driver_t, video_driver_exec_t)
 
 logging_send_syslog_msg(video_driver_t)
 
+kernel_read_state(video_driver_t)
+
+userdom_rw_user_tmp_files(video_driver_t)
+userdom_map_tmp_files(video_driver_t)
+
+# mmosal_logmask.cfg
+kernel_read_unlabeled_state(video_driver_t)
+
+# Todo, not clear which domain create tmpfs_t objects which safetymonitor access,
+# so file transition rules can't work, use below two interface for the moment
+fs_rw_tmpfs_files(video_driver_t)
+
 # Todo, unlabeled_t, could remove after setting selinxu context to /data mount
 files_mounton_isid_type_dirs(video_driver_t)
 
 # /dev/shm/lrmc_rq_*
-fs_map_tmpfs_files(video_driver_t)
-fs_manage_tmpfs_files(video_driver_t)
+pilrm_rw_tmpfs_files(video_driver_t)
 
 dev_rw_scmnode_dev(video_driver_t)
 dev_rw_dma_dev(video_driver_t)
@@ -57,6 +69,8 @@ qseecomd_search_data(video_driver_t)
 
 hyp_video_read_pid(video_driver_t)
 
+hypvb_rw_tmpfs_files(video_driver_t)
+
 # ========== local ==========
 allow video_driver_t self:unix_dgram_socket { create connect getopt setopt };
 allow video_driver_t self:process { setrlimit setsched };
@@ -64,9 +78,14 @@ allow video_driver_t self:capability { sys_resource net_admin sys_nice };
 
 files_tmp_file(video_driver_tmp_t)
 files_tmp_filetrans(video_driver_t, video_driver_tmp_t, { dir fifo_file file lnk_file })
-manage_dirs_pattern(video_driver_t, video_driver_tmp_t, video_driver_tmp_t)
-manage_fifo_files_pattern(video_driver_t, video_driver_tmp_t, video_driver_tmp_t)
+create_dirs_pattern(video_driver_t, video_driver_tmp_t, video_driver_tmp_t)
 manage_files_pattern(video_driver_t, video_driver_tmp_t, video_driver_tmp_t)
+manage_fifo_files_pattern(video_driver_t, video_driver_tmp_t, video_driver_tmp_t)
+
+files_tmpfs_file(video_driver_tmpfs_t)
+fs_tmpfs_filetrans(video_driver_t, video_driver_tmpfs_t, { dir file })
+create_files_pattern(video_driver_t, video_driver_tmpfs_t, video_driver_tmpfs_t)
+videodriver_mmap_rw_tmpfs_files(video_driver_t)
 
 # ========== Todo ==========
 # video-driver related process access the unknown process with unconfined_service_t domain, including

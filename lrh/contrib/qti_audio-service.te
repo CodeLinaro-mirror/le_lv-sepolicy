@@ -35,13 +35,20 @@ policy_module(qti_audio-service, 1.0)
 type audio_service_t;
 type audio_service_exec_t;
 type audio_service_tmp_t;
+type audio_service_tmpfs_t;
 type audio_etc_t;
 
 init_daemon_domain(audio_service_t, audio_service_exec_t)
 
 logging_send_syslog_msg(audio_service_t)
+
+# Todo, not clear which domain create tmpfs_t objects which audio-service access,
+# so file transition rules can't work, use below two interface for the moment
 fs_map_tmpfs_files(audio_service_t)
-fs_manage_tmpfs_files(audio_service_t)
+fs_rw_tmpfs_files(audio_service_t)
+
+userdom_rw_user_tmp_files(audio_service_t)
+userdom_map_tmp_files(audio_service_t)
 
 dev_rw_dma_dev(audio_service_t)
 dev_rw_kiumd_dev(audio_service_t)
@@ -60,6 +67,12 @@ glinkserver_ptrace(audio_service_t)
 
 unconfined_server_signull(audio_service_t)
 
+ssrrm_rw_tmpfs_files(audio_service_t)
+glinkserver_rw_tmpfs_files(audio_service_t)
+fastrpc_rm_rw_tmpfs_files(audio_service_t)
+diagservice_rw_tmpfs_files(audio_service_t)
+pilrm_rw_tmpfs_files(audio_service_t)
+
 # ========== local ==========
 allow audio_service_t self:unix_dgram_socket { create connect getopt setopt };
 allow audio_service_t self:process { setrlimit setsched };
@@ -69,6 +82,11 @@ allow audio_service_t self:capability { sys_resource sys_nice net_admin };
 files_tmp_file(audio_service_tmp_t)
 files_tmp_filetrans(audio_service_t, audio_service_tmp_t, { dir fifo_file file lnk_file })
 manage_files_pattern(audio_service_t, audio_service_tmp_t, audio_service_tmp_t)
+
+files_tmpfs_file(audio_service_tmpfs_t)
+fs_tmpfs_filetrans(audio_service_t, audio_service_tmpfs_t, { dir file })
+create_files_pattern(audio_service_t, audio_service_tmpfs_t, audio_service_tmpfs_t)
+audioservice_mmap_rw_tmpfs_files(audio_service_t)
 
 # /etc/acdbdata/*
 manage_files_pattern(audio_service_t, audio_etc_t, audio_etc_t)

@@ -48,3 +48,21 @@ interface(`safetymonitor_read_pid',`
     files_search_pids($1)
     read_files_pattern($1, safetymonitor_t, safetymonitor_t)
 ')
+
+######################################
+## <summary>
+##  Read and write safetymonitor tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`safetymonitor_rw_tmpfs_files',`
+    gen_require(`
+        type safetymonitor_tmpfs_t;
+    ')
+
+    rw_files_pattern($1, safetymonitor_tmpfs_t, safetymonitor_tmpfs_t)
+')

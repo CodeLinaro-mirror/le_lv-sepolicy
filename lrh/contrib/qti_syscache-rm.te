@@ -35,16 +35,17 @@ policy_module(qti_syscache-rm, 1.0)
 type syscache_rm_t;
 type syscache_rm_exec_t;
 type syscache_rm_tmp_t;
+type syscache_rm_tmpfs_t;
 
 init_daemon_domain(syscache_rm_t, syscache_rm_exec_t)
 
 logging_send_syslog_msg(syscache_rm_t)
-fs_map_tmpfs_files(syscache_rm_t)
-fs_manage_tmpfs_files(syscache_rm_t)
 
 dev_rw_kiumd_dev(syscache_rm_t)
 dev_rw_vfio_dev(syscache_rm_t)
 dev_read_sysfs(syscache_rm_t)
+
+safetymonitor_rw_tmpfs_files(syscache_rm_t)
 
 # ========== local ==========
 allow syscache_rm_t self:unix_dgram_socket { create connect getopt setopt };
@@ -54,3 +55,8 @@ allow syscache_rm_t self:capability { sys_resource sys_nice net_admin };
 files_tmp_file(syscache_rm_tmp_t)
 files_tmp_filetrans(syscache_rm_t, syscache_rm_tmp_t, { dir fifo_file file lnk_file })
 manage_files_pattern(syscache_rm_t, syscache_rm_tmp_t, syscache_rm_tmp_t)
+
+files_tmpfs_file(syscache_rm_tmpfs_t)
+fs_tmpfs_filetrans(syscache_rm_t, syscache_rm_tmpfs_t, { dir file })
+create_files_pattern(syscache_rm_t, syscache_rm_tmpfs_t, syscache_rm_tmpfs_t)
+syscacherm_mmap_rw_tmpfs_files(syscache_rm_t)

@@ -35,12 +35,11 @@ policy_module(qti_diag-service, 1.0)
 type diag_service_t;
 type diag_service_exec_t;
 type diag_service_tmp_t;
+type diag_service_tmpfs_t;
 
 init_daemon_domain(diag_service_t, diag_service_exec_t)
 
 logging_send_syslog_msg(diag_service_t)
-fs_map_tmpfs_files(diag_service_t)
-fs_manage_tmpfs_files(diag_service_t)
 
 # port 2500
 corenet_tcp_connect_unreserved_ports(diag_service_t)
@@ -49,6 +48,10 @@ corenet_tcp_bind_generic_node(diag_service_t)
 glinkserver_ptrace(diag_service_t)
 
 audio_service_signull(diag_service_t)
+
+ssrrm_rw_tmpfs_files(diag_service_t)
+glinkserver_rw_tmpfs_files(diag_service_t)
+audioservice_mmap_rw_tmpfs_files(diag_service_t)
 
 # ========== local ==========
 allow diag_service_t self:unix_dgram_socket { create connect getopt setopt };
@@ -60,3 +63,8 @@ allow diag_service_t self:capability { sys_resource sys_nice net_admin };
 files_tmp_file(diag_service_tmp_t)
 files_tmp_filetrans(diag_service_t, diag_service_tmp_t, { dir fifo_file file lnk_file })
 manage_files_pattern(diag_service_t, diag_service_tmp_t, diag_service_tmp_t)
+
+files_tmpfs_file(diag_service_tmpfs_t)
+fs_tmpfs_filetrans(diag_service_t, diag_service_tmpfs_t, { dir file })
+create_files_pattern(diag_service_t, diag_service_tmpfs_t, diag_service_tmpfs_t)
+mmap_rw_files_pattern(diag_service_t, diag_service_tmpfs_t, diag_service_tmpfs_t)

@@ -35,11 +35,14 @@ policy_module(qti_hyp-video-be, 1.0)
 type hyp_video_t;
 type hyp_video_exec_t;
 type hyp_video_tmp_t;
+type hyp_video_tmpfs_t;
 
 init_daemon_domain(hyp_video_t, hyp_video_exec_t)
 
 logging_send_syslog_msg(hyp_video_t)
-fs_manage_tmpfs_files(hyp_video_t)
+
+# mmosal_logmask.cfg
+kernel_read_unlabeled_state(hyp_video_t)
 
 # Todo, unlabeled_t, could remove after setting selinxu context to /data mount
 files_mounton_isid_type_dirs(hyp_video_t)
@@ -48,6 +51,8 @@ dev_rw_hab_dev(hyp_video_t)
 
 qseecomd_search_data(hyp_video_t)
 
+videodriver_rw_tmpfs_files(hyp_video_t)
+
 # ========== local ==========
 allow hyp_video_t self:unix_dgram_socket { create connect getopt setopt };
 allow hyp_video_t self:process { setsched };
@@ -55,5 +60,10 @@ allow hyp_video_t self:capability { sys_resource sys_nice net_admin };
 
 files_tmp_file(hyp_video_tmp_t)
 files_tmp_filetrans(hyp_video_t, hyp_video_tmp_t, { dir fifo_file file lnk_file })
+create_files_pattern(hyp_video_t, hyp_video_tmp_t, hyp_video_tmp_t)
 create_dirs_pattern(hyp_video_t, hyp_video_tmp_t, hyp_video_tmp_t)
 manage_fifo_files_pattern(hyp_video_t, hyp_video_tmp_t, hyp_video_tmp_t)
+
+files_tmpfs_file(hyp_video_tmpfs_t)
+fs_tmpfs_filetrans(hyp_video_t, hyp_video_tmpfs_t, { dir file })
+manage_files_pattern(hyp_video_t, hyp_video_tmpfs_t, hyp_video_tmpfs_t)

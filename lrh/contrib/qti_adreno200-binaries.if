@@ -84,3 +84,21 @@ interface(`adreno200_signull',`
 
     allow $1 adreno200_t:process signull;
 ')
+
+######################################
+## <summary>
+##  Map, read and write adreno200-binaries tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`adreno200_mmap_rw_tmpfs_files',`
+    gen_require(`
+        type adreno200_tmpfs_t;
+    ')
+
+    mmap_rw_files_pattern($1, adreno200_tmpfs_t, adreno200_tmpfs_t)
+')
