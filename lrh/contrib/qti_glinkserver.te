@@ -41,6 +41,7 @@ init_daemon_domain(glinkserver_t, glinkserver_exec_t)
 
 logging_send_syslog_msg(glinkserver_t)
 unconfined_server_signull(glinkserver_t)
+unconfined_signull(glinkserver_t)
 dev_read_sysfs(glinkserver_t)
 
 fastrpc_rm_signull(glinkserver_t)

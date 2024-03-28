@@ -62,6 +62,8 @@ allow bridgeship_server_t self:capability { sys_resource sys_nice net_admin };
 #============ openwfd_server_t ===========
 logging_send_syslog_msg(openwfd_server_t)
 
+fs_delete_tmpfs_files(openwfd_server_t)
+
 userdom_rw_user_tmp_files(openwfd_server_t)
 userdom_delete_user_tmp_files(openwfd_server_t)
 userdom_map_tmp_files(openwfd_server_t)

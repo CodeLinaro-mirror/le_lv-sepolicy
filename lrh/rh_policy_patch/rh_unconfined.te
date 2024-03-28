@@ -50,6 +50,8 @@ qseecomd_rw_persist(unconfined_t)
 
 vhost_user_write_vhost_socket(unconfined_service_t)
 vhost_user_write_vhost_socket(unconfined_t)
+vhost_user_getattr_vhost_socket(unconfined_service_t)
+vhost_user_getattr_vhost_socket(unconfined_t)
 
 owfds_map_lib_files(unconfined_service_t)
 owfds_map_lib_files(unconfined_t)

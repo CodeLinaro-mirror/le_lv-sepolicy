@@ -43,6 +43,8 @@ logging_create_devlog_dev(ssr_rm_t)
 kernel_dgram_send(ssr_rm_t)
 
 unconfined_server_signull(ssr_rm_t)
+unconfined_signull(ssr_rm_t)
+
 glinkserver_signull(ssr_rm_t)
 fastrpc_rm_signull(ssr_rm_t)
 diag_service_signull(ssr_rm_t)

@@ -44,12 +44,17 @@ logging_send_syslog_msg(eva_auto_t)
 userdom_rw_user_tmp_files(eva_auto_t)
 userdom_map_tmp_files(eva_auto_t)
 
+fs_map_tmpfs_files(eva_auto_t)
+fs_manage_tmpfs_files(eva_auto_t)
+
 dbus_system_bus_client(eva_auto_t)
 systemd_dbus_chat_logind(eva_auto_t)
 systemd_write_inhibit_pipes(eva_auto_t)
 
 unconfined_server_ptrace(eva_auto_t)
+unconfined_ptrace(eva_auto_t)
 unconfined_server_signull(eva_auto_t)
+unconfined_signull(eva_auto_t)
 
 kernel_search_debugfs(eva_auto_t)
 fs_rw_tracefs_files(eva_auto_t)

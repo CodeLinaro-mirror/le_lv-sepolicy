@@ -48,13 +48,17 @@ userdom_map_tmp_files(video_driver_t)
 
 # mmosal_logmask.cfg
 kernel_read_unlabeled_state(video_driver_t)
+files_read_default_files(video_driver_t)
 
 # Todo, not clear which domain create tmpfs_t objects which safetymonitor access,
 # so file transition rules can't work, use below two interface for the moment
 fs_rw_tmpfs_files(video_driver_t)
+fs_delete_tmpfs_files(video_driver_t)
 
 # Todo, unlabeled_t, could remove after setting selinxu context to /data mount
+# /data/mmosal_logmask.cfg
 files_mounton_isid_type_dirs(video_driver_t)
+files_manage_isid_type_files(video_driver_t)
 
 # /dev/shm/lrmc_rq_*
 pilrm_rw_tmpfs_files(video_driver_t)
@@ -95,3 +99,4 @@ videodriver_mmap_rw_tmpfs_files(video_driver_t)
 # to access this unconfined domain for the moment. Note below rules are unreasonable.
 unconfined_server_ptrace(video_driver_t)
 unconfined_server_read_files(video_driver_t)
+unconfined_ptrace(video_driver_t)

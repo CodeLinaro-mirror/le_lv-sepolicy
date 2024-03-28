@@ -56,6 +56,7 @@ dev_read_sysfs(safetymonitor_t)
 syscache_rm_signull(safetymonitor_t)
 eva_auto_signull(safetymonitor_t)
 unconfined_server_signull(safetymonitor_t)
+unconfined_signull(safetymonitor_t)
 
 evauto_mmap_rw_tmpfs_files(safetymonitor_t)
 syscacherm_mmap_rw_tmpfs_files(safetymonitor_t)

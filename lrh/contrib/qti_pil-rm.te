@@ -42,6 +42,7 @@ init_daemon_domain(pil_rm_t, pil_rm_exec_t)
 logging_send_syslog_msg(pil_rm_t)
 
 unconfined_server_signull(pil_rm_t)
+unconfined_signull(pil_rm_t)
 
 nsp_drv_signull(pil_rm_t)
 video_driver_signull(pil_rm_t)

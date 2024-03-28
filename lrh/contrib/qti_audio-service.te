@@ -66,6 +66,7 @@ fastrpc_rm_ptrace(audio_service_t)
 glinkserver_ptrace(audio_service_t)
 
 unconfined_server_signull(audio_service_t)
+unconfined_signull(audio_service_t)
 
 ssrrm_rw_tmpfs_files(audio_service_t)
 glinkserver_rw_tmpfs_files(audio_service_t)

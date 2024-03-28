@@ -68,6 +68,7 @@ weston_ptrace(adreno200_t)
 unconfined_server_read_files(adreno200_t)
 
 unconfined_server_ptrace(adreno200_t)
+unconfined_ptrace(adreno200_t)
 
 files_tmp_file(adreno200_tmp_t)
 files_tmp_filetrans(adreno200_t, adreno200_tmp_t, { dir file })
