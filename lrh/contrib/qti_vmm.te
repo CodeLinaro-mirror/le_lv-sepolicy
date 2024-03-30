@@ -49,9 +49,6 @@ systemd_status_systemd_services(vmm_t)
 systemd_start_systemd_services(vmm_t)
 systemd_stop_systemd_services(vmm_t)
 
-#libkiumd files
-libkiumd_mmap_exec_lib_file(vmm_t)
-
 # /dev/uinput
 dev_rw_input_dev(vmm_t)
 

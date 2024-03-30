@@ -103,10 +103,6 @@ fs_rw_tmpfs_files(openwfd_server_t)
 # /dev/i2c-18
 term_use_unallocated_ttys(openwfd_server_t)
 
-# /usr/lib/libkiumd,liblrms,liblrmc
-libkiumd_mmap_exec_lib_file(openwfd_server_t)
-libkiumd_mmap_exec_lib_file(bridgeship_server_t)
-
 allow openwfd_server_t self:unix_dgram_socket { create connect getopt setopt };
 allow openwfd_server_t self:process { setrlimit setsched };
 allow openwfd_server_t self:capability { sys_resource sys_nice net_admin };

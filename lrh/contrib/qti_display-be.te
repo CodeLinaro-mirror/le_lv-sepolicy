@@ -60,6 +60,3 @@ files_tmpfs_file(display_be_tmpfs_t)
 fs_tmpfs_filetrans(display_be_t, display_be_tmpfs_t, file)
 manage_files_pattern(display_be_t, display_be_tmpfs_t, display_be_tmpfs_t)
 display_be_mmap_rw_tmpfs_files(display_be_t)
-
-#libkiumd
-libkiumd_mmap_exec_lib_file(display_be_t)

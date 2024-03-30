@@ -59,9 +59,6 @@ dev_rw_dma_dev(glinkserver_t)
 # /dev/kiumd
 dev_rw_kiumd_dev(glinkserver_t)
 
-#libkiumd
-libkiumd_mmap_exec_lib_file(glinkserver_t)
-
 # /dev/vfio/vfio
 dev_rw_vfio_dev(glinkserver_t)
 

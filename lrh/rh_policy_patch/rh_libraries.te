@@ -38,4 +38,3 @@ require {
 
 owfds_map_lib_files(ldconfig_t)
 weston_map_lib_files(ldconfig_t)
-libkiumd_mmap_exec_lib_file(ldconfig_t)
