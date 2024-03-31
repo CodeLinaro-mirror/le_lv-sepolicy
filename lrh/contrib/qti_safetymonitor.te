@@ -49,6 +49,9 @@ userdom_map_tmp_files(safetymonitor_t)
 fs_map_tmpfs_files(safetymonitor_t)
 fs_rw_tmpfs_files(safetymonitor_t)
 
+# Todo, change to fs_delete_tmpfs_files after promotion
+fs_manage_tmpfs_files(safetymonitor_t)
+
 dev_rw_kiumd_dev(safetymonitor_t)
 dev_rw_vfio_dev(safetymonitor_t)
 dev_read_sysfs(safetymonitor_t)
