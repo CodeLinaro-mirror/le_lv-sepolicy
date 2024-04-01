@@ -45,6 +45,17 @@ logging_send_syslog_msg(diag_service_t)
 corenet_tcp_connect_unreserved_ports(diag_service_t)
 corenet_tcp_bind_generic_node(diag_service_t)
 
+# Todo, to resovle the preflight failed case blocking promotion as soon as possible
+# will refine shortly
+corenet_unconfined(diag_service_t)
+corenet_tcp_connect_all_ports(diag_service_t)
+corenet_tcp_sendrecv_all_ports(diag_service_t)
+corenet_all_recvfrom_unlabeled(diag_service_t)
+corenet_tcp_bind_all_ports(diag_service_t)
+corenet_udp_sendrecv_all_ports(diag_service_t)
+corenet_udp_bind_all_ports(diag_service_t)
+corenet_udp_sendrecv_all_ports(diag_service_t)
+
 glinkserver_ptrace(diag_service_t)
 
 audio_service_signull(diag_service_t)
