@@ -47,8 +47,12 @@ logging_send_syslog_msg(audio_service_t)
 fs_map_tmpfs_files(audio_service_t)
 fs_rw_tmpfs_files(audio_service_t)
 
+# Todo, change to fs_delete_tmpfs_files after promotion
+fs_manage_tmpfs_files(audio_service_t)
+
 userdom_rw_user_tmp_files(audio_service_t)
 userdom_map_tmp_files(audio_service_t)
+userdom_delete_user_tmp_files(audio_service_t)
 
 dev_rw_dma_dev(audio_service_t)
 dev_rw_kiumd_dev(audio_service_t)
@@ -78,6 +82,8 @@ pilrm_rw_tmpfs_files(audio_service_t)
 allow audio_service_t self:unix_dgram_socket { create connect getopt setopt };
 allow audio_service_t self:process { setrlimit setsched };
 allow audio_service_t self:capability { sys_resource sys_nice net_admin };
+
+allow audio_service_t audio_service_tmpfs_t:file delete_file_perms;
 
 # /tmp/lrmc_log_(pid).txt
 files_tmp_file(audio_service_tmp_t)

@@ -31,4 +31,5 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /usr/bin/audio_service     --      gen_context(system_u:object_r:audio_service_exec_t,s0)
+/usr/bin/audio_chime     --      gen_context(system_u:object_r:audio_service_exec_t,s0)
 /etc/acdbdata(/.*)?                gen_context(system_u:object_r:audio_etc_t,s0)
