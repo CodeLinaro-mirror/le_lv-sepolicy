@@ -45,17 +45,6 @@ logging_send_syslog_msg(diag_service_t)
 corenet_tcp_connect_unreserved_ports(diag_service_t)
 corenet_tcp_bind_generic_node(diag_service_t)
 
-# Todo, to resovle the preflight failed case blocking promotion as soon as possible
-# will refine shortly
-corenet_unconfined(diag_service_t)
-corenet_tcp_connect_all_ports(diag_service_t)
-corenet_tcp_sendrecv_all_ports(diag_service_t)
-corenet_all_recvfrom_unlabeled(diag_service_t)
-corenet_tcp_bind_all_ports(diag_service_t)
-corenet_udp_sendrecv_all_ports(diag_service_t)
-corenet_udp_bind_all_ports(diag_service_t)
-corenet_udp_sendrecv_all_ports(diag_service_t)
-
 glinkserver_ptrace(diag_service_t)
 
 audio_service_signull(diag_service_t)
@@ -63,10 +52,11 @@ audio_service_signull(diag_service_t)
 ssrrm_rw_tmpfs_files(diag_service_t)
 glinkserver_rw_tmpfs_files(diag_service_t)
 audioservice_mmap_rw_tmpfs_files(diag_service_t)
+audioservice_delete_tmpfs_files(diag_service_t)
 
 # ========== local ==========
 allow diag_service_t self:unix_dgram_socket { create connect getopt setopt };
-allow diag_service_t self:tcp_socket { create connect getopt setopt bind read };
+allow diag_service_t self:tcp_socket { create connect getopt setopt bind read write };
 allow diag_service_t self:process { setrlimit setsched };
 allow diag_service_t self:capability { sys_resource sys_nice net_admin };
 
@@ -79,3 +69,6 @@ files_tmpfs_file(diag_service_tmpfs_t)
 fs_tmpfs_filetrans(diag_service_t, diag_service_tmpfs_t, { dir file })
 create_files_pattern(diag_service_t, diag_service_tmpfs_t, diag_service_tmpfs_t)
 mmap_rw_files_pattern(diag_service_t, diag_service_tmpfs_t, diag_service_tmpfs_t)
+
+#libkiumd
+libkiumd_mmap_exec_lib_file(diag_service_t)

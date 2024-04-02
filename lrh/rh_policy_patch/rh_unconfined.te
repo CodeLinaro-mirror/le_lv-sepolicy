@@ -57,3 +57,10 @@ owfds_map_lib_files(unconfined_service_t)
 owfds_map_lib_files(unconfined_t)
 owfds_read_lib_files(unconfined_service_t)
 owfds_read_lib_files(unconfined_t)
+
+#below lines added for libkiumd interface
+libkiumd_mmap_exec_lib_file(unconfined_service_t)
+libkiumd_mmap_exec_lib_file(unconfined_t)
+
+audioservice_rw_etc_files(unconfined_service_t)
+audioservice_rw_etc_files(unconfined_t)

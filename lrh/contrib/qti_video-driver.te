@@ -74,6 +74,9 @@ qseecomd_search_data(video_driver_t)
 hyp_video_read_pid(video_driver_t)
 
 hypvb_rw_tmpfs_files(video_driver_t)
+videodriver_rw_tmpfs_files(video_driver_t)
+#libkiumd
+libkiumd_mmap_exec_lib_file(video_driver_t)
 
 # ========== local ==========
 allow video_driver_t self:unix_dgram_socket { create connect getopt setopt };

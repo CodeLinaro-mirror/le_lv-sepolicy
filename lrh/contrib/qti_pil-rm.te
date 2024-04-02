@@ -51,6 +51,7 @@ adreno200_signull(pil_rm_t)
 adreno200_read_pid(pil_rm_t)
 
 ssrrm_rw_tmpfs_files(pil_rm_t)
+audioservice_delete_tmpfs_files(pil_rm_t)
 
 nspdrv_mmap_rw_tmpfs_files(pil_rm_t)
 audioservice_mmap_rw_tmpfs_files(pil_rm_t)
@@ -60,6 +61,9 @@ adreno200_mmap_rw_tmpfs_files(pil_rm_t)
 # /firmware/qcom/sa8775p/image/cdsp0.mdt
 fs_list_dos(pil_rm_t)
 fs_read_dos_files(pil_rm_t)
+
+#libkiumd
+libkiumd_mmap_exec_lib_file(pil_rm_t)
 
 dev_rw_scmnode_dev(pil_rm_t)
 dev_rw_kiumd_dev(pil_rm_t)

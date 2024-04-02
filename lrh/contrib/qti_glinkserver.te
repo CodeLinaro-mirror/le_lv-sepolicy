@@ -52,12 +52,16 @@ ssrrm_rw_tmpfs_files(glinkserver_t)
 fastrpc_rm_mmap_rw_tmpfs_files(glinkserver_t)
 diagservice_mmap_rw_tmpfs_files(glinkserver_t)
 audioservice_mmap_rw_tmpfs_files(glinkserver_t)
+audioservice_delete_tmpfs_files(glinkserver_t)
 
 # /dev/dma_heap/system
 dev_rw_dma_dev(glinkserver_t)
 
 # /dev/kiumd
 dev_rw_kiumd_dev(glinkserver_t)
+
+#libkiumd
+libkiumd_mmap_exec_lib_file(glinkserver_t)
 
 # /dev/vfio/vfio
 dev_rw_vfio_dev(glinkserver_t)

@@ -47,7 +47,7 @@ done;
 %prep
 %setup -q -n lv-sepolicy
 mkdir -p compile
-mask_modules="qti_adbd"
+mask_modules=""
 for i in `find ./lrh -name *.te`;do
     MODULE_DIR="$(basename $(dirname $i))"
     MODULE_NAME=$(basename $i .te)

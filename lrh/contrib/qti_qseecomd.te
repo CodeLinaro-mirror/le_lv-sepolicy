@@ -92,3 +92,6 @@ dev_rw_smcinvoke_dev(qseecomd_t)
 
 # search unlabeled_t type on /data
 files_mounton_isid_type_dirs(qseecomd_t)
+
+#libkiumd
+libkiumd_mmap_exec_lib_file(qseecomd_t)

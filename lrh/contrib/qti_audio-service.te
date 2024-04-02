@@ -97,3 +97,6 @@ audioservice_mmap_rw_tmpfs_files(audio_service_t)
 
 # /etc/acdbdata/*
 manage_files_pattern(audio_service_t, audio_etc_t, audio_etc_t)
+
+#libkiumd
+libkiumd_mmap_exec_lib_file(audio_service_t)

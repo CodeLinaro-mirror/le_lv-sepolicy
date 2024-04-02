@@ -84,3 +84,40 @@ interface(`audioservice_mmap_rw_tmpfs_files',`
 
     mmap_rw_files_pattern($1, audio_service_tmpfs_t, audio_service_tmpfs_t)
 ')
+
+######################################
+## <summary>
+##  Delete audio-service tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`audioservice_delete_tmpfs_files',`
+    gen_require(`
+        type audio_service_tmpfs_t;
+    ')
+
+    delete_files_pattern($1, audio_service_tmpfs_t, audio_service_tmpfs_t)
+')
+
+
+######################################
+## <summary>
+##  Read and write audio-service config files in /etc/acdbdata.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`audioservice_rw_etc_files',`
+    gen_require(`
+        type audio_etc_t;
+    ')
+
+    rw_files_pattern($1, audio_etc_t, audio_etc_t)
+')
