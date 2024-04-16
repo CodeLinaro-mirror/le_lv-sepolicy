@@ -1,4 +1,4 @@
-# Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -32,8 +32,35 @@
 
 ## <summary>qseecomd daemon</summary>
 
-#######################################
+########################################
 ## <summary>
-##       qseecomd interface
+## Create qseecomd persist objects in the /persist directory
 ## </summary>
+## <param name="domain">
+## <summary>
+## Domain allowed access.
+## </summary>
+## </param>
+## <param name="file_type">
+## <summary>
+## The type of the object to be created
+## </summary>
+## </param>
+## <param name="object_class">
+## <summary>
+## The object class.
+## </summary>
+## </param>
+## <param name="name" optional="true">
+## <summary>
+## The name of the object being created.
+## </summary>
+## </param>
 #
+interface(`qseecomd_persist_filetrans',`
+    gen_require(`
+        type qseecomd_persist_t;
+    ')
+
+    files_persist_filetrans($1, qseecomd_persist_t, $2, $3)
+')

@@ -1,4 +1,4 @@
-# Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -55,3 +55,6 @@ allow mount_t default_t:file read;
 allow mount_t default_t:lnk_file { getattr read };
 allow mount_t var_run_t:dir create;
 allow mount_t var_run_t:file { create link open rename setattr unlink write read };
+
+bluetooth_persist_manage_files(mount_t)
+files_manage_persist_dirs(mount_t)

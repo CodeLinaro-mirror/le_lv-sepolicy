@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -30,50 +30,72 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#============= syslogd_t ==============
-gen_require(`
-    type hostapd_t;
-    type ipsec_supervisor_t;
-    type ipsec_t;
-    type local_login_t;
-    type sysadm_t;
-    type systemd_logind_t;
-    type udev_t;
-    type unconfined_t;
-    type default_t;
-    type dmesg_t;
-    type audio_vendor_t;
-    type weston_t;
-    type qseecomd_t;
+########################################
+## <summary>
+##  Search the contents of /persist.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_search_persist',`
+    gen_require(`
+        type persist_t;
+    ')
+
+    allow $1 persist_t:dir search_dir_perms;
 ')
-allow syslogd_t auditd_t:process signull;
-allow syslogd_t hostapd_t:process signull;
-allow syslogd_t ipsec_supervisor_t:process signull;
-allow syslogd_t init_var_run_t:file { open read };
-allow syslogd_t initrc_t:process signull;
-allow syslogd_t ipsec_t:process signull;
-allow syslogd_t local_login_t:process signull;
-allow syslogd_t self:capability audit_control;
-allow syslogd_t self:netlink_audit_socket nlmsg_write;
-allow syslogd_t sysadm_t:process signull;
-allow syslogd_t syslogd_var_run_t:sock_file create;
-allow syslogd_t systemd_logind_t:process signull;
-allow syslogd_t tmpfs_t:dir search;
-allow syslogd_t udev_t:process signull;
-allow syslogd_t unconfined_t:process signull;
-allow syslogd_t default_t:dir search;
-allow syslogd_t audio_vendor_t:process signull;
-allow syslogd_t weston_t:process signull;
-allow syslogd_t qseecomd_t:process signull;
 
-#============= auditd_t ==============
-allow auditd_t tmpfs_t:dir search;
-allow auditd_t etc_t:file map;
-allow auditd_t audisp_t:process { siginh rlimitinh noatsecure };
-allow auditd_t auditd_etc_t:file map;
+########################################
+## <summary>
+##  Create, read, write, and delete directories
+##  in the /persist directory.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_manage_persist_dirs',`
+    gen_require(`
+        type persist_t;
+    ')
 
-#============= dmesg_t ==============
-allow dmesg_t default_t:file { write ioctl getattr };
+    allow $1 persist_t:dir manage_dir_perms;
+')
 
-#============= auditctl_t ==============
-allow auditctl_t auditd_etc_t:file map;
+########################################
+## <summary>
+## Create objects in the /persist directory
+## </summary>
+## <param name="domain">
+## <summary>
+## Domain allowed access.
+## </summary>
+## </param>
+## <param name="file_type">
+## <summary>
+## The type of the object to be created
+## </summary>
+## </param>
+## <param name="object_class">
+## <summary>
+## The object class.
+## </summary>
+## </param>
+## <param name="name" optional="true">
+## <summary>
+## The name of the object being created.
+## </summary>
+## </param>
+#
+interface(`files_persist_filetrans',`
+    gen_require(`
+        type persist_t;
+    ')
+
+    filetrans_pattern($1, persist_t, $2, $3, $4)
+')

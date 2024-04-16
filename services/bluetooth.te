@@ -1,4 +1,4 @@
-# Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -33,6 +33,7 @@
 require {
     type lib_t;
     type bluetooth_exec_t;
+    type bluetooth_conf_t;
     type systemd_rfkill_t;
     type selinux_config_t;
     type bluetooth_t;
@@ -78,6 +79,11 @@ allow bluetooth_t var_t:dir { add_name search write };
 allow bluetooth_t var_t:file { create getattr open read write };
 
 init_dbus_chat_script(bluetooth_t)
+
+files_persist_filetrans(bluetooth_t, bluetooth_conf_t, dir, "bluetooth")
+files_persist_filetrans(bluetooth_t, bluetooth_conf_t, file, "bt.inf")
+
+bluetooth_persist_manage_files(bluetooth_t)
 
 #============= initrc_t ==============
 allow initrc_t lib_t:service { start status };

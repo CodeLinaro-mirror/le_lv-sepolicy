@@ -1,4 +1,4 @@
-# Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -38,7 +38,6 @@ type sfs_config_initrc_exec_t;
 init_daemon_domain(sfs_config_initrc_t, sfs_config_initrc_exec_t)
 
 require {
-	type var_t;
 	type default_t;
 	type sysfs_t;
 	type proc_t;
@@ -54,13 +53,13 @@ require {
 }
 
 filetrans_pattern(sfs_config_initrc_t, default_t, qseecomd_data_t, dir, "tzstorage")
-filetrans_pattern(sfs_config_initrc_t, var_t, qseecomd_persist_t, dir, "data")
+
+qseecomd_persist_filetrans(sfs_config_initrc_t, dir, "data")
 
 #============= sfs_config_initrc_t ==============
 allow sfs_config_initrc_t default_t:dir { add_name create getattr search setattr write };
 allow sfs_config_initrc_t self:fifo_file { read write getattr };
 allow sfs_config_initrc_t sysfs_t:file { open read getattr };
-allow sfs_config_initrc_t var_t:dir { add_name create setattr write };
 allow sfs_config_initrc_t proc_t:file { getattr open read };
 allow sfs_config_initrc_t security_t:filesystem getattr;
 allow sfs_config_initrc_t selinux_config_t:dir search;
@@ -72,3 +71,5 @@ allow initrc_t qseecomd_persist_t:dir { getattr open read write search};
 allow initrc_t qseecomd_data_t:dir { getattr open read write search};
 allow initrc_t qseecomd_data_t:file getattr;
 
+files_search_persist(sfs_config_initrc_t)
+files_manage_persist_dirs(sfs_config_initrc_t)
