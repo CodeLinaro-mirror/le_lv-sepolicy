@@ -1,4 +1,4 @@
-# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -30,68 +30,53 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-policy_module(qti_qseecomd, 1.0)
+policy_module(qti_glinkserver, 1.0)
 
-type qseecomd_t;
-type qseecomd_exec_t;
-type qseecomd_data_t;
-type qseecomd_initscript_t;
-type qseecomd_initscript_exec_t;
-type qseecom_device_t;
-type qseecomd_persist_t;
+type glinkserver_t;
+type glinkserver_exec_t;
+type glinkserver_tmp_t;
+type glinkserver_tmpfs_t;
 
-init_daemon_domain(qseecomd_t, qseecomd_exec_t)
-init_script_file(qseecomd_initscript_exec_t)
+init_daemon_domain(glinkserver_t, glinkserver_exec_t)
 
-dev_associate(qseecom_device_t)
+logging_send_syslog_msg(glinkserver_t)
+unconfined_server_signull(glinkserver_t)
+unconfined_signull(glinkserver_t)
+dev_read_sysfs(glinkserver_t)
 
-logging_send_syslog_msg(qseecomd_t)
+fastrpc_rm_signull(glinkserver_t)
+diag_service_signull(glinkserver_t)
+audio_service_signull(glinkserver_t)
 
-# /dev/qseecom
-dev_manage_qseecom(qseecomd_t)
-#dev_manage_generic_dirs(qseecomd_t)
-dev_read_generic_chr_files(qseecomd_t)
+ssrrm_rw_tmpfs_files(glinkserver_t)
+fastrpc_rm_mmap_rw_tmpfs_files(glinkserver_t)
+diagservice_mmap_rw_tmpfs_files(glinkserver_t)
+audioservice_mmap_rw_tmpfs_files(glinkserver_t)
+audioservice_delete_tmpfs_files(glinkserver_t)
 
-# /dev/vde, dosfs_t
-fs_list_dos(qseecomd_t)
-fs_read_dos_files(qseecomd_t)
+# /dev/dma_heap/system
+dev_rw_dma_dev(glinkserver_t)
 
-files_list_var(qseecomd_t)
-files_manage_var_dirs(qseecomd_t)
-files_manage_var_files(qseecomd_t)
-files_read_etc_files(qseecomd_t)
-files_list_mnt(qseecomd_t)
-
-# local
-allow qseecomd_t self:unix_dgram_socket { create connect };
-allow qseecomd_t self:capability { setgid setpcap setuid dac_override sys_rawio dac_read_search };
-allow qseecomd_t self:process { setcap };
-
-# search root directory
-files_list_default(qseecomd_t)
-
-# /data/tzstorage
-qseecomd_manage_data(qseecomd_t)
-
-storage_read_scsi_generic(qseecomd_t)
-storage_write_scsi_generic(qseecomd_t)
-storage_raw_rw_fixed_disk(qseecomd_t)
-
-# /persist/data
-qseecomd_rw_persist(qseecomd_t)
-qseecomd_manage_persist(qseecomd_t)
-
-# read cmdline in /proc
-kernel_read_proc_files(qseecomd_t)
-
-# rw /dev/dma_heap/linux,cma
-dev_rw_dma_dev(qseecomd_t)
-
-# /dev/smcinvoke
-dev_rw_smcinvoke_dev(qseecomd_t)
-
-# search unlabeled_t type on /data
-files_mounton_isid_type_dirs(qseecomd_t)
+# /dev/kiumd
+dev_rw_kiumd_dev(glinkserver_t)
 
 #libkiumd
-libkiumd_mmap_exec_lib_file(qseecomd_t)
+libkiumd_mmap_exec_lib_file(glinkserver_t)
+
+# /dev/vfio/vfio
+dev_rw_vfio_dev(glinkserver_t)
+
+# /tmp/lrms_log_*.txt
+files_tmp_file(glinkserver_tmp_t)
+files_tmp_filetrans(glinkserver_t, glinkserver_tmp_t, { dir file })
+manage_files_pattern(glinkserver_t, glinkserver_tmp_t, glinkserver_tmp_t)
+
+# /dev/shm/lrmc_rq_*
+files_tmpfs_file(glinkserver_tmpfs_t)
+fs_tmpfs_filetrans(glinkserver_t, glinkserver_tmpfs_t, { dir file })
+glinkserver_create_tmpfs_files(glinkserver_t)
+glinkserver_mmap_rw_tmpfs_files(glinkserver_t)
+
+allow glinkserver_t self:unix_dgram_socket { create connect write getopt setopt };
+allow glinkserver_t self:process { setrlimit signull setsched };
+allow glinkserver_t self:capability { net_admin sys_nice sys_resource };

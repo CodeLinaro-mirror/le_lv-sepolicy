@@ -1,4 +1,4 @@
-# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -30,68 +30,59 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-policy_module(qti_qseecomd, 1.0)
+policy_module(qti_eva-auto, 1.0)
 
-type qseecomd_t;
-type qseecomd_exec_t;
-type qseecomd_data_t;
-type qseecomd_initscript_t;
-type qseecomd_initscript_exec_t;
-type qseecom_device_t;
-type qseecomd_persist_t;
+type eva_auto_t;
+type eva_auto_exec_t;
+type eva_auto_tmp_t;
+type eva_auto_tmpfs_t;
 
-init_daemon_domain(qseecomd_t, qseecomd_exec_t)
-init_script_file(qseecomd_initscript_exec_t)
+init_daemon_domain(eva_auto_t, eva_auto_exec_t)
 
-dev_associate(qseecom_device_t)
+logging_send_syslog_msg(eva_auto_t)
 
-logging_send_syslog_msg(qseecomd_t)
+userdom_rw_user_tmp_files(eva_auto_t)
+userdom_map_tmp_files(eva_auto_t)
 
-# /dev/qseecom
-dev_manage_qseecom(qseecomd_t)
-#dev_manage_generic_dirs(qseecomd_t)
-dev_read_generic_chr_files(qseecomd_t)
+fs_map_tmpfs_files(eva_auto_t)
+fs_manage_tmpfs_files(eva_auto_t)
 
-# /dev/vde, dosfs_t
-fs_list_dos(qseecomd_t)
-fs_read_dos_files(qseecomd_t)
+dbus_system_bus_client(eva_auto_t)
+systemd_dbus_chat_logind(eva_auto_t)
+systemd_write_inhibit_pipes(eva_auto_t)
 
-files_list_var(qseecomd_t)
-files_manage_var_dirs(qseecomd_t)
-files_manage_var_files(qseecomd_t)
-files_read_etc_files(qseecomd_t)
-files_list_mnt(qseecomd_t)
+unconfined_server_ptrace(eva_auto_t)
+unconfined_ptrace(eva_auto_t)
+unconfined_server_signull(eva_auto_t)
+unconfined_signull(eva_auto_t)
 
-# local
-allow qseecomd_t self:unix_dgram_socket { create connect };
-allow qseecomd_t self:capability { setgid setpcap setuid dac_override sys_rawio dac_read_search };
-allow qseecomd_t self:process { setcap };
+kernel_search_debugfs(eva_auto_t)
+fs_rw_tracefs_files(eva_auto_t)
+fs_getattr_cgroup(eva_auto_t)
 
-# search root directory
-files_list_default(qseecomd_t)
+dev_read_sysfs(eva_auto_t)
 
-# /data/tzstorage
-qseecomd_manage_data(qseecomd_t)
+dev_rw_dma_dev(eva_auto_t)
+dev_rw_kiumd_dev(eva_auto_t)
+dev_rw_vfio_dev(eva_auto_t)
 
-storage_read_scsi_generic(qseecomd_t)
-storage_write_scsi_generic(qseecomd_t)
-storage_raw_rw_fixed_disk(qseecomd_t)
-
-# /persist/data
-qseecomd_rw_persist(qseecomd_t)
-qseecomd_manage_persist(qseecomd_t)
-
-# read cmdline in /proc
-kernel_read_proc_files(qseecomd_t)
-
-# rw /dev/dma_heap/linux,cma
-dev_rw_dma_dev(qseecomd_t)
-
-# /dev/smcinvoke
-dev_rw_smcinvoke_dev(qseecomd_t)
-
-# search unlabeled_t type on /data
-files_mounton_isid_type_dirs(qseecomd_t)
+safetymonitor_rw_tmpfs_files(eva_auto_t)
 
 #libkiumd
-libkiumd_mmap_exec_lib_file(qseecomd_t)
+libkiumd_mmap_exec_lib_file(eva_auto_t)
+
+# ========== local ==========
+allow eva_auto_t self:unix_dgram_socket { create connect };
+allow eva_auto_t self:process { setrlimit setsched };
+allow eva_auto_t self:capability { sys_resource sys_nice net_admin };
+
+files_tmp_file(eva_auto_tmp_t)
+files_tmp_filetrans(eva_auto_t, eva_auto_tmp_t, { dir fifo_file file lnk_file })
+manage_files_pattern(eva_auto_t, eva_auto_tmp_t, eva_auto_tmp_t)
+manage_fifo_files_pattern(eva_auto_t, eva_auto_tmp_t, eva_auto_tmp_t)
+
+files_tmpfs_file(eva_auto_tmpfs_t)
+fs_tmpfs_filetrans(eva_auto_t, eva_auto_tmpfs_t, { dir file })
+create_files_pattern(eva_auto_t, eva_auto_tmpfs_t, eva_auto_tmpfs_t)
+manage_files_pattern(eva_auto_t, eva_auto_tmpfs_t, eva_auto_tmpfs_t)
+evauto_mmap_rw_tmpfs_files(eva_auto_t)

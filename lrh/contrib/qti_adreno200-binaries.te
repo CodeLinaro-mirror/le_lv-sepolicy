@@ -1,4 +1,4 @@
-# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -30,68 +30,60 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-policy_module(qti_qseecomd, 1.0)
+policy_module(qti_adreno200-binaries, 1.0)
 
-type qseecomd_t;
-type qseecomd_exec_t;
-type qseecomd_data_t;
-type qseecomd_initscript_t;
-type qseecomd_initscript_exec_t;
-type qseecom_device_t;
-type qseecomd_persist_t;
+type adreno200_t;
+type adreno200_exec_t;
+type adreno200_tmp_t;
+type adreno200_tmpfs_t;
 
-init_daemon_domain(qseecomd_t, qseecomd_exec_t)
-init_script_file(qseecomd_initscript_exec_t)
+init_daemon_domain(adreno200_t, adreno200_exec_t)
 
-dev_associate(qseecom_device_t)
+logging_send_syslog_msg(adreno200_t)
 
-logging_send_syslog_msg(qseecomd_t)
+pilrm_rw_tmpfs_files(adreno200_t)
 
-# /dev/qseecom
-dev_manage_qseecom(qseecomd_t)
-#dev_manage_generic_dirs(qseecomd_t)
-dev_read_generic_chr_files(qseecomd_t)
+dev_rw_dma_dev(adreno200_t)
+dev_rw_kiumd_dev(adreno200_t)
+dev_rw_vfio_dev(adreno200_t)
+dev_rw_hab_dev(adreno200_t)
+dev_read_sysfs(adreno200_t)
 
-# /dev/vde, dosfs_t
-fs_list_dos(qseecomd_t)
-fs_read_dos_files(qseecomd_t)
+# /var/log/kgsl-(ip).log
+logging_create_generic_logs(adreno200_t)
+logging_read_generic_logs(adreno200_t)
 
-files_list_var(qseecomd_t)
-files_manage_var_dirs(qseecomd_t)
-files_manage_var_files(qseecomd_t)
-files_read_etc_files(qseecomd_t)
-files_list_mnt(qseecomd_t)
+# port 22222
+corenet_tcp_connect_generic_port(adreno200_t)
+corenet_tcp_bind_generic_port(adreno200_t)
+corenet_tcp_bind_generic_node(adreno200_t)
 
-# local
-allow qseecomd_t self:unix_dgram_socket { create connect };
-allow qseecomd_t self:capability { setgid setpcap setuid dac_override sys_rawio dac_read_search };
-allow qseecomd_t self:process { setcap };
+# /etc/hosts
+sysnet_read_config(adreno200_t)
 
-# search root directory
-files_list_default(qseecomd_t)
+weston_read_pid(adreno200_t)
+weston_ptrace(adreno200_t)
 
-# /data/tzstorage
-qseecomd_manage_data(qseecomd_t)
+# unconfined process
+unconfined_server_read_files(adreno200_t)
 
-storage_read_scsi_generic(qseecomd_t)
-storage_write_scsi_generic(qseecomd_t)
-storage_raw_rw_fixed_disk(qseecomd_t)
+unconfined_server_ptrace(adreno200_t)
+unconfined_ptrace(adreno200_t)
 
-# /persist/data
-qseecomd_rw_persist(qseecomd_t)
-qseecomd_manage_persist(qseecomd_t)
+files_tmp_file(adreno200_tmp_t)
+files_tmp_filetrans(adreno200_t, adreno200_tmp_t, { dir file })
+manage_files_pattern(adreno200_t, adreno200_tmp_t, adreno200_tmp_t)
 
-# read cmdline in /proc
-kernel_read_proc_files(qseecomd_t)
-
-# rw /dev/dma_heap/linux,cma
-dev_rw_dma_dev(qseecomd_t)
-
-# /dev/smcinvoke
-dev_rw_smcinvoke_dev(qseecomd_t)
-
-# search unlabeled_t type on /data
-files_mounton_isid_type_dirs(qseecomd_t)
+files_tmpfs_file(adreno200_tmpfs_t)
+fs_tmpfs_filetrans(adreno200_t, adreno200_tmpfs_t, { dir file })
+create_files_pattern(adreno200_t, adreno200_tmpfs_t, adreno200_tmpfs_t)
+adreno200_mmap_rw_tmpfs_files(adreno200_t)
 
 #libkiumd
-libkiumd_mmap_exec_lib_file(qseecomd_t)
+libkiumd_mmap_exec_lib_file(adreno200_t)
+
+# ========== local ==========
+allow adreno200_t self:unix_dgram_socket { create connect };
+allow adreno200_t self:tcp_socket { create connect setopt read write bind accept listen };
+allow adreno200_t self:process { signull ptrace setrlimit setsched };
+allow adreno200_t self:capability { sys_resource sys_nice };

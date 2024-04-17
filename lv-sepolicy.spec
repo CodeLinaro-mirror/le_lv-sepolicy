@@ -47,7 +47,7 @@ done;
 %prep
 %setup -q -n lv-sepolicy
 mkdir -p compile
-mask_modules="blank"
+mask_modules=""
 for i in `find ./lrh -name *.te`;do
     MODULE_DIR="$(basename $(dirname $i))"
     MODULE_NAME=$(basename $i .te)
@@ -77,6 +77,12 @@ for module in $vendor_modules; do
 done;
 %selinux_modules_install -s %{selinuxtype} -p 100 ${Modules_String}
 %selinux_relabel_post -s %{selinuxtype}
+selinuxmode="enforcing"
+if [[ "${selinuxmode}" = "permissive" ]];then
+    if grep -q "SELINUX=enforcing" %{_sysconfdir}/selinux/config;then
+        sed -i -e "s:SELINUX=enforcing:SELINUX=permissive:g" %{_sysconfdir}/selinux/config
+    fi
+fi
 
 %preun
 vendor_modules=`cat %{_datadir}/selinux/%{selinuxtype}/qti-modules.lst`

@@ -31,3 +31,7 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /dev/smcinvoke               -c      gen_context(system_u:object_r:smcinvoke_device_t,s0)
+/dev/gunyah                  -c      gen_context(system_u:object_r:gunyah_device_t,s0)
+/dev/kiumd                   -c      gen_context(system_u:object_r:kiumd_device_t,s0)
+/dev/scmnode                 -c      gen_context(system_u:object_r:scmnode_device_t,s0)
+/dev/hab                     -c      gen_context(system_u:object_r:hab_device_t,s0)

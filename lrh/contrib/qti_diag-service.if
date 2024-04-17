@@ -1,4 +1,4 @@
-# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -30,112 +30,111 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-## <summary>Policy for SELinux policy and userland applications.</summary>
-
-########################################
+######################################
 ## <summary>
-##  Read and write smcinvoke
+##  Send signull to diag-service related process.
 ## </summary>
 ## <param name="domain">
 ##  <summary>
-##  Domain allowed access.
+##  Domain allowed.
 ##  </summary>
 ## </param>
 #
-interface(`dev_rw_smcinvoke_dev',`
+interface(`diag_service_signull',`
     gen_require(`
-        type smcinvoke_device_t;
+        type diag_service_t;
     ')
 
-    rw_chr_files_pattern($1, device_t, smcinvoke_device_t)
+    allow $1 diag_service_t:process signull;
 ')
 
-########################################
+######################################
 ## <summary>
-##  Read and write gunyah devices (/dev/gunyah).
+##  Check diag-service related process infomation, such as ps tool.
 ## </summary>
 ## <param name="domain">
 ##  <summary>
-##  Domain allowed access.
+##  Domain allowed.
 ##  </summary>
 ## </param>
 #
-interface(`dev_rw_gunyah_dev',`
+interface(`diag_service_read_pid',`
     gen_require(`
-        type device_t, gunyah_device_t;
+        type diag_service_t;
     ')
 
-    rw_chr_files_pattern($1, device_t, gunyah_device_t)
+    files_search_pids($1)
+    read_files_pattern($1, diag_service_t, diag_service_t)
 ')
 
-########################################
+######################################
 ## <summary>
-##  Read and write kiumd devices (/dev/kiumd).
+##  ptrace to diag-service related process.
 ## </summary>
 ## <param name="domain">
 ##  <summary>
-##  Domain allowed access.
+##  Domain allowed.
 ##  </summary>
 ## </param>
 #
-interface(`dev_rw_kiumd_dev',`
+interface(`diag_service_ptrace',`
     gen_require(`
-        type device_t, kiumd_device_t;
+        type diag_service_t;
     ')
 
-    rw_chr_files_pattern($1, device_t, kiumd_device_t)
+    allow $1 diag_service_t:process ptrace;
 ')
 
-########################################
+######################################
 ## <summary>
-##  Read and write gpio devices (/dev/gpiochip0).
+##  create files under tmpfs filesystem for diag-service.
 ## </summary>
 ## <param name="domain">
 ##  <summary>
-##  Domain allowed access.
+##  Domain allowed.
 ##  </summary>
 ## </param>
 #
-interface(`dev_rw_gpio_dev',`
+interface(`diagservice_create_tmpfs_files',`
     gen_require(`
-        type device_t, gpio_device_t;
+        type diag_service_tmpfs_t;
     ')
 
-    rw_chr_files_pattern($1, device_t, gpio_device_t)
+    create_files_pattern($1, diag_service_tmpfs_t, diag_service_tmpfs_t)
 ')
 
-########################################
+######################################
 ## <summary>
-##  Read and write scmnode device (/dev/scmnode).
+##  Map, read and write diag-service tmpfs files.
 ## </summary>
 ## <param name="domain">
 ##  <summary>
-##  Domain allowed access.
+##  Domain allowed.
 ##  </summary>
 ## </param>
 #
-interface(`dev_rw_scmnode_dev',`
+interface(`diagservice_mmap_rw_tmpfs_files',`
     gen_require(`
-        type device_t, scmnode_device_t;
+        type diag_service_tmpfs_t;
     ')
 
-    rw_chr_files_pattern($1, device_t, scmnode_device_t)
+    mmap_rw_files_pattern($1, diag_service_tmpfs_t, diag_service_tmpfs_t)
 ')
 
-########################################
+######################################
 ## <summary>
-##  Read and write hab device (/dev/hab).
+##  Read and write diagservice-service tmpfs files.
 ## </summary>
 ## <param name="domain">
 ##  <summary>
-##  Domain allowed access.
+##  Domain allowed.
 ##  </summary>
 ## </param>
 #
-interface(`dev_rw_hab_dev',`
+interface(`diagservice_rw_tmpfs_files',`
     gen_require(`
-        type device_t, hab_device_t;
+        type diag_service_tmpfs_t;
     ')
 
-    rw_chr_files_pattern($1, device_t, hab_device_t)
+    rw_files_pattern($1, diag_service_tmpfs_t, diag_service_tmpfs_t)
 ')

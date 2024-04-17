@@ -1,4 +1,4 @@
-# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -30,29 +30,27 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-## <summary>Policy for SELinux policy and userland applications.</summary>
-
-########################################
+######################################
 ## <summary>
-##  Read and write smcinvoke
+##  Map weston lib files.
 ## </summary>
 ## <param name="domain">
 ##  <summary>
-##  Domain allowed access.
+##  Domain allowed.
 ##  </summary>
 ## </param>
 #
-interface(`dev_rw_smcinvoke_dev',`
+interface(`weston_map_lib_files',`
     gen_require(`
-        type smcinvoke_device_t;
+        type weston_lib_t;
     ')
 
-    rw_chr_files_pattern($1, device_t, smcinvoke_device_t)
+    allow $1 weston_lib_t:file mmap_file_perms;
 ')
 
 ########################################
 ## <summary>
-##  Read and write gunyah devices (/dev/gunyah).
+##  Read to weston library files.
 ## </summary>
 ## <param name="domain">
 ##  <summary>
@@ -60,82 +58,101 @@ interface(`dev_rw_smcinvoke_dev',`
 ##  </summary>
 ## </param>
 #
-interface(`dev_rw_gunyah_dev',`
+interface(`weston_read_lib_files',`
     gen_require(`
-        type device_t, gunyah_device_t;
+        type weston_lib_t;
     ')
 
-    rw_chr_files_pattern($1, device_t, gunyah_device_t)
+    allow $1 weston_lib_t:file read_file_perms;
 ')
 
-########################################
+######################################
 ## <summary>
-##  Read and write kiumd devices (/dev/kiumd).
+##  Send signull to weston_t.
 ## </summary>
 ## <param name="domain">
 ##  <summary>
-##  Domain allowed access.
+##  Domain allowed.
 ##  </summary>
 ## </param>
 #
-interface(`dev_rw_kiumd_dev',`
+interface(`weston_signull',`
     gen_require(`
-        type device_t, kiumd_device_t;
+        type weston_t;
     ')
 
-    rw_chr_files_pattern($1, device_t, kiumd_device_t)
+    allow $1 weston_t:process signull;
 ')
 
-########################################
+######################################
 ## <summary>
-##  Read and write gpio devices (/dev/gpiochip0).
+##  ptrace to weston_t.
 ## </summary>
 ## <param name="domain">
 ##  <summary>
-##  Domain allowed access.
+##  Domain allowed.
 ##  </summary>
 ## </param>
 #
-interface(`dev_rw_gpio_dev',`
+interface(`weston_ptrace',`
     gen_require(`
-        type device_t, gpio_device_t;
+        type weston_t;
     ')
 
-    rw_chr_files_pattern($1, device_t, gpio_device_t)
+    allow $1 weston_t:process ptrace;
 ')
 
-########################################
+######################################
 ## <summary>
-##  Read and write scmnode device (/dev/scmnode).
+##  Check weston related process infomation.
 ## </summary>
 ## <param name="domain">
 ##  <summary>
-##  Domain allowed access.
+##  Domain allowed.
 ##  </summary>
 ## </param>
 #
-interface(`dev_rw_scmnode_dev',`
+interface(`weston_read_pid',`
     gen_require(`
-        type device_t, scmnode_device_t;
+        type weston_t;
     ')
 
-    rw_chr_files_pattern($1, device_t, scmnode_device_t)
+    files_search_pids($1)
+    read_files_pattern($1, weston_t, weston_t)
 ')
 
-########################################
+######################################
 ## <summary>
-##  Read and write hab device (/dev/hab).
+##  Map, read and write weston tmpfs files.
 ## </summary>
 ## <param name="domain">
 ##  <summary>
-##  Domain allowed access.
+##  Domain allowed.
 ##  </summary>
 ## </param>
 #
-interface(`dev_rw_hab_dev',`
+interface(`weston_mmap_rw_tmpfs_files',`
     gen_require(`
-        type device_t, hab_device_t;
+        type weston_tmpfs_t;
     ')
 
-    rw_chr_files_pattern($1, device_t, hab_device_t)
+    mmap_rw_files_pattern($1, weston_tmpfs_t, weston_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Delete weston tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`weston_delete_tmpfs_files',`
+    gen_require(`
+        type weston_tmpfs_t;
+    ')
+
+    allow $1 weston_tmpfs_t:file delete_file_perms;
 ')

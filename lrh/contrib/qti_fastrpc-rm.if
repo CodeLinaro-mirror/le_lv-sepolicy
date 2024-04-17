@@ -1,4 +1,4 @@
-# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -30,112 +30,111 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-## <summary>Policy for SELinux policy and userland applications.</summary>
-
-########################################
+######################################
 ## <summary>
-##  Read and write smcinvoke
+##  Send signull to fastrpc-rm related process.
 ## </summary>
 ## <param name="domain">
 ##  <summary>
-##  Domain allowed access.
+##  Domain allowed.
 ##  </summary>
 ## </param>
 #
-interface(`dev_rw_smcinvoke_dev',`
+interface(`fastrpc_rm_signull',`
     gen_require(`
-        type smcinvoke_device_t;
+        type fastrpc_rm_t;
     ')
 
-    rw_chr_files_pattern($1, device_t, smcinvoke_device_t)
+    allow $1 fastrpc_rm_t:process signull;
 ')
 
-########################################
+######################################
 ## <summary>
-##  Read and write gunyah devices (/dev/gunyah).
+##  Check fastrpc-rm related process infomation, such as ps tool.
 ## </summary>
 ## <param name="domain">
 ##  <summary>
-##  Domain allowed access.
+##  Domain allowed.
 ##  </summary>
 ## </param>
 #
-interface(`dev_rw_gunyah_dev',`
+interface(`fastrpc_rm_read_pid',`
     gen_require(`
-        type device_t, gunyah_device_t;
+        type fastrpc_rm_t;
     ')
 
-    rw_chr_files_pattern($1, device_t, gunyah_device_t)
+    files_search_pids($1)
+    read_files_pattern($1, fastrpc_rm_t, fastrpc_rm_t)
 ')
 
-########################################
+######################################
 ## <summary>
-##  Read and write kiumd devices (/dev/kiumd).
+##  ptrace to fastrpc-rm related process.
 ## </summary>
 ## <param name="domain">
 ##  <summary>
-##  Domain allowed access.
+##  Domain allowed.
 ##  </summary>
 ## </param>
 #
-interface(`dev_rw_kiumd_dev',`
+interface(`fastrpc_rm_ptrace',`
     gen_require(`
-        type device_t, kiumd_device_t;
+        type fastrpc_rm_t;
     ')
 
-    rw_chr_files_pattern($1, device_t, kiumd_device_t)
+    allow $1 fastrpc_rm_t:process ptrace;
 ')
 
-########################################
+######################################
 ## <summary>
-##  Read and write gpio devices (/dev/gpiochip0).
+##  create files under tmpfs filesystem for fastrpc-rm.
 ## </summary>
 ## <param name="domain">
 ##  <summary>
-##  Domain allowed access.
+##  Domain allowed.
 ##  </summary>
 ## </param>
 #
-interface(`dev_rw_gpio_dev',`
+interface(`fastrpc_rm_create_tmpfs_files',`
     gen_require(`
-        type device_t, gpio_device_t;
+        type fastrpc_rm_tmpfs_t;
     ')
 
-    rw_chr_files_pattern($1, device_t, gpio_device_t)
+    create_files_pattern($1, fastrpc_rm_tmpfs_t, fastrpc_rm_tmpfs_t)
 ')
 
-########################################
+######################################
 ## <summary>
-##  Read and write scmnode device (/dev/scmnode).
+##  Map, read and write fastrpc-rm tmpfs files.
 ## </summary>
 ## <param name="domain">
 ##  <summary>
-##  Domain allowed access.
+##  Domain allowed.
 ##  </summary>
 ## </param>
 #
-interface(`dev_rw_scmnode_dev',`
+interface(`fastrpc_rm_mmap_rw_tmpfs_files',`
     gen_require(`
-        type device_t, scmnode_device_t;
+        type fastrpc_rm_tmpfs_t;
     ')
 
-    rw_chr_files_pattern($1, device_t, scmnode_device_t)
+    mmap_rw_files_pattern($1, fastrpc_rm_tmpfs_t, fastrpc_rm_tmpfs_t)
 ')
 
-########################################
+######################################
 ## <summary>
-##  Read and write hab device (/dev/hab).
+##  Read and write fastrpc-rm tmpfs files.
 ## </summary>
 ## <param name="domain">
 ##  <summary>
-##  Domain allowed access.
+##  Domain allowed.
 ##  </summary>
 ## </param>
 #
-interface(`dev_rw_hab_dev',`
+interface(`fastrpc_rm_rw_tmpfs_files',`
     gen_require(`
-        type device_t, hab_device_t;
+        type fastrpc_rm_tmpfs_t;
     ')
 
-    rw_chr_files_pattern($1, device_t, hab_device_t)
+    rw_files_pattern($1, fastrpc_rm_tmpfs_t, fastrpc_rm_tmpfs_t)
 ')

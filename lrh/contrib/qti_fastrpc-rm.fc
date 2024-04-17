@@ -1,4 +1,4 @@
-# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -30,68 +30,4 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-policy_module(qti_qseecomd, 1.0)
-
-type qseecomd_t;
-type qseecomd_exec_t;
-type qseecomd_data_t;
-type qseecomd_initscript_t;
-type qseecomd_initscript_exec_t;
-type qseecom_device_t;
-type qseecomd_persist_t;
-
-init_daemon_domain(qseecomd_t, qseecomd_exec_t)
-init_script_file(qseecomd_initscript_exec_t)
-
-dev_associate(qseecom_device_t)
-
-logging_send_syslog_msg(qseecomd_t)
-
-# /dev/qseecom
-dev_manage_qseecom(qseecomd_t)
-#dev_manage_generic_dirs(qseecomd_t)
-dev_read_generic_chr_files(qseecomd_t)
-
-# /dev/vde, dosfs_t
-fs_list_dos(qseecomd_t)
-fs_read_dos_files(qseecomd_t)
-
-files_list_var(qseecomd_t)
-files_manage_var_dirs(qseecomd_t)
-files_manage_var_files(qseecomd_t)
-files_read_etc_files(qseecomd_t)
-files_list_mnt(qseecomd_t)
-
-# local
-allow qseecomd_t self:unix_dgram_socket { create connect };
-allow qseecomd_t self:capability { setgid setpcap setuid dac_override sys_rawio dac_read_search };
-allow qseecomd_t self:process { setcap };
-
-# search root directory
-files_list_default(qseecomd_t)
-
-# /data/tzstorage
-qseecomd_manage_data(qseecomd_t)
-
-storage_read_scsi_generic(qseecomd_t)
-storage_write_scsi_generic(qseecomd_t)
-storage_raw_rw_fixed_disk(qseecomd_t)
-
-# /persist/data
-qseecomd_rw_persist(qseecomd_t)
-qseecomd_manage_persist(qseecomd_t)
-
-# read cmdline in /proc
-kernel_read_proc_files(qseecomd_t)
-
-# rw /dev/dma_heap/linux,cma
-dev_rw_dma_dev(qseecomd_t)
-
-# /dev/smcinvoke
-dev_rw_smcinvoke_dev(qseecomd_t)
-
-# search unlabeled_t type on /data
-files_mounton_isid_type_dirs(qseecomd_t)
-
-#libkiumd
-libkiumd_mmap_exec_lib_file(qseecomd_t)
+/usr/bin/fastrpc-rm       --      gen_context(system_u:object_r:fastrpc_rm_exec_t,s0)

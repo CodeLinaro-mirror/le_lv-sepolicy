@@ -50,3 +50,17 @@ qseecomd_rw_persist(unconfined_t)
 
 vhost_user_write_vhost_socket(unconfined_service_t)
 vhost_user_write_vhost_socket(unconfined_t)
+vhost_user_getattr_vhost_socket(unconfined_service_t)
+vhost_user_getattr_vhost_socket(unconfined_t)
+
+owfds_map_lib_files(unconfined_service_t)
+owfds_map_lib_files(unconfined_t)
+owfds_read_lib_files(unconfined_service_t)
+owfds_read_lib_files(unconfined_t)
+
+#below lines added for libkiumd interface
+libkiumd_mmap_exec_lib_file(unconfined_service_t)
+libkiumd_mmap_exec_lib_file(unconfined_t)
+
+audioservice_rw_etc_files(unconfined_service_t)
+audioservice_rw_etc_files(unconfined_t)
