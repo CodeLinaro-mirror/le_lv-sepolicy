@@ -84,3 +84,21 @@ interface(`evauto_mmap_rw_tmpfs_files',`
 
     mmap_rw_files_pattern($1, eva_auto_tmpfs_t, eva_auto_tmpfs_t)
 ')
+
+######################################
+## <summary>
+##  Delete eva-auto tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`evauto_delete_tmpfs_files',`
+    gen_require(`
+        type eva_auto_tmpfs_t;
+    ')
+
+    delete_files_pattern($1, eva_auto_tmpfs_t, eva_auto_tmpfs_t)
+')

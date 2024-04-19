@@ -102,3 +102,21 @@ interface(`videodriver_rw_tmpfs_files',`
 
     rw_files_pattern($1, video_driver_tmpfs_t, video_driver_tmpfs_t)
 ')
+
+######################################
+## <summary>
+##  Delete video-driver tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`videodriver_delete_tmpfs_files',`
+    gen_require(`
+        type video_driver_tmpfs_t;
+    ')
+
+    delete_files_pattern($1, video_driver_tmpfs_t, video_driver_tmpfs_t)
+')
