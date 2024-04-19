@@ -47,4 +47,13 @@ interface(`libkiumd_mmap_exec_lib_file',`
     ')
 
     mmap_exec_files_pattern($1, libkiumd_lib_t, libkiumd_lib_t)
+    allowxperm $1 libkiumd_lib_t:file ioctl ~0xC020521A;
+')
+
+interface(`libkiumd_ioctl_lib_file',`
+    gen_require(`
+        type libkiumd_lib_t;
+    ')
+
+    mmap_exec_files_pattern($1, libkiumd_lib_t, libkiumd_lib_t)
 ')
