@@ -156,3 +156,21 @@ interface(`weston_delete_tmpfs_files',`
 
     allow $1 weston_tmpfs_t:file delete_file_perms;
 ')
+
+######################################
+## <summary>
+##  Delete weston socket files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`weston_delete_tmpfs_sock_files',`
+    gen_require(`
+        type weston_tmpfs_t;
+    ')
+
+    delete_sock_files_pattern($1, weston_tmpfs_t, weston_tmpfs_t)
+')

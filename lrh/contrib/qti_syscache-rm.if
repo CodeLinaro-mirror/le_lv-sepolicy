@@ -84,3 +84,21 @@ interface(`syscacherm_mmap_rw_tmpfs_files',`
 
     mmap_rw_files_pattern($1, syscache_rm_tmpfs_t, syscache_rm_tmpfs_t)
 ')
+
+######################################
+## <summary>
+##  Delete syscache-rm tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`syscacherm_delete_tmpfs_files',`
+    gen_require(`
+        type syscache_rm_tmpfs_t;
+    ')
+
+    delete_files_pattern($1, syscache_rm_tmpfs_t, syscache_rm_tmpfs_t)
+')
