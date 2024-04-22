@@ -119,3 +119,21 @@ interface(`glinkserver_rw_tmpfs_files',`
 
     rw_files_pattern($1, glinkserver_tmpfs_t, glinkserver_tmpfs_t)
 ')
+
+######################################
+## <summary>
+##  Delete glink-service-lrm tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`glinkserver_delete_tmpfs_files',`
+    gen_require(`
+        type glinkserver_tmpfs_t;
+    ')
+
+    delete_files_pattern($1, glinkserver_tmpfs_t, glinkserver_tmpfs_t)
+')

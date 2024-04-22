@@ -45,6 +45,9 @@ dev_rw_kiumd_dev(syscache_rm_t)
 dev_rw_vfio_dev(syscache_rm_t)
 dev_read_sysfs(syscache_rm_t)
 
+userdom_manage_user_tmp_files(syscache_rm_t)
+userdom_map_tmp_files(syscache_rm_t)
+
 safetymonitor_rw_tmpfs_files(syscache_rm_t)
 
 #libkiumd
@@ -57,6 +60,7 @@ allow syscache_rm_t self:capability { sys_resource sys_nice net_admin };
 
 files_tmp_file(syscache_rm_tmp_t)
 files_tmp_filetrans(syscache_rm_t, syscache_rm_tmp_t, { dir fifo_file file lnk_file })
+userdom_user_tmp_filetrans(syscache_rm_t, syscache_rm_tmp_t, { dir file sock_file } )
 manage_files_pattern(syscache_rm_t, syscache_rm_tmp_t, syscache_rm_tmp_t)
 
 files_tmpfs_file(syscache_rm_tmpfs_t)
