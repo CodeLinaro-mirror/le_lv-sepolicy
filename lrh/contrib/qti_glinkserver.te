@@ -43,6 +43,8 @@ logging_send_syslog_msg(glinkserver_t)
 unconfined_server_signull(glinkserver_t)
 unconfined_signull(glinkserver_t)
 dev_read_sysfs(glinkserver_t)
+fs_rw_tmpfs_files(glinkserver_t)
+fs_map_tmpfs_files(glinkserver_t)
 
 fastrpc_rm_signull(glinkserver_t)
 diag_service_signull(glinkserver_t)
