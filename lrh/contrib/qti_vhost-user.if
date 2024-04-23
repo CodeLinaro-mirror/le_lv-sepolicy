@@ -70,6 +70,25 @@ interface(`vhost_user_write_vhost_socket',`
 
 ######################################
 ## <summary>
+##  Manage vhost-user tmp files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`vhost_user_manage_tmp_files',`
+    gen_require(`
+        type vhost_user_tmp_t;
+    ')
+
+    manage_files_pattern($1, vhost_user_tmp_t, vhost_user_tmp_t)
+    manage_sock_files_pattern($1, vhost_user_tmp_t, vhost_user_tmp_t)
+')
+
+######################################
+## <summary>
 ##  getattr vhost-user corresponding sockets.
 ## </summary>
 ## <param name="domain">
