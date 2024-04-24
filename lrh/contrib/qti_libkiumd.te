@@ -35,3 +35,5 @@ policy_module(qti_libkiumd, 1.0)
 
 # Defines types for libkiumd module
 type libkiumd_lib_t;
+
+fs_associate(libkiumd_lib_t)
