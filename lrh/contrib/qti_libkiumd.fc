@@ -33,5 +33,3 @@
 /usr/lib/libkiumd.so -- gen_context(system_u:object_r:libkiumd_lib_t,s0)
 /usr/lib/liblrms.so -- gen_context(system_u:object_r:libkiumd_lib_t,s0)
 /usr/lib/liblrmc.so -- gen_context(system_u:object_r:libkiumd_lib_t,s0)
-
-
