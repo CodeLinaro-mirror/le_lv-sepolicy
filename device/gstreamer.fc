@@ -56,5 +56,6 @@
 /usr/bin/mm-c2d-test             --   gen_context(system_u:object_r:omx_exec_t,s0)
 /usr/bin/venc-omx-sample         --   gen_context(system_u:object_r:omx_exec_t,s0)
 /usr/bin/vdec-omx-sample         --   gen_context(system_u:object_r:omx_exec_t,s0)
+/usr/bin/secureappsrc2           --   gen_context(system_u:object_r:gstreamer_exec_t,s0)
 
 
