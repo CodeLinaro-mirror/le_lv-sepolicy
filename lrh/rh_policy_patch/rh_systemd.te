@@ -47,6 +47,9 @@ weston_map_lib_files(systemd_coredump_t)
 owfds_map_lib_files(systemd_coredump_t)
 libkiumd_mmap_exec_lib_file(systemd_coredump_t)
 
+#libkiumd
+libkiumd_ioctl_lib_file(systemd_coredump_t)
+
 allow systemd_logind_t self:capability net_admin;
 allow systemd_tmpfiles_t self:capability net_admin;
 allow systemd_modules_load_t self:capability net_admin;
