@@ -43,6 +43,7 @@ logging_send_syslog_msg(fastrpc_rm_t)
 
 userdom_rw_user_tmp_files(fastrpc_rm_t)
 userdom_map_tmp_files(fastrpc_rm_t)
+userdom_delete_user_tmp_files(fastrpc_rm_t)
 
 dev_rw_dma_dev(fastrpc_rm_t)
 dev_rw_kiumd_dev(fastrpc_rm_t)
@@ -59,6 +60,8 @@ audio_service_signull(fastrpc_rm_t)
 
 unconfined_server_signull(fastrpc_rm_t)
 unconfined_signull(fastrpc_rm_t)
+unconfined_server_ptrace(fastrpc_rm_t)
+unconfined_ptrace(fastrpc_rm_t)
 
 # ========== local ==========
 allow fastrpc_rm_t self:unix_dgram_socket { create connect getopt setopt };

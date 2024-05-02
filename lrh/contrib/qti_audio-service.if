@@ -119,5 +119,6 @@ interface(`audioservice_rw_etc_files',`
         type audio_etc_t;
     ')
 
+    list_dirs_pattern($1, audio_etc_t, audio_etc_t)
     rw_files_pattern($1, audio_etc_t, audio_etc_t)
 ')
