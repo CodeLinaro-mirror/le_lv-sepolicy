@@ -36,8 +36,13 @@ type adreno200_t;
 type adreno200_exec_t;
 type adreno200_tmp_t;
 type adreno200_tmpfs_t;
+type adreno200_dev_t;
 
 init_daemon_domain(adreno200_t, adreno200_exec_t)
+
+dev_node(adreno200_dev_t)
+
+adreno200_rw_scmi_dev(adreno200_t)
 
 logging_send_syslog_msg(adreno200_t)
 
