@@ -39,9 +39,14 @@ type openwfd_server_exec_t;
 type openwfd_lib_t;
 type openwfd_tmp_t;
 type openwfd_tmpfs_t;
+type openwfd_server_dev_t;
 
 init_daemon_domain(bridgeship_server_t, bridgeship_server_exec_t)
 init_daemon_domain(openwfd_server_t, openwfd_server_exec_t)
+
+dev_node(openwfd_server_dev_t)
+
+openwfd_server_rw_scmi_dev(openwfd_server_t)
 
 files_tmp_file(openwfd_tmp_t)
 files_tmpfs_file(openwfd_tmpfs_t)

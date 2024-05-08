@@ -119,3 +119,21 @@ interface(`owfds_rw_tmpfs_files',`
 
     rw_files_pattern($1, openwfd_tmpfs_t, openwfd_tmpfs_t)
 ')
+
+######################################
+## <summary>
+##  Read and write scmi devices (/dev/scmi_mdss0 /dev/scmi_mdss1).
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`openwfd_server_rw_scmi_dev',`
+    gen_require(`
+        type device_t, openwfd_server_dev_t;
+    ')
+
+    rw_chr_files_pattern($1, device_t, openwfd_server_dev_t)
+')
