@@ -36,8 +36,13 @@ type video_driver_t;
 type video_driver_exec_t;
 type video_driver_tmp_t;
 type video_driver_tmpfs_t;
+type video_driver_dev_t;
 
 init_daemon_domain(video_driver_t, video_driver_exec_t)
+
+# Allow access to /dev/scmi_video
+dev_node(video_driver_dev_t)
+videodriver_rw_scmi_dev(video_driver_t)
 
 logging_send_syslog_msg(video_driver_t)
 
