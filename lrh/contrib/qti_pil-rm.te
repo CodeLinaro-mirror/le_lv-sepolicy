@@ -36,8 +36,13 @@ type pil_rm_t;
 type pil_rm_exec_t;
 type pil_rm_tmp_t;
 type pil_rm_tmpfs_t;
+type pil_rm_scmi_dev_t;
 
 init_daemon_domain(pil_rm_t, pil_rm_exec_t)
+
+dev_node(pil_rm_scmi_dev_t)
+
+pilrm_rw_scmi_dev(pil_rm_t)
 
 logging_send_syslog_msg(pil_rm_t)
 

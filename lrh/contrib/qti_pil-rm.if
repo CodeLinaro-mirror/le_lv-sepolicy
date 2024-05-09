@@ -101,3 +101,21 @@ interface(`pilrm_rw_tmpfs_files',`
 
     rw_files_pattern($1, pil_rm_tmpfs_t, pil_rm_tmpfs_t)
 ')
+
+######################################
+## <summary>
+##  Read and write scmi devices.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`pilrm_rw_scmi_dev',`
+    gen_require(`
+        type device_t, pil_rm_scmi_dev_t;
+    ')
+
+    rw_chr_files_pattern($1, device_t, pil_rm_scmi_dev_t)
+')
