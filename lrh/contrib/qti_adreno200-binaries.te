@@ -87,6 +87,20 @@ adreno200_mmap_rw_tmpfs_files(adreno200_t)
 #libkiumd
 libkiumd_ioctl_lib_file(adreno200_t)
 
+#syscache_rm
+syscacherm_rw_tmpfs_files(adreno200_t)
+
+#system_dbusd
+dbus_write_pid_sock_files(adreno200_t)
+dbus_stream_connect_system_dbusd(adreno200_t)
+dbus_send_system_bus(adreno200_t)
+
+systemd_write_inhibit_pipes(adreno200_t)
+systemd_dbus_chat_logind(adreno200_t)
+
+#cgroup_t
+fs_getattr_cgroup(adreno200_t)
+
 # ========== local ==========
 allow adreno200_t self:unix_dgram_socket { create connect };
 allow adreno200_t self:tcp_socket { create connect setopt read write bind accept listen };
