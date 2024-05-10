@@ -60,6 +60,20 @@ files_read_default_files(video_driver_t)
 fs_rw_tmpfs_files(video_driver_t)
 fs_delete_tmpfs_files(video_driver_t)
 
+# dbus and logind access for suspend and resume support
+dbus_system_bus_client(video_driver_t)
+systemd_dbus_chat_logind(video_driver_t)
+systemd_write_inhibit_pipes(video_driver_t)
+
+systemd_read_logind_sessions_files(video_driver_t)
+systemd_login_read_pid_files(video_driver_t)
+
+dbus_stream_connect_system_dbusd(video_driver_t)
+dbus_chat_session_bus(video_driver_t)
+dbus_write_pid_sock_files(video_driver_t)
+
+dbus_read_pid_files(video_driver_t)
+
 # Todo, unlabeled_t, could remove after setting selinxu context to /data mount
 # /data/mmosal_logmask.cfg
 files_mounton_isid_type_dirs(video_driver_t)
