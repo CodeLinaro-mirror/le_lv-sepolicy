@@ -90,6 +90,9 @@ libkiumd_ioctl_lib_file(adreno200_t)
 #syscache_rm
 syscacherm_rw_tmpfs_files(adreno200_t)
 
+#safetymonitor
+safetymonitor_rw_tmpfs_files(adreno200_t)
+
 #system_dbusd
 dbus_write_pid_sock_files(adreno200_t)
 dbus_stream_connect_system_dbusd(adreno200_t)
