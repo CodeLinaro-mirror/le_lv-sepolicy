@@ -34,8 +34,14 @@ policy_module(qti_qcx, 1.0)
 
 type qcx_t;
 type qcx_exec_t;
+type qcx_dev_t;
 
 init_daemon_domain(qcx_t, qcx_exec_t)
+
+# used to access /dev/scmi_camera
+dev_node(qcx_dev_t)
+
+qcx_rw_scmi_dev(qcx_t)
 
 # ========== local ==========
 #allow qcx_t self:unix_dgram_socket { create connect getopt setopt };
