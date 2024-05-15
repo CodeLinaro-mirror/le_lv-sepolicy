@@ -120,3 +120,21 @@ interface(`videodriver_delete_tmpfs_files',`
 
     delete_files_pattern($1, video_driver_tmpfs_t, video_driver_tmpfs_t)
 ')
+
+######################################
+## <summary>
+##  Read and write scmi devices (/dev/scmi_video).
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`videodriver_rw_scmi_dev',`
+    gen_require(`
+        type device_t, video_driver_dev_t;
+    ')
+
+    rw_chr_files_pattern($1, device_t, video_driver_dev_t)
+')
