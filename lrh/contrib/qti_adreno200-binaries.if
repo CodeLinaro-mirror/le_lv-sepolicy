@@ -102,3 +102,21 @@ interface(`adreno200_mmap_rw_tmpfs_files',`
 
     mmap_rw_files_pattern($1, adreno200_tmpfs_t, adreno200_tmpfs_t)
 ')
+
+######################################
+## <summary>
+##  Read and write scmi devices (/dev/scmi_gfx).
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`adreno200_rw_scmi_dev',`
+    gen_require(`
+        type device_t, adreno200_dev_t;
+    ')
+
+    rw_chr_files_pattern($1, device_t, adreno200_dev_t)
+')
