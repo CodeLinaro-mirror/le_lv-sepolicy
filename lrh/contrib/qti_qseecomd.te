@@ -64,8 +64,8 @@ files_list_mnt(qseecomd_t)
 
 # local
 allow qseecomd_t self:unix_dgram_socket { create connect };
-allow qseecomd_t self:capability { setgid setpcap setuid dac_override sys_rawio dac_read_search };
-allow qseecomd_t self:process { setcap };
+allow qseecomd_t self:capability { setgid setpcap setuid dac_override sys_rawio dac_read_search sys_resource };
+allow qseecomd_t self:process { setcap setrlimit };
 
 # search root directory
 files_list_default(qseecomd_t)
@@ -95,3 +95,10 @@ files_mounton_isid_type_dirs(qseecomd_t)
 
 #libkiumd
 libkiumd_mmap_exec_lib_file(qseecomd_t)
+
+# kiumd
+dev_rw_kiumd_dev(qseecomd_t)
+
+## tmp files
+fs_create_mmap_rw_tmpfs_files(qseecomd_t)
+fs_create_write_tmp_files(qseecomd_t)
