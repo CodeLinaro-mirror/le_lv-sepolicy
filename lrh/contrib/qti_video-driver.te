@@ -104,7 +104,7 @@ hyp_video_ptrace(video_driver_t)
 # ========== local ==========
 allow video_driver_t self:unix_dgram_socket { create connect getopt setopt };
 allow video_driver_t self:process { setrlimit setsched };
-allow video_driver_t self:capability { sys_resource net_admin sys_nice };
+allow video_driver_t self:capability { sys_resource sys_ptrace net_admin sys_nice sys_ptrace dac_override };
 
 files_tmp_file(video_driver_tmp_t)
 files_tmp_filetrans(video_driver_t, video_driver_tmp_t, { dir fifo_file file lnk_file })

@@ -75,6 +75,9 @@ ssrrm_rw_tmpfs_files(ssr_rm_t)
 #libkiumd
 libkiumd_mmap_exec_lib_file(ssr_rm_t)
 
+# /run/systemd/journal/dev-log
+logging_dgram_send(ssr_rm_t)
+
 allow ssr_rm_t self:unix_dgram_socket create_socket_perms;
 allow ssr_rm_t self:process { setrlimit setsched };
 allow ssr_rm_t self:capability { sys_resource net_admin sys_nice };

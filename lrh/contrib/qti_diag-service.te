@@ -63,7 +63,7 @@ diagservice_mmap_rw_tmpfs_files(diag_service_t)
 allow diag_service_t self:unix_dgram_socket { create connect getopt setopt };
 allow diag_service_t self:tcp_socket { create connect getopt setopt bind read write };
 allow diag_service_t self:process { setrlimit setsched };
-allow diag_service_t self:capability { sys_resource sys_nice net_admin };
+allow diag_service_t self:capability { sys_resource sys_nice net_admin sys_ptrace };
 
 # /tmp/lrms_log_(pid).txt
 files_tmp_file(diag_service_tmp_t)

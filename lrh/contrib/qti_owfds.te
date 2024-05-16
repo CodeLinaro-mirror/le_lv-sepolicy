@@ -65,7 +65,7 @@ manage_files_pattern(bridgeship_server_t, openwfd_tmpfs_t, openwfd_tmpfs_t)
 
 allow bridgeship_server_t self:unix_dgram_socket { create connect write getopt setopt };
 allow bridgeship_server_t self:process { setrlimit setsched };
-allow bridgeship_server_t self:capability { sys_resource sys_nice net_admin };
+allow bridgeship_server_t self:capability { sys_resource sys_nice net_admin sys_ptrace };
 
 #============ openwfd_server_t ===========
 logging_send_syslog_msg(openwfd_server_t)
@@ -117,7 +117,7 @@ libkiumd_mmap_exec_lib_file(bridgeship_server_t)
 
 allow openwfd_server_t self:unix_dgram_socket { create connect getopt setopt };
 allow openwfd_server_t self:process { setrlimit setsched };
-allow openwfd_server_t self:capability { sys_resource sys_nice net_admin };
+allow openwfd_server_t self:capability { sys_resource sys_nice net_admin sys_ptrace };
 
 files_tmp_filetrans(openwfd_server_t, openwfd_tmp_t, { dir file })
 manage_files_pattern(openwfd_server_t, openwfd_tmp_t, openwfd_tmp_t)

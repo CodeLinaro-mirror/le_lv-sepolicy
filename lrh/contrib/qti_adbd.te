@@ -98,7 +98,6 @@ require {
     type video_driver_tmpfs_t;
     type adreno200_t;
     type initrc_t;
-    type shadow_t;
     type NetworkManager_dispatcher_t;
     type pil_rm_t;
     type user_tmp_t;
@@ -136,7 +135,6 @@ allow glinkserver_t audio_service_tmpfs_t:file unlink;
 #============= init_t ==============
 allow init_t chkpwd_t:process siginh;
 allow init_t initrc_t:process siginh;
-allow init_t shadow_t:file { open read };
 allow init_t unconfined_t:process siginh;
 
 #============= pil_rm_t ==============
@@ -146,7 +144,6 @@ allow pil_rm_t audio_service_tmpfs_t:file unlink;
 
 #============= sshd_t ==============
 allow sshd_t chkpwd_t:process { noatsecure rlimitinh siginh };
-allow sshd_t shadow_t:file { getattr open read };
 
 #============= video_driver_t ==============
 allow video_driver_t unconfined_t:dir search;

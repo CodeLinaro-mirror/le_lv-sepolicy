@@ -58,6 +58,9 @@ init_read_state(weston_t)
 kernel_read_proc_files(weston_t)
 kernel_search_debugfs(weston_t)
 
+files_manage_var_files(weston_t)
+files_map_var_files(weston_t)
+
 weston_map_lib_files(weston_t)
 
 # may be unconfined interface calling need to refine
@@ -75,12 +78,25 @@ dbus_write_pid_sock_files(weston_t)
 
 dev_read_sysfs(weston_t)
 
+# /dev/socket/leprop-service
+dev_write_generic_sockets(weston_t)
+unconfined_server_stream_connectto(weston_t)
+
 # /tmp/weston.log
 # files_manage_generic_tmp_files(weston_t)
 
 # /var/log/weston-*.log
 logging_create_generic_logs(weston_t)
 logging_read_generic_logs(weston_t)
+
+# Create weston-(pid).log under /var/volatile/log/
+files_create_var_files(weston_t)
+files_rw_var_files(weston_t)
+fs_getattr_tmpfs(weston_t)
+fs_search_cgroup_dirs(weston_t)
+
+# /dev/tty2
+term_use_unallocated_ttys(weston_t)
 
 # port:22222
 corenet_tcp_connect_generic_port(weston_t)
@@ -138,7 +154,7 @@ libkiumd_mmap_exec_lib_file(weston_t)
 allow weston_t self:unix_dgram_socket { create connect };
 allow weston_t self:tcp_socket create_socket_perms;
 allow weston_t self:process { setrlimit signull setsched siginh };
-allow weston_t self:capability { sys_resource sys_nice setuid net_admin };
+allow weston_t self:capability { sys_resource sys_nice setuid net_admin dac_override sys_ptrace };
 allow weston_t self:capability2 { bpf };
 allow weston_t self:netlink_kobject_uevent_socket create_socket_perms;
 
