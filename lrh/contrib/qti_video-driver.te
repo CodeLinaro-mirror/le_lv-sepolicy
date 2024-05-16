@@ -51,6 +51,9 @@ kernel_read_state(video_driver_t)
 userdom_rw_user_tmp_files(video_driver_t)
 userdom_map_tmp_files(video_driver_t)
 
+# Allow unlinking temporary user files
+userdom_manage_user_tmp_files(video_driver_t)
+
 # mmosal_logmask.cfg
 kernel_read_unlabeled_state(video_driver_t)
 files_read_default_files(video_driver_t)
