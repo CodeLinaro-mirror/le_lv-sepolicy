@@ -102,3 +102,21 @@ interface(`syscacherm_delete_tmpfs_files',`
 
     delete_files_pattern($1, syscache_rm_tmpfs_t, syscache_rm_tmpfs_t)
 ')
+
+######################################
+## <summary>
+## Allow to Read Write Open syscache-rm tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`syscacherm_rw_tmpfs_files',`
+    gen_require(`
+        type syscache_rm_tmpfs_t;
+    ')
+
+    rw_files_pattern($1, syscache_rm_tmpfs_t, syscache_rm_tmpfs_t)
+')
