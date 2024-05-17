@@ -56,6 +56,10 @@ files_tmpfs_file(sail_mailbox_tmpfs_t)
 fs_tmpfs_filetrans(sail_mailbox_t, sail_mailbox_tmpfs_t, { dir file })
 manage_files_pattern(sail_mailbox_t, sail_mailbox_tmpfs_t, sail_mailbox_tmpfs_t)
 
+# Manage tmp files
+userdom_manage_user_tmp_files(sail_mailbox_t)
+userdom_map_tmp_files(sail_mailbox_t)
+
 # ========== local ==========
 allow sail_mailbox_t self:unix_dgram_socket { create connect getopt setopt };
 allow sail_mailbox_t self:process { setrlimit setsched };
