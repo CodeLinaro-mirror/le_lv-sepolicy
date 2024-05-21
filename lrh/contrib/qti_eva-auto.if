@@ -102,3 +102,21 @@ interface(`evauto_delete_tmpfs_files',`
 
     delete_files_pattern($1, eva_auto_tmpfs_t, eva_auto_tmpfs_t)
 ')
+
+######################################
+## <summary>
+##  Read and write scmi devices (/dev/scmi_eva).
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`evauto_rw_scmi_dev',`
+    gen_require(`
+        type device_t, eva_auto_dev_t;
+    ')
+
+    rw_chr_files_pattern($1, device_t, eva_auto_dev_t)
+')

@@ -36,8 +36,13 @@ type eva_auto_t;
 type eva_auto_exec_t;
 type eva_auto_tmp_t;
 type eva_auto_tmpfs_t;
+type eva_auto_dev_t;
 
 init_daemon_domain(eva_auto_t, eva_auto_exec_t)
+
+# Allow access to /dev/scmi_eva
+dev_node(eva_auto_dev_t)
+evauto_rw_scmi_dev(eva_auto_t)
 
 logging_send_syslog_msg(eva_auto_t)
 
