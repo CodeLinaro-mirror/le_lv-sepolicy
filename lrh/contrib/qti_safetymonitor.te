@@ -58,6 +58,11 @@ dev_read_sysfs(safetymonitor_t)
 
 syscache_rm_signull(safetymonitor_t)
 eva_auto_signull(safetymonitor_t)
+
+#adreno200
+adreno200_rw_tmpfs_files(safetymonitor_t)
+adreno200_signull(safetymonitor_t)
+
 unconfined_server_signull(safetymonitor_t)
 unconfined_signull(safetymonitor_t)
 
