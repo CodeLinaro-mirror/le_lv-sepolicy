@@ -56,6 +56,8 @@ libkiumd_mmap_exec_lib_file(syscache_rm_t)
 #adreno200
 adreno200_rw_tmpfs_files(syscache_rm_t)
 adreno200_signull(syscache_rm_t)
+adreno200_mmap_rw_tmpfs_files(syscache_rm_t)
+adreno200_delete_tmpfs_files(syscache_rm_t)
 
 # ========== local ==========
 allow syscache_rm_t self:unix_dgram_socket { create connect getopt setopt };
