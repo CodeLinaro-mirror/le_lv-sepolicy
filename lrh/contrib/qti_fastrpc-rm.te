@@ -65,7 +65,7 @@ unconfined_ptrace(fastrpc_rm_t)
 
 # ========== local ==========
 allow fastrpc_rm_t self:unix_dgram_socket { create connect getopt setopt };
-allow fastrpc_rm_t self:capability { sys_resource sys_nice net_admin };
+allow fastrpc_rm_t self:capability { sys_resource sys_nice net_admin sys_ptrace dac_override };
 allow fastrpc_rm_t self:process { setrlimit setsched };
 
 # /tmp/lrmc_log_(pid).txt

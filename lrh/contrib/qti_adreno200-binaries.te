@@ -58,6 +58,10 @@ dev_read_sysfs(adreno200_t)
 logging_create_generic_logs(adreno200_t)
 logging_read_generic_logs(adreno200_t)
 
+# Create gsl_hab_server-(pid).log under /var/volatile/log/
+files_create_var_files(adreno200_t)
+files_rw_var_files(adreno200_t)
+
 # port 22222
 corenet_tcp_connect_generic_port(adreno200_t)
 corenet_tcp_bind_generic_port(adreno200_t)
@@ -108,4 +112,4 @@ fs_getattr_cgroup(adreno200_t)
 allow adreno200_t self:unix_dgram_socket { create connect };
 allow adreno200_t self:tcp_socket { create connect setopt read write bind accept listen };
 allow adreno200_t self:process { signull ptrace setrlimit setsched };
-allow adreno200_t self:capability { sys_resource sys_nice };
+allow adreno200_t self:capability { sys_resource sys_nice sys_ptrace dac_override };

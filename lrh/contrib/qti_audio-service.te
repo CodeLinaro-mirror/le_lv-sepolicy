@@ -62,6 +62,10 @@ dev_rw_hab_dev(audio_service_t)
 dev_rw_generic_usb_dev(audio_service_t)
 dev_read_sysfs(audio_service_t)
 
+# /dev/socket/leprop-service
+dev_write_generic_sockets(audio_service_t)
+unconfined_server_stream_connectto(audio_service_t)
+
 # /dev/i2c-ll
 term_open_unallocated_ttys(audio_service_t)
 term_use_unallocated_ttys(audio_service_t)
@@ -81,7 +85,7 @@ pilrm_rw_tmpfs_files(audio_service_t)
 # ========== local ==========
 allow audio_service_t self:unix_dgram_socket { create connect getopt setopt };
 allow audio_service_t self:process { setrlimit setsched };
-allow audio_service_t self:capability { sys_resource sys_nice net_admin };
+allow audio_service_t self:capability { sys_resource sys_nice net_admin sys_ptrace dac_override };
 
 allow audio_service_t audio_service_tmpfs_t:file delete_file_perms;
 
