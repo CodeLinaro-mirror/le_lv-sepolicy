@@ -97,6 +97,10 @@ require {
     class lnk_file read;
 }
 
+type dsp_file_t;
+
+files_type(dsp_file_t)
+
 #============= chkpwd_t ==============
 allow chkpwd_t etc_t:file map;
 allow chkpwd_t shadow_t:file map;

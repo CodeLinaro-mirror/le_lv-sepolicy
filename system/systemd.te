@@ -1,4 +1,4 @@
-# Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -38,6 +38,9 @@ gen_require(`
     type sysadm_t;
     type weston_t;
 ')
+
+files_create_lock_files(systemd_tmpfiles_t)
+
 #systemd_update_done
 allow systemd_update_done_t sysctl_t:dir search;
 allow systemd_update_done_t sysctl_kernel_t:dir search;

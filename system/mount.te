@@ -56,5 +56,8 @@ allow mount_t default_t:lnk_file { getattr read };
 allow mount_t var_run_t:dir create;
 allow mount_t var_run_t:file { create link open rename setattr unlink write read };
 
+files_relabel_all_file_type_fs(mount_t)
 bluetooth_persist_manage_files(mount_t)
 files_manage_persist_dirs(mount_t)
+qti_mounton_dsp_dirs(mount_t)
+qti_list_dsp_dirs(mount_t)

@@ -99,3 +99,21 @@ interface(`files_persist_filetrans',`
 
     filetrans_pattern($1, persist_t, $2, $3, $4)
 ')
+
+########################################
+## <summary>
+##  Create lock files
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_create_lock_files',`
+    gen_require(`
+        type var_t, var_lock_t;
+    ')
+
+    create_lnk_files_pattern($1, var_t, var_lock_t)
+')
