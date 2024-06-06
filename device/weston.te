@@ -38,7 +38,6 @@ policy_module(weston, 1.0)
 #
 
 type weston_t;
-permissive weston_t;
 type weston_exec_t;
 type weston_lib_t;
 type weston_etc_t;
@@ -191,3 +190,7 @@ allow weston_t xkb_var_lib_t:dir { getattr read search };
 allow weston_t xkb_var_lib_t:file { getattr map open read };
 allow weston_t qcarcam_rvc_t:fd use;
 allow weston_t qcarcam_test_t:fd use;
+
+domain_obj_id_change_exemption(weston_t)
+domain_subj_id_change_exemption(weston_t)
+domain_role_change_exemption(weston_t)
