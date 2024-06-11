@@ -77,6 +77,10 @@ fs_tmpfs_filetrans(vmm_t, vmm_tmpfs_t, { dir file })
 vmm_create_tmpfs_files(vmm_t)
 vmm_mmap_rw_tmpfs_files(vmm_t)
 
+# for vmm_test registering with vmm_service (user_tmp_t)
+userdom_manage_tmp_files(vmm_t)
+userdom_map_tmp_files(vmm_t)
+
 allow vmm_t self:unix_dgram_socket { create connect };
 allow vmm_t self:capability { sys_resource sys_nice net_admin };
 allow vmm_t self:process { setrlimit setsched };
