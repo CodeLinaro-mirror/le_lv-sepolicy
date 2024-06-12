@@ -79,6 +79,7 @@ dbus_read_pid_files(video_driver_t)
 
 # Todo, unlabeled_t, could remove after setting selinxu context to /data mount
 # /data/mmosal_logmask.cfg
+files_rw_isid_type_dirs(video_driver_t)
 files_mounton_isid_type_dirs(video_driver_t)
 files_manage_isid_type_files(video_driver_t)
 
