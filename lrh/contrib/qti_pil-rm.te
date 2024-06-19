@@ -94,3 +94,6 @@ pilrm_mmap_rw_tmpfs_files(pil_rm_t)
 allow pil_rm_t self:unix_dgram_socket { create connect getopt setopt };
 allow pil_rm_t self:process { setrlimit setsched };
 allow pil_rm_t self:capability { sys_resource sys_nice net_admin };
+
+userdom_mmap_rw_inherited_user_tmp_files(pil_rm_t, pil_rm_tmp_t)
+userdom_manage_user_tmp_files(pil_rm_t)
