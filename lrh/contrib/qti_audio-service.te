@@ -37,6 +37,7 @@ type audio_service_exec_t;
 type audio_service_tmp_t;
 type audio_service_tmpfs_t;
 type audio_etc_t;
+type audio_device_t;
 
 init_daemon_domain(audio_service_t, audio_service_exec_t)
 
@@ -60,7 +61,12 @@ dev_rw_vfio_dev(audio_service_t)
 dev_rw_gpio_dev(audio_service_t)
 dev_rw_hab_dev(audio_service_t)
 dev_rw_generic_usb_dev(audio_service_t)
-dev_read_sysfs(audio_service_t)
+dev_rw_sysfs(audio_service_t)
+
+# /dev/ipc_shmem
+dev_node(audio_device_t)
+audioservice_rw_audio_dev(audio_service_t)
+audioservice_mmap_audio_dev(audio_service_t)
 
 # /dev/socket/leprop-service
 dev_write_generic_sockets(audio_service_t)
@@ -101,6 +107,11 @@ audioservice_mmap_rw_tmpfs_files(audio_service_t)
 
 # /etc/acdbdata/*
 manage_files_pattern(audio_service_t, audio_etc_t, audio_etc_t)
+
+# Needed by pidfd_getfd when audio client running with
+# unconfined policy
+unconfined_server_ptrace(audio_service_t)
+unconfined_ptrace(audio_service_t)
 
 #libkiumd
 libkiumd_mmap_exec_lib_file(audio_service_t)
