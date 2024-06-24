@@ -1,0 +1,24 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary>Policy for SELinux policy and userland applications.</summary>
+
+########################################
+## <summary>
+##  Relabel from and to the user tty type.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+## <rolecap/>
+#
+interface(`userdom_relabel_user_ttys',`
+    gen_require(`
+        type user_tty_device_t;
+    ')
+
+    dev_list_all_dev_nodes($1)
+    allow $1 user_tty_device_t:chr_file relabel_chr_file_perms;
+')
