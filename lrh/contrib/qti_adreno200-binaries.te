@@ -113,3 +113,4 @@ allow adreno200_t self:unix_dgram_socket { create connect };
 allow adreno200_t self:tcp_socket { create connect setopt read write bind accept listen };
 allow adreno200_t self:process { signull ptrace setrlimit setsched };
 allow adreno200_t self:capability { sys_resource sys_nice sys_ptrace dac_override };
+allow adreno200_t adreno200_tmpfs_t:file delete_file_perms;
