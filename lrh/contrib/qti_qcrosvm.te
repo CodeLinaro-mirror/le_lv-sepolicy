@@ -46,12 +46,16 @@ files_mounton_isid_type_dirs(qcrosvm_t)
 # Todo, unlabeled_t, could remove after setting selinxu context to /firmware/vm/boot mount
 files_manage_isid_type_files(qcrosvm_t)
 
+files_rw_generic_tmp_sockets(qcrosvm_t)
+
 kernel_request_load_module(qcrosvm_t)
 kernel_search_debugfs(qcrosvm_t)
 dev_getattr_fs(qcrosvm_t)
 
 fs_rw_tracefs_files(qcrosvm_t)
 fs_list_dos(qcrosvm_t)
+
+unconfined_server_stream_connectto(qcrosvm_t)
 
 # /dev/sda11
 storage_manage_fixed_disk(qcrosvm_t)
