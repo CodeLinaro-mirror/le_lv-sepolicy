@@ -48,6 +48,8 @@ fs_create_configfs_dirs(init_t)
 files_manage_var_files(init_t)
 files_manage_var_dirs(init_t)
 
+files_rw_etc_files(init_t)
+
 kernel_read_debugfs(init_t)
 
 auth_rw_shadow(init_t)
