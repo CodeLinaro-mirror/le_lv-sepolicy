@@ -81,6 +81,13 @@ vmm_mmap_rw_tmpfs_files(vmm_t)
 userdom_manage_tmp_files(vmm_t)
 userdom_map_tmp_files(vmm_t)
 
+# for udev monitor thread of vmm_service
+allow vmm_t self:capability2 bpf;
+allow vmm_t self:netlink_kobject_uevent_socket { bind create getattr setopt };
+dev_getattr_sysfs_dirs(vmm_t);
+dev_read_sysfs(vmm_t);
+udev_read_pid_files(vmm_t);
+
 allow vmm_t self:unix_dgram_socket { create connect };
 allow vmm_t self:capability { sys_resource sys_nice net_admin };
 allow vmm_t self:process { setrlimit setsched };
