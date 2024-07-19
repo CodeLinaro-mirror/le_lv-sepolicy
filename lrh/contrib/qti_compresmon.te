@@ -18,7 +18,8 @@ unconfined_ptrace(compresmon_t)
 
 files_manage_var_files(compresmon_t)
 
-allow compresmon_t self:process { setrlimit };
+allow compresmon_t self:process { setrlimit setsched };
+allow compresmon_t self:capability { sys_resource sys_nice };
 allow compresmon_t self:unix_dgram_socket { create connect };
 allow compresmon_t self:tcp_socket { create connect getopt setopt };
 
@@ -29,8 +30,6 @@ manage_files_pattern(compresmon_t, compresmon_tmp_t, compresmon_tmp_t)
 files_tmpfs_file(compresmon_tmpfs_t)
 fs_tmpfs_filetrans(compresmon_t, compresmon_tmpfs_t, { dir file lnk_file })
 manage_files_pattern(compresmon_t, compresmon_tmpfs_t, compresmon_tmpfs_t)
-
-allow compresmon_t self:capability { sys_resource };
 
 logging_create_devlog_dev(compresmon_t)
 logging_manage_generic_dirs_logs(compresmon_t)
@@ -46,3 +45,10 @@ userdom_mmap_rw_inherited_user_tmp_files(compresmon_t)
 sysnet_manage_config(compresmon_t)
 sysnet_filetrans_named_content(compresmon_t)
 sysnet_filetrans_net_conf(compresmon_t)
+
+fs_rw_tmpfs_files(compresmon_t)
+fs_map_tmpfs_files(compresmon_t)
+fs_delete_tmpfs_files(compresmon_t)
+corenet_tcp_connect_unreserved_ports(compresmon_t)
+userdom_manage_tmp_files(compresmon_t)
+
