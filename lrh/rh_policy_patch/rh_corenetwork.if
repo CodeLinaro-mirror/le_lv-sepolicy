@@ -1,0 +1,21 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary>Policy for SELinux policy and userland applications.</summary>
+
+##################################
+## <summary>
+##  Allow name_connect to redis_port_t tcp_socket.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`corenetwork_connect_redis_port',`
+    gen_require(`
+        type redis_port_t;
+    ')
+    allow $1 redis_port_t:tcp_socket name_connect;
+')
