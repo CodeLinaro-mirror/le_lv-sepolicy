@@ -49,6 +49,8 @@ glinkserver_ptrace(diag_service_t)
 
 audio_service_signull(diag_service_t)
 
+unconfined_server_signull(diag_service_t)
+
 ssrrm_rw_tmpfs_files(diag_service_t)
 glinkserver_rw_tmpfs_files(diag_service_t)
 audioservice_mmap_rw_tmpfs_files(diag_service_t)
