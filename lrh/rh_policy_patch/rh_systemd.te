@@ -56,3 +56,5 @@ allow systemd_tmpfiles_t self:capability net_admin;
 allow systemd_modules_load_t self:capability net_admin;
 
 logging_dgram_send(systemd_resolved_t)
+corenet_tcp_bind_generic_node(systemd_resolved_t)
+corenet_udp_bind_generic_node(systemd_resolved_t)
