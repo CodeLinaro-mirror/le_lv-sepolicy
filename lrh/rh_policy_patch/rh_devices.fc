@@ -35,3 +35,5 @@
 /dev/kiumd                   -c      gen_context(system_u:object_r:kiumd_device_t,s0)
 /dev/scmnode                 -c      gen_context(system_u:object_r:scmnode_device_t,s0)
 /dev/hab                     -c      gen_context(system_u:object_r:hab_device_t,s0)
+/dev/profiler                -c      gen_context(system_u:object_r:profiler_device_t,s0)
+
