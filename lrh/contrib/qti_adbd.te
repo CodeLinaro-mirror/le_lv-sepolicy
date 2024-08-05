@@ -98,7 +98,6 @@ require {
     type video_driver_tmpfs_t;
     type adreno200_t;
     type initrc_t;
-    type shadow_t;
     type NetworkManager_dispatcher_t;
     type pil_rm_t;
     type user_tmp_t;
@@ -136,7 +135,6 @@ allow glinkserver_t audio_service_tmpfs_t:file unlink;
 #============= init_t ==============
 allow init_t chkpwd_t:process siginh;
 allow init_t initrc_t:process siginh;
-allow init_t shadow_t:file { open read };
 allow init_t unconfined_t:process siginh;
 
 #============= pil_rm_t ==============
@@ -146,7 +144,6 @@ allow pil_rm_t audio_service_tmpfs_t:file unlink;
 
 #============= sshd_t ==============
 allow sshd_t chkpwd_t:process { noatsecure rlimitinh siginh };
-allow sshd_t shadow_t:file { getattr open read };
 
 #============= video_driver_t ==============
 allow video_driver_t unconfined_t:dir search;
@@ -157,3 +154,42 @@ allow video_driver_t video_driver_tmpfs_t:fifo_file { open read };
 
 #!!!! This avc is allowed in the current policy
 allow weston_t user_tmp_t:file map;
+
+require {
+    type unlabeled_t;
+    type diag_service_t;
+    type audio_service_t;
+    type adreno200_tmpfs_t;
+    type tmpfs_t;
+    type syscache_rm_t;
+    type kernel_t;
+    class file { map open read unlink write };
+    class dir { add_name create getattr search write };
+    class lnk_file { create read };
+    class process signull;
+}
+
+#============= audio_service_t ==============
+allow audio_service_t unlabeled_t:dir { add_name create getattr search write };
+allow audio_service_t unlabeled_t:lnk_file { create read };
+
+##============= diag_service_t ==============
+allow diag_service_t kernel_t:process signull;
+allow diag_service_t tmpfs_t:file { open read write };
+
+##!!!! This avc can be allowed using the boolean 'domain_can_mmap_files'
+allow diag_service_t tmpfs_t:file map;
+
+##============= syscache_rm_t ==============
+##!!!! This avc can be allowed using the boolean 'domain_can_mmap_files'
+allow syscache_rm_t adreno200_tmpfs_t:file map;
+allow syscache_rm_t adreno200_tmpfs_t:file unlink;
+
+require {
+    type kernel_t;
+    type libkiumd_lib_t;
+    class file { execute getattr map open read };
+}
+
+#============= kernel_t ==============
+allow kernel_t libkiumd_lib_t:file { execute getattr map open read };

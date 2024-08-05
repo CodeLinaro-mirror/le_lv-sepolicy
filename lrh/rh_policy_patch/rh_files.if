@@ -1,0 +1,94 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary>Policy for SELinux policy and userland applications.</summary>
+
+##################################
+## <summary>
+##  Create generic files under /var.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_create_var_files',`
+    gen_require(`
+        type var_t;
+    ')
+
+    create_files_pattern($1, var_t, var_t)
+')
+
+##################################
+## <summary>
+##  Map generic files under /var.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_map_var_files',`
+    gen_require(`
+        type var_t;
+    ')
+
+    allow $1 var_t:file map;
+')
+
+##################################
+## <summary>
+##  Create dirs under default type.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_create_default_dirs',`
+    gen_require(`
+        type default_t;
+    ')
+
+    create_dirs_pattern($1, default_t, default_t)
+')
+
+##################################
+## <summary>
+##  Create files under default type.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_create_default_files',`
+    gen_require(`
+        type default_t;
+    ')
+
+    create_files_pattern($1, default_t, default_t)
+')
+
+##################################
+## <summary>
+##  Map files under default type.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_mmap_default_files',`
+    gen_require(`
+        type default_t;
+    ')
+
+    mmap_files_pattern($1, default_t, default_t)
+')

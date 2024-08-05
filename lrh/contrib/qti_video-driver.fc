@@ -31,3 +31,4 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /usr/bin/videoCore         --      gen_context(system_u:object_r:video_driver_exec_t,s0)
+/dev/scmi_video            -c      gen_context(system_u:object_r:video_driver_dev_t,s0)

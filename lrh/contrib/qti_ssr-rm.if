@@ -30,6 +30,8 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+## <summary>Policy for SELinux policy and userland applications.</summary>
+
 ######################################
 ## <summary>
 ##  Read, write ssr-rm tmp files.
@@ -82,4 +84,40 @@ interface(`ssrrm_rw_tmpfs_files',`
     ')
 
     rw_files_pattern($1, ssr_rm_tmpfs_t, ssr_rm_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Send signull to ssr-rm related process.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`ssrrm_signull',`
+    gen_require(`
+        type ssr_rm_t;
+    ')
+
+    allow $1 ssr_rm_t:process signull;
+')
+
+########################################
+## <summary>
+##  Map ssrrm_tmpfs_t library files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`ssrrm_tmpfs_map_files',`
+    gen_require(`
+        type ssr_rm_tmpfs_t;
+    ')
+
+    allow $1 ssr_rm_tmpfs_t:file mmap_file_perms;
 ')

@@ -31,3 +31,7 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /usr/bin/pil-rm       --      gen_context(system_u:object_r:pil_rm_exec_t,s0)
+/dev/scmi_nsp0        -c      gen_context(system_u:object_r:pil_rm_scmi_dev_t,s0)
+/dev/scmi_nsp1        -c      gen_context(system_u:object_r:pil_rm_scmi_dev_t,s0)
+/dev/scmi_gpdsp0      -c      gen_context(system_u:object_r:pil_rm_scmi_dev_t,s0)
+/dev/scmi_gpdsp1      -c      gen_context(system_u:object_r:pil_rm_scmi_dev_t,s0)

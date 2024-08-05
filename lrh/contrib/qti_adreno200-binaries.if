@@ -30,6 +30,8 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+## <summary>Policy for SELinux policy and userland applications.</summary>
+
 ######################################
 ## <summary>
 ##  Read adreno related process infomation.
@@ -101,4 +103,58 @@ interface(`adreno200_mmap_rw_tmpfs_files',`
     ')
 
     mmap_rw_files_pattern($1, adreno200_tmpfs_t, adreno200_tmpfs_t)
+')
+
+######################################
+## <summary>
+## Open read write adreno200-binaries tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`adreno200_rw_tmpfs_files',`
+    gen_require(`
+        type adreno200_tmpfs_t;
+    ')
+
+    rw_files_pattern($1, adreno200_tmpfs_t, adreno200_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Read and write scmi devices (/dev/scmi_gfx).
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`adreno200_rw_scmi_dev',`
+    gen_require(`
+        type device_t, adreno200_dev_t;
+    ')
+
+    rw_chr_files_pattern($1, device_t, adreno200_dev_t)
+')
+
+######################################
+## <summary>
+##  Delete adreno200-binaries tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`adreno200_delete_tmpfs_files',`
+    gen_require(`
+        type adreno200_tmpfs_t;
+    ')
+
+    delete_files_pattern($1, adreno200_tmpfs_t, adreno200_tmpfs_t)
 ')

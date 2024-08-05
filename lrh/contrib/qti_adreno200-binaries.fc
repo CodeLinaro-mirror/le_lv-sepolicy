@@ -32,3 +32,4 @@
 
 /usr/bin/gsl_hab_server     --      gen_context(system_u:object_r:adreno200_exec_t,s0)
 /usr/bin/kgsl               --      gen_context(system_u:object_r:adreno200_exec_t,s0)
+/dev/scmi_gfx               -c      gen_context(system_u:object_r:adreno200_dev_t,s0)

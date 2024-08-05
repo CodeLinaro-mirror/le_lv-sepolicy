@@ -49,3 +49,96 @@ interface(`fs_map_tmpfs_files',`
 
     allow $1 tmpfs_t:file map;
 ')
+
+########################################
+## <summary>
+##  Create, read, write, and map
+##  tmpfs files
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`fs_create_mmap_rw_tmpfs_files',`
+    gen_require(`
+        type tmpfs_t;
+    ')
+
+    allow $1 tmpfs_t:file create_file_perms;
+    allow $1 tmpfs_t:file mmap_rw_file_perms;
+')
+
+########################################
+## <summary>
+##  Create and write tmp files
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`fs_create_write_tmp_files',`
+    gen_require(`
+        type tmp_t;
+    ')
+
+    create_files_pattern($1, tmp_t, tmp_t);
+    allow $1 tmp_t:file write_file_perms;
+')
+
+##################################
+## <summary>
+##  Create files on a configfs filesystems.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`fs_create_configfs_files',`
+    gen_require(`
+        type configfs_t;
+    ')
+
+    create_files_pattern($1, configfs_t, configfs_t)
+')
+
+##################################
+## <summary>
+##  Read and write files on a configfs filesystems.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`fs_rw_configfs_files',`
+    gen_require(`
+        type configfs_t;
+    ')
+
+    rw_files_pattern($1, configfs_t, configfs_t)
+')
+
+##################################
+## <summary>
+##  Create dirs on a configfs filesystems.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`fs_create_configfs_dirs',`
+    gen_require(`
+        type configfs_t;
+    ')
+
+    create_dirs_pattern($1, configfs_t, configfs_t)
+')

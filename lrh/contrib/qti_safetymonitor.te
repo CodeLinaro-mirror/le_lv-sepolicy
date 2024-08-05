@@ -58,6 +58,11 @@ dev_read_sysfs(safetymonitor_t)
 
 syscache_rm_signull(safetymonitor_t)
 eva_auto_signull(safetymonitor_t)
+
+#adreno200
+adreno200_rw_tmpfs_files(safetymonitor_t)
+adreno200_signull(safetymonitor_t)
+
 unconfined_server_signull(safetymonitor_t)
 unconfined_signull(safetymonitor_t)
 
@@ -66,6 +71,10 @@ syscacherm_mmap_rw_tmpfs_files(safetymonitor_t)
 
 evauto_delete_tmpfs_files(safetymonitor_t)
 syscacherm_delete_tmpfs_files(safetymonitor_t)
+adreno200_delete_tmpfs_files(safetymonitor_t)
+
+#adreno200
+adreno200_mmap_rw_tmpfs_files(safetymonitor_t)
 
 #libkiumd
 libkiumd_mmap_exec_lib_file(safetymonitor_t)

@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+#Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -30,59 +30,22 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-policy_module(qti_ssr-rm, 1.0)
+## <summary>Policy for SELinux policy and userland applications.</summary>
 
-type ssr_rm_t;
-type ssr_rm_exec_t;
-type ssr_rm_tmp_t;
-type ssr_rm_tmpfs_t;
+######################################
+## <summary>
+##  Read and write scmi devices (/dev/scmi_camera).
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`qcx_rw_scmi_dev',`
+    gen_require(`
+        type device_t, qcx_dev_t;
+    ')
 
-init_daemon_domain(ssr_rm_t, ssr_rm_exec_t)
-
-logging_create_devlog_dev(ssr_rm_t)
-kernel_dgram_send(ssr_rm_t)
-
-unconfined_server_signull(ssr_rm_t)
-unconfined_signull(ssr_rm_t)
-
-glinkserver_signull(ssr_rm_t)
-fastrpc_rm_signull(ssr_rm_t)
-diag_service_signull(ssr_rm_t)
-audio_service_signull(ssr_rm_t)
-pil_rm_signull(ssr_rm_t)
-
-glinkserver_mmap_rw_tmpfs_files(ssr_rm_t)
-fastrpc_rm_mmap_rw_tmpfs_files(ssr_rm_t)
-diagservice_mmap_rw_tmpfs_files(ssr_rm_t)
-pilrm_mmap_rw_tmpfs_files(ssr_rm_t)
-audioservice_mmap_rw_tmpfs_files(ssr_rm_t)
-subsys_ramdump_rw_files(ssr_rm_t)
-
-audioservice_delete_tmpfs_files(ssr_rm_t)
-glinkserver_delete_tmpfs_files(ssr_rm_t)
-
-# /tmp/lrms_log_*.txt
-files_tmp_file(ssr_rm_tmp_t)
-files_tmp_filetrans(ssr_rm_t, ssr_rm_tmp_t, { dir file })
-manage_files_pattern(ssr_rm_t, ssr_rm_tmp_t, ssr_rm_tmp_t)
-
-# /ssr-lrm
-# Map /dev/shm/lrmc_rq_
-files_tmpfs_file(ssr_rm_tmpfs_t)
-fs_tmpfs_filetrans(ssr_rm_t, ssr_rm_tmpfs_t, { dir file })
-ssrrm_create_tmpfs_files(ssr_rm_t)
-ssrrm_rw_tmpfs_files(ssr_rm_t)
-ssrrm_tmpfs_map_files(ssr_rm_t)
-allow ssr_rm_t ssr_rm_tmpfs_t:file unlink;
-
-#libkiumd
-libkiumd_mmap_exec_lib_file(ssr_rm_t)
-
-# /run/systemd/journal/dev-log
-logging_dgram_send(ssr_rm_t)
-
-allow ssr_rm_t self:unix_dgram_socket create_socket_perms;
-allow ssr_rm_t self:process { setrlimit setsched };
-allow ssr_rm_t self:capability { sys_resource net_admin sys_nice };
-
-userdom_mmap_rw_inherited_user_tmp_files(ssr_rm_t)
+    rw_chr_files_pattern($1, device_t, qcx_dev_t)
+')

@@ -30,6 +30,8 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+## <summary>Policy for SELinux policy and userland applications.</summary>
+
 ######################################
 ## <summary>
 ##  Check audio-service related process infomation, such as ps tool.
@@ -121,4 +123,40 @@ interface(`audioservice_rw_etc_files',`
 
     list_dirs_pattern($1, audio_etc_t, audio_etc_t)
     rw_files_pattern($1, audio_etc_t, audio_etc_t)
+')
+
+######################################
+## <summary>
+##  Read and write audio device (/dev/ipc_shmem)
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`audioservice_rw_audio_dev',`
+    gen_require(`
+        type device_t, audio_device_t;
+    ')
+
+    rw_chr_files_pattern($1, device_t, audio_device_t)
+')
+
+######################################
+## <summary>
+##  MMAP audio device (/dev/ipc_shmem)
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`audioservice_mmap_audio_dev',`
+    gen_require(`
+        type audio_device_t;
+    ')
+
+    allow $1 audio_device_t:chr_file map;
 ')

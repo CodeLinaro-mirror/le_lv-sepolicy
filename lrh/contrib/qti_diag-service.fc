@@ -31,3 +31,5 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /usr/bin/diag_service     --      gen_context(system_u:object_r:diag_service_exec_t,s0)
+/usr/bin/diag-port-change-test     --      gen_context(system_u:object_r:diag_service_exec_t,s0)
+/usr/bin/diag-lsm-client-app     --      gen_context(system_u:object_r:diag_service_exec_t,s0)

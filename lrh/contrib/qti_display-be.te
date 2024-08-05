@@ -45,10 +45,12 @@ dev_rw_hab_dev(display_be_t)
 owfds_map_lib_files(display_be_t)
 owfds_rw_tmpfs_files(display_be_t)
 
+logging_create_devlog_dev(display_be_t)
+
 # ========== local ==========
 allow display_be_t self:unix_dgram_socket { create connect };
 allow display_be_t self:process { setrlimit setsched };
-allow display_be_t self:capability { sys_resource sys_nice };
+allow display_be_t self:capability { sys_resource sys_nice dac_override };
 
 # /tmp/lrmc_log_(pid).txt
 files_tmp_file(display_be_tmp_t)

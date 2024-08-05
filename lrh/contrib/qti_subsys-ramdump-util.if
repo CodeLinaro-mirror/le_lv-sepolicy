@@ -30,6 +30,8 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+## <summary>Policy for SELinux policy and userland applications.</summary>
+
 ######################################
 ## <summary>
 ##  Read subsys-ramdump proc infomation.
@@ -47,4 +49,41 @@ interface(`subsys_ramdump_read_pid',`
 
     files_search_pids($1)
     read_files_pattern($1, subsys_ramdump_util_t, subsys_ramdump_util_t)
+')
+
+######################################
+## <summary>
+##  Read, write ssrdump tmp files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`subsys_ramdump_rw_files',`
+    gen_require(`
+        type ssrdump_tmpfs_t;
+    ')
+
+    rw_files_pattern($1, ssrdump_tmpfs_t, ssrdump_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  create files under tmpfs filesystem for ssrdump.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`ssrdump_create_rw_var_files',`
+    gen_require(`
+        type ssrdump_var_t;
+    ')
+
+    create_files_pattern($1, ssrdump_var_t, ssrdump_var_t)
+    rw_files_pattern($1, ssrdump_var_t, ssrdump_var_t)
 ')

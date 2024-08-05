@@ -41,6 +41,8 @@ init_daemon_domain(sail_mailbox_t, sail_mailbox_exec_t)
 
 logging_send_syslog_msg(sail_mailbox_t)
 
+unconfined_server_signull(sail_mailbox_t)
+
 #libkiumd
 libkiumd_mmap_exec_lib_file(sail_mailbox_t)
 
@@ -59,6 +61,9 @@ manage_files_pattern(sail_mailbox_t, sail_mailbox_tmpfs_t, sail_mailbox_tmpfs_t)
 # Manage tmp files
 userdom_manage_user_tmp_files(sail_mailbox_t)
 userdom_map_tmp_files(sail_mailbox_t)
+
+# Read, write, create and map files under tmpfs
+fs_create_mmap_rw_tmpfs_files(sail_mailbox_t)
 
 # ========== local ==========
 allow sail_mailbox_t self:unix_dgram_socket { create connect getopt setopt };
