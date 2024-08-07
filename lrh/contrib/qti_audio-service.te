@@ -95,6 +95,16 @@ allow audio_service_t self:capability { sys_resource sys_nice net_admin sys_ptra
 
 allow audio_service_t audio_service_tmpfs_t:file delete_file_perms;
 
+
+# /usr/bin/awe-start-pre.sh
+kernel_request_load_module(audio_service_t)
+
+# /usr/bin/awe_socket_service
+files_write_generic_tmp_sock_files(audio_service_t)
+
+# driver override when bind vfio node
+dev_create_sysfs_files(audio_service_t)
+
 # /tmp/lrmc_log_(pid).txt
 files_tmp_file(audio_service_tmp_t)
 files_tmp_filetrans(audio_service_t, audio_service_tmp_t, { dir fifo_file file lnk_file })
