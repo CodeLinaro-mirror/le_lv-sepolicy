@@ -21,7 +21,7 @@ files_manage_var_files(compresmon_t)
 allow compresmon_t self:process { setrlimit setsched };
 allow compresmon_t self:capability { sys_resource sys_nice sys_ptrace };
 allow compresmon_t self:unix_dgram_socket { create connect };
-allow compresmon_t self:tcp_socket { create connect getopt setopt };
+allow compresmon_t self:tcp_socket { read write create connect getopt setopt };
 
 files_tmp_file(compresmon_tmp_t)
 files_tmp_filetrans(compresmon_t, compresmon_tmp_t, { dir file })
