@@ -80,6 +80,7 @@ adreno200_mmap_rw_tmpfs_files(safetymonitor_t)
 libkiumd_mmap_exec_lib_file(safetymonitor_t)
 
 nsp_rsm_signull(safetymonitor_t)
+nsp_drv_signull(safetymonitor_t)
 
 # ========== local ==========
 allow safetymonitor_t self:unix_dgram_socket { create connect };
