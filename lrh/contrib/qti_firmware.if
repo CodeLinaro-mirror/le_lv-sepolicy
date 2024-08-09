@@ -1,0 +1,40 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# # SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary>Policy for SELinux policy and userland applications.</summary>
+
+#######################################
+## <summary>
+##  Search directories under /vendor/dsp.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`firmware_search_dsp_dirs',`
+    gen_require(`
+        type dsp_file_t;
+    ')
+
+    search_dirs_pattern($1, dsp_file_t, dsp_file_t)
+')
+
+#######################################
+## <summary>
+##  Read link files under /vendor/dsp.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`firmware_read_dsp_lnk_files',`
+    gen_require(`
+        type dsp_file_t;
+    ')
+
+    read_lnk_files_pattern($1, dsp_file_t, dsp_file_t)
+')

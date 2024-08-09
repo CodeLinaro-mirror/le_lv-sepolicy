@@ -102,7 +102,6 @@ require {
     type pil_rm_t;
     type user_tmp_t;
     type chkpwd_t;
-    type chronyc_t;
     type sshd_t;
     class file { getattr map open read unlink };
     class dir search;
@@ -112,7 +111,6 @@ require {
 }
 
 #============= NetworkManager_dispatcher_chronyc_t ==============
-allow NetworkManager_dispatcher_chronyc_t chronyc_t:process { noatsecure rlimitinh siginh };
 allow NetworkManager_dispatcher_chronyc_t init_t:unix_stream_socket { read write };
 
 #============= NetworkManager_dispatcher_t ==============
