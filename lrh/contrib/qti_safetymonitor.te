@@ -63,6 +63,9 @@ eva_auto_signull(safetymonitor_t)
 adreno200_rw_tmpfs_files(safetymonitor_t)
 adreno200_signull(safetymonitor_t)
 
+#nsp
+nsp_drv_signull(safetymonitor_t)
+
 unconfined_server_signull(safetymonitor_t)
 unconfined_signull(safetymonitor_t)
 
@@ -75,6 +78,9 @@ adreno200_delete_tmpfs_files(safetymonitor_t)
 
 #adreno200
 adreno200_mmap_rw_tmpfs_files(safetymonitor_t)
+
+#nsp
+nspdrv_mmap_rw_tmpfs_files(safetymonitor_t)
 
 #libkiumd
 libkiumd_mmap_exec_lib_file(safetymonitor_t)
