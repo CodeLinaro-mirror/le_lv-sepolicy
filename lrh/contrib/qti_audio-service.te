@@ -105,6 +105,10 @@ files_write_generic_tmp_sock_files(audio_service_t)
 # driver override when bind vfio node
 dev_create_sysfs_files(audio_service_t)
 
+# fastrpc_be thread
+files_manage_var_dirs(audio_service_t)
+
+
 # /tmp/lrmc_log_(pid).txt
 files_tmp_file(audio_service_tmp_t)
 files_tmp_filetrans(audio_service_t, audio_service_tmp_t, { dir fifo_file file lnk_file })
