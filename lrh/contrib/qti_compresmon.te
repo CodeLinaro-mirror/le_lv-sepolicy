@@ -19,7 +19,7 @@ unconfined_ptrace(compresmon_t)
 files_manage_var_files(compresmon_t)
 
 allow compresmon_t self:process { setrlimit setsched };
-allow compresmon_t self:capability { sys_resource sys_nice };
+allow compresmon_t self:capability { sys_resource sys_nice sys_ptrace };
 allow compresmon_t self:unix_dgram_socket { create connect };
 allow compresmon_t self:tcp_socket { read write create connect getopt setopt };
 
@@ -51,4 +51,7 @@ fs_map_tmpfs_files(compresmon_t)
 fs_delete_tmpfs_files(compresmon_t)
 corenet_tcp_connect_unreserved_ports(compresmon_t)
 userdom_manage_tmp_files(compresmon_t)
+corecmd_exec_bin(compresmon_t)
+vhost_user_write_vhost_socket(compresmon_t)
 
+dev_rw_profiler_dev(compresmon_t)

@@ -71,3 +71,6 @@ weston_manage_lib_files(unconfined_service_t)
 weston_manage_lib_files(unconfined_t)
 weston_map_lib_files(unconfined_service_t)
 weston_map_lib_files(unconfined_t)
+
+dev_rw_profiler_dev(unconfined_t)
+dev_relabel_profiler_dev(unconfined_t)
