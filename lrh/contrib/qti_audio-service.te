@@ -102,7 +102,6 @@ allow audio_service_t self:process { setrlimit setsched };
 allow audio_service_t self:capability { sys_resource sys_nice net_admin sys_ptrace dac_override };
 allow audio_service_t self:tcp_socket {accept bind create listen setopt shutdown connect read write};
 
-
 # /usr/bin/awe-start-pre.sh
 kernel_request_load_module(audio_service_t)
 
@@ -137,6 +136,8 @@ dbus_send_system_bus(audio_service_t)
 
 # cgroup_t
 fs_getattr_cgroup(audio_service_t)
+# allow audio_service to set acdb tmp path at /var/
+files_manage_var_files(audio_service_t)
 
 # /tmp/lrmc_log_(pid).txt
 files_tmp_file(audio_service_tmp_t)
