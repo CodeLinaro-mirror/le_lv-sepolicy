@@ -68,3 +68,21 @@ interface(`safetymonitor_rw_tmpfs_files',`
 
     rw_files_pattern($1, safetymonitor_tmpfs_t, safetymonitor_tmpfs_t)
 ')
+
+######################################
+## <summary>
+##  Send signull to safetymonitor_t.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`safetymonitor_signull',`
+    gen_require(`
+        type safetymonitor_t;
+    ')
+
+    allow $1 safetymonitor_t:process signull;
+')
