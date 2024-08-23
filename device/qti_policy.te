@@ -98,8 +98,12 @@ require {
 }
 
 type dsp_file_t;
-
 files_type(dsp_file_t)
+
+#============= location ==============
+type loc_socket_t;
+type loc_data_t;
+type perf_hal_data_t;
 
 #============= chkpwd_t ==============
 allow chkpwd_t etc_t:file map;
