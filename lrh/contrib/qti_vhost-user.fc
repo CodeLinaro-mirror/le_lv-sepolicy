@@ -37,3 +37,6 @@
 /dev/vhost-ogles                      -c      gen_context(system_u:object_r:vhost_user_device_t,s0)
 /dev/vhost-misc                       -c      gen_context(system_u:object_r:vhost_user_device_t,s0)
 /dev/vhost-vid                        -c      gen_context(system_u:object_r:vhost_user_device_t,s0)
+/dev/vhost-vnw                        -c      gen_context(system_u:object_r:vhost_user_device_t,s0)
+/dev/vhost-ext                        -c      gen_context(system_u:object_r:vhost_user_device_t,s0)
+/dev/vhost-gpce                       -c      gen_context(system_u:object_r:vhost_user_device_t,s0)
