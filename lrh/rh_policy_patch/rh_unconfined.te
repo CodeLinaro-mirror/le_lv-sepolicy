@@ -51,6 +51,9 @@ qseecomd_rw_persist(unconfined_t)
 vhost_user_manage_tmp_files(unconfined_service_t)
 vhost_user_manage_tmp_files(unconfined_t)
 
+vhost_user_manage_tmp_files_vm3(unconfined_service_t)
+vhost_user_manage_tmp_files_vm3(unconfined_t)
+
 owfds_map_lib_files(unconfined_service_t)
 owfds_map_lib_files(unconfined_t)
 owfds_manage_lib_files(unconfined_service_t)

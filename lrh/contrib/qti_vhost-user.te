@@ -33,17 +33,27 @@
 policy_module(qti_vhost-user, 1.0)
 
 type vhost_user_qti_t;
+type vhost_user_qti_vm3_t;
 type vhost_user_qti_exec_t;
+type vhost_user_qti_exec_vm3_t;
 type vhost_user_device_t;
+type vhost_user_vm3_device_t;
 type vhost_user_tmp_t;
+type vhost_user_tmp_vm3_t;
+
 type vhost_user_tmpfs_t;
 
 init_daemon_domain(vhost_user_qti_t, vhost_user_qti_exec_t)
+init_daemon_domain(vhost_user_qti_vm3_t, vhost_user_qti_exec_vm3_t)
 
 dev_node(vhost_user_device_t)
+dev_node(vhost_user_vm3_device_t)
 
 vhost_user_rw_vhost_dev(vhost_user_qti_t)
+vhost_user_rw_vhost_vm3_dev(vhost_user_qti_vm3_t);
+
 vhost_user_delete_vhost_dev(vhost_user_qti_t)
+vhost_user_delete_vhost_dev_vm3(vhost_user_qti_vm3_t)
 
 vhost_user_create_vhost_socket(vhost_user_qti_t, vhost_user_tmp_t, "linux-vm2-aud-skt")
 vhost_user_create_vhost_socket(vhost_user_qti_t, vhost_user_tmp_t, "linux-vm2-cam-skt")
@@ -55,4 +65,13 @@ vhost_user_create_vhost_socket(vhost_user_qti_t, vhost_user_tmp_t, "linux-vm2-vn
 vhost_user_create_vhost_socket(vhost_user_qti_t, vhost_user_tmp_t, "linux-vm2-gpce-skt")
 vhost_user_create_vhost_socket(vhost_user_qti_t, vhost_user_tmp_t, "linux-vm2-ext-skt")
 
+vhost_user_create_vhost_socket(vhost_user_qti_vm3_t, vhost_user_tmp_vm3_t, "linux-vm3-aud-skt")
+vhost_user_create_vhost_socket(vhost_user_qti_vm3_t, vhost_user_tmp_vm3_t, "linux-vm3-cam-skt")
+vhost_user_create_vhost_socket(vhost_user_qti_vm3_t, vhost_user_tmp_vm3_t, "linux-vm3-disp-skt")
+vhost_user_create_vhost_socket(vhost_user_qti_vm3_t, vhost_user_tmp_vm3_t, "linux-vm3-ogles-skt")
+vhost_user_create_vhost_socket(vhost_user_qti_vm3_t, vhost_user_tmp_vm3_t, "linux-vm3-misc-skt")
+vhost_user_create_vhost_socket(vhost_user_qti_vm3_t, vhost_user_tmp_vm3_t, "linux-vm3-vid-skt")
+
 allow vhost_user_qti_t vhost_user_tmp_t:sock_file unlink;
+allow vhost_user_qti_vm3_t vhost_user_tmp_vm3_t:sock_file unlink;
+allow vhost_user_qti_vm3_t vhost_user_qti_exec_t:file {entrypoint map read execute};
