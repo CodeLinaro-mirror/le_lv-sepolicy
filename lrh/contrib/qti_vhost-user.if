@@ -34,7 +34,7 @@
 
 ######################################
 ## <summary>
-##  Read and write generic the vhost-aud, vhost-cam devices.
+##  Read and write vhost devices (vhost-aud, vhost-cam devices, etc).
 ## </summary>
 ## <param name="domain">
 ##  <summary>
@@ -48,6 +48,24 @@ interface(`vhost_user_rw_vhost_dev',`
     ')
 
     rw_chr_files_pattern($1, device_t, vhost_user_device_t)
+')
+
+######################################
+## <summary>
+##  Read and write vhost devices (vhost-vm3-aud, vhost-vm3-cam, etc).
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`vhost_user_rw_vhost_vm3_dev',`
+    gen_require(`
+        type device_t, vhost_user_device_vm3_t;
+    ')
+
+    rw_chr_files_pattern($1, device_t, vhost_user_device_vm3_t)
 ')
 
 ######################################
@@ -66,6 +84,24 @@ interface(`vhost_user_write_vhost_socket',`
     ')
 
     allow $1 vhost_user_tmp_t:sock_file write;
+')
+
+######################################
+## <summary>
+##  Write vhost-user corresponding sockets for vm3.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`vhost_user_write_vhost_socket_vm3',`
+    gen_require(`
+        type vhost_user_tmp_vm3_t;
+    ')
+
+    allow $1 vhost_user_tmp_vm3_t:sock_file write;
 ')
 
 ######################################
@@ -89,6 +125,25 @@ interface(`vhost_user_manage_tmp_files',`
 
 ######################################
 ## <summary>
+##  Manage vhost-user tmp files for vm3.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`vhost_user_manage_tmp_files_vm3',`
+    gen_require(`
+        type vhost_user_tmp_vm3_t;
+    ')
+
+    manage_files_pattern($1, vhost_user_tmp_vm3_t, vhost_user_tmp_vm3_t)
+    manage_sock_files_pattern($1, vhost_user_tmp_vm3_t, vhost_user_tmp_vm3_t)
+')
+
+######################################
+## <summary>
 ##  getattr vhost-user corresponding sockets.
 ## </summary>
 ## <param name="domain">
@@ -103,6 +158,24 @@ interface(`vhost_user_getattr_vhost_socket',`
     ')
 
     allow $1 vhost_user_tmp_t:sock_file getattr;
+')
+
+######################################
+## <summary>
+##  getattr vhost-user corresponding sockets for vm3.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`vhost_user_getattr_vhost_socket_vm3',`
+    gen_require(`
+        type vhost_user_tmp_vm3_t;
+    ')
+
+    allow $1 vhost_user_tmp_vm3_t:sock_file getattr;
 ')
 
 ######################################
@@ -139,6 +212,24 @@ interface(`vhost_user_stream_connect_vhostu',`
     allow $1 vhost_user_qti_t:unix_stream_socket connectto;
 ')
 
+########################################
+## <summary>
+##  Connect to vhost_user_qti_t over a unix stream socket for vm3.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`vhost_user_stream_connect_vhostu_vm3',`
+    gen_require(`
+        type vhost_user_qti_vm3_t;
+    ')
+
+    allow $1 vhost_user_qti_vm3_t:unix_stream_socket connectto;
+')
+
 ######################################
 ## <summary>
 ## Delete generic the vhost-aud, vhost-cam devices.
@@ -155,4 +246,22 @@ interface(`vhost_user_delete_vhost_dev',`
     ')
 
     delete_chr_files_pattern($1, device_t, vhost_user_device_t)
+')
+
+######################################
+## <summary>
+## Delete generic the vhost-vm3-aud, vhost-vm3-cam devices.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`vhost_user_delete_vhost_dev_vm3',`
+    gen_require(`
+        type device_t, vhost_user_device_vm3_t;
+    ')
+
+    delete_chr_files_pattern($1, device_t, vhost_user_device_vm3_t)
 ')
