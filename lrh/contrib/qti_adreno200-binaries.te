@@ -87,6 +87,7 @@ files_tmpfs_file(adreno200_tmpfs_t)
 fs_tmpfs_filetrans(adreno200_t, adreno200_tmpfs_t, { dir file })
 create_files_pattern(adreno200_t, adreno200_tmpfs_t, adreno200_tmpfs_t)
 adreno200_mmap_rw_tmpfs_files(adreno200_t)
+fs_rw_tmpfs_files(adreno200_t)
 
 #libkiumd
 libkiumd_ioctl_lib_file(adreno200_t)
