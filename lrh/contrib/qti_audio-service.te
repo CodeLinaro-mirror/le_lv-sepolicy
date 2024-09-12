@@ -112,6 +112,16 @@ dev_create_sysfs_files(audio_service_t)
 # fastrpc_be thread
 files_manage_var_dirs(audio_service_t)
 
+# system_dbusd
+systemd_write_inhibit_pipes(audio_service_t)
+systemd_dbus_chat_logind(audio_service_t)
+
+dbus_write_pid_sock_files(audio_service_t)
+dbus_stream_connect_system_dbusd(audio_service_t)
+dbus_send_system_bus(audio_service_t)
+
+# cgroup_t
+fs_getattr_cgroup(audio_service_t)
 
 # /tmp/lrmc_log_(pid).txt
 files_tmp_file(audio_service_tmp_t)
