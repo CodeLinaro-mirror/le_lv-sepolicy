@@ -92,3 +92,21 @@ interface(`files_mmap_default_files',`
 
     mmap_files_pattern($1, default_t, default_t)
 ')
+
+##################################
+## <summary>
+##  Manage sock files under /var.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_manage_var_sockfiles',`
+    gen_require(`
+        type var_t;
+    ')
+
+    allow $1 var_t:sock_file manage_file_perms;
+')

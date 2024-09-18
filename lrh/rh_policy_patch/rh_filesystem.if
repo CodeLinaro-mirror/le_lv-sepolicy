@@ -142,3 +142,21 @@ interface(`fs_create_configfs_dirs',`
 
     create_dirs_pattern($1, configfs_t, configfs_t)
 ')
+
+##################################
+## <summary>
+##  Manage files on a tracefs filesystems.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`fs_manage_tracefs_files',`
+    gen_require(`
+        type tracefs_t;
+    ')
+
+    manage_files_pattern($1, tracefs_t, tracefs_t)
+')
