@@ -59,6 +59,25 @@ interface(`files_create_default_dirs',`
 
 ##################################
 ## <summary>
+##  Read and write to dirs under default type.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_rw_default_dirs',`
+    gen_require(`
+        type default_t;
+    ')
+
+    rw_dirs_pattern($1, default_t, default_t)
+')
+
+
+##################################
+## <summary>
 ##  Create files under default type.
 ## </summary>
 ## <param name="domain">

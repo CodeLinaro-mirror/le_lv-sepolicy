@@ -80,6 +80,8 @@ term_use_unallocated_ttys(audio_service_t)
 firmware_search_dsp_dirs(audio_service_t)
 firmware_read_dsp_lnk_files(audio_service_t)
 firmware_write_dsp_dirs(audio_service_t)
+firmware_create_dsp_dirs(audio_service_t)
+firmware_create_dsp_lnk_files(audio_service_t)
 
 fastrpc_rm_ptrace(audio_service_t)
 glinkserver_ptrace(audio_service_t)
