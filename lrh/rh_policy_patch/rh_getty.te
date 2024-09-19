@@ -30,4 +30,5 @@ term_relabel_unallocated_ttys(getty_t)
 
 allow getty_t self:process { setsched setexec setkeycreate };
 allow getty_t self:capability { net_admin audit_write setuid };
+allow getty_t self:capability2 { checkpoint_restore };
 allow getty_t self:netlink_audit_socket { create write nlmsg_relay read };
