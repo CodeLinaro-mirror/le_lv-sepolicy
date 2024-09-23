@@ -59,6 +59,25 @@ interface(`files_create_default_dirs',`
 
 ##################################
 ## <summary>
+##  Read and write to dirs under default type.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_rw_default_dirs',`
+    gen_require(`
+        type default_t;
+    ')
+
+    rw_dirs_pattern($1, default_t, default_t)
+')
+
+
+##################################
+## <summary>
 ##  Create files under default type.
 ## </summary>
 ## <param name="domain">
@@ -91,4 +110,22 @@ interface(`files_mmap_default_files',`
     ')
 
     mmap_files_pattern($1, default_t, default_t)
+')
+
+##################################
+## <summary>
+##  Manage sock files under /var.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_manage_var_sockfiles',`
+    gen_require(`
+        type var_t;
+    ')
+
+    allow $1 var_t:sock_file manage_file_perms;
 ')

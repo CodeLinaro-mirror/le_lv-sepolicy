@@ -79,6 +79,9 @@ term_use_unallocated_ttys(audio_service_t)
 # /vendor/dsp
 firmware_search_dsp_dirs(audio_service_t)
 firmware_read_dsp_lnk_files(audio_service_t)
+firmware_write_dsp_dirs(audio_service_t)
+firmware_create_dsp_dirs(audio_service_t)
+firmware_create_dsp_lnk_files(audio_service_t)
 
 fastrpc_rm_ptrace(audio_service_t)
 glinkserver_ptrace(audio_service_t)
@@ -94,17 +97,28 @@ pilrm_rw_tmpfs_files(audio_service_t)
 
 # ========== local ==========
 allow audio_service_t self:unix_dgram_socket { create connect getopt setopt };
+allow audio_service_t self:unix_stream_socket connectto;
 allow audio_service_t self:process { setrlimit setsched };
 allow audio_service_t self:capability { sys_resource sys_nice net_admin sys_ptrace dac_override };
-
-allow audio_service_t audio_service_tmpfs_t:file delete_file_perms;
-
+allow audio_service_t self:tcp_socket {accept bind create listen setopt shutdown connect read write};
 
 # /usr/bin/awe-start-pre.sh
 kernel_request_load_module(audio_service_t)
 
-# /usr/bin/awe_socket_service
-files_write_generic_tmp_sock_files(audio_service_t)
+# /tmp/awe_pkt_socket
+files_tmp_filetrans(audio_service_t, audio_service_tmp_t, sock_file, "awe_pkt_socket")
+fs_associate_tmpfs(audio_service_tmp_t)
+manage_sock_files_pattern(audio_service_t, audio_service_tmp_t, audio_service_tmp_t)
+
+# /dev/random
+dev_read_rand(audio_service_t)
+
+# /var/log/*
+logging_create_generic_logs(audio_service_t)
+
+# port 15002
+corenet_tcp_bind_generic_port(audio_service_t)
+corenet_tcp_bind_generic_node(audio_service_t)
 
 # driver override when bind vfio node
 dev_create_sysfs_files(audio_service_t)
@@ -112,6 +126,18 @@ dev_create_sysfs_files(audio_service_t)
 # fastrpc_be thread
 files_manage_var_dirs(audio_service_t)
 
+# system_dbusd
+systemd_write_inhibit_pipes(audio_service_t)
+systemd_dbus_chat_logind(audio_service_t)
+
+dbus_write_pid_sock_files(audio_service_t)
+dbus_stream_connect_system_dbusd(audio_service_t)
+dbus_send_system_bus(audio_service_t)
+
+# cgroup_t
+fs_getattr_cgroup(audio_service_t)
+# allow audio_service to set acdb tmp path at /var/
+files_manage_var_files(audio_service_t)
 
 # /tmp/lrmc_log_(pid).txt
 files_tmp_file(audio_service_tmp_t)
@@ -121,6 +147,8 @@ manage_files_pattern(audio_service_t, audio_service_tmp_t, audio_service_tmp_t)
 files_tmpfs_file(audio_service_tmpfs_t)
 fs_tmpfs_filetrans(audio_service_t, audio_service_tmpfs_t, { dir file })
 create_files_pattern(audio_service_t, audio_service_tmpfs_t, audio_service_tmpfs_t)
+delete_files_pattern(audio_service_t, audio_service_tmpfs_t, audio_service_tmpfs_t)
+
 audioservice_mmap_rw_tmpfs_files(audio_service_t)
 
 # /etc/acdbdata/*

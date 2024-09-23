@@ -97,3 +97,8 @@ allow vmm_t self:unix_dgram_socket { create connect };
 allow vmm_t self:capability { sys_resource sys_nice net_admin };
 allow vmm_t self:process { setrlimit setsched };
 allow vmm_t vmm_tmpfs_t:file delete_file_perms;
+
+# for running vmm_test app in adb shell
+unconfined_server_signull(vmm_t);
+fs_map_tmpfs_files(vmm_t);
+fs_rw_tmpfs_files(vmm_t);

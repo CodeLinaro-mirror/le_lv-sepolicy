@@ -57,6 +57,8 @@ userdom_manage_user_tmp_files(video_driver_t)
 # mmosal_logmask.cfg
 kernel_read_unlabeled_state(video_driver_t)
 files_read_default_files(video_driver_t)
+files_manage_default_files(video_driver_t)
+files_manage_default_dirs(video_driver_t)
 
 # Todo, not clear which domain create tmpfs_t objects which safetymonitor access,
 # so file transition rules can't work, use below two interface for the moment
