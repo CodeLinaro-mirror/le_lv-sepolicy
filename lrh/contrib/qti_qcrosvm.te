@@ -74,5 +74,6 @@ vhost_user_stream_connect_vhostu(qcrosvm_t)
 allow qcrosvm_t self:tun_socket { create };
 allow qcrosvm_t self:udp_socket { create ioctl };
 allow qcrosvm_t self:capability { net_admin dac_override dac_read_search };
+allow qcrosvm_t qcrosvm_boot_t:lnk_file read;
 
 read_files_pattern(qcrosvm_t, qcrosvm_boot_t, qcrosvm_boot_t)
