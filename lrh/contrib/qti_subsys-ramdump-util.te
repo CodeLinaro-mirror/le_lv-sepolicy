@@ -78,3 +78,6 @@ ssrrm_signull(subsys_ramdump_util_t)
 ssrrm_rw_tmpfs_files(subsys_ramdump_util_t)
 ssrdump_create_rw_var_files(subsys_ramdump_util_t)
 ssrrm_tmpfs_map_files(subsys_ramdump_util_t)
+
+unconfined_server_signull(subsys_ramdump_util_t)
+fs_create_mmap_rw_tmpfs_files(subsys_ramdump_util_t)

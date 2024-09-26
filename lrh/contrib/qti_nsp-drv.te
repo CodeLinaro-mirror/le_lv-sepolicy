@@ -60,6 +60,8 @@ create_files_pattern(nsp_drv_t, nsp_drv_tmpfs_t, nsp_drv_tmpfs_t)
 nspdrv_mmap_rw_tmpfs_files(nsp_drv_t)
 safetymonitor_rw_tmpfs_files(nsp_drv_t)
 
+nspdrv_delete_tmpfs_files(nsp_drv_t)
+
 #libkiumd
 libkiumd_mmap_exec_lib_file(nsp_drv_t)
 
