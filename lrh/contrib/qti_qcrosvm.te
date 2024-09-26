@@ -47,6 +47,8 @@ files_mounton_isid_type_dirs(qcrosvm_t)
 files_manage_isid_type_files(qcrosvm_t)
 
 files_rw_generic_tmp_sockets(qcrosvm_t)
+files_create_tmp_files(qcrosvm_t)
+files_rw_tmp_files(qcrosvm_t)
 
 kernel_request_load_module(qcrosvm_t)
 kernel_search_debugfs(qcrosvm_t)
