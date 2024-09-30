@@ -69,12 +69,15 @@ vhost_user_rw_vhost_dev(qcrosvm_t)
 vhost_user_write_vhost_socket(qcrosvm_t)
 corenet_rw_tun_tap_dev(qcrosvm_t)
 
-# conect to /tmp/linux-vm2-disp-skt
+# connect to /tmp/linux-vm2-disp-skt
 vhost_user_stream_connect_vhostu(qcrosvm_t)
+# call getattr on vhost-user-qti sockets
+vhost_user_getattr_vhost_socket(qcrosvm_t)
 
 # ========== local ==========
 allow qcrosvm_t self:tun_socket { create };
 allow qcrosvm_t self:udp_socket { create ioctl };
 allow qcrosvm_t self:capability { net_admin dac_override dac_read_search };
+logging_send_syslog_msg(qcrosvm_t)
 
 read_files_pattern(qcrosvm_t, qcrosvm_boot_t, qcrosvm_boot_t)
