@@ -161,4 +161,4 @@ libkiumd_mmap_exec_lib_file(qcx_be_server_t)
 
 
 allow qcx_be_server_t self:process { setsched };
-allow qcx_be_server_t self:capability { sys_resource sys_nice };
+allow qcx_be_server_t self:capability { sys_resource sys_nice dac_override };
