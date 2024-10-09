@@ -129,3 +129,129 @@ interface(`files_manage_var_sockfiles',`
 
     allow $1 var_t:sock_file manage_file_perms;
 ')
+
+##################################
+## <summary>
+##  Create files under tmp directory.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_create_tmp_files',`
+    gen_require(`
+        type tmp_t;
+    ')
+
+    create_files_pattern($1, tmp_t, tmp_t)
+')
+
+##################################
+## <summary>
+##  read and write files under tmp directory.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_rw_tmp_files',`
+    gen_require(`
+        type tmp_t;
+    ')
+
+    rw_files_pattern($1, tmp_t, tmp_t)
+')
+
+##################################
+## <summary>
+##  Allow to create files under /var/run.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_create_var_run_files',`
+    gen_require(`
+        type var_run_t;
+    ')
+
+    create_files_pattern($1, var_run_t, var_run_t)
+')
+
+##################################
+## <summary>
+##  Allow to create sock_files under /var/run.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_create_var_run_sock_files',`
+    gen_require(`
+        type var_run_t;
+    ')
+
+    create_sock_files_pattern($1, var_run_t, var_run_t)
+')
+
+##################################
+## <summary>
+##  Allow to unlink files under /var/run.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_delete_var_run_files',`
+    gen_require(`
+        type var_run_t;
+    ')
+
+    delete_files_pattern($1, var_run_t, var_run_t)
+')
+
+##################################
+## <summary>
+##  Allow to read and write files under /var/run.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_rw_var_run_files',`
+    gen_require(`
+        type var_run_t;
+    ')
+
+    rw_files_pattern($1, var_run_t, var_run_t)
+')
+
+##################################
+## <summary>
+##  Allow to manage lnk_files under /var/run.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_manage_var_run_lnk_files',`
+    gen_require(`
+        type var_run_t;
+    ')
+
+    manage_lnk_files_pattern($1, var_run_t, var_run_t)
+')
