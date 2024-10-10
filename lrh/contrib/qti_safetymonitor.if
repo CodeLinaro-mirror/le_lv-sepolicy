@@ -86,3 +86,23 @@ interface(`safetymonitor_signull',`
 
     allow $1 safetymonitor_t:process signull;
 ')
+
+
+######################################
+## <summary>
+##  Allow execution of bins inside safetymonitor_t.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`safetymonitor_execute_bins',`
+    gen_require(`
+        type safetymonitor_t;
+    ')
+    corecmd_exec_bin(safetymonitor_t)
+
+    allow $1 safetymonitor_t:file execute_no_trans;
+')
