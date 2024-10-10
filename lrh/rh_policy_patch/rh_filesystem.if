@@ -160,3 +160,21 @@ interface(`fs_manage_tracefs_files',`
 
     manage_files_pattern($1, tracefs_t, tracefs_t)
 ')
+
+##################################
+## <summary>
+##  Read and write directories on a DOS filesystem.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`fs_rw_dos_dirs',`
+    gen_require(`
+        type dosfs_t;
+    ')
+
+    rw_dirs_pattern($1, dosfs_t, dosfs_t)
+')
