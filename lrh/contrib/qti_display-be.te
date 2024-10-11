@@ -48,7 +48,7 @@ owfds_rw_tmpfs_files(display_be_t)
 logging_create_devlog_dev(display_be_t)
 
 # ========== local ==========
-allow display_be_t self:unix_dgram_socket { create connect };
+allow display_be_t self:unix_dgram_socket { create connect sendto };
 allow display_be_t self:process { setrlimit setsched };
 allow display_be_t self:capability { sys_resource sys_nice dac_override };
 
