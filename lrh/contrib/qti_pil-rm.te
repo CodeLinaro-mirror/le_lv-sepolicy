@@ -74,6 +74,7 @@ fs_read_dos_files(pil_rm_t)
 libkiumd_mmap_exec_lib_file(pil_rm_t)
 
 dev_rw_scmnode_dev(pil_rm_t)
+dev_dontaudit_scmnode_sec_dev(pil_rm_t)
 dev_rw_kiumd_dev(pil_rm_t)
 dev_rw_vfio_dev(pil_rm_t)
 dev_read_sysfs(pil_rm_t)
