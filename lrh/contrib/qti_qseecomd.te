@@ -55,6 +55,9 @@ dev_manage_qseecom(qseecomd_t)
 #dev_manage_generic_dirs(qseecomd_t)
 dev_read_generic_chr_files(qseecomd_t)
 
+# /sys/power/wake_lock
+dev_rw_sysfs(qseecomd_t)
+
 # /dev/vde, dosfs_t
 fs_list_dos(qseecomd_t)
 fs_read_dos_files(qseecomd_t)
