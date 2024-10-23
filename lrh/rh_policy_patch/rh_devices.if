@@ -124,6 +124,24 @@ interface(`dev_rw_scmnode_dev',`
 
 ########################################
 ## <summary>
+##  Don't audit scmnode_sec device (/dev/scmnode_sec).
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`dev_dontaudit_scmnode_sec_dev',`
+    gen_require(`
+        type scmnode_sec_device_t;
+    ')
+
+    dontaudit $1 scmnode_sec_device_t:chr_file rw_chr_file_perms;
+')
+
+########################################
+## <summary>
 ##  Read and write hab device (/dev/hab).
 ## </summary>
 ## <param name="domain">

@@ -36,6 +36,7 @@ type smcinvoke_device_t;
 type gunyah_device_t;
 type kiumd_device_t;
 type scmnode_device_t;
+type scmnode_sec_device_t;
 type hab_device_t;
 type profiler_device_t;
 
@@ -43,5 +44,6 @@ dev_node(smcinvoke_device_t)
 dev_node(gunyah_device_t)
 dev_node(kiumd_device_t)
 dev_node(scmnode_device_t)
+dev_node(scmnode_sec_device_t)
 dev_node(hab_device_t)
 dev_node(profiler_device_t)
