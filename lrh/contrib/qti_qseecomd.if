@@ -209,6 +209,24 @@ interface(`qseecomd_setattr_persist',`
 
 ########################################
 ## <summary>
+##      getattr to /persist/data directory.
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+#
+interface(`qseecomd_getattr_persist_dirs',`
+    gen_require(`
+        type qseecomd_persist_t;
+    ')
+
+    getattr_dirs_pattern($1, qseecomd_persist_t, qseecomd_persist_t)
+')
+
+########################################
+## <summary>
 ##      Manage qseecomd /persist/data.
 ## </summary>
 ## <param name="domain">

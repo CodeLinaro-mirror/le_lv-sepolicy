@@ -117,11 +117,10 @@ dev_rw_kiumd_dev(qcx_server_t)
 dev_rw_vfio_dev(qcx_server_t)
 dev_rw_gpio_dev(qcx_server_t)
 dev_read_sysfs(qcx_server_t)
-
+dev_rw_realtime_clock(qcx_server_t)
 
 allow qcx_server_t self:process { setrlimit setsched ptrace };
-allow qcx_server_t self:capability { sys_resource sys_nice };
-
+allow qcx_server_t self:capability { sys_resource sys_nice dac_override sys_ptrace };
 
 
 
@@ -162,4 +161,4 @@ libkiumd_mmap_exec_lib_file(qcx_be_server_t)
 
 
 allow qcx_be_server_t self:process { setsched };
-allow qcx_be_server_t self:capability { sys_resource sys_nice };
+allow qcx_be_server_t self:capability { sys_resource sys_nice dac_override };

@@ -38,3 +38,57 @@ interface(`firmware_read_dsp_lnk_files',`
 
     read_lnk_files_pattern($1, dsp_file_t, dsp_file_t)
 ')
+
+#######################################
+## <summary>
+##  Write dirs under /vendor/dsp.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`firmware_write_dsp_dirs',`
+    gen_require(`
+        type dsp_file_t;
+    ')
+
+    rw_dirs_pattern($1, dsp_file_t, dsp_file_t)
+')
+
+#######################################
+## <summary>
+##  Create dirs under /vendor/dsp.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`firmware_create_dsp_dirs',`
+    gen_require(`
+        type dsp_file_t;
+    ')
+
+    create_dirs_pattern($1, dsp_file_t, dsp_file_t)
+')
+
+#######################################
+## <summary>
+##  Create link files under /vendor/dsp.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`firmware_create_dsp_lnk_files',`
+    gen_require(`
+        type dsp_file_t;
+    ')
+
+    create_lnk_files_pattern($1, dsp_file_t, dsp_file_t)
+')

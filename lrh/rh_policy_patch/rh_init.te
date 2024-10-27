@@ -41,6 +41,8 @@ qseecomd_rw_persist(init_t)
 
 fs_rw_tracefs_files(init_t)
 
+fs_rw_dos_dirs(init_t)
+
 fs_rw_configfs_files(init_t)
 fs_create_configfs_files(init_t)
 fs_create_configfs_dirs(init_t)
@@ -49,7 +51,12 @@ files_manage_var_files(init_t)
 files_manage_var_dirs(init_t)
 
 files_rw_etc_files(init_t)
+files_rw_default_dirs(init_t)
+
+files_rw_default_dirs(init_t)
 
 kernel_read_debugfs(init_t)
 
 auth_rw_shadow(init_t)
+
+fs_manage_dos_dirs(init_t)

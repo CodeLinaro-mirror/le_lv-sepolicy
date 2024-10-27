@@ -51,5 +51,8 @@ vhost_user_create_vhost_socket(vhost_user_qti_t, vhost_user_tmp_t, "linux-vm2-di
 vhost_user_create_vhost_socket(vhost_user_qti_t, vhost_user_tmp_t, "linux-vm2-ogles-skt")
 vhost_user_create_vhost_socket(vhost_user_qti_t, vhost_user_tmp_t, "linux-vm2-misc-skt")
 vhost_user_create_vhost_socket(vhost_user_qti_t, vhost_user_tmp_t, "linux-vm2-vid-skt")
+vhost_user_create_vhost_socket(vhost_user_qti_t, vhost_user_tmp_t, "linux-vm2-vnw-skt")
+vhost_user_create_vhost_socket(vhost_user_qti_t, vhost_user_tmp_t, "linux-vm2-gpce-skt")
+vhost_user_create_vhost_socket(vhost_user_qti_t, vhost_user_tmp_t, "linux-vm2-ext-skt")
 
 allow vhost_user_qti_t vhost_user_tmp_t:sock_file unlink;
