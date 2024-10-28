@@ -1,0 +1,22 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(qti_power, 1.0)
+
+# Type used for qcom_pm dir that contains client sockets
+type power_qcom_pm_t;
+files_type(power_qcom_pm_t);
+
+# Type for pm-notify binary file
+type power_pm_notify_exec_t;
+# Domain for executing pm-notify
+type power_pm_notify_t;
+init_system_domain(power_pm_notify_t, power_pm_notify_exec_t);
+
+# Set for all client qcom_pm sockets so that pm-notify can use the sockets
+attribute qcom_pm_sock_file_type;
+manage_sock_files_pattern(power_pm_notify_t, qcom_pm_sock_file_type, qcom_pm_sock_file_type);
+
+# When systemd-tmpfiles creates "qcom_pm" directory /var/run/ dir,
+# change the selinux type of "qcom_pm" dir to power_qcom_pm_t
+systemd_pid_filetrans_tmpfiles(power_qcom_pm_t, dir, "qcom_pm");
