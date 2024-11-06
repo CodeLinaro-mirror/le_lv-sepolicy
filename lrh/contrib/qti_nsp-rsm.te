@@ -15,6 +15,7 @@ dev_rw_kiumd_dev(nsp_rsm_t)
 allow nsp_rsm_t self:process { setrlimit setsched };
 allow nsp_rsm_t self:unix_dgram_socket { create connect };
 allow nsp_rsm_t self:capability { sys_resource sys_nice };
+userdom_map_tmp_files(nsp_rsm_t)
 
 logging_create_devlog_dev(nsp_rsm_t)
 
