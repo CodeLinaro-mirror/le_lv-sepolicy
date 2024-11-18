@@ -100,6 +100,11 @@ manage_files_pattern(qcx_server_t, qcx_server_tmpfs_t, qcx_server_tmpfs_t)
 fs_getattr_xattr_fs(qcx_server_t)
 
 
+# default_t
+files_manage_default_dirs(qcx_server_t)
+files_manage_default_files(qcx_server_t)
+
+
 # Todo, unlabeled_t, could remove after setting selinxu context to /data mount
 files_mounton_isid_type_dirs(qcx_server_t)
 files_manage_isid_type_dirs(qcx_server_t)
@@ -158,6 +163,11 @@ dev_rw_hab_dev(qcx_be_server_t)
 
 # libkiumd
 libkiumd_mmap_exec_lib_file(qcx_be_server_t)
+
+
+# default_t
+files_manage_default_dirs(qcx_be_server_t)
+files_manage_default_files(qcx_be_server_t)
 
 
 allow qcx_be_server_t self:process { setsched };
