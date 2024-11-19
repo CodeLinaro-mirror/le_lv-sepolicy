@@ -56,6 +56,8 @@ adreno200_signull(pil_rm_t)
 adreno200_read_pid(pil_rm_t)
 
 ssrrm_rw_tmpfs_files(pil_rm_t)
+ssrrm_signull(pil_rm_t)
+ssrrm_tmpfs_map_files(pil_rm_t)
 
 audioservice_delete_tmpfs_files(pil_rm_t)
 nspdrv_delete_tmpfs_files(pil_rm_t)
@@ -77,6 +79,7 @@ fs_create_mmap_rw_tmpfs_files(pil_rm_t)
 libkiumd_mmap_exec_lib_file(pil_rm_t)
 
 dev_rw_scmnode_dev(pil_rm_t)
+dev_dontaudit_scmnode_sec_dev(pil_rm_t)
 dev_rw_kiumd_dev(pil_rm_t)
 dev_rw_vfio_dev(pil_rm_t)
 dev_read_sysfs(pil_rm_t)
@@ -100,3 +103,4 @@ allow pil_rm_t self:capability { sys_resource sys_nice net_admin };
 
 userdom_mmap_rw_inherited_user_tmp_files(pil_rm_t, pil_rm_tmp_t)
 userdom_manage_user_tmp_files(pil_rm_t)
+

@@ -81,6 +81,13 @@ mmap_rw_files_pattern(diag_service_t, diag_service_tmpfs_t, diag_service_tmpfs_t
 userdom_manage_user_tmp_files(diag_service_t)
 userdom_map_tmp_files(diag_service_t)
 
+#tmpfs_t
+fs_getattr_tmpfs(diag_service_t)
+
+#var_t
+files_manage_var_dirs(diag_service_t)
+files_manage_var_files(diag_service_t)
+
 # var-log
 logging_create_generic_logs(diag_service_t)
 logging_manage_generic_logs(diag_service_t)
