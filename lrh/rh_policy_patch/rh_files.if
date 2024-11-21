@@ -273,3 +273,21 @@ interface(`files_delete_var_run_sock_files',`
 
     delete_sock_files_pattern($1, var_run_t, var_run_t)
 ')
+
+##################################
+## <summary>
+##  Allow to map files under /var/run.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_mmap_var_run_files',`
+    gen_require(`
+        type var_run_t;
+    ')
+
+    mmap_exec_files_pattern($1, var_run_t, var_run_t)
+')
