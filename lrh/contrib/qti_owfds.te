@@ -40,6 +40,7 @@ type openwfd_lib_t;
 type openwfd_tmp_t;
 type openwfd_tmpfs_t;
 type openwfd_server_dev_t;
+type openwfd_server_power_t;
 
 init_daemon_domain(bridgeship_server_t, bridgeship_server_exec_t)
 init_daemon_domain(openwfd_server_t, openwfd_server_exec_t)
@@ -100,6 +101,9 @@ fs_getattr_cgroup(openwfd_server_t)
 dbus_system_bus_client(openwfd_server_t)
 systemd_dbus_chat_logind(openwfd_server_t)
 systemd_write_inhibit_pipes(openwfd_server_t)
+
+# pm_register
+power_use_pm_register(openwfd_server_t, openwfd_server_power_t)
 
 # /sys/devices/soc0/soc_id
 dev_read_sysfs(openwfd_server_t)
