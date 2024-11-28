@@ -37,6 +37,7 @@ type adreno200_exec_t;
 type adreno200_tmp_t;
 type adreno200_tmpfs_t;
 type adreno200_dev_t;
+type adreno200_power_t;
 
 init_daemon_domain(adreno200_t, adreno200_exec_t)
 
@@ -98,10 +99,8 @@ syscacherm_rw_tmpfs_files(adreno200_t)
 #safetymonitor
 safetymonitor_rw_tmpfs_files(adreno200_t)
 
-#system_dbusd
-dbus_write_pid_sock_files(adreno200_t)
-dbus_stream_connect_system_dbusd(adreno200_t)
-dbus_send_system_bus(adreno200_t)
+#libpm-client
+power_use_pm_register(adreno200_t, adreno200_power_t)
 
 systemd_write_inhibit_pipes(adreno200_t)
 systemd_dbus_chat_logind(adreno200_t)
