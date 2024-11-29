@@ -1,0 +1,32 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary>Policy for SELinux policy and systemd components.</summary>
+
+########################################
+## <summary>
+##  Create objects in /var/run/ with a private type using a type_transition
+## </summary>
+## <param name="private type">
+##  <summary>
+##  The type of the object to be created.
+##  </summary>
+## </param>
+## <param name="object">
+##  <summary>
+##  The object class of the object being created.
+##  </summary>
+## </param>
+## <param name="name" optional="true">
+##  <summary>
+##  The name of the object being created.
+##  </summary>
+## </param>
+#
+interface(`systemd_pid_filetrans_tmpfiles',`
+    gen_require(`
+        type systemd_tmpfiles_t;
+    ')
+
+    files_pid_filetrans(systemd_tmpfiles_t, $1, $2, $3)
+')
