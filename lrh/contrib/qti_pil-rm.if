@@ -106,6 +106,24 @@ interface(`pilrm_rw_tmpfs_files',`
 
 ######################################
 ## <summary>
+##  Unlink pil-rm tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`pilrm_unlink_tmpfs_files',`
+    gen_require(`
+        type pil_rm_tmpfs_t;
+    ')
+
+    allow $1 pil_rm_tmpfs_t:file unlink;
+')
+
+######################################
+## <summary>
 ##  Read and write scmi devices.
 ## </summary>
 ## <param name="domain">
