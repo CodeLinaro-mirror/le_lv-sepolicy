@@ -86,3 +86,6 @@ allow ssr_rm_t self:process { setrlimit setsched };
 allow ssr_rm_t self:capability { sys_resource net_admin sys_nice };
 userdom_mmap_rw_inherited_user_tmp_files(ssr_rm_t)
 userdom_manage_user_tmp_files(ssr_rm_t)
+
+fs_rw_tmpfs_files(ssr_rm_t)
+pilrm_unlink_tmpfs_files(ssr_rm_t)
