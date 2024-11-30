@@ -1,0 +1,158 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+######################################
+## <summary>
+##  Write systemd inhibit pipes.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`systemd_write_inhibit_pipes',`
+    gen_require(`
+        type systemd_logind_inhibit_var_run_t;
+    ')
+
+    allow $1 systemd_logind_inhibit_var_run_t:fifo_file write;
+')
+
+######################################
+## <summary>
+## Read systemd_login PID files.
+## </summary>
+## <param name="domain">
+## <summary>
+## Domain allowed access.
+## </summary>
+## </param>
+#
+interface(`systemd_login_read_pid_files',`
+    gen_require(`
+        type systemd_logind_var_run_t;
+    ')
+
+    files_search_pids($1)
+    read_files_pattern($1, systemd_logind_var_run_t, systemd_logind_var_run_t)
+')
+
+########################################
+## <summary>
+## Allow the specified domain to status systemd services.
+## </summary>
+## <param name="domain">
+## <summary>
+## Domain allowed access.
+## </summary>
+## </param>
+#
+interface(`systemd_status_systemd_services',`
+    gen_require(`
+        type systemd_unit_file_t;
+    ')
+
+    allow $1 systemd_unit_file_t:service status;
+')
+
+########################################
+## <summary>
+## Allow the specified domain to start systemd services.
+## </summary>
+## <param name="domain">
+## <summary>
+## Domain allowed access.
+## </summary>
+## </param>
+#
+interface(`systemd_start_systemd_services',`
+    gen_require(`
+        type systemd_unit_file_t;
+    ')
+
+    allow $1 systemd_unit_file_t:service start;
+')
+
+########################################
+## <summary>
+## Allow the specified domain to stop systemd services.
+## </summary>
+## <param name="domain">
+## <summary>
+## Domain allowed access.
+## </summary>
+## </param>
+#
+interface(`systemd_stop_systemd_services',`
+    gen_require(`
+        type systemd_unit_file_t;
+    ')
+
+    allow $1 systemd_unit_file_t:service stop;
+')
+
+########################################
+## <summary>
+## Create objects in /var/run/systemd/resolve with a private
+## type using a type_transition.
+## </summary>
+## <param name="domain">
+## <summary>
+## Domain allowed access.
+## </summary>
+## </param>
+## <param name="file_type">
+## <summary>
+## Private file type.
+## </summary>
+## </param>
+## <param name="class">
+## <summary>
+## Object classes to be created.
+## </summary>
+## </param>
+## <param name="name" optional="true">
+## <summary>
+## The name of the object being created.
+## </summary>
+## </param>
+#
+interface(`systemd_resolved_pid_filetrans',`
+    gen_require(`
+        type systemd_resolved_var_run_t;
+    ')
+
+    filetrans_pattern($1, systemd_resolved_var_run_t, $2, $3, $4)
+')
+
+#########################################
+## <summary>
+## sysadm user for systemd --user
+## </summary>
+## <param name="role">
+## <summary>
+##  Role allowed access.
+## </summary>
+## </param>
+#
+interface(`systemd_sysadm_user',`
+    gen_require(`
+        type sysadm_systemd_t;
+    ')
+
+    allow sysadm_systemd_t self:capability { mknod sys_admin };
+    allow sysadm_systemd_t self:capability2 { bpf perfmon };
+    allow sysadm_systemd_t self:process setrlimit;
+    allow sysadm_systemd_t self:unix_dgram_socket sendto;
+    allow $1 sysadm_systemd_t:system reload;
+
+    files_list_default_dirs(sysadm_systemd_t)
+
+    dev_read_sound(sysadm_systemd_t)
+    dev_write_sound(sysadm_systemd_t)
+
+    files_read_var_symlinks(sysadm_systemd_t)
+
+    pulseaudio_nnp_transition(sysadm_systemd_t)
+')

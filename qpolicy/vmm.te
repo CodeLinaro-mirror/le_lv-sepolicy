@@ -1,0 +1,70 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(vmm, 1.0)
+
+type vmm_t;
+type vmm_exec_t;
+type vmm_tmp_t;
+type vmm_tmpfs_t;
+
+init_daemon_domain(vmm_t, vmm_exec_t)
+
+#============= vmm_t ============
+logging_send_syslog_msg(vmm_t)
+dbus_system_bus_client(vmm_t)
+init_dbus_chat(vmm_t)
+
+# check status and start of service from init_t domain
+#init_status(vmm_t)
+#init_start(vmm_t)
+
+# qcrosvm.service
+#systemd_status_systemd_services(vmm_t)
+#systemd_start_systemd_services(vmm_t)
+#systemd_stop_systemd_services(vmm_t)
+
+# search unlabeled_t type on /data
+kernel_read_unlabeled_state(vmm_t)
+
+#libkiumd files
+libkiumd_mmap_exec_lib_file(vmm_t)
+
+# /dev/uinput
+dev_rw_input_dev(vmm_t)
+
+# /dev/gunyah
+dev_rw_gunyah_dev(vmm_t)
+
+# /tmp/lrms_log_*.txt
+files_tmp_file(vmm_tmp_t)
+files_tmp_filetrans(vmm_t, vmm_tmp_t, { dir file })
+manage_files_pattern(vmm_t, vmm_tmp_t, vmm_tmp_t)
+mmap_read_files_pattern(vmm_t, vmm_tmp_t, vmm_tmp_t)
+
+# map /dev/shm/lrmc_rq_777_1
+files_tmpfs_file(vmm_tmpfs_t)
+fs_tmpfs_filetrans(vmm_t, vmm_tmpfs_t, { dir file })
+vmm_create_tmpfs_files(vmm_t)
+vmm_mmap_rw_tmpfs_files(vmm_t)
+
+# for vmm_test registering with vmm_service (user_tmp_t)
+userdom_manage_tmp_files(vmm_t)
+userdom_map_tmp_files(vmm_t)
+
+# for udev monitor thread of vmm_service
+allow vmm_t self:capability2 bpf;
+allow vmm_t self:netlink_kobject_uevent_socket { bind create getattr setopt read };
+dev_getattr_sysfs_dirs(vmm_t);
+dev_read_sysfs(vmm_t);
+udev_read_pid_files(vmm_t);
+
+# for vmm-ramdump to access the path /sys/kernel/debug/${gvm_name} and save dump file to /data/gvm_dumps
+kernel_read_debugfs(vmm_t);
+files_create_default_dirs(vmm_t);
+files_manage_default_files(vmm_t);
+
+allow vmm_t self:unix_dgram_socket { create connect };
+allow vmm_t self:capability { sys_resource sys_nice net_admin };
+allow vmm_t self:process { setrlimit setsched };
+allow vmm_t vmm_tmpfs_t:file delete_file_perms;

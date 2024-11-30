@@ -1,0 +1,133 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary>Policy for SELinux policy and userland applications.</summary>
+
+######################################
+## <summary>
+##  Check audio-service related process infomation, such as ps tool.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`audio_service_read_pid',`
+    gen_require(`
+        type audio_service_t;
+    ')
+
+    files_search_pids($1)
+    read_files_pattern($1, audio_service_t, audio_service_t)
+')
+
+######################################
+## <summary>
+##  Send signull to audio-service related process.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`audio_service_signull',`
+    gen_require(`
+        type audio_service_t;
+    ')
+
+    allow $1 audio_service_t:process signull;
+')
+
+######################################
+## <summary>
+##  Map, read and write audio-service tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`audioservice_mmap_rw_tmpfs_files',`
+    gen_require(`
+        type audio_service_tmpfs_t;
+    ')
+
+    mmap_rw_files_pattern($1, audio_service_tmpfs_t, audio_service_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Delete audio-service tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`audioservice_delete_tmpfs_files',`
+    gen_require(`
+        type audio_service_tmpfs_t;
+    ')
+
+    delete_files_pattern($1, audio_service_tmpfs_t, audio_service_tmpfs_t)
+')
+
+
+######################################
+## <summary>
+##  Read and write audio-service config files in /etc/acdbdata.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`audioservice_rw_etc_files',`
+    gen_require(`
+        type audio_etc_t;
+    ')
+
+    list_dirs_pattern($1, audio_etc_t, audio_etc_t)
+    rw_files_pattern($1, audio_etc_t, audio_etc_t)
+')
+
+######################################
+## <summary>
+##  Read and write audio device (/dev/ipc_shmem)
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`audioservice_rw_audio_dev',`
+    gen_require(`
+        type device_t, audio_device_t;
+    ')
+
+    rw_chr_files_pattern($1, device_t, audio_device_t)
+')
+
+######################################
+## <summary>
+##  MMAP audio device (/dev/ipc_shmem)
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`audioservice_mmap_audio_dev',`
+    gen_require(`
+        type audio_device_t;
+    ')
+
+    allow $1 audio_device_t:chr_file map;
+')
