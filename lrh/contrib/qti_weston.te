@@ -37,6 +37,7 @@ type weston_exec_t;
 type weston_lib_t;
 type weston_tmp_t;
 type weston_tmpfs_t;
+type weston_power_t;
 
 init_daemon_domain(weston_t, weston_exec_t)
 
@@ -75,6 +76,9 @@ systemd_login_read_pid_files(weston_t)
 dbus_stream_connect_system_dbusd(weston_t)
 dbus_chat_session_bus(weston_t)
 dbus_write_pid_sock_files(weston_t)
+
+# pm_register
+power_use_pm_register(weston_t, weston_power_t)
 
 dev_read_sysfs(weston_t)
 
