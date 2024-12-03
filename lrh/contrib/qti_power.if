@@ -30,6 +30,7 @@
 interface(`power_use_pm_register',`
     gen_require(`
         type power_qcom_pm_t;
+        type power_pm_notify_t;
         attribute qcom_pm_sock_file_type;
     ')
 
@@ -41,4 +42,6 @@ interface(`power_use_pm_register',`
     filetrans_pattern($1, power_qcom_pm_t, $2, sock_file);
 
     manage_sock_files_pattern($1, $2, $2);
+
+    stream_connect_pattern(power_pm_notify_t, power_qcom_pm_t, $2, $1);
 ')
