@@ -1,0 +1,30 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(qti_compresmgr, 1.0)
+
+type compresmgr_t;
+type compresmgr_exec_t;
+
+#============= compresmgr_t ==============
+init_daemon_domain(compresmgr_t, compresmgr_exec_t)
+
+libkiumd_mmap_exec_lib_file(compresmgr_t)
+dev_rw_kiumd_dev(compresmgr_t)
+
+allow compresmgr_t self:process { setrlimit setsched };
+allow compresmgr_t self:unix_dgram_socket { create connect };
+allow compresmgr_t self:capability { sys_resource sys_nice};
+
+logging_create_devlog_dev(compresmgr_t)
+logging_send_syslog_msg(compresmgr_t)
+
+files_manage_generic_tmp_dirs(compresmgr_t)
+files_manage_generic_tmp_files(compresmgr_t)
+
+fs_manage_tmpfs_files(compresmgr_t)
+fs_map_tmpfs_files(compresmgr_t)
+
+userdom_manage_tmp_files(compresmgr_t)
+userdom_mmap_rw_inherited_user_tmp_files(compresmgr_t)
+sysnet_manage_config(compresmgr_t)

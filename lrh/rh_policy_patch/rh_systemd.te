@@ -41,6 +41,7 @@ require {
 }
 
 vhost_user_getattr_vhost_socket(systemd_tmpfiles_t)
+vhost_user_getattr_vhost_socket_vm3(systemd_tmpfiles_t)
 term_getattr_generic_ptys(systemd_logind_t)
 weston_delete_tmpfs_sock_files(systemd_logind_t)
 

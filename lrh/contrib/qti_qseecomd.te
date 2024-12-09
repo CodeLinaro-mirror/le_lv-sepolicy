@@ -72,6 +72,7 @@ files_list_mnt(qseecomd_t)
 allow qseecomd_t self:unix_dgram_socket { create connect };
 allow qseecomd_t self:capability { setgid setpcap setuid dac_override sys_rawio dac_read_search sys_resource };
 allow qseecomd_t self:process { setcap setrlimit };
+allow qseecomd_t self:capability2 { block_suspend };
 
 # search root directory
 files_list_default(qseecomd_t)
@@ -108,3 +109,4 @@ dev_rw_kiumd_dev(qseecomd_t)
 ## tmp files
 fs_create_mmap_rw_tmpfs_files(qseecomd_t)
 fs_create_write_tmp_files(qseecomd_t)
+fs_rw_tmpfs_dirs(qseecomd_t)
