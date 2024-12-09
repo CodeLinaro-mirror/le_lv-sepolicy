@@ -1,0 +1,40 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary>Policy for SELinux policy and userland applications.</summary>
+
+########################################
+## <summary>
+##  Allow apps to set signal permissions on unconfined user
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`unconfined_set_sigperms',`
+    gen_require(`
+        type unconfined_t;
+    ')
+
+    allow $1 unconfined_t:process signal_perms;
+')
+
+########################################
+## <summary>
+##  Allow apps to set noatsecure on unconfined user
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`unconfined_set_noatsecure',`
+    gen_require(`
+        type unconfined_t;
+    ')
+
+    allow $1 unconfined_t:process noatsecure;
+')
