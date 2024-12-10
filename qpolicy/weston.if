@@ -1,0 +1,185 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary>Policy for SELinux policy and userland applications.</summary>
+
+######################################
+## <summary>
+##  Map weston lib files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`weston_map_lib_files',`
+    gen_require(`
+        type weston_lib_t;
+    ')
+
+    allow $1 weston_lib_t:file mmap_exec_file_perms;
+')
+
+########################################
+## <summary>
+##  Read to weston library files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`weston_read_lib_files',`
+    gen_require(`
+        type weston_lib_t;
+    ')
+
+    allow $1 weston_lib_t:file read_file_perms;
+')
+
+########################################
+## <summary>
+##  Manage weston library files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`weston_manage_lib_files',`
+    gen_require(`
+        type weston_lib_t, lib_t;
+    ')
+
+    manage_files_pattern($1, lib_t, weston_lib_t)
+')
+
+######################################
+## <summary>
+##  Send signull to weston_t.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`weston_signull',`
+    gen_require(`
+        type weston_t;
+    ')
+
+    allow $1 weston_t:process signull;
+')
+
+######################################
+## <summary>
+##  ptrace to weston_t.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`weston_ptrace',`
+    gen_require(`
+        type weston_t;
+    ')
+
+    allow $1 weston_t:process ptrace;
+')
+
+######################################
+## <summary>
+##  Check weston related process infomation.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`weston_read_pid',`
+    gen_require(`
+        type weston_t;
+    ')
+
+    files_search_pids($1)
+    read_files_pattern($1, weston_t, weston_t)
+')
+
+######################################
+## <summary>
+##  Map, read and write weston tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`weston_mmap_rw_tmpfs_files',`
+    gen_require(`
+        type weston_tmpfs_t;
+    ')
+
+    mmap_rw_files_pattern($1, weston_tmpfs_t, weston_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Delete weston tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`weston_delete_tmpfs_files',`
+    gen_require(`
+        type weston_tmpfs_t;
+    ')
+
+    allow $1 weston_tmpfs_t:file delete_file_perms;
+')
+
+######################################
+## <summary>
+##  Delete weston socket files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`weston_delete_tmpfs_sock_files',`
+    gen_require(`
+        type weston_tmpfs_t;
+    ')
+
+    delete_sock_files_pattern($1, weston_tmpfs_t, weston_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Read weston config files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`weston_read_config_files',`
+    gen_require(`
+        type etc_t,weston_etc_t;
+    ')
+
+    read_files_pattern($1, etc_t, weston_etc_t)
+')

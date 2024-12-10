@@ -1,0 +1,77 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary>Policy for SELinux policy and userland applications.</summary>
+
+######################################
+## <summary>
+##  Send signull to hyp-video-be related process.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`hyp_video_signull',`
+    gen_require(`
+        type hyp_video_t;
+    ')
+
+    allow $1 hyp_video_t:process signull;
+')
+
+######################################
+## <summary>
+##  Check hyp-video-be related process infomation, such as ps tool.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`hyp_video_read_pid',`
+    gen_require(`
+        type hyp_video_t;
+    ')
+
+    files_search_pids($1)
+    read_files_pattern($1, hyp_video_t, hyp_video_t)
+')
+
+######################################
+## <summary>
+##  ptrace to hyp-video-be related process.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`hyp_video_ptrace',`
+    gen_require(`
+        type hyp_video_t;
+    ')
+
+    allow $1 hyp_video_t:process ptrace;
+')
+
+######################################
+## <summary>
+##  Read and write hyp-video-be tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`hypvb_rw_tmpfs_files',`
+    gen_require(`
+        type hyp_video_tmpfs_t;
+    ')
+
+    rw_files_pattern($1, hyp_video_tmpfs_t, hyp_video_tmpfs_t)
+')

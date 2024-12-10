@@ -1,0 +1,29 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(vhost-user, 1.0)
+
+type vhost_user_qti_t;
+type vhost_user_qti_exec_t;
+type vhost_user_device_t;
+type vhost_user_tmp_t;
+type vhost_user_tmpfs_t;
+
+init_daemon_domain(vhost_user_qti_t, vhost_user_qti_exec_t)
+
+dev_node(vhost_user_device_t)
+
+vhost_user_rw_vhost_dev(vhost_user_qti_t)
+vhost_user_delete_vhost_dev(vhost_user_qti_t)
+
+vhost_user_create_vhost_socket(vhost_user_qti_t, vhost_user_tmp_t, "linux-vm2-aud-skt")
+vhost_user_create_vhost_socket(vhost_user_qti_t, vhost_user_tmp_t, "linux-vm2-cam-skt")
+vhost_user_create_vhost_socket(vhost_user_qti_t, vhost_user_tmp_t, "linux-vm2-disp-skt")
+vhost_user_create_vhost_socket(vhost_user_qti_t, vhost_user_tmp_t, "linux-vm2-ogles-skt")
+vhost_user_create_vhost_socket(vhost_user_qti_t, vhost_user_tmp_t, "linux-vm2-misc-skt")
+vhost_user_create_vhost_socket(vhost_user_qti_t, vhost_user_tmp_t, "linux-vm2-vid-skt")
+vhost_user_create_vhost_socket(vhost_user_qti_t, vhost_user_tmp_t, "linux-vm2-vnw-skt")
+vhost_user_create_vhost_socket(vhost_user_qti_t, vhost_user_tmp_t, "linux-vm2-gpce-skt")
+vhost_user_create_vhost_socket(vhost_user_qti_t, vhost_user_tmp_t, "linux-vm2-ext-skt")
+
+allow vhost_user_qti_t vhost_user_tmp_t:sock_file unlink;

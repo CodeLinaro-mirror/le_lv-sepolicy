@@ -1,0 +1,59 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary>Policy for SELinux policy and userland applications.</summary>
+
+######################################
+## <summary>
+##  Check safetymonitor related process infomation, such as ps tool.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`safetymonitor_read_pid',`
+    gen_require(`
+        type safetymonitor_t;
+    ')
+
+    files_search_pids($1)
+    read_files_pattern($1, safetymonitor_t, safetymonitor_t)
+')
+
+######################################
+## <summary>
+##  Read and write safetymonitor tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`safetymonitor_rw_tmpfs_files',`
+    gen_require(`
+        type safetymonitor_tmpfs_t;
+    ')
+
+    rw_files_pattern($1, safetymonitor_tmpfs_t, safetymonitor_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Send signull to safetymonitor_t.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`safetymonitor_signull',`
+    gen_require(`
+        type safetymonitor_t;
+    ')
+
+    allow $1 safetymonitor_t:process signull;
+')
