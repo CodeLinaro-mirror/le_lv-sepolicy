@@ -34,3 +34,5 @@ userdom_manage_tmp_files(nsp_rsm_t)
 files_manage_var_files(nsp_rsm_t)
 
 kernel_read_proc_files(nsp_rsm_t)
+#for executing through adb shell
+unconfined_server_signull(nsp_rsm_t)
