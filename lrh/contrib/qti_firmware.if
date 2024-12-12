@@ -41,6 +41,24 @@ interface(`firmware_read_dsp_lnk_files',`
 
 #######################################
 ## <summary>
+##  Read files under /vendor/dsp.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`firmware_read_dsp_files',`
+    gen_require(`
+        type dsp_file_t;
+    ')
+
+    read_files_pattern($1, dsp_file_t, dsp_file_t)
+')
+
+#######################################
+## <summary>
 ##  Write dirs under /vendor/dsp.
 ## </summary>
 ## <param name="domain">
