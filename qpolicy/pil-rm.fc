@@ -1,8 +1,0 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
-# SPDX-License-Identifier: BSD-3-Clause-Clear
-
-/usr/bin/pil-rm       --      gen_context(system_u:object_r:pil_rm_exec_t,s0)
-/dev/scmi_nsp0        -c      gen_context(system_u:object_r:pil_rm_scmi_dev_t,s0)
-/dev/scmi_nsp1        -c      gen_context(system_u:object_r:pil_rm_scmi_dev_t,s0)
-/dev/scmi_gpdsp0      -c      gen_context(system_u:object_r:pil_rm_scmi_dev_t,s0)
-/dev/scmi_gpdsp1      -c      gen_context(system_u:object_r:pil_rm_scmi_dev_t,s0)
