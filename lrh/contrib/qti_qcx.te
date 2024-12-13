@@ -165,6 +165,7 @@ files_manage_var_files(qcx_be_server_t)
 # /dev/<node>
 dev_rw_dma_dev(qcx_be_server_t)
 dev_rw_hab_dev(qcx_be_server_t)
+dev_read_sysfs(qcx_be_server_t)
 
 
 # libkiumd
