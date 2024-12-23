@@ -1,0 +1,106 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+########################################
+## <summary>
+## Allow attempts to connect to
+## session bus types with a unix
+## stream socket.
+## </summary>
+## <param name="domain">
+## <summary>
+## Domain to not audit.
+## </summary>
+## </param>
+#
+interface(`dbus_stream_connect_system_dbusd',`
+    gen_require(`
+        type system_dbusd_t;
+    ')
+
+    allow $1 system_dbusd_t:unix_stream_socket connectto;
+')
+
+########################################
+## <summary>
+## Do not audit attempts to send dbus
+## messages to session bus types.
+## </summary>
+## <param name="domain">
+## <summary>
+## Domain to not audit.
+## </summary>
+## </param>
+#
+interface(`dbus_chat_session_bus',`
+    gen_require(`
+        attribute session_bus_type;
+        class dbus send_msg;
+    ')
+
+    allow $1 session_bus_type:dbus send_msg;
+    allow session_bus_type $1:dbus send_msg;
+')
+
+########################################
+## <summary>
+##      Allow domain to write the dbus pid sock_file.
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+#
+interface(`dbus_write_pid_sock_files',`
+    gen_require(`
+        type system_dbusd_var_run_t;
+    ')
+
+    write_sock_files_pattern($1, system_dbusd_var_run_t, system_dbusd_var_run_t)
+')
+
+########################################
+## <summary>
+## Read all dbus pid files
+## </summary>
+## <param name="domain">
+## <summary>
+## Domain allowed access.
+## </summary>
+## </param>
+#
+interface(`dbus_read_pid_files',`
+    gen_require(`
+        type system_dbusd_var_run_t;
+    ')
+
+    files_search_pids($1)
+    list_dirs_pattern($1, system_dbusd_var_run_t, system_dbusd_var_run_t)
+    read_files_pattern($1, system_dbusd_var_run_t, system_dbusd_var_run_t)
+')
+
+#########################################
+## <summary>
+## sysadm user for dbus --user
+## </summary>
+## <param name="role">
+## <summary>
+##  Role allowed access.
+## </summary>
+## </param>
+#
+interface(`dbus_sysadm_user',`
+    gen_require(`
+        type sysadm_dbusd_t;
+    ')
+
+    allow sysadm_dbusd_t self:capability { mknod sys_admin };
+
+    files_read_var_symlinks(sysadm_dbusd_t)
+    files_search_default(sysadm_dbusd_t)
+
+    selinux_use_status_page(sysadm_dbusd_t)
+
+    systemd_user_send_systemd_notify($1, sysadm_dbusd_t)
+')

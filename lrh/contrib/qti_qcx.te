@@ -37,6 +37,7 @@ type qcx_server_exec_t;
 type qcx_server_tmp_t;
 type qcx_server_tmpfs_t;
 type qcx_server_dev_t;
+type qcx_server_power_t;
 
 
 init_daemon_domain(qcx_server_t, qcx_server_exec_t)
@@ -111,6 +112,10 @@ files_manage_isid_type_dirs(qcx_server_t)
 files_manage_isid_type_files(qcx_server_t)
 
 
+# pm_register
+power_use_pm_register(qcx_server_t, qcx_server_power_t)
+
+
 # /var
 files_manage_var_dirs(qcx_server_t)
 files_manage_var_files(qcx_server_t)
@@ -125,7 +130,7 @@ dev_read_sysfs(qcx_server_t)
 dev_rw_realtime_clock(qcx_server_t)
 
 allow qcx_server_t self:process { setrlimit setsched ptrace };
-allow qcx_server_t self:capability { sys_resource sys_nice dac_override sys_ptrace };
+allow qcx_server_t self:capability { sys_resource sys_nice dac_override sys_ptrace net_admin };
 
 
 
@@ -134,6 +139,7 @@ allow qcx_server_t self:capability { sys_resource sys_nice dac_override sys_ptra
 
 type qcx_be_server_t;
 type qcx_be_server_exec_t;
+type qcx_be_server_power_t;
 
 
 init_daemon_domain(qcx_be_server_t, qcx_be_server_exec_t)
@@ -168,6 +174,10 @@ libkiumd_mmap_exec_lib_file(qcx_be_server_t)
 # default_t
 files_manage_default_dirs(qcx_be_server_t)
 files_manage_default_files(qcx_be_server_t)
+
+
+# pm_register
+power_use_pm_register(qcx_be_server_t, qcx_be_server_power_t)
 
 
 allow qcx_be_server_t self:process { setsched };

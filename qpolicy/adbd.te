@@ -1,0 +1,156 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(adbd, 1.0)
+
+gen_require(`
+    class passwd rootok;
+')
+
+type adbd_t;
+type adbd_exec_t;
+
+init_system_domain(adbd_t, adbd_exec_t)
+
+# in selinux-policy-targeted, shell is unconfined domain by default,
+# so here we keep unconfined domain for adbd
+unconfined_domain(adbd_t)
+
+logging_send_syslog_msg(adbd_t)
+
+# port 5555
+corenet_tcp_connect_generic_port(adbd_t)
+
+# ========== local ==========
+allow adbd_t self:unix_dgram_socket { create connect getopt setopt };
+allow adbd_t self:tcp_socket { create getopt setopt bind listen accept };
+allow adbd_t self:netlink_audit_socket { create nlmsg_relay };
+allow adbd_t self:capability { setgid setuid audit_write dac_read_search};
+allow adbd_t self:passwd { rootok };
+allow adbd_t self:key { write };
+
+require {
+    type sysfs_t;
+    type video_driver_t;
+    type video_driver_tmpfs_t;
+    type systemd_modules_load_t;
+    type ssr_rm_t;
+    type device_t;
+    type glinkserver_t;
+    class capability net_admin;
+    class chr_file { ioctl open read write };
+    class file { open read };
+    class dir create;
+    class fifo_file create;
+}
+
+#============= glinkserver_t ==============
+allow glinkserver_t device_t:chr_file { ioctl open read write };
+
+#============= ssr_rm_t ==============
+allow ssr_rm_t sysfs_t:file { open read };
+
+#============= systemd_modules_load_t ==============
+allow systemd_modules_load_t self:capability net_admin;
+
+#============= video_driver_t ==============
+allow video_driver_t video_driver_tmpfs_t:dir create;
+allow video_driver_t video_driver_tmpfs_t:fifo_file create;
+
+require {
+    type glinkserver_t;
+    type audio_service_tmpfs_t;
+    type unconfined_t;
+    type video_driver_t;
+    type weston_t;
+    type init_t;
+    type diag_service_t;
+    type video_driver_tmpfs_t;
+    type adreno200_t;
+    type initrc_t;
+    type pil_rm_t;
+    type user_tmp_t;
+    type chkpwd_t;
+    type sshd_t;
+    class file { getattr map open read unlink };
+    class dir search;
+    class process { noatsecure rlimitinh siginh };
+    class unix_stream_socket { read write };
+    class fifo_file { open read };
+}
+
+#============= adreno200_t ==============
+allow adreno200_t unconfined_t:dir search;
+allow adreno200_t unconfined_t:file { getattr open read };
+
+#============= diag_service_t ==============
+
+#!!!! This avc is allowed in the current policy
+allow diag_service_t audio_service_tmpfs_t:file unlink;
+
+#============= glinkserver_t ==============
+
+#!!!! This avc is allowed in the current policy
+allow glinkserver_t audio_service_tmpfs_t:file unlink;
+
+#============= init_t ==============
+allow init_t chkpwd_t:process siginh;
+allow init_t initrc_t:process siginh;
+allow init_t unconfined_t:process siginh;
+
+#============= pil_rm_t ==============
+
+#!!!! This avc is allowed in the current policy
+allow pil_rm_t audio_service_tmpfs_t:file unlink;
+
+#============= sshd_t ==============
+allow sshd_t chkpwd_t:process { noatsecure rlimitinh siginh };
+
+#============= video_driver_t ==============
+allow video_driver_t unconfined_t:dir search;
+allow video_driver_t unconfined_t:file { getattr open read };
+allow video_driver_t video_driver_tmpfs_t:fifo_file { open read };
+
+#============= weston_t ==============
+
+#!!!! This avc is allowed in the current policy
+allow weston_t user_tmp_t:file map;
+
+require {
+    type unlabeled_t;
+    type diag_service_t;
+    type audio_service_t;
+    type adreno200_tmpfs_t;
+    type tmpfs_t;
+    type syscache_rm_t;
+    type kernel_t;
+    class file { map open read unlink write };
+    class dir { add_name create getattr search write };
+    class lnk_file { create read };
+    class process signull;
+}
+
+#============= audio_service_t ==============
+allow audio_service_t unlabeled_t:dir { add_name create getattr search write };
+allow audio_service_t unlabeled_t:lnk_file { create read };
+
+##============= diag_service_t ==============
+allow diag_service_t kernel_t:process signull;
+allow diag_service_t tmpfs_t:file { open read write };
+
+##!!!! This avc can be allowed using the boolean 'domain_can_mmap_files'
+allow diag_service_t tmpfs_t:file map;
+
+##============= syscache_rm_t ==============
+##!!!! This avc can be allowed using the boolean 'domain_can_mmap_files'
+allow syscache_rm_t adreno200_tmpfs_t:file map;
+allow syscache_rm_t adreno200_tmpfs_t:file unlink;
+
+require {
+    type kernel_t;
+    type libkiumd_lib_t;
+    class file { execute getattr map open read };
+}
+
+#============= kernel_t ==============
+allow kernel_t libkiumd_lib_t:file { execute getattr map open read };

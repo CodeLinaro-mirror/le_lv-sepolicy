@@ -1,0 +1,147 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+#######################################
+## <summary>
+##  Create objects in /run/systemd directory
+##  with an automatic type transition to
+##  a specified private type.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+## <param name="private_type">
+##  <summary>
+##  The type of the object to create.
+##  </summary>
+## </param>
+## <param name="object_class">
+##  <summary>
+##  The class of the object to be created.
+##  </summary>
+## </param>
+## <param name="name" optional="true">
+##  <summary>
+##  The name of the object being created.
+##  </summary>
+## </param>
+#
+interface(`init_pid_filetrans',`
+    gen_require(`
+        type init_var_run_t;
+    ')
+
+    files_search_pids($1)
+    filetrans_pattern($1, init_var_run_t, $2, $3, $4)
+')
+
+########################################
+## <summary>
+## Get the system status information from init
+## </summary>
+## <param name="domain">
+## <summary>
+## Domain allowed access.
+## </summary>
+## </param>
+#
+interface(`init_status',`
+    gen_require(`
+        type init_t;
+    ')
+
+    allow $1 init_t:system status;
+    allow $1 init_t:service status;
+')
+
+########################################
+## <summary>
+## Start  system from init
+## </summary>
+## <param name="domain">
+## <summary>
+## Domain allowed access.
+## </summary>
+## </param>
+#
+interface(`init_start',`
+    gen_require(`
+        type init_t;
+    ')
+
+    allow $1 init_t:system start;
+')
+
+########################################
+## <summary>
+## Search and list to initrc_runtime_t directories
+## </summary>
+## <param name="domain">
+## <summary>
+## Domain allowed access.
+## </summary>
+## </param>
+#
+interface(`init_list_initrc_runtime_dirs',`
+    gen_require(`
+        type initrc_runtime_t;
+    ')
+
+    list_dirs_pattern($1, initrc_runtime_t, initrc_runtime_t)
+')
+
+########################################
+## <summary>
+## Create files under initrc_runtime_t directories
+## </summary>
+## <param name="domain">
+## <summary>
+## Domain allowed access.
+## </summary>
+## </param>
+#
+interface(`init_create_initrc_runtime_files',`
+    gen_require(`
+        type initrc_runtime_t;
+    ')
+
+    create_files_pattern($1, initrc_runtime_t, initrc_runtime_t)
+')
+
+########################################
+## <summary>
+## Read and write files under initrc_runtime_t directories
+## </summary>
+## <param name="domain">
+## <summary>
+## Domain allowed access.
+## </summary>
+## </param>
+#
+interface(`init_rw_initrc_runtime_files',`
+    gen_require(`
+        type initrc_runtime_t;
+    ')
+
+    rw_files_pattern($1, initrc_runtime_t, initrc_runtime_t)
+')
+
+########################################
+## <summary>
+## init binder
+## </summary>
+## <param name="domain">
+## <summary>
+## Domain allowed access.
+## </summary>
+## </param>
+#
+interface(`init_binder',`
+    gen_require(`
+        type initrc_t;
+    ')
+
+    allow $1 initrc_t:binder { call transfer };
+')

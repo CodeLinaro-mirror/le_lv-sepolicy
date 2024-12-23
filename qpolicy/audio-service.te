@@ -1,0 +1,123 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(audio-service, 1.0)
+
+type audio_service_t;
+type audio_service_exec_t;
+type audio_service_tmp_t;
+type audio_service_tmpfs_t;
+type audio_etc_t;
+type audio_device_t;
+
+init_daemon_domain(audio_service_t, audio_service_exec_t)
+
+files_config_file(audio_etc_t)
+
+logging_send_syslog_msg(audio_service_t)
+
+# Todo, not clear which domain create tmpfs_t objects which audio-service access,
+# so file transition rules can't work, use below two interface for the moment
+fs_map_tmpfs_files(audio_service_t)
+fs_rw_tmpfs_files(audio_service_t)
+
+# Todo, change to fs_delete_tmpfs_files after promotion
+fs_manage_tmpfs_files(audio_service_t)
+
+userdom_rw_user_tmp_files(audio_service_t)
+userdom_map_tmp_files(audio_service_t)
+userdom_delete_user_tmp_files(audio_service_t)
+
+dev_rw_dma_dev(audio_service_t)
+dev_rw_kiumd_dev(audio_service_t)
+dev_rw_vfio_dev(audio_service_t)
+dev_rw_gpio_dev(audio_service_t)
+dev_rw_hab_dev(audio_service_t)
+dev_rw_generic_usb_dev(audio_service_t)
+dev_rw_sysfs(audio_service_t)
+
+# /dev/ipc_shmem
+dev_node(audio_device_t)
+audioservice_rw_audio_dev(audio_service_t)
+audioservice_mmap_audio_dev(audio_service_t)
+
+# /dev/socket/leprop-service
+dev_write_generic_sockets(audio_service_t)
+unconfined_server_stream_connectto(audio_service_t)
+
+# /dev/i2c-ll
+term_open_unallocated_ttys(audio_service_t)
+term_use_unallocated_ttys(audio_service_t)
+
+# /vendor/dsp
+firmware_search_dsp_dirs(audio_service_t)
+firmware_read_dsp_lnk_files(audio_service_t)
+firmware_write_dsp_dirs(audio_service_t)
+
+fastrpc_rm_ptrace(audio_service_t)
+glinkserver_ptrace(audio_service_t)
+
+unconfined_server_signull(audio_service_t)
+unconfined_signull(audio_service_t)
+
+ssrrm_rw_tmpfs_files(audio_service_t)
+glinkserver_rw_tmpfs_files(audio_service_t)
+fastrpc_rm_rw_tmpfs_files(audio_service_t)
+diagservice_rw_tmpfs_files(audio_service_t)
+pilrm_rw_tmpfs_files(audio_service_t)
+
+# ========== local ==========
+allow audio_service_t self:unix_dgram_socket { create connect getopt setopt };
+allow audio_service_t self:unix_stream_socket connectto;
+allow audio_service_t self:process { setrlimit setsched };
+allow audio_service_t self:capability { sys_resource sys_nice net_admin sys_ptrace dac_override };
+allow audio_service_t self:tcp_socket {accept bind create listen setopt shutdown connect read write};
+
+
+# /usr/bin/awe-start-pre.sh
+kernel_request_load_module(audio_service_t)
+
+# /tmp/awe_pkt_socket
+files_tmp_filetrans(audio_service_t, audio_service_tmp_t, sock_file, "awe_pkt_socket")
+fs_associate_tmpfs(audio_service_tmp_t)
+manage_sock_files_pattern(audio_service_t, audio_service_tmp_t, audio_service_tmp_t)
+
+# /dev/random
+dev_read_rand(audio_service_t)
+
+# /var/log/*
+logging_create_generic_logs(audio_service_t)
+
+# port 15002
+corenet_tcp_bind_generic_port(audio_service_t)
+corenet_tcp_bind_generic_node(audio_service_t)
+
+# driver override when bind vfio node
+dev_create_sysfs_files(audio_service_t)
+
+# fastrpc_be thread
+files_manage_var_dirs(audio_service_t)
+
+
+# /tmp/lrmc_log_(pid).txt
+files_tmp_file(audio_service_tmp_t)
+files_tmp_filetrans(audio_service_t, audio_service_tmp_t, { dir fifo_file file lnk_file })
+manage_files_pattern(audio_service_t, audio_service_tmp_t, audio_service_tmp_t)
+
+files_tmpfs_file(audio_service_tmpfs_t)
+fs_tmpfs_filetrans(audio_service_t, audio_service_tmpfs_t, { dir file })
+create_files_pattern(audio_service_t, audio_service_tmpfs_t, audio_service_tmpfs_t)
+delete_files_pattern(audio_service_t, audio_service_tmpfs_t, audio_service_tmpfs_t)
+
+audioservice_mmap_rw_tmpfs_files(audio_service_t)
+
+# /etc/acdbdata/*
+manage_files_pattern(audio_service_t, audio_etc_t, audio_etc_t)
+
+# Needed by pidfd_getfd when audio client running with
+# unconfined policy
+unconfined_server_ptrace(audio_service_t)
+unconfined_ptrace(audio_service_t)
+
+#libkiumd
+libkiumd_mmap_exec_lib_file(audio_service_t)

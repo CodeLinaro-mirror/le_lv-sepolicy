@@ -1,0 +1,95 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary>Policy for SELinux policy and userland applications.</summary>
+
+######################################
+## <summary>
+##  Check eva-auto related process infomation, such as ps tool.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`eva_auto_read_pid',`
+    gen_require(`
+        type eva_auto_t;
+    ')
+
+    files_search_pids($1)
+    read_files_pattern($1, eva_auto_t, eva_auto_t)
+')
+
+######################################
+## <summary>
+##  Send signull to eva-auto related process.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`eva_auto_signull',`
+    gen_require(`
+        type eva_auto_t;
+    ')
+
+    allow $1 eva_auto_t:process signull;
+')
+
+######################################
+## <summary>
+##  Map, read and write eva-auto tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`evauto_mmap_rw_tmpfs_files',`
+    gen_require(`
+        type eva_auto_tmpfs_t;
+    ')
+
+    mmap_rw_files_pattern($1, eva_auto_tmpfs_t, eva_auto_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Delete eva-auto tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`evauto_delete_tmpfs_files',`
+    gen_require(`
+        type eva_auto_tmpfs_t;
+    ')
+
+    delete_files_pattern($1, eva_auto_tmpfs_t, eva_auto_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Read and write scmi devices (/dev/scmi_eva).
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`evauto_rw_scmi_dev',`
+    gen_require(`
+        type device_t, eva_auto_dev_t;
+    ')
+
+    rw_chr_files_pattern($1, device_t, eva_auto_dev_t)
+')

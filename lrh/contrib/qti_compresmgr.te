@@ -16,6 +16,11 @@ allow compresmgr_t self:process { setrlimit setsched };
 allow compresmgr_t self:unix_dgram_socket { create connect };
 allow compresmgr_t self:capability { sys_resource sys_nice};
 
+unconfined_server_signull(compresmgr_t)
+dev_manage_sysfs(compresmgr_t)
+dev_rw_vfio_dev(compresmgr_t)
+
+
 logging_create_devlog_dev(compresmgr_t)
 logging_send_syslog_msg(compresmgr_t)
 

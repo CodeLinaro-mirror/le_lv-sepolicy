@@ -28,6 +28,10 @@ userdom_relabel_user_ttys(getty_t)
 
 term_relabel_unallocated_ttys(getty_t)
 
+unconfined_set_rlimitnh(getty_t)
+unconfined_set_sigperms(getty_t)
+unconfined_set_noatsecure(getty_t)
+
 allow getty_t self:process { setsched setexec setkeycreate };
 allow getty_t self:capability { net_admin audit_write setuid };
 allow getty_t self:capability2 { checkpoint_restore };
