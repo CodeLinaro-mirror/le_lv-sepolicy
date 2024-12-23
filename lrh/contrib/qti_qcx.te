@@ -85,7 +85,9 @@ files_tmp_filetrans(qcx_server_t, qcx_server_tmp_t, { dir file })
 manage_files_pattern(qcx_server_t, qcx_server_tmp_t, qcx_server_tmp_t)
 
 
-# /dev/shm/
+# tmpfs
+fs_manage_tmpfs_dirs(qcx_server_t)
+fs_getattr_tmpfs(qcx_server_t)
 fs_map_tmpfs_files(qcx_server_t)
 fs_rw_tmpfs_files(qcx_server_t)
 fs_delete_tmpfs_files(qcx_server_t)
@@ -121,6 +123,11 @@ files_manage_var_dirs(qcx_server_t)
 files_manage_var_files(qcx_server_t)
 
 
+# tracefs
+fs_search_tracefs_dirs(qcx_server_t)
+fs_rw_tracefs_files(qcx_server_t)
+
+
 # /dev/<node>
 dev_rw_dma_dev(qcx_server_t)
 dev_rw_kiumd_dev(qcx_server_t)
@@ -128,6 +135,7 @@ dev_rw_vfio_dev(qcx_server_t)
 dev_rw_gpio_dev(qcx_server_t)
 dev_read_sysfs(qcx_server_t)
 dev_rw_realtime_clock(qcx_server_t)
+
 
 allow qcx_server_t self:process { setrlimit setsched ptrace };
 allow qcx_server_t self:capability { sys_resource sys_nice dac_override sys_ptrace net_admin };
@@ -181,4 +189,4 @@ power_use_pm_register(qcx_be_server_t, qcx_be_server_power_t)
 
 
 allow qcx_be_server_t self:process { setsched };
-allow qcx_be_server_t self:capability { sys_resource sys_nice dac_override };
+allow qcx_be_server_t self:capability { sys_resource sys_nice dac_override net_admin};
