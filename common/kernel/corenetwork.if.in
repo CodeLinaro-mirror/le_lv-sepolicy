@@ -1,0 +1,20 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+#######################################
+## <summary>
+##  Connect TCP sockets to ports > 1024.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`corenet_tcp_connect_unreserved_ports',`
+    gen_require(`
+        type unreserved_port_t;
+    ')
+
+    allow $1 unreserved_port_t:tcp_socket name_connect;
+')

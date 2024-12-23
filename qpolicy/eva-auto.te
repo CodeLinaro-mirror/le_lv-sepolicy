@@ -1,0 +1,66 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(eva-auto, 1.0)
+
+type eva_auto_t;
+type eva_auto_exec_t;
+type eva_auto_tmp_t;
+type eva_auto_tmpfs_t;
+type eva_auto_dev_t;
+
+init_daemon_domain(eva_auto_t, eva_auto_exec_t)
+
+# Allow access to /dev/scmi_eva
+dev_node(eva_auto_dev_t)
+evauto_rw_scmi_dev(eva_auto_t)
+
+logging_send_syslog_msg(eva_auto_t)
+
+userdom_rw_user_tmp_files(eva_auto_t)
+userdom_map_tmp_files(eva_auto_t)
+
+fs_map_tmpfs_files(eva_auto_t)
+fs_manage_tmpfs_files(eva_auto_t)
+fs_getattr_tmpfs(eva_auto_t)
+fs_search_cgroup_dirs(eva_auto_t)
+
+dbus_system_bus_client(eva_auto_t)
+systemd_dbus_chat_logind(eva_auto_t)
+systemd_write_inhibit_pipes(eva_auto_t)
+
+unconfined_server_ptrace(eva_auto_t)
+unconfined_ptrace(eva_auto_t)
+unconfined_server_signull(eva_auto_t)
+unconfined_signull(eva_auto_t)
+
+kernel_search_debugfs(eva_auto_t)
+fs_rw_tracefs_files(eva_auto_t)
+fs_getattr_cgroup(eva_auto_t)
+
+dev_read_sysfs(eva_auto_t)
+
+dev_rw_dma_dev(eva_auto_t)
+dev_rw_kiumd_dev(eva_auto_t)
+dev_rw_vfio_dev(eva_auto_t)
+
+safetymonitor_rw_tmpfs_files(eva_auto_t)
+
+#libkiumd
+libkiumd_mmap_exec_lib_file(eva_auto_t)
+
+# ========== local ==========
+allow eva_auto_t self:unix_dgram_socket { create connect };
+allow eva_auto_t self:process { setrlimit setsched };
+allow eva_auto_t self:capability { sys_resource sys_nice net_admin dac_override sys_ptrace };
+
+files_tmp_file(eva_auto_tmp_t)
+files_tmp_filetrans(eva_auto_t, eva_auto_tmp_t, { dir fifo_file file lnk_file })
+manage_files_pattern(eva_auto_t, eva_auto_tmp_t, eva_auto_tmp_t)
+manage_fifo_files_pattern(eva_auto_t, eva_auto_tmp_t, eva_auto_tmp_t)
+
+files_tmpfs_file(eva_auto_tmpfs_t)
+fs_tmpfs_filetrans(eva_auto_t, eva_auto_tmpfs_t, { dir file })
+create_files_pattern(eva_auto_t, eva_auto_tmpfs_t, eva_auto_tmpfs_t)
+manage_files_pattern(eva_auto_t, eva_auto_tmpfs_t, eva_auto_tmpfs_t)
+evauto_mmap_rw_tmpfs_files(eva_auto_t)

@@ -1,0 +1,41 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary>Policy for SELinux policy and userland applications.</summary>
+
+######################################
+## <summary>
+##  Check qcrosvm related process infomation, such as ps tool.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`qcrosvm_read_pid',`
+    gen_require(`
+        type qcrosvm_t;
+    ')
+
+    files_search_pids($1)
+    read_files_pattern($1, qcrosvm_t, qcrosvm_t)
+')
+
+######################################
+## <summary>
+##  Send signull to qcrosvm related process.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`qcrosvm_signull',`
+    gen_require(`
+        type qcrosvm_t;
+    ')
+
+    allow $1 qcrosvm_t:process signull;
+')
