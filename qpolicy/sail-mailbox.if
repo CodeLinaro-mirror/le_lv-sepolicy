@@ -1,0 +1,23 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary>Policy for SELinux policy and userland applications.</summary>
+
+######################################
+## <summary>
+##  Read sail-mailbox proc infomation.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`sailmb_read_pid',`
+    gen_require(`
+        type sail_mailbox_t;
+    ')
+
+    files_search_pids($1)
+    read_files_pattern($1, sail_mailbox_t, sail_mailbox_t)
+')

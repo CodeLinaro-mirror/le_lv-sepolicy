@@ -1,0 +1,12 @@
+lrh(federo sepolicy base): HGY arm native, Lemans HGY LV PVM(yocto), Monaco HGY LV PVM(yocto)
+common(refpolicy base): Lemans HQX LV GVM(yocto)
+qpolicy(refpolicy base): Lemans HQX LV GVM(yocto)
+
+policies in common will append to base policy of refpolicy, patches to refpolicy should put here
+policies in qpolicy is a dependent layer in refpolicy when build, new rules for qcom components should put here
+
+federo sepolicy base(for RedHat):
+git clone https://github.com/fedora-selinux/selinux-policy.git
+
+refpolicy base(generic):
+git clone https://github.com/SELinuxProject/refpolicy.git

@@ -1,0 +1,132 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary>Policy for SELinux policy and userland applications.</summary>
+
+######################################
+## <summary>
+##  Read and write scmi devices (/dev/scmi_camera).
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`qcxserver_rw_scmi_dev',`
+    gen_require(`
+        type device_t, qcx_server_dev_t;
+    ')
+
+    rw_chr_files_pattern($1, device_t, qcx_server_dev_t)
+')
+
+######################################
+## <summary>
+##  create files under tmpfs filesystem for qcxserver.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`qcxserver_create_tmpfs_files',`
+    gen_require(`
+        type qcx_server_tmpfs_t;
+    ')
+
+    create_files_pattern($1, qcx_server_tmpfs_t, qcx_server_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Map, read and write qcxserver tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`qcxserver_mmap_rw_tmpfs_files',`
+    gen_require(`
+        type qcx_server_tmpfs_t;
+    ')
+
+    mmap_rw_files_pattern($1, qcx_server_tmpfs_t, qcx_server_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Read and write qcxserver tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`qcxserver_rw_tmpfs_files',`
+    gen_require(`
+        type qcx_server_tmpfs_t;
+    ')
+
+    rw_files_pattern($1, qcx_server_tmpfs_t, qcx_server_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Delete qcxserver tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`qcxserver_delete_tmpfs_files',`
+    gen_require(`
+        type qcx_server_tmpfs_t;
+    ')
+
+    delete_files_pattern($1, qcx_server_tmpfs_t, qcx_server_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Send signull to qcx_server_t.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`qcxserver_signull',`
+    gen_require(`
+        type qcx_server_t;
+    ')
+
+    allow $1 qcx_server_t:process signull;
+')
+
+
+
+######################################
+## <summary>
+##  ptrace to qcx_be_server related process.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`qcxbeserver_ptrace',`
+    gen_require(`
+        type qcx_be_server_t;
+    ')
+
+    allow $1 qcx_be_server_t:process ptrace;
+')

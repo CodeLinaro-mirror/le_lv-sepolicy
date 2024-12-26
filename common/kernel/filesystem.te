@@ -1,0 +1,9 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+#
+# BinderFS
+# 
+type binderfs_t;
+fs_type(binderfs_t)
+genfscon binder / gen_context(system_u:object_r:binderfs_t,s0)

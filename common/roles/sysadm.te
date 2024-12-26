@@ -1,0 +1,7 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+systemd_sysadm_user(sysadm_t)
+dbus_sysadm_user(sysadm)
+
+pulseaudio_role(root, sysadm_t, sysadm_application_exec_domain, sysadm_r)

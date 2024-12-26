@@ -1,0 +1,161 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(weston, 1.0)
+
+type weston_t;
+type weston_exec_t;
+type weston_lib_t;
+type weston_tmp_t;
+type weston_tmpfs_t;
+type weston_etc_t;
+
+init_daemon_domain(weston_t, weston_exec_t)
+
+files_config_file(weston_etc_t)
+weston_read_config_files(weston_t)
+
+logging_send_syslog_msg(weston_t)
+fs_getattr_cgroup(weston_t)
+fs_getattr_xattr_fs(weston_t)
+fs_map_tmpfs_files(weston_t)
+fs_rw_tmpfs_files(weston_t)
+
+# Todo, unlabeled_t, could remove after setting selinxu context to /data mount
+files_mounton_isid_type_dirs(weston_t)
+files_list_default_dirs(weston_t)
+files_read_usr_files(weston_t)
+files_search_mnt(weston_t)
+files_read_etc_files(weston_t)
+
+dbus_send_system_bus(weston_t)
+systemd_dbus_chat_logind(weston_t)
+
+init_signal(weston_t)
+init_read_state(weston_t)
+init_stream_connect_script(weston_t)
+
+kernel_read_proc_files(weston_t)
+kernel_search_debugfs(weston_t)
+
+files_manage_var_files(weston_t)
+files_map_var_files(weston_t)
+
+weston_map_lib_files(weston_t)
+
+# may be unconfined interface calling need to refine
+unconfined_server_ptrace(weston_t)
+unconfined_ptrace(weston_t)
+adreno200_ptrace(weston_t)
+
+# /run/systemd/seats/seat0
+systemd_read_logind_sessions_files(weston_t)
+systemd_login_read_pid_files(weston_t)
+
+dbus_stream_connect_system_dbusd(weston_t)
+dbus_chat_session_bus(weston_t)
+dbus_write_pid_sock_files(weston_t)
+
+dev_read_sysfs(weston_t)
+
+# /dev/socket/leprop-service
+dev_manage_generic_sockets(weston_t)
+unconfined_server_stream_connectto(weston_t)
+
+# /tmp/weston.log
+# files_manage_generic_tmp_files(weston_t)
+
+# /var/log/weston-*.log
+logging_create_generic_logs(weston_t)
+logging_read_generic_logs(weston_t)
+
+# Create weston-(pid).log under /var/volatile/log/
+files_create_var_files(weston_t)
+files_rw_var_files(weston_t)
+fs_getattr_tmpfs(weston_t)
+fs_search_cgroup_dirs(weston_t)
+
+# /dev/tty2
+term_use_unallocated_ttys(weston_t)
+
+# port:22222
+corenet_tcp_connect_generic_port(weston_t)
+
+# libopenwfd.so
+owfds_map_lib_files(weston_t)
+
+# /dev/dma_heap/system
+dev_rw_dma_dev(weston_t)
+
+# /dev/kiumd
+dev_rw_kiumd_dev(weston_t)
+
+# /dev/input/event0
+dev_rw_input_dev(weston_t)
+
+# /dev/kgsl
+dev_rw_kgsl_dev(weston_t)
+
+# /dev/hgsl
+dev_rw_hgsl_dev(weston_t)
+
+# /dev/dri/card0
+dev_rw_dri(weston_t)
+
+# /etc/hosts
+sysnet_read_config(weston_t)
+
+# /data/misc
+qseecomd_search_data(weston_t)
+
+# /run/user/0/wayland-0
+# userdom_manage_user_tmp_dirs(weston_t)
+# userdom_manage_user_tmp_files(weston_t)
+# userdom_create_user_tmp_sockets(weston_t)
+# userdom_manage_tmp_sockets(weston_t)
+userdom_manage_user_tmp_files(weston_t)
+userdom_map_tmp_files(weston_t)
+
+# /run/udev/data
+udev_read_pid_files(weston_t)
+
+owfds_rw_tmpfs_files(weston_t)
+
+files_tmp_file(weston_tmp_t)
+files_tmp_filetrans(weston_t, weston_tmp_t, { dir file })
+manage_files_pattern(weston_t, weston_tmp_t, weston_tmp_t)
+
+# /dev/shm/lrmc_rq_*
+files_tmpfs_file(weston_tmpfs_t)
+fs_tmpfs_filetrans(weston_t, weston_tmpfs_t, { dir file })
+create_files_pattern(weston_t, weston_tmpfs_t, weston_tmpfs_t)
+weston_mmap_rw_tmpfs_files(weston_t)
+
+userdom_user_tmp_filetrans(weston_t, weston_tmpfs_t, { dir file sock_file })
+create_files_pattern(weston_t, weston_tmpfs_t, weston_tmpfs_t)
+rw_files_pattern(weston_t, weston_tmpfs_t, weston_tmpfs_t)
+manage_sock_files_pattern(weston_t, weston_tmpfs_t, weston_tmpfs_t)
+userdom_manage_tmp_sockets(weston_t)
+xserver_read_xkb_libs(weston_t)
+xserver_map_xkb_libs(weston_t)
+
+miscfiles_read_fonts(weston_t)
+miscfiles_manage_localization(weston_t)
+miscfiles_read_localization(weston_t)
+
+corecmd_check_exec_bin_files(weston_t)
+
+#libkiumd
+libkiumd_mmap_exec_lib_file(weston_t)
+
+userdom_user_runtime_filetrans(weston_t, weston_tmp_t, { dir file sock_file })
+
+allow weston_t self:unix_dgram_socket { create connect };
+allow weston_t self:tcp_socket create_socket_perms;
+allow weston_t self:process { setrlimit signull setsched siginh };
+allow weston_t self:capability { sys_resource sys_nice sys_admin setuid net_admin  dac_override sys_ptrace };
+allow weston_t self:capability2 { bpf };
+allow weston_t self:netlink_kobject_uevent_socket create_socket_perms;
+allow weston_t weston_exec_t:file execute_no_trans;
+allow weston_t weston_tmpfs_t:file delete_file_perms;
+allow weston_t weston_tmp_t:sock_file create_file_perms;

@@ -1,0 +1,94 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary>Policy for SELinux policy and userland applications.</summary>
+
+######################################
+## <summary>
+##  Send signull to pil_rm_t.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`pil_rm_signull',`
+    gen_require(`
+        type pil_rm_t;
+    ')
+
+    allow $1 pil_rm_t:process signull;
+')
+
+######################################
+## <summary>
+##  create files under tmpfs filesystem for pil-rm.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`pilrm_create_tmpfs_files',`
+    gen_require(`
+        type pil_rm_tmpfs_t;
+    ')
+
+    create_files_pattern($1, pil_rm_tmpfs_t, pil_rm_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Map, read and write pil-rm tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`pilrm_mmap_rw_tmpfs_files',`
+    gen_require(`
+        type pil_rm_tmpfs_t;
+    ')
+
+    mmap_rw_files_pattern($1, pil_rm_tmpfs_t, pil_rm_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Read and write pil-rm tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`pilrm_rw_tmpfs_files',`
+    gen_require(`
+        type pil_rm_tmpfs_t;
+    ')
+
+    rw_files_pattern($1, pil_rm_tmpfs_t, pil_rm_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Read and write scmi devices.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`pilrm_rw_scmi_dev',`
+    gen_require(`
+        type device_t, pil_rm_scmi_dev_t;
+    ')
+
+    rw_chr_files_pattern($1, device_t, pil_rm_scmi_dev_t)
+')

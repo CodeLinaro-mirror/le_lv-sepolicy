@@ -1,0 +1,32 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(nsp-service, 1.0)
+
+type nspconfig_t;
+type nspconfig_exec_t;
+
+#============= nspconfig_t ==============
+init_daemon_domain(nspconfig_t, nspconfig_exec_t)
+
+libkiumd_mmap_exec_lib_file(nspconfig_t)
+dev_rw_kiumd_dev(nspconfig_t)
+
+allow nspconfig_t self:process { setrlimit setsched };
+allow nspconfig_t self:unix_dgram_socket { create connect };
+allow nspconfig_t self:capability { sys_resource sys_nice };
+
+logging_create_devlog_dev(nspconfig_t)
+
+files_manage_generic_tmp_dirs(nspconfig_t)
+files_manage_generic_tmp_files(nspconfig_t)
+
+logging_read_syslog_pid(nspconfig_t)
+logging_send_syslog_msg(nspconfig_t)
+
+safetymonitor_rw_tmpfs_files(nspconfig_t)
+
+fs_manage_tmpfs_files(nspconfig_t)
+fs_map_tmpfs_files(nspconfig_t)
+userdom_manage_tmp_files(nspconfig_t)
+files_manage_var_files(nspconfig_t)
