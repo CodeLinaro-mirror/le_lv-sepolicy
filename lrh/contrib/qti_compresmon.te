@@ -56,3 +56,8 @@ corecmd_exec_bin(compresmon_t)
 vhost_user_write_vhost_socket(compresmon_t)
 
 dev_rw_profiler_dev(compresmon_t)
+kernel_read_proc_files(compresmon_t)
+safetymonitor_rw_tmpfs_files(compresmon_t)
+fs_map_tmpfs_files(compresmon_tmpfs_t)
+fs_manage_tmpfs_files(compresmon_tmpfs_t)
+allow compresmon_t compresmon_tmpfs_t:file map;

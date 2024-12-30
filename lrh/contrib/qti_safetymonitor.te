@@ -109,3 +109,7 @@ manage_files_pattern(safetymonitor_t, safetymonitor_tmp_t, safetymonitor_tmp_t)
 files_tmpfs_file(safetymonitor_tmpfs_t)
 fs_tmpfs_filetrans(safetymonitor_t, safetymonitor_tmpfs_t, { dir file })
 manage_files_pattern(safetymonitor_t, safetymonitor_tmpfs_t, safetymonitor_tmpfs_t)
+
+compresmon_signull(safetymonitor_t)
+compresmon_mmap_rw_tmpfs_files(safetymonitor_t)
+compresmon_unlink_tmpfs_files(safetymonitor_t)
