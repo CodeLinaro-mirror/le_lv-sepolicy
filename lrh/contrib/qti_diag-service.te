@@ -97,3 +97,5 @@ logging_manage_generic_dirs_logs(diag_service_t)
 libkiumd_mmap_exec_lib_file(diag_service_t)
 
 userdom_mmap_rw_inherited_user_tmp_files(diag_service_t)
+
+dev_read_sysfs(diag_service_t)
