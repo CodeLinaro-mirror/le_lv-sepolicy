@@ -34,7 +34,7 @@
 
 ######################################
 ## <summary>
-##  Check syscache-rm related process infomation, such as ps tool.
+##  Check ecc-err-handler related process infomation, such as ps tool.
 ## </summary>
 ## <param name="domain">
 ##  <summary>
@@ -42,18 +42,18 @@
 ##  </summary>
 ## </param>
 #
-interface(`syscache_rm_read_pid',`
+interface(`ecc_err_handler_read_pid',`
     gen_require(`
-        type syscache_rm_t;
+        type ecc_err_handler_t;
     ')
 
     files_search_pids($1)
-    read_files_pattern($1, syscache_rm_t, syscache_rm_t)
+    read_files_pattern($1, ecc_err_handler_t, ecc_err_handler_t)
 ')
 
 ######################################
 ## <summary>
-##  create files under tmpfs filesystem for syscache_rm.
+##  Send signull to ecc-err-handler related process.
 ## </summary>
 ## <param name="domain">
 ##  <summary>
@@ -61,17 +61,17 @@ interface(`syscache_rm_read_pid',`
 ##  </summary>
 ## </param>
 #
-interface(`syscache_rm_create_tmpfs_files',`
+interface(`ecc_err_handler_signull',`
     gen_require(`
-        type syscache_rm_tmpfs_t;
+        type ecc_err_handler_t;
     ')
 
-    create_files_pattern($1, syscache_rm_tmpfs_t, syscache_rm_tmpfs_t)
+    allow $1 ecc_err_handler_t:process signull;
 ')
 
 ######################################
 ## <summary>
-##  Send signull to syscache-rm related process.
+##  Map, read and write ecc-err-handler tmpfs files.
 ## </summary>
 ## <param name="domain">
 ##  <summary>
@@ -79,17 +79,17 @@ interface(`syscache_rm_create_tmpfs_files',`
 ##  </summary>
 ## </param>
 #
-interface(`syscache_rm_signull',`
+interface(`ecc_err_handler_mmap_rw_tmpfs_files',`
     gen_require(`
-        type syscache_rm_t;
+        type ecc_err_handler_tmpfs_t;
     ')
 
-    allow $1 syscache_rm_t:process signull;
+    mmap_rw_files_pattern($1, ecc_err_handler_tmpfs_t, ecc_err_handler_tmpfs_t)
 ')
 
 ######################################
 ## <summary>
-##  Delete syscache-rm tmpfs files.
+##  Delete ecc-err-handler tmpfs files.
 ## </summary>
 ## <param name="domain">
 ##  <summary>
@@ -97,17 +97,17 @@ interface(`syscache_rm_signull',`
 ##  </summary>
 ## </param>
 #
-interface(`syscache_rm_delete_tmpfs_files',`
+interface(`ecc_err_handler_delete_tmpfs_files',`
     gen_require(`
-        type syscache_rm_tmpfs_t;
+        type ecc_err_handler_tmpfs_t;
     ')
 
-    delete_files_pattern($1, syscache_rm_tmpfs_t, syscache_rm_tmpfs_t)
+    delete_files_pattern($1, ecc_err_handler_tmpfs_t, ecc_err_handler_tmpfs_t)
 ')
 
 ######################################
 ## <summary>
-## Allow to Read Write Open syscache-rm tmpfs files.
+## Allow to Read Write Open ecc-err-handler tmpfs files.
 ## </summary>
 ## <param name="domain">
 ##  <summary>
@@ -115,46 +115,10 @@ interface(`syscache_rm_delete_tmpfs_files',`
 ##  </summary>
 ## </param>
 #
-interface(`syscache_rm_rw_tmpfs_files',`
+interface(`ecc_err_handler_rw_tmpfs_files',`
     gen_require(`
-        type syscache_rm_tmpfs_t;
+        type ecc_err_handler_tmpfs_t;
     ')
 
-    rw_files_pattern($1, syscache_rm_tmpfs_t, syscache_rm_tmpfs_t)
-')
-
-######################################
-## <summary>
-##  Map, read and write syscache_rm tmpfs files.
-## </summary>
-## <param name="domain">
-##  <summary>
-##  Domain allowed.
-##  </summary>
-## </param>
-#
-interface(`syscache_rm_mmap_rw_tmpfs_files',`
-    gen_require(`
-        type syscache_rm_tmpfs_t;
-    ')
-
-    mmap_rw_files_pattern($1, syscache_rm_tmpfs_t, syscache_rm_tmpfs_t)
-')
-
-########################################
-## <summary>
-##  Map syscache_rm_tmpfs_t library files.
-## </summary>
-## <param name="domain">
-##  <summary>
-##  Domain allowed access.
-##  </summary>
-## </param>
-#
-interface(`syscache_rm_tmpfs_map_files',`
-    gen_require(`
-        type syscache_rm_tmpfs_t;
-    ')
-
-    allow $1 syscache_rm_tmpfs_t:file mmap_file_perms;
+    rw_files_pattern($1, ecc_err_handler_tmpfs_t, ecc_err_handler_tmpfs_t)
 ')
