@@ -159,3 +159,4 @@ allow weston_t self:netlink_kobject_uevent_socket create_socket_perms;
 allow weston_t weston_exec_t:file execute_no_trans;
 allow weston_t weston_tmpfs_t:file delete_file_perms;
 allow weston_t weston_tmp_t:sock_file create_file_perms;
+allow weston_t weston_tmp_t:sock_file delete_sock_file_perms;

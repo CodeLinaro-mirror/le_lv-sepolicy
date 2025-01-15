@@ -15,6 +15,8 @@ init_binder(pulseaudio_t)
 init_stream_connect_script(pulseaudio_t)
 
 fs_list_binderfs_dirs(pulseaudio_t)
+fs_rw_tmpfs_files(pulseaudio_t)
+fs_map_tmpfs_files(pulseaudio_t)
 
 dev_rw_binder_dev(pulseaudio_t)
 dev_manage_generic_sockets(pulseaudio_t)
@@ -31,5 +33,4 @@ dbus_write_session_runtime_socket(pulseaudio_t)
 dbus_getattr_session_runtime_socket(pulseaudio_t)
 
 allow pulseaudio_t self:qipcrtr_socket create;
-
 allow pulseaudio_t pulseaudio_etc_t:file map;

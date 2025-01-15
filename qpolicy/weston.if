@@ -132,6 +132,24 @@ interface(`weston_mmap_rw_tmpfs_files',`
 
 ######################################
 ## <summary>
+##  Read and write weston tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`weston_rw_tmpfs_files',`
+    gen_require(`
+        type weston_tmpfs_t;
+    ')
+
+    rw_files_pattern($1, weston_tmpfs_t, weston_tmpfs_t)
+')
+
+######################################
+## <summary>
 ##  Delete weston tmpfs files.
 ## </summary>
 ## <param name="domain">
@@ -182,4 +200,22 @@ interface(`weston_read_config_files',`
     ')
 
     read_files_pattern($1, etc_t, weston_etc_t)
+')
+
+########################################
+## <summary>
+##  Transition to weston_t when NNP has been set.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  The type of the process performing this action.
+##  </summary>
+## </param>
+#
+interface(`weston_nnp_trans',`
+    gen_require(`
+        type weston_t;
+    ')
+
+    allow $1 weston_t:process2 nnp_transition;
 ')

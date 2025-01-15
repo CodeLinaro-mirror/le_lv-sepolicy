@@ -156,3 +156,21 @@ interface(`systemd_sysadm_user',`
 
     pulseaudio_nnp_transition(sysadm_systemd_t)
 ')
+
+########################################
+## <summary>
+##  Transition to systemd_passwd_agent_t when NNP has been set.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  The type of the process performing this action.
+##  </summary>
+## </param>
+#
+interface(`systemd_passwd_agent_nnp_trans',`
+    gen_require(`
+        type systemd_passwd_agent_t;
+    ')
+
+    allow $1 systemd_passwd_agent_t:process2 nnp_transition;
+')
