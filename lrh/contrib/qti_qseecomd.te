@@ -40,11 +40,15 @@ type qseecomd_initscript_exec_t;
 type qseecom_device_t;
 type qseecomd_persist_t;
 type qseecomd_power_t;
+type qseecomd_scmi_dev_t;
 
 init_daemon_domain(qseecomd_t, qseecomd_exec_t)
 init_script_file(qseecomd_initscript_exec_t)
 
 dev_associate(qseecom_device_t)
+
+dev_node(qseecomd_scmi_dev_t)
+qseecomd_rw_scmi_dev(qseecomd_t)
 
 logging_send_syslog_msg(qseecomd_t)
 
@@ -116,5 +120,7 @@ fs_delete_tmpfs_files(qseecomd_t)
 # openwfds
 owfds_map_lib_files(qseecomd_t)
 owfds_read_lib_files(qseecomd_t)
+owfds_create_tmpfs_files(qseecomd_t)
+owfds_rw_tmpfs_files(qseecomd_t)
 
 power_use_pm_register(qseecomd_t, qseecomd_power_t)
