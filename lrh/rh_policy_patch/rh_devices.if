@@ -194,21 +194,3 @@ interface(`dev_relabel_profiler_dev',`
 
     relabel_chr_files_pattern($1, device_t, profiler_device_t);
 ')
-
-########################################
-## <summary>
-##      map kiumd device.
-## </summary>
-## <param name="domain">
-##      <summary>
-##      Domain allowed access.
-##      </summary>
-## </param>
-#
-interface(`dev_map_kiumd_dev',`
-    gen_require(`
-        type kiumd_device_t;
-    ')
-
-    allow $1 kiumd_device_t:chr_file map;
-')
