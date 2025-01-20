@@ -1,4 +1,4 @@
-# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2023-2025 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -39,6 +39,7 @@ type qseecomd_initscript_t;
 type qseecomd_initscript_exec_t;
 type qseecom_device_t;
 type qseecomd_persist_t;
+type qseecomd_power_t;
 
 init_daemon_domain(qseecomd_t, qseecomd_exec_t)
 init_script_file(qseecomd_initscript_exec_t)
@@ -111,3 +112,9 @@ fs_create_mmap_rw_tmpfs_files(qseecomd_t)
 fs_create_write_tmp_files(qseecomd_t)
 fs_rw_tmpfs_dirs(qseecomd_t)
 fs_delete_tmpfs_files(qseecomd_t)
+
+# openwfds
+owfds_map_lib_files(qseecomd_t)
+owfds_read_lib_files(qseecomd_t)
+
+power_use_pm_register(qseecomd_t, qseecomd_power_t)
