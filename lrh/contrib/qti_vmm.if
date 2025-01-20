@@ -67,3 +67,23 @@ interface(`vmm_mmap_rw_tmpfs_files',`
 
     mmap_rw_files_pattern($1, vmm_tmpfs_t, vmm_tmpfs_t)
 ')
+
+######################################
+## <summary>
+##  vmm server client connectto create unlink write.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`vmm_client_connect_server',`
+    gen_require(`
+        type vmm_t;
+    ')
+
+    allow $1 vmm_t:unix_stream_socket connectto;
+    allow $1 tmp_t:sock_file { create unlink write };
+    allow vmm_t $1:unix_stream_socket connectto;
+')
