@@ -101,7 +101,7 @@ pilrm_rw_tmpfs_files(audio_service_t)
 # ========== local ==========
 allow audio_service_t self:unix_dgram_socket { create connect getopt setopt };
 allow audio_service_t self:unix_stream_socket connectto;
-allow audio_service_t self:process { setrlimit setsched };
+allow audio_service_t self:process { setrlimit setsched ptrace };
 allow audio_service_t self:capability { sys_resource sys_nice net_admin sys_ptrace dac_override };
 allow audio_service_t self:tcp_socket {accept bind create listen setopt shutdown connect read write};
 
