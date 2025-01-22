@@ -276,6 +276,24 @@ interface(`files_delete_var_run_sock_files',`
 
 ##################################
 ## <summary>
+##  Allow to create sock_files under /tmp/.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_create_tmp_sock_files',`
+    gen_require(`
+        type tmp_t;
+    ')
+
+    create_sock_files_pattern($1, tmp_t, tmp_t)
+')
+
+##################################
+## <summary>
 ##  Allow to map files under /var/run.
 ## </summary>
 ## <param name="domain">
