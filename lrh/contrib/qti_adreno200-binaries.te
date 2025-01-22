@@ -94,8 +94,11 @@ fs_getattr_tmpfs(adreno200_t)
 #libkiumd
 libkiumd_ioctl_lib_file(adreno200_t)
 
+#ecc_err_handler
+ecc_err_handler_rw_tmpfs_files(adreno200_t)
+
 #syscache_rm
-syscacherm_rw_tmpfs_files(adreno200_t)
+syscache_rm_rw_tmpfs_files(adreno200_t)
 
 #safetymonitor
 safetymonitor_rw_tmpfs_files(adreno200_t)

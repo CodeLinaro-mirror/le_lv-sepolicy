@@ -160,6 +160,7 @@ require {
     type adreno200_tmpfs_t;
     type tmpfs_t;
     type syscache_rm_t;
+    type ecc_err_handler_t;
     type kernel_t;
     class file { map open read unlink write };
     class dir { add_name create getattr search write };
@@ -177,6 +178,11 @@ allow diag_service_t tmpfs_t:file { open read write };
 
 ##!!!! This avc can be allowed using the boolean 'domain_can_mmap_files'
 allow diag_service_t tmpfs_t:file map;
+
+##============= ecc_err_handler_t ==============
+##!!!! This avc can be allowed using the boolean 'domain_can_mmap_files'
+allow ecc_err_handler_t adreno200_tmpfs_t:file map;
+allow ecc_err_handler_t adreno200_tmpfs_t:file unlink;
 
 ##============= syscache_rm_t ==============
 ##!!!! This avc can be allowed using the boolean 'domain_can_mmap_files'
