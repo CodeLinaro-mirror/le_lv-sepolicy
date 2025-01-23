@@ -149,8 +149,10 @@ corecmd_check_exec_bin_files(weston_t)
 libkiumd_mmap_exec_lib_file(weston_t)
 
 userdom_user_runtime_filetrans(weston_t, weston_tmp_t, { dir file sock_file })
+userdom_mmap_rw_user_runtime_files(weston_t)
 
 allow weston_t self:unix_dgram_socket { create connect };
+allow weston_t self:unix_stream_socket connectto;
 allow weston_t self:tcp_socket create_socket_perms;
 allow weston_t self:process { setrlimit signull setsched siginh };
 allow weston_t self:capability { sys_resource sys_nice sys_admin setuid net_admin  dac_override sys_ptrace };
@@ -158,5 +160,4 @@ allow weston_t self:capability2 { bpf };
 allow weston_t self:netlink_kobject_uevent_socket create_socket_perms;
 allow weston_t weston_exec_t:file execute_no_trans;
 allow weston_t weston_tmpfs_t:file delete_file_perms;
-allow weston_t weston_tmp_t:sock_file create_file_perms;
-allow weston_t weston_tmp_t:sock_file delete_sock_file_perms;
+allow weston_t weston_tmp_t:sock_file { create_file_perms delete_sock_file_perms write };
