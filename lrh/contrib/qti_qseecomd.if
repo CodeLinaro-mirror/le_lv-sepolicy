@@ -262,3 +262,21 @@ interface(`qseecomd_rw_scmi_dev',`
 
     rw_chr_files_pattern($1, device_t, qseecomd_scmi_dev_t)
 ')
+
+######################################
+## <summary>
+##  Send signull to qseecomd_t.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`qseecomd_signull',`
+    gen_require(`
+        type qseecomd_t;
+    ')
+
+    allow $1 qseecomd_t:process signull;
+')

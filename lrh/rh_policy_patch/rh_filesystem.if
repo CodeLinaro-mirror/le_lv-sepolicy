@@ -197,3 +197,21 @@ interface(`fs_rw_dos_dirs',`
 
     rw_dirs_pattern($1, dosfs_t, dosfs_t)
 ')
+
+##################################
+## <summary>
+##  Allow to rw open and ioctl to chr files on a DOS.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_rw_dosfs_files',`
+    gen_require(`
+        type dosfs_t;
+    ')
+
+    rw_files_pattern($1, dosfs_t, dosfs_t)
+')
