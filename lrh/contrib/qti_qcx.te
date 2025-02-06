@@ -97,6 +97,7 @@ qcxserver_rw_tmpfs_files(qcx_server_t)
 files_tmpfs_file(qcx_server_tmpfs_t)
 fs_tmpfs_filetrans(qcx_server_t, qcx_server_tmpfs_t, { dir file })
 manage_files_pattern(qcx_server_t, qcx_server_tmpfs_t, qcx_server_tmpfs_t)
+create_dirs_pattern(qcx_server_t, qcx_server_tmpfs_t, qcx_server_tmpfs_t)
 
 
 # fs_t:filesystem getattr
