@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2025 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -30,60 +30,12 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-## <summary>Policy for SELinux policy and userland applications.</summary>
+/usr/bin/gpce_be                    --      gen_context(system_u:object_r:gpce_be_exec_t,s0)
+/usr/bin/gpce_be_test               --      gen_context(system_u:object_r:gpce_be_exec_t,s0)
+/usr/lib/libgpce(.*)?               --      gen_context(system_u:object_r:gpce_be_lib_t,s0)
+/usr/lib/libhwkm_slave_gpce(.*)?    --      gen_context(system_u:object_r:gpce_be_lib_t,s0)
+/dev/scmi_gpce                      -c      gen_context(system_u:object_r:gpce_be_dev_t,s0)
 
-######################################
-## <summary>
-##  create files under tmpfs filesystem for vmm.
-## </summary>
-## <param name="domain">
-##  <summary>
-##  Domain allowed.
-##  </summary>
-## </param>
-#
-interface(`vmm_create_tmpfs_files',`
-    gen_require(`
-        type vmm_tmpfs_t;
-    ')
 
-    create_files_pattern($1, vmm_tmpfs_t, vmm_tmpfs_t)
-')
 
-######################################
-## <summary>
-##  Map, read and write vmm tmpfs files.
-## </summary>
-## <param name="domain">
-##  <summary>
-##  Domain allowed.
-##  </summary>
-## </param>
-#
-interface(`vmm_mmap_rw_tmpfs_files',`
-    gen_require(`
-        type vmm_tmpfs_t;
-    ')
 
-    mmap_rw_files_pattern($1, vmm_tmpfs_t, vmm_tmpfs_t)
-')
-
-######################################
-## <summary>
-##  vmm server client connectto create unlink write.
-## </summary>
-## <param name="domain">
-##  <summary>
-##  Domain allowed.
-##  </summary>
-## </param>
-#
-interface(`vmm_client_connect_server',`
-    gen_require(`
-        type vmm_t;
-    ')
-
-    allow $1 vmm_t:unix_stream_socket connectto;
-    allow $1 tmp_t:sock_file { create unlink write };
-    allow vmm_t $1:unix_stream_socket connectto;
-')

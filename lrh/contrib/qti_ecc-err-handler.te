@@ -1,0 +1,79 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted (subject to the limitations in the
+# disclaimer below) provided that the following conditions are met:
+#
+#    * Redistributions of source code must retain the above copyright
+#      notice, this list of conditions and the following disclaimer.
+#
+#    * Redistributions in binary form must reproduce the above
+#      copyright notice, this list of conditions and the following
+#      disclaimer in the documentation and/or other materials provided
+#      with the distribution.
+#
+#    * Neither the name of Qualcomm Innovation Center, Inc. nor the names of its
+#      contributors may be used to endorse or promote products derived
+#      from this software without specific prior written permission.
+#
+# NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE
+# GRANTED BY THIS LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT
+# HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED
+# WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+# IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+# ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+# GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER
+# IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+# OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+# IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+policy_module(qti_ecc-err-handler, 1.0)
+
+type ecc_err_handler_t;
+type ecc_err_handler_exec_t;
+type ecc_err_handler_tmp_t;
+type ecc_err_handler_tmpfs_t;
+
+init_daemon_domain(ecc_err_handler_t, ecc_err_handler_exec_t)
+
+logging_send_syslog_msg(ecc_err_handler_t)
+
+dev_rw_kiumd_dev(ecc_err_handler_t)
+dev_rw_vfio_dev(ecc_err_handler_t)
+dev_read_sysfs(ecc_err_handler_t)
+
+userdom_manage_user_tmp_files(ecc_err_handler_t)
+userdom_map_tmp_files(ecc_err_handler_t)
+
+safetymonitor_rw_tmpfs_files(ecc_err_handler_t)
+
+#libkiumd
+libkiumd_mmap_exec_lib_file(ecc_err_handler_t)
+
+#adreno200
+adreno200_rw_tmpfs_files(ecc_err_handler_t)
+adreno200_signull(ecc_err_handler_t)
+adreno200_mmap_rw_tmpfs_files(ecc_err_handler_t)
+adreno200_delete_tmpfs_files(ecc_err_handler_t)
+
+# ========== local ==========
+allow ecc_err_handler_t self:netlink_route_socket create_netlink_socket_perms;
+allow ecc_err_handler_t self:unix_dgram_socket { create connect getopt setopt };
+allow ecc_err_handler_t self:udp_socket { create ioctl };
+allow ecc_err_handler_t self:process { setrlimit setsched };
+allow ecc_err_handler_t self:capability { sys_resource sys_nice net_admin };
+
+files_tmp_file(ecc_err_handler_tmp_t)
+files_tmp_filetrans(ecc_err_handler_t, ecc_err_handler_tmp_t, { dir fifo_file file lnk_file })
+userdom_user_tmp_filetrans(ecc_err_handler_t, ecc_err_handler_tmp_t, { dir file sock_file } )
+manage_files_pattern(ecc_err_handler_t, ecc_err_handler_tmp_t, ecc_err_handler_tmp_t)
+
+files_tmpfs_file(ecc_err_handler_tmpfs_t)
+fs_tmpfs_filetrans(ecc_err_handler_t, ecc_err_handler_tmpfs_t, { dir file })
+create_files_pattern(ecc_err_handler_t, ecc_err_handler_tmpfs_t, ecc_err_handler_tmpfs_t)
+ecc_err_handler_mmap_rw_tmpfs_files(ecc_err_handler_t)
+fs_rw_tmpfs_files(ecc_err_handler_t)
+

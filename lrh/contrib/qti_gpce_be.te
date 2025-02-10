@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2025 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -30,60 +30,62 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-## <summary>Policy for SELinux policy and userland applications.</summary>
+policy_module(qti_gpce_be, 1.0)
 
-######################################
-## <summary>
-##  create files under tmpfs filesystem for vmm.
-## </summary>
-## <param name="domain">
-##  <summary>
-##  Domain allowed.
-##  </summary>
-## </param>
-#
-interface(`vmm_create_tmpfs_files',`
-    gen_require(`
-        type vmm_tmpfs_t;
-    ')
+type gpce_be_t;
+type gpce_be_exec_t;
+type gpce_be_lib_t;
+type gpce_be_dev_t;
+type gpce_be_tmpfs_t;
+type gpce_be_tmp_t;
 
-    create_files_pattern($1, vmm_tmpfs_t, vmm_tmpfs_t)
-')
+init_daemon_domain(gpce_be_t,gpce_be_exec_t)
 
-######################################
-## <summary>
-##  Map, read and write vmm tmpfs files.
-## </summary>
-## <param name="domain">
-##  <summary>
-##  Domain allowed.
-##  </summary>
-## </param>
-#
-interface(`vmm_mmap_rw_tmpfs_files',`
-    gen_require(`
-        type vmm_tmpfs_t;
-    ')
+dev_node(gpce_be_dev_t)
 
-    mmap_rw_files_pattern($1, vmm_tmpfs_t, vmm_tmpfs_t)
-')
+gpce_be_rw_scmi_dev(gpce_be_t)
+gpce_be_read_lib_files(gpce_be_t)
+gpce_be_map_lib_files(gpce_be_t)
+gpce_be_manage_lib_files(gpce_be_t)
+gpce_be_delete_tmpfs_files(gpce_be_t)
+gpce_be_create_tmpfs_files(gpce_be_t)
+gpce_be_mmap_rw_tmpfs_files(gpce_be_t)
+gpce_be_rw_tmpfs_files(gpce_be_t)
+dev_rw_hab_dev(gpce_be_t)
 
-######################################
-## <summary>
-##  vmm server client connectto create unlink write.
-## </summary>
-## <param name="domain">
-##  <summary>
-##  Domain allowed.
-##  </summary>
-## </param>
-#
-interface(`vmm_client_connect_server',`
-    gen_require(`
-        type vmm_t;
-    ')
 
-    allow $1 vmm_t:unix_stream_socket connectto;
-    allow $1 tmp_t:sock_file { create unlink write };
-    allow vmm_t $1:unix_stream_socket connectto;
-')
+# /dev/shm/lrmc_rq_*
+files_tmpfs_file(gpce_be_tmpfs_t)
+fs_tmpfs_filetrans(gpce_be_t, gpce_be_tmpfs_t, { dir file })
+
+# /usr/lib/libkiumd,liblrms,liblrmc
+libkiumd_mmap_exec_lib_file(gpce_be_t)
+
+#============ gpce_be_t ===========
+logging_send_syslog_msg(gpce_be_t)
+
+fs_delete_tmpfs_files(gpce_be_t)
+
+userdom_rw_user_tmp_files(gpce_be_t)
+userdom_delete_user_tmp_files(gpce_be_t)
+userdom_map_tmp_files(gpce_be_t)
+dev_rw_dma_dev(gpce_be_t)
+
+dev_rw_kiumd_dev(gpce_be_t)
+dev_rw_vfio_dev(gpce_be_t)
+dev_read_sysfs(gpce_be_t)
+
+unconfined_server_signull(gpce_be_t)
+unconfined_server_ptrace(gpce_be_t)
+unconfined_signull(gpce_be_t)
+unconfined_ptrace(gpce_be_t)
+
+
+# /tmp/lrms_log_*.txt
+files_tmp_file(gpce_be_tmp_t)
+files_tmp_filetrans(gpce_be_t, gpce_be_tmp_t, { dir file })
+manage_files_pattern(gpce_be_t, gpce_be_tmp_t, gpce_be_tmp_t)
+
+#================local===================
+allow gpce_be_t self:process { setrlimit setsched };
+allow gpce_be_t self:capability { sys_resource sys_nice dac_override};

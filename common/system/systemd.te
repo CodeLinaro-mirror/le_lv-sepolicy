@@ -8,6 +8,7 @@ files_relabel_var_lnk_files(systemd_tmpfiles_t)
 files_relabel_tmp_lnk_files(systemd_tmpfiles_t)
 fs_manage_tmpfs_dirs(systemd_tmpfiles_t)
 logging_relabel_audit_log(systemd_tmpfiles_t)
+weston_rw_tmpfs_files(systemd_tmpfiles_t)
 
 term_getattr_generic_ptys(systemd_logind_t)
 weston_delete_tmpfs_sock_files(systemd_logind_t)

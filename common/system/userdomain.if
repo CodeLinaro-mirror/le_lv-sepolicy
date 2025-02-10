@@ -133,3 +133,21 @@ interface(`userdom_manage_tmp_sockets',`
 
     manage_sock_files_pattern($1, user_tmp_t, user_tmp_t)
 ')
+
+########################################                                                                                                    
+## <summary>                                                                                                                                
+##  Map, read and write user runtime files                                                                                                               
+## </summary>                                                                                                                               
+## <param name="domain">                                                                                                                    
+##  <summary>                                                                                                                               
+##  Domain allowed access.                                                                                                                  
+##  </summary>                                                                                                                              
+## </param>                                                                                                                                 
+#                                                                                                                                           
+interface(`userdom_mmap_rw_user_runtime_files',`                                                                                             
+    gen_require(`                                                                                                                           
+        type user_runtime_t;                                                                                                                
+    ')                                                                                                                                      
+                                                                                                                                            
+    allow $1 user_runtime_t:file mmap_rw_file_perms;                                                                                         
+')

@@ -31,4 +31,8 @@ audioservice_rw_etc_files(initrc_t)
 pulseaudio_binder(initrc_t)
 
 fstools_nnp_trans(initrc_t)
+weston_nnp_trans(initrc_t)
+mount_nnp_trans(initrc_t)
+systemd_passwd_agent_nnp_trans(initrc_t)
 
+weston_read_lib_files(initrc_t)

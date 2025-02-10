@@ -3,7 +3,7 @@
 
 ########################################
 ## <summary>
-##  Transition to fsadm_t when NNP has been set.
+##  Transition to mount_t when NNP has been set.
 ## </summary>
 ## <param name="domain">
 ##  <summary>
@@ -11,10 +11,10 @@
 ##  </summary>
 ## </param>
 #
-interface(`fstools_nnp_trans',`
+interface(`mount_nnp_trans',`
     gen_require(`
-        type fsadm_t;
+        type mount_t;
     ')
 
-    allow $1 fsadm_t:process2 nnp_transition;
+    allow $1 mount_t:process2 nnp_transition;
 ')
