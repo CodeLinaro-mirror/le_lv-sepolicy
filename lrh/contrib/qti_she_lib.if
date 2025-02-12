@@ -1,4 +1,4 @@
-# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2025 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -30,53 +30,29 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-policy_module(rh_unconfined, 1.0)
+## <summary>Policy for SELinux policy and userland applications.</summary>
 
-require {
-    type unconfined_service_t;
-    type unconfined_t;
-}
+########################################
+## <summary>
+##  Usage of SHE library.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
 
-qseecomd_manage_data(unconfined_service_t)
-qseecomd_setattr_data(unconfined_service_t)
-qseecomd_setattr_persist(unconfined_service_t)
-qseecomd_rw_persist(unconfined_service_t)
+interface(`allow_she_lib_files',`
+    gen_require(`
+        type she_lib_t;
+        class file { execute execute_no_trans getattr map open read relabelfrom };
+    ')
 
-# shell domain is unconfined_t instead of unconfined_service_t when login with ssh or serials.
-qseecomd_manage_data(unconfined_t)
-qseecomd_setattr_data(unconfined_t)
-qseecomd_setattr_persist(unconfined_t)
-qseecomd_rw_persist(unconfined_t)
+    dev_rw_scmnode_dev($1)
+    logging_send_syslog_msg($1)
+    libkiumd_mmap_exec_lib_file($1)
+    fs_rw_dos_dirs($1) 
+    allow $1 she_lib_t:file { execute execute_no_trans getattr map open read relabelfrom };
+')
 
-vhost_user_manage_tmp_files(unconfined_service_t)
-vhost_user_manage_tmp_files(unconfined_t)
-
-# we can use ls cmd to list the linux-vm3-*-skt devices
-vhost_user_manage_tmp_files_vm3(unconfined_service_t)
-vhost_user_manage_tmp_files_vm3(unconfined_t)
-
-owfds_map_lib_files(unconfined_service_t)
-owfds_map_lib_files(unconfined_t)
-owfds_manage_lib_files(unconfined_service_t)
-owfds_manage_lib_files(unconfined_t)
-
-#below lines added for libkiumd interface
-libkiumd_mmap_exec_lib_file(unconfined_service_t)
-libkiumd_mmap_exec_lib_file(unconfined_t)
-libkiumd_relabel_lib_files(unconfined_service_t)
-libkiumd_relabel_lib_files(unconfined_t)
-libkiumd_manage_lib_files(unconfined_service_t)
-libkiumd_manage_lib_files(unconfined_t)
-
-audioservice_rw_etc_files(unconfined_service_t)
-audioservice_rw_etc_files(unconfined_t)
-
-weston_manage_lib_files(unconfined_service_t)
-weston_manage_lib_files(unconfined_t)
-weston_map_lib_files(unconfined_service_t)
-weston_map_lib_files(unconfined_t)
-
-dev_rw_profiler_dev(unconfined_t)
-dev_relabel_profiler_dev(unconfined_t)
-
-allow_she_lib_files(unconfined_t)
