@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2024-2025 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -36,8 +36,8 @@ type pil_rm_t;
 type pil_rm_exec_t;
 type pil_rm_tmp_t;
 type pil_rm_tmpfs_t;
+type pil_rm_power_t;
 type pil_rm_scmi_dev_t;
-
 init_daemon_domain(pil_rm_t, pil_rm_exec_t)
 
 dev_node(pil_rm_scmi_dev_t)
@@ -54,6 +54,7 @@ video_driver_signull(pil_rm_t)
 audio_service_signull(pil_rm_t)
 adreno200_signull(pil_rm_t)
 adreno200_read_pid(pil_rm_t)
+ssctl_service_signull(pil_rm_t)
 
 ssrrm_rw_tmpfs_files(pil_rm_t)
 ssrrm_signull(pil_rm_t)
@@ -67,6 +68,7 @@ nspdrv_mmap_rw_tmpfs_files(pil_rm_t)
 audioservice_mmap_rw_tmpfs_files(pil_rm_t)
 videodriver_mmap_rw_tmpfs_files(pil_rm_t)
 adreno200_mmap_rw_tmpfs_files(pil_rm_t)
+ssctl_service_mmap_rw_tmpfs_files(pil_rm_t)
 
 # /firmware/qcom/sa8775p/image/cdsp0.mdt
 fs_list_dos(pil_rm_t)
@@ -95,6 +97,10 @@ files_tmpfs_file(pil_rm_tmpfs_t)
 fs_tmpfs_filetrans(pil_rm_t, pil_rm_tmpfs_t, { dir file })
 pilrm_create_tmpfs_files(pil_rm_t)
 pilrm_mmap_rw_tmpfs_files(pil_rm_t)
+
+
+#power manager power_use_pm_register
+power_use_pm_register(pil_rm_t, pil_rm_power_t)
 
 # ========== local ==========
 allow pil_rm_t self:unix_dgram_socket { create connect getopt setopt };
