@@ -16,6 +16,7 @@ dev_rw_kiumd_dev(compresmon_t)
 
 unconfined_server_signull(compresmon_t)
 unconfined_ptrace(compresmon_t)
+unconfined_server_ptrace(compresmon_t)
 
 files_manage_var_files(compresmon_t)
 
