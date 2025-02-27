@@ -36,6 +36,7 @@ type sail_mailbox_t;
 type sail_mailbox_exec_t;
 type sail_mailbox_tmp_t;
 type sail_mailbox_tmpfs_t;
+type sail_mailbox_power_t;
 
 init_daemon_domain(sail_mailbox_t, sail_mailbox_exec_t)
 
@@ -69,3 +70,6 @@ fs_create_mmap_rw_tmpfs_files(sail_mailbox_t)
 allow sail_mailbox_t self:unix_dgram_socket { create connect getopt setopt };
 allow sail_mailbox_t self:process { setrlimit setsched };
 allow sail_mailbox_t self:capability { sys_resource sys_nice net_admin };
+
+# pm_register
+power_use_pm_register(sail_mailbox_t, sail_mailbox_power_t)
