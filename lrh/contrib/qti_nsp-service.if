@@ -20,3 +20,94 @@ interface(`nspconfig_signull',`
 
     allow $1 nspconfig_t:process signull;
 ')
+
+######################################
+## <summary>
+##  Check nspconfig related process infomation, such as ps tool.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`nspconfig_rm_read_pid',`
+    gen_require(`
+        type nspconfig_t;
+    ')
+
+    files_search_pids($1)
+    read_files_pattern($1, nspconfig_t, nspconfig_t)
+')
+
+######################################
+## <summary>
+##  ptrace to nspconfig related process.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`nspconfig_ptrace',`
+    gen_require(`
+        type nspconfig_t;
+    ')
+
+    allow $1 nspconfig_t:process ptrace;
+')
+
+######################################
+## <summary>
+##  create files under tmpfs filesystem for nspconfig-rm.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`nspconfig_create_tmpfs_files',`
+    gen_require(`
+        type nspconfig_tmpfs_t;
+    ')
+
+    create_files_pattern($1, nspconfig_tmpfs_t, nspconfig_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Map, read and write nspconfig-rm tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`nspconfig_mmap_rw_tmpfs_files',`
+    gen_require(`
+        type nspconfig_tmpfs_t;
+    ')
+
+    mmap_rw_files_pattern($1, nspconfig_tmpfs_t, nspconfig_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Read and write nspconfig tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`nspconfig_rw_tmpfs_files',`
+    gen_require(`
+        type nspconfig_tmpfs_t;
+    ')
+
+    rw_files_pattern($1, nspconfig_tmpfs_t, nspconfig_tmpfs_t)
+')
