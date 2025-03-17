@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2024-2025 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -48,14 +48,14 @@ corenet_tcp_bind_generic_node(diag_service_t)
 glinkserver_ptrace(diag_service_t)
 
 audio_service_signull(diag_service_t)
-
+ssctl_service_signull(diag_service_t)
 unconfined_server_signull(diag_service_t)
 
 ssrrm_rw_tmpfs_files(diag_service_t)
 glinkserver_rw_tmpfs_files(diag_service_t)
 audioservice_mmap_rw_tmpfs_files(diag_service_t)
 audioservice_delete_tmpfs_files(diag_service_t)
-
+ssctl_service_mmap_rw_tmpfs_files(diag_service_t)
 # kernel
 kernel_signull(diag_service_t)
 # diagservice

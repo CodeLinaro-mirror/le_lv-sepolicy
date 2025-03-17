@@ -1,0 +1,43 @@
+# Copyright (c) 2025 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary>Policy for SELinux policy and userland applications.</summary>
+
+########################################
+## <summary>
+## Allow read write open and ioctl for ptmx_t
+## tty device nodes.
+## </summary>
+## <param name="domain">
+## <summary>
+## Domain allowed access.
+## </summary>
+## </param>
+#
+interface(`term_rw_ptmx_chr_files',`
+    gen_require(`
+        type ptmx_t;
+    ')
+
+    rw_chr_files_pattern($1, ptmx_t, ptmx_t);
+')
+
+########################################
+## <summary>
+## Allow read write open and ioctl for ptmx_t
+## tty device nodes.
+## </summary>
+## <param name="domain">
+## <summary>
+## Domain allowed access.
+## </summary>
+## </param>
+#
+interface(`term_rw_devpts_chr_files',`
+    gen_require(`
+        type devpts_t;
+    ')
+
+    rw_chr_files_pattern($1, devpts_t, devpts_t);
+')
+
