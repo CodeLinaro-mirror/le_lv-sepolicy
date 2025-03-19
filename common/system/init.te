@@ -5,6 +5,7 @@ qseecomd_manage_data_dirs(init_t)
 qseecomd_manage_data_dirs(initrc_t)
 qseecomd_getattr_persist_dirs(initrc_t)
 qseecomd_setattr_persist_dirs(initrc_t)
+qseecomd_manage_data_files(initrc_t)
 qseecomd_rw_persist(init_t)
 
 fs_rw_tracefs_files(init_t)
