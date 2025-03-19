@@ -356,3 +356,20 @@ interface(`files_delete_var_dirs',`
     delete_dirs_pattern($1, var_t, var_t)
 ')
 
+##################################
+## <summary>
+##  Allow to map files under /var/run.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_mmap_etc_runtime_files',`
+    gen_require(`
+        type etc_runtime_t;
+    ')
+
+    mmap_read_files_pattern($1, etc_runtime_t, etc_runtime_t)
+')
