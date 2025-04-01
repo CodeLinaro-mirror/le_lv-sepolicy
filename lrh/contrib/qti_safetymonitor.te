@@ -116,3 +116,7 @@ manage_files_pattern(safetymonitor_t, safetymonitor_tmpfs_t, safetymonitor_tmpfs
 compresmon_signull(safetymonitor_t)
 compresmon_mmap_rw_tmpfs_files(safetymonitor_t)
 compresmon_unlink_tmpfs_files(safetymonitor_t)
+
+compresmgr_signull(safetymonitor_t)
+compresmgr_mmap_rw_tmpfs_files(safetymonitor_t)
+compresmgr_unlink_tmpfs_files(safetymonitor_t)
