@@ -30,64 +30,57 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-policy_module(qti_gpce_be, 1.0)
+policy_module(qti_ipp, 1.0)
 
-type gpce_be_t;
-type gpce_be_exec_t;
-type gpce_be_lib_t;
-type gpce_be_dev_t;
-type gpce_be_tmpfs_t;
-type gpce_be_tmp_t;
+type ipp_t;
+type ipp_exec_t;
+type ipp_lib_t;
+type ipp_tmpfs_t;
+type ipp_tmp_t;
 
-init_daemon_domain(gpce_be_t,gpce_be_exec_t)
+init_daemon_domain(ipp_t,ipp_exec_t)
 
-dev_node(gpce_be_dev_t)
+# dosfs_t
+fs_rw_dos_dirs(ipp_t)
+fs_list_dos(ipp_t)
+fs_read_dos_files(ipp_t)
 
-gpce_be_rw_scmi_dev(gpce_be_t)
-gpce_be_read_lib_files(gpce_be_t)
-gpce_be_map_lib_files(gpce_be_t)
-gpce_be_manage_lib_files(gpce_be_t)
-gpce_be_delete_tmpfs_files(gpce_be_t)
-gpce_be_create_tmpfs_files(gpce_be_t)
-gpce_be_mmap_rw_tmpfs_files(gpce_be_t)
-gpce_be_rw_tmpfs_files(gpce_be_t)
-dev_rw_hab_dev(gpce_be_t)
-ipp_gpce_be_signull(gpce_be_t)
+# tmp_t adn tmpfs_t
+files_list_var(ipp_t)
+files_tmp_file(ipp_t)
+files_tmpfs_file(ipp_t)
+fs_create_mmap_rw_tmpfs_files(ipp_t)
+fs_create_write_tmp_files(ipp_t)
+fs_delete_tmpfs_files(ipp_t)
+fs_rw_tmpfs_dirs(ipp_t)
 
-# /dev/shm/lrmc_rq_*
-files_tmpfs_file(gpce_be_tmpfs_t)
-fs_tmpfs_filetrans(gpce_be_t, gpce_be_tmpfs_t, { dir file })
+# sysfs_t
+dev_read_sysfs(ipp_t)
+
+ipp_manage_ipp_exec_files(ipp_t)
+
+# smcinvoke
+dev_rw_smcinvoke_dev(ipp_t)
+
+# rw /dev/dma_heap/linux,cma
+dev_rw_dma_dev(ipp_t)
+
+# unconfined_server_t
+unconfined_server_signull(ipp_t)
 
 # /usr/lib/libkiumd,liblrms,liblrmc
-libkiumd_mmap_exec_lib_file(gpce_be_t)
+dev_rw_kiumd_dev(ipp_t)
+libkiumd_mmap_exec_lib_file(ipp_t)
 
-#============ gpce_be_t ===========
-logging_send_syslog_msg(gpce_be_t)
+#=============gpce_be_t==================
+gpce_be_rw_tmpfs_files(ipp_t)
 
-fs_delete_tmpfs_files(gpce_be_t)
-fs_create_mmap_rw_tmpfs_files(gpce_be_t)
-fs_create_write_tmp_files(gpce_be_t)
+#===========logging===============
+logging_create_devlog_dev(ipp_t)
+logging_read_syslog_pid(ipp_t)
+logging_dgram_send(ipp_t)
 
-userdom_rw_user_tmp_files(gpce_be_t)
-userdom_delete_user_tmp_files(gpce_be_t)
-userdom_map_tmp_files(gpce_be_t)
-dev_rw_dma_dev(gpce_be_t)
-
-dev_rw_kiumd_dev(gpce_be_t)
-dev_rw_vfio_dev(gpce_be_t)
-dev_read_sysfs(gpce_be_t)
-
-unconfined_server_signull(gpce_be_t)
-unconfined_server_ptrace(gpce_be_t)
-unconfined_signull(gpce_be_t)
-unconfined_ptrace(gpce_be_t)
-
-
-# /tmp/lrms_log_*.txt
-files_tmp_file(gpce_be_tmp_t)
-files_tmp_filetrans(gpce_be_t, gpce_be_tmp_t, { dir file })
-manage_files_pattern(gpce_be_t, gpce_be_tmp_t, gpce_be_tmp_t)
-
-#================local===================
-allow gpce_be_t self:process { setrlimit setsched };
-allow gpce_be_t self:capability { sys_resource sys_nice dac_override};
+# local
+allow ipp_t self:process { setrlimit setsched };
+allow ipp_t self:capability { sys_resource };
+allow ipp_t self:unix_dgram_socket { create connect write };
