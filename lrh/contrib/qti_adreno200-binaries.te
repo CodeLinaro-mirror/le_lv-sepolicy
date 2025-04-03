@@ -38,6 +38,7 @@ type adreno200_tmp_t;
 type adreno200_tmpfs_t;
 type adreno200_dev_t;
 type adreno200_power_t;
+type adreno200_etc_t;
 
 init_daemon_domain(adreno200_t, adreno200_exec_t)
 
@@ -70,6 +71,10 @@ corenet_tcp_bind_generic_node(adreno200_t)
 
 # /etc/hosts
 sysnet_read_config(adreno200_t)
+
+# /etc/adreno/*
+files_config_file(adreno200_etc_t)
+manage_files_pattern(adreno200_t, adreno200_etc_t, adreno200_etc_t)
 
 weston_read_pid(adreno200_t)
 weston_ptrace(adreno200_t)
