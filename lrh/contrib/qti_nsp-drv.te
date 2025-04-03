@@ -70,3 +70,8 @@ libkiumd_mmap_exec_lib_file(nsp_drv_t)
 allow nsp_drv_t self:unix_dgram_socket { create connect getopt setopt };
 allow nsp_drv_t self:process { setrlimit setsched };
 allow nsp_drv_t self:capability { sys_resource net_admin sys_nice };
+
+allow nsp_drv_t tmpfs_t:file map;
+allow nsp_drv_t tmpfs_t:file unlink;
+#allow nsp_drv_t unconfined_service_t:process signull;
+unconfined_server_signull(nsp_drv_t)
