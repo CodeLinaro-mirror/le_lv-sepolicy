@@ -111,3 +111,7 @@ userdom_mmap_rw_inherited_user_tmp_files(pil_rm_t, pil_rm_tmp_t)
 userdom_manage_user_tmp_files(pil_rm_t)
 
 dev_map_kiumd_dev(pil_rm_t)
+
+qcxserver_signull(pil_rm_t)
+qcxserver_delete_tmpfs_files(pil_rm_t)
+qcxserver_mmap_rw_tmpfs_files(pil_rm_t)
