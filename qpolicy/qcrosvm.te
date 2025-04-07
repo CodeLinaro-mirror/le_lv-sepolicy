@@ -1,0 +1,49 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(qcrosvm, 1.0)
+
+type qcrosvm_t;
+type qcrosvm_exec_t;
+type qcrosvm_boot_t;
+
+init_daemon_domain(qcrosvm_t, qcrosvm_exec_t)
+
+virt_image(qcrosvm_boot_t)
+
+# Todo, unlabeled_t, could remove after setting selinxu context to /data mount
+files_mounton_isid_type_dirs(qcrosvm_t)
+
+# Todo, unlabeled_t, could remove after setting selinxu context to /firmware/vm/boot mount
+files_manage_isid_type_files(qcrosvm_t)
+
+files_rw_generic_tmp_sockets(qcrosvm_t)
+
+kernel_request_load_module(qcrosvm_t)
+kernel_search_debugfs(qcrosvm_t)
+dev_getattr_fs(qcrosvm_t)
+
+fs_rw_tracefs_files(qcrosvm_t)
+fs_list_dos(qcrosvm_t)
+
+unconfined_server_stream_connectto(qcrosvm_t)
+
+# /dev/sda11
+storage_manage_fixed_disk(qcrosvm_t)
+
+dev_rw_gunyah_dev(qcrosvm_t)
+dev_rw_input_dev(qcrosvm_t)
+dev_rw_vhost(qcrosvm_t)
+vhost_user_rw_vhost_dev(qcrosvm_t)
+vhost_user_write_vhost_socket(qcrosvm_t)
+corenet_rw_tun_tap_dev(qcrosvm_t)
+
+# conect to /tmp/linux-vm2-disp-skt
+vhost_user_stream_connect_vhostu(qcrosvm_t)
+
+# ========== local ==========
+allow qcrosvm_t self:tun_socket { create };
+allow qcrosvm_t self:udp_socket { create ioctl };
+allow qcrosvm_t self:capability { net_admin dac_override dac_read_search };
+
+read_files_pattern(qcrosvm_t, qcrosvm_boot_t, qcrosvm_boot_t)

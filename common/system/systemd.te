@@ -1,0 +1,38 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+vhost_user_getattr_vhost_socket(systemd_tmpfiles_t)
+files_read_var_symlinks(systemd_tmpfiles_t)
+files_read_generic_tmp_symlinks(systemd_tmpfiles_t)
+files_relabel_var_lnk_files(systemd_tmpfiles_t)
+files_relabel_tmp_lnk_files(systemd_tmpfiles_t)
+fs_manage_tmpfs_dirs(systemd_tmpfiles_t)
+logging_relabel_audit_log(systemd_tmpfiles_t)
+weston_rw_tmpfs_files(systemd_tmpfiles_t)
+
+term_getattr_generic_ptys(systemd_logind_t)
+weston_delete_tmpfs_sock_files(systemd_logind_t)
+
+weston_map_lib_files(systemd_coredump_t)
+owfds_map_lib_files(systemd_coredump_t)
+libkiumd_mmap_exec_lib_file(systemd_coredump_t)
+
+#libkiumd
+libkiumd_ioctl_lib_file(systemd_coredump_t)
+
+allow systemd_logind_t self:capability net_admin;
+allow systemd_tmpfiles_t self:capability net_admin;
+allow systemd_modules_load_t self:capability net_admin;
+
+logging_dgram_send(systemd_resolved_t)
+corenet_tcp_bind_generic_node(systemd_resolved_t)
+corenet_udp_bind_generic_node(systemd_resolved_t)
+
+# /etc/machine-id
+files_read_var_symlinks(systemd_logind_t)
+init_read_runtime_files(systemd_logind_t)
+files_read_var_symlinks(systemd_userdbd_t)
+init_read_runtime_files(systemd_userdbd_t)
+
+# systemd-logind read init proc info, /proc/<pid>/cgroup
+init_read_script_state(systemd_logind_t)

@@ -93,3 +93,9 @@ allow vhost_user_qti_vm3_t vhost_user_tmp_vm3_t:sock_file unlink;
 # The above init_daemon_domain(vhost_user_qti_vm3_t, vhost_user_qti_exec_vm3_t)
 # does not add needed permission for the executable file. So we need add here.
 allow vhost_user_qti_vm3_t vhost_user_qti_exec_t:file {entrypoint map read execute};
+
+logging_send_syslog_msg(vhost_user_qti_t)
+logging_send_syslog_msg(vhost_user_qti_vm3_t)
+
+vmm_client_connect_server(vhost_user_qti_t)
+vmm_client_connect_server(vhost_user_qti_vm3_t)

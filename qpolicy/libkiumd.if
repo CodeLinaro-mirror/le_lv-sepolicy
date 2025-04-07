@@ -1,0 +1,77 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary>Policy for SELinux policy and userland applications.</summary>
+
+########################################
+## <summary>
+##  Map libkiumd library files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`libkiumd_mmap_exec_lib_file',`
+    gen_require(`
+        type libkiumd_lib_t;
+    ')
+
+    mmap_exec_files_pattern($1, libkiumd_lib_t, libkiumd_lib_t)
+    allowxperm $1 libkiumd_lib_t:file ioctl ~0xC020521A;
+')
+
+########################################
+## <summary>
+##  Map libkiumd library files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`libkiumd_ioctl_lib_file',`
+    gen_require(`
+        type libkiumd_lib_t;
+    ')
+
+    mmap_exec_files_pattern($1, libkiumd_lib_t, libkiumd_lib_t)
+')
+
+########################################
+## <summary>
+##  relabel libkiumd library files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`libkiumd_relabel_lib_files',`
+    gen_require(`
+        type libkiumd_lib_t, lib_t;
+    ')
+
+    relabel_files_pattern($1, lib_t, libkiumd_lib_t)
+')
+
+########################################
+## <summary>
+##  manage libkiumd library files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`libkiumd_manage_lib_files',`
+    gen_require(`
+        type libkiumd_lib_t, lib_t;
+    ')
+
+    manage_files_pattern($1, lib_t, libkiumd_lib_t)
+')

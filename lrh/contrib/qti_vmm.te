@@ -94,7 +94,7 @@ files_create_default_dir(vmm_t);
 files_manage_default_files(vmm_t);
 
 allow vmm_t self:unix_dgram_socket { create connect };
-allow vmm_t self:capability { sys_resource sys_nice net_admin };
+allow vmm_t self:capability { sys_resource sys_nice net_admin dac_override };
 allow vmm_t self:process { setrlimit setsched };
 allow vmm_t vmm_tmpfs_t:file delete_file_perms;
 
@@ -102,3 +102,14 @@ allow vmm_t vmm_tmpfs_t:file delete_file_perms;
 unconfined_server_signull(vmm_t);
 fs_map_tmpfs_files(vmm_t);
 fs_rw_tmpfs_files(vmm_t);
+
+# for vmm server communication with vmm client
+allow vmm_t self:unix_stream_socket connectto;
+files_create_tmp_sock_files(vmm_t)
+files_delete_tmp_sockets(vmm_t)
+files_rw_generic_tmp_sockets(vmm_t)
+unconfined_server_stream_connectto(vmm_t)
+
+#for vmm_test in serial console
+userdom_manage_tmp_sockets(vmm_t)
+unconfined_stream_connect(vmm_t)

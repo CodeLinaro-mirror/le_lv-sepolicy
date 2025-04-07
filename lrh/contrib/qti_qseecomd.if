@@ -244,3 +244,39 @@ interface(`qseecomd_manage_persist',`
     delete_dirs_pattern($1, qseecomd_persist_t, qseecomd_persist_t)
     manage_files_pattern($1, qseecomd_persist_t, qseecomd_persist_t)
 ')
+
+######################################
+## <summary>
+##  Read and write scmi devices (/dev/scmi_mdss0_secure /dev/scmi_mdss1_secure).
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`qseecomd_rw_scmi_dev',`
+    gen_require(`
+        type qseecomd_scmi_dev_t;
+    ')
+
+    rw_chr_files_pattern($1, device_t, qseecomd_scmi_dev_t)
+')
+
+######################################
+## <summary>
+##  Send signull to qseecomd_t.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`qseecomd_signull',`
+    gen_require(`
+        type qseecomd_t;
+    ')
+
+    allow $1 qseecomd_t:process signull;
+')

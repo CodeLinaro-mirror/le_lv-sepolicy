@@ -1,0 +1,56 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+########################################
+## <summary>
+##  Allow other module transition to pulseaudio_t when NNP has been set
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`pulseaudio_nnp_transition',`
+    gen_require(`
+        type pulseaudio_t;
+    ')
+
+    allow $1 pulseaudio_t:process2 nnp_transition;
+')
+
+########################################
+## <summary>
+##  Manage  pulseaudio config files
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`pulseaudio_manage_etc_files',`
+    gen_require(`
+        type pulseaudio_etc_t;
+    ')
+
+    manage_files_pattern($1, pulseaudio_etc_t, pulseaudio_etc_t)
+')
+
+########################################
+## <summary>
+## pulseaudio binder
+## </summary>
+## <param name="domain">
+## <summary>
+## Domain allowed access.
+## </summary>
+## </param>
+#
+interface(`pulseaudio_binder',`
+    gen_require(`
+        type pulseaudio_t;
+    ')
+
+    allow $1 pulseaudio_t:binder { call transfer };
+')

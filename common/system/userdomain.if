@@ -1,0 +1,153 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+########################################
+## <summary>
+##  Relabel from and to the user tty type.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+## <rolecap/>
+#
+interface(`userdom_relabel_user_ttys',`
+    gen_require(`
+        type user_tty_device_t;
+    ')
+
+    dev_list_all_dev_nodes($1)
+    allow $1 user_tty_device_t:chr_file relabel_chr_file_perms;
+')
+
+#######################################
+## <summary>
+##  Mmap user temporary files
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+## <rolebase/>
+#
+interface(`userdom_map_tmp_files',`
+    gen_require(`
+        type user_tmp_t;
+    ')
+
+    allow $1 user_tmp_t:file map;
+')
+
+########################################
+## <summary>
+##  Read/write/mmap all inherited users files in /tmp
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`userdom_mmap_rw_inherited_user_tmp_files',`
+    gen_require(`
+        type user_tmp_t;
+    ')
+
+    allow $1 user_tmp_t:file mmap_rw_inherited_file_perms;
+')
+
+########################################
+## <summary>
+##  Write all users files in /tmp
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`userdom_write_user_tmp_dirs',`
+    gen_require(`
+        type user_tmp_t;
+    ')
+
+    list_dirs_pattern($1, user_tmp_t, user_tmp_t)
+    rw_dirs_pattern($1, user_tmp_t, user_tmp_t)
+    write_files_pattern($1, user_tmp_t, user_tmp_t)
+')
+
+########################################
+## <summary>
+##  Allow caller to transition to any userdomain
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`userdom_transition',`
+    gen_require(`
+        attribute userdomain;
+    ')
+
+    allow $1 userdomain:process transition;
+')
+
+#######################################
+## <summary>
+## Manage user temporary files
+## </summary>
+## <param name="domain">
+## <summary>
+## Domain allowed access.
+## </summary>
+## </param>
+## <rolebase/>
+#
+interface(`userdom_manage_tmp_files',`
+    gen_require(`
+        type user_tmp_t;
+    ')
+
+    manage_files_pattern($1, user_tmp_t, user_tmp_t)
+')
+
+#######################################
+## <summary>
+## Manage user temporary sockets
+## </summary>
+## <param name="domain">
+## <summary>
+## Domain allowed access.
+## </summary>
+## </param>
+## <rolebase/>
+#
+interface(`userdom_manage_tmp_sockets',`
+    gen_require(`
+        type user_tmp_t;
+    ')
+
+    manage_sock_files_pattern($1, user_tmp_t, user_tmp_t)
+')
+
+########################################                                                                                                    
+## <summary>                                                                                                                                
+##  Map, read and write user runtime files                                                                                                               
+## </summary>                                                                                                                               
+## <param name="domain">                                                                                                                    
+##  <summary>                                                                                                                               
+##  Domain allowed access.                                                                                                                  
+##  </summary>                                                                                                                              
+## </param>                                                                                                                                 
+#                                                                                                                                           
+interface(`userdom_mmap_rw_user_runtime_files',`                                                                                             
+    gen_require(`                                                                                                                           
+        type user_runtime_t;                                                                                                                
+    ')                                                                                                                                      
+                                                                                                                                            
+    allow $1 user_runtime_t:file mmap_rw_file_perms;                                                                                         
+')

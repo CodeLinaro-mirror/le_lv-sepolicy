@@ -186,7 +186,7 @@ interface(`files_create_var_run_files',`
 
 ##################################
 ## <summary>
-##  Allow to create sock_files under /var/run.
+##  Allow to manage sock_files under /var/run.
 ## </summary>
 ## <param name="domain">
 ##  <summary>
@@ -194,12 +194,12 @@ interface(`files_create_var_run_files',`
 ##  </summary>
 ## </param>
 #
-interface(`files_create_var_run_sock_files',`
+interface(`files_manage_var_run_sock_files',`
     gen_require(`
         type var_run_t;
     ')
 
-    create_sock_files_pattern($1, var_run_t, var_run_t)
+    manage_sock_files_pattern($1, var_run_t, var_run_t)
 ')
 
 ##################################
@@ -272,6 +272,24 @@ interface(`files_delete_var_run_sock_files',`
     ')
 
     delete_sock_files_pattern($1, var_run_t, var_run_t)
+')
+
+##################################
+## <summary>
+##  Allow to create sock_files under /tmp/.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_create_tmp_sock_files',`
+    gen_require(`
+        type tmp_t;
+    ')
+
+    create_sock_files_pattern($1, tmp_t, tmp_t)
 ')
 
 ##################################

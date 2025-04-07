@@ -155,11 +155,24 @@ userdom_manage_tmp_sockets(weston_t)
 #libkiumd
 libkiumd_mmap_exec_lib_file(weston_t)
 
+#ptmx_t
+term_rw_ptmx_chr_files(weston_t)
+
+#devpts_t
+term_rw_devpts_chr_files(weston_t)
+
+#passwd_file_t
+auth_rw_passwd_files(weston_t)
+
+#bin_t
+corecmd_mmap_bin_files(weston_t)
+corecmd_exec_bin_files(weston_t)
+
 #var_run_t
 files_create_var_run_files(weston_t)
 files_manage_var_run_lnk_files(weston_t)
 files_rw_var_run_files(weston_t)
-files_create_var_run_sock_files(weston_t)
+files_manage_var_run_sock_files(weston_t)
 files_delete_var_run_files(weston_t)
 files_delete_var_run_sock_files(weston_t)
 files_mmap_var_run_files(weston_t)
@@ -174,6 +187,7 @@ allow weston_t self:process { setrlimit signull setsched siginh };
 allow weston_t self:capability { sys_resource sys_nice setuid net_admin dac_override sys_ptrace };
 allow weston_t self:capability2 { bpf };
 allow weston_t self:netlink_kobject_uevent_socket create_socket_perms;
+allow weston_t self:unix_stream_socket { connectto };
 
 allow weston_t weston_exec_t:file execute_no_trans;
 

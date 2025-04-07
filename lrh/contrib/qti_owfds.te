@@ -102,6 +102,8 @@ dbus_system_bus_client(openwfd_server_t)
 systemd_dbus_chat_logind(openwfd_server_t)
 systemd_write_inhibit_pipes(openwfd_server_t)
 
+qseecomd_signull(openwfd_server_t)
+
 # pm_register
 power_use_pm_register(openwfd_server_t, openwfd_server_power_t)
 
@@ -121,9 +123,21 @@ term_use_unallocated_ttys(openwfd_server_t)
 libkiumd_mmap_exec_lib_file(openwfd_server_t)
 libkiumd_mmap_exec_lib_file(bridgeship_server_t)
 
+#smcinvoke_device_t
+dev_rw_smcinvoke_dev(openwfd_server_t)
+
+#dma_device_t
+dev_rw_dma_dev(openwfd_server_t)
+
+#dosfs_t
+files_rw_dosfs_files(openwfd_server_t)
+
+#var_t
+files_manage_var_dirs(openwfd_server_t)
+
 allow openwfd_server_t self:unix_dgram_socket { create connect getopt setopt };
 allow openwfd_server_t self:process { setrlimit setsched };
-allow openwfd_server_t self:capability { sys_resource sys_nice net_admin sys_ptrace };
+allow openwfd_server_t self:capability { sys_resource sys_nice net_admin sys_ptrace kill };
 
 files_tmp_filetrans(openwfd_server_t, openwfd_tmp_t, { dir file })
 manage_files_pattern(openwfd_server_t, openwfd_tmp_t, openwfd_tmp_t)

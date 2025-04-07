@@ -1,0 +1,39 @@
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+qseecomd_manage_data_dirs(init_t)
+qseecomd_manage_data_dirs(initrc_t)
+qseecomd_getattr_persist_dirs(initrc_t)
+qseecomd_setattr_persist_dirs(initrc_t)
+qseecomd_manage_data_files(initrc_t)
+qseecomd_rw_persist(init_t)
+
+fs_rw_tracefs_files(init_t)
+
+fs_rw_configfs_files(init_t)
+fs_create_configfs_files(init_t)
+fs_create_configfs_dirs(init_t)
+
+files_manage_var_files(init_t)
+files_manage_var_dirs(init_t)
+
+files_rw_etc_files(init_t)
+
+kernel_read_debugfs(init_t)
+
+auth_rw_shadow(init_t)
+
+fs_manage_dos_dirs(init_t)
+
+allow initrc_t self:binder { set_context_mgr call transfer };
+
+audioservice_rw_etc_files(initrc_t)
+
+pulseaudio_binder(initrc_t)
+
+fstools_nnp_trans(initrc_t)
+weston_nnp_trans(initrc_t)
+mount_nnp_trans(initrc_t)
+systemd_passwd_agent_nnp_trans(initrc_t)
+
+weston_read_lib_files(initrc_t)
