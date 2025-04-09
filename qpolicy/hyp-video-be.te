@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(hyp-video-be, 1.0)
@@ -9,6 +9,8 @@ type hyp_video_tmp_t;
 type hyp_video_tmpfs_t;
 
 init_daemon_domain(hyp_video_t, hyp_video_exec_t)
+
+init_rw_script_stream_sockets(hyp_video_t)
 
 logging_send_syslog_msg(hyp_video_t)
 

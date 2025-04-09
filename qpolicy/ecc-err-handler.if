@@ -1,0 +1,95 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary>Policy for SELinux policy and userland applications.</summary>
+
+######################################
+## <summary>
+##  Check ecc-err-handler related process infomation, such as ps tool.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`ecc_err_handler_read_pid',`
+    gen_require(`
+        type ecc_err_handler_t;
+    ')
+
+    files_search_pids($1)
+    read_files_pattern($1, ecc_err_handler_t, ecc_err_handler_t)
+')
+
+######################################
+## <summary>
+##  Send signull to ecc-err-handler related process.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`ecc_err_handler_signull',`
+    gen_require(`
+        type ecc_err_handler_t;
+    ')
+
+    allow $1 ecc_err_handler_t:process signull;
+')
+
+######################################
+## <summary>
+##  Map, read and write ecc-err-handler tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`ecc_err_handler_mmap_rw_tmpfs_files',`
+    gen_require(`
+        type ecc_err_handler_tmpfs_t;
+    ')
+
+    mmap_rw_files_pattern($1, ecc_err_handler_tmpfs_t, ecc_err_handler_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Delete ecc-err-handler tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`ecc_err_handler_delete_tmpfs_files',`
+    gen_require(`
+        type ecc_err_handler_tmpfs_t;
+    ')
+
+    delete_files_pattern($1, ecc_err_handler_tmpfs_t, ecc_err_handler_tmpfs_t)
+')
+
+######################################
+## <summary>
+## Allow to Read Write Open ecc-err-handler tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`ecc_err_handler_rw_tmpfs_files',`
+    gen_require(`
+        type ecc_err_handler_tmpfs_t;
+    ')
+
+    rw_files_pattern($1, ecc_err_handler_tmpfs_t, ecc_err_handler_tmpfs_t)
+')

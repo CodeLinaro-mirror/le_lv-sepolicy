@@ -1,5 +1,6 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
-# # SPDX-License-Identifier: BSD-3-Clause-Clear
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
 policy_module(fastrpc-rm, 1.0)
 
 type fastrpc_rm_t;
@@ -8,6 +9,8 @@ type fastrpc_rm_tmp_t;
 type fastrpc_rm_tmpfs_t;
 
 init_daemon_domain(fastrpc_rm_t, fastrpc_rm_exec_t)
+
+init_signull_script(fastrpc_rm_t)
 
 logging_send_syslog_msg(fastrpc_rm_t)
 
@@ -51,6 +54,7 @@ files_tmpfs_file(fastrpc_rm_tmpfs_t)
 fs_tmpfs_filetrans(fastrpc_rm_t, fastrpc_rm_tmpfs_t, { dir file })
 fastrpc_rm_create_tmpfs_files(fastrpc_rm_t)
 fastrpc_rm_mmap_rw_tmpfs_files(fastrpc_rm_t)
+fastrpc_rm_rw_tmpfs_files(fastrpc_rm_t)
 
 #libkiumd
 libkiumd_mmap_exec_lib_file(fastrpc_rm_t)

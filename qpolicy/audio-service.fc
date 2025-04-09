@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 /usr/bin/audio_service     --      gen_context(system_u:object_r:audio_service_exec_t,s0)
@@ -12,3 +12,4 @@
 /usr/bin/awe_packet_service    --      gen_context(system_u:object_r:audio_service_exec_t,s0)
 /etc/acdbdata(/.*)?                gen_context(system_u:object_r:audio_etc_t,s0)
 /dev/ipc_shmem            -c       gen_context(system_u:object_r:audio_device_t,s0)
+/dev/scmi_audio           -c       gen_context(system_u:object_r:audio_device_t,s0)

@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 ## <summary>Policy for SELinux policy and userland applications.</summary>
@@ -372,4 +372,353 @@ interface(`files_mmap_etc_runtime_files',`
     ')
 
     mmap_read_files_pattern($1, etc_runtime_t, etc_runtime_t)
+')
+
+########################################                                                                                                   
+## <summary>
+##  Write socket files in the tmp directory (/tmp).
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_write_generic_tmp_sock_files',`
+    gen_require(`
+        type tmp_t;
+    ')
+
+    write_sock_files_pattern($1, tmp_t, tmp_t)
+')
+
+##################################
+## <summary>
+##  Create files under tmp directory.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_create_tmp_files',`
+    gen_require(`
+        type tmp_t;
+    ')
+
+    create_files_pattern($1, tmp_t, tmp_t)
+')
+
+##################################
+## <summary>
+##  read and write files under tmp directory.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_rw_tmp_files',`
+    gen_require(`
+        type tmp_t;
+    ')
+
+    rw_files_pattern($1, tmp_t, tmp_t)
+')
+
+########################################
+## <summary>
+##  Create an object in the process ID directory, with a private type.
+## </summary>
+## <desc>
+##  <p>
+##  Create an object in the process ID directory (e.g., /var/run)
+##  with a private type.  Typically this is used for creating
+##  private PID files in /var/run with the private type instead
+##  of the general PID file type. To accomplish this goal,
+##  either the program must be SELinux-aware, or use this interface.
+##  </p>
+##  <p>
+##  Related interfaces:
+##  </p>
+##  <ul>
+##      <li>files_pid_file()</li>
+##  </ul>
+##  <p>
+##  Example usage with a domain that can create and
+##  write its PID file with a private PID file type in the
+##  /var/run directory:
+##  </p>
+##  <p>                                                                                                                                    
+##  type mypidfile_t;
+##  files_pid_file(mypidfile_t)
+##  allow mydomain_t mypidfile_t:file { create_file_perms write_file_perms };
+##  files_pid_filetrans(mydomain_t, mypidfile_t, file)
+##  </p>
+## </desc>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+## <param name="private type">
+##  <summary>
+##  The type of the object to be created.
+##  </summary>
+## </param>
+## <param name="object">
+##  <summary>
+##  The object class of the object being created.
+##  </summary>
+## </param>
+## <param name="name" optional="true">
+##  <summary>
+##  The name of the object being created.                                                                                                  
+##  </summary>
+## </param>
+## <infoflow type="write" weight="10"/>
+#
+interface(`files_pid_filetrans',`
+    gen_require(`
+        type var_t, var_run_t;
+    ')
+
+    allow $1 var_t:dir search_dir_perms;
+    filetrans_pattern($1, var_run_t, $2, $3, $4)
+')
+
+##################################
+## <summary>
+##  Allow to create files under /var/run.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_create_var_run_files',`
+    gen_require(`
+        type var_run_t;
+    ')
+
+    create_files_pattern($1, var_run_t, var_run_t)
+')
+
+##################################
+## <summary>
+##  Allow to manage lnk_files under /var/run.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_manage_var_run_lnk_files',`
+    gen_require(`
+        type var_run_t;
+    ')
+
+    manage_lnk_files_pattern($1, var_run_t, var_run_t)
+')
+
+##################################
+## <summary>
+##  Allow to read and write files under /var/run.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_rw_var_run_files',`
+    gen_require(`
+        type var_run_t;
+    ')
+
+    rw_files_pattern($1, var_run_t, var_run_t)
+')
+
+##################################
+## <summary>
+##  Allow to manage sock_files under /var/run.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_manage_var_run_sock_files',`
+    gen_require(`
+        type var_run_t;
+    ')
+
+    manage_sock_files_pattern($1, var_run_t, var_run_t)
+')
+
+##################################
+## <summary>
+##  Allow to unlink files under /var/run.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_delete_var_run_files',`
+    gen_require(`
+        type var_run_t;
+    ')
+
+    delete_files_pattern($1, var_run_t, var_run_t)
+')
+
+##################################
+## <summary>
+##  Allow to ublink sock_files under /var/run.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_delete_var_run_sock_files',`
+    gen_require(`
+        type var_run_t;
+    ')
+
+    delete_sock_files_pattern($1, var_run_t, var_run_t)
+')
+
+##################################
+## <summary>
+##  Allow to create sock_files under /tmp/.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_create_tmp_sock_files',`
+    gen_require(`
+        type tmp_t;
+    ')
+
+    create_sock_files_pattern($1, tmp_t, tmp_t)
+')
+
+##################################
+## <summary>
+##  Allow to map files under /var/run.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_mmap_var_run_files',`
+    gen_require(`
+        type var_run_t;
+    ')
+
+    mmap_exec_files_pattern($1, var_run_t, var_run_t)
+')
+
+########################################                                                                                                   
+## <summary>
+##  Delete generic tmp sock files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_delete_tmp_sockets',`
+    gen_require(`
+        type tmp_t;
+    ')
+ 
+    delete_sock_files_pattern($1, tmp_t, tmp_t)
+')
+
+##################################
+## <summary>
+##  Read and write to dirs under default type.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_rw_default_dirs',`
+    gen_require(`
+        type default_t;
+    ')
+
+    rw_dirs_pattern($1, default_t, default_t)
+')
+
+##################################
+## <summary>
+##  Allow to read and write sock_files under /var.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_rw_var_sock_files',`
+    gen_require(`
+        type var_t;
+    ')
+
+    rw_sock_files_pattern($1, var_t, var_t)
+')
+
+##################################
+## <summary>
+##  Allow to create sock_files under /var.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_create_var_sock_files',`
+    gen_require(`
+        type var_t;
+    ')
+
+    create_sock_files_pattern($1, var_t, var_t)
+')
+
+##################################
+## <summary>
+##  Allow to delete sock_files under /var.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_delete_var_sock_files',`
+    gen_require(`
+        type var_t;
+    ')
+
+    delete_sock_files_pattern($1, var_t, var_t)
 ')

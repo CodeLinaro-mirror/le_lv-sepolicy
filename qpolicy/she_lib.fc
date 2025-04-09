@@ -1,0 +1,7 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+/usr/lib/libshe.so         --    gen_context(system_u:object_r:she_lib_t,s0)
+/usr/lib/libshe.so.1       --    gen_context(system_u:object_r:she_lib_t,s0)
+/usr/lib/libshe.so.1.0.0   --    gen_context(system_u:object_r:she_lib_t,s0)
+

@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 ######################################
@@ -173,4 +173,69 @@ interface(`systemd_passwd_agent_nnp_trans',`
     ')
 
     allow $1 systemd_passwd_agent_t:process2 nnp_transition;
+')
+
+########################################
+## <summary>
+##  Create objects in /var/run/ with a private type using a type_transition
+## </summary>
+## <param name="private type">
+##  <summary>
+##  The type of the object to be created.
+##  </summary>
+## </param>
+## <param name="object">
+##  <summary>
+##  The object class of the object being created.
+##  </summary>
+## </param>
+## <param name="name" optional="true">
+##  <summary>
+##  The name of the object being created.
+##  </summary>
+## </param>
+#
+interface(`systemd_pid_filetrans_tmpfiles',`
+    gen_require(`
+        type systemd_tmpfiles_t;
+    ')
+
+    files_pid_filetrans(systemd_tmpfiles_t, $1, $2, $3)
+')
+
+########################################
+## <summary>
+##  Transition to systemd_resolved_t when NNP has been set.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  The type of the process performing this action.
+##  </summary>
+## </param>
+#
+interface(`systemd_resolved_nnp_trans',`
+    gen_require(`
+        type systemd_resolved_t;
+    ')
+
+    allow $1 systemd_resolved_t:process2 nnp_transition;
+')
+
+########################################
+## <summary>
+##  Allow the specified domain to read and write
+##  the systemd-logind linger files
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`systemd_rw_logind_linger_files',`
+    gen_require(`
+        type systemd_logind_var_lib_t;
+    ')
+
+    rw_files_pattern($1, systemd_logind_var_lib_t, systemd_logind_var_lib_t)
 ')

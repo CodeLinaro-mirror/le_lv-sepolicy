@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 ########################################
@@ -254,4 +254,40 @@ interface(`dev_manage_generic_sockets',`
     ')
 
     manage_sock_files_pattern($1, device_t, device_t)
+')
+
+########################################
+## <summary>
+##  Don't audit scmnode_sec device (/dev/scmnode_sec).
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`dev_dontaudit_scmnode_sec_dev',`
+    gen_require(`
+        type scmnode_sec_device_t;
+    ')
+
+    dontaudit $1 scmnode_sec_device_t:chr_file rw_chr_file_perms;
+')
+
+########################################
+## <summary>
+##      map kiumd device.
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+#
+interface(`dev_map_kiumd_dev',`
+    gen_require(`
+        type kiumd_device_t;
+    ')
+
+    allow $1 kiumd_device_t:chr_file map;
 ')

@@ -1,0 +1,65 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary>Policy for SELinux policy and userland applications.</summary>
+
+########################################
+## <summary>
+##  Allow domain to use pm_register and pm_deregister
+## </summary>
+## <desc>
+##  <p>
+##   Example usage with a domain mydomain_t that needs to use pm_register:
+##  </p>
+##  <p>
+##   type mydomain_power_t;
+##   power_use_pm_register(mydomain_t, mydomain_power_t)
+##  </p>
+## </desc>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+## <param name="type">
+##  <summary>
+##  Generic type from client to be used by pm_register.
+##  </summary>
+## </param>
+#
+interface(`power_use_pm_register',`
+    gen_require(`
+        type power_qcom_pm_t;
+        type power_pm_notify_t;
+        attribute qcom_pm_sock_file_type;
+    ')
+
+    files_type($2);
+    typeattribute $2 qcom_pm_sock_file_type;
+
+    create_sock_files_pattern($1, power_qcom_pm_t, power_qcom_pm_t);
+
+    filetrans_pattern($1, power_qcom_pm_t, $2, sock_file);
+
+    manage_sock_files_pattern($1, $2, $2);
+
+    stream_connect_pattern(power_pm_notify_t, power_qcom_pm_t, $2, $1);
+')
+
+######################################
+## <summary>
+##  Create directory under "qcom_pm"
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`power_create_pm_dirs',`
+    gen_require(`
+        type power_qcom_pm_t;
+    ')
+
+    create_dirs_pattern($1, power_qcom_pm_t, power_qcom_pm_t)
+')

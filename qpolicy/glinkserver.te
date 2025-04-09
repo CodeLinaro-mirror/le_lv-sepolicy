@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(glinkserver, 1.0)
@@ -9,6 +9,8 @@ type glinkserver_tmp_t;
 type glinkserver_tmpfs_t;
 
 init_daemon_domain(glinkserver_t, glinkserver_exec_t)
+
+init_signull_script(glinkserver_t)
 
 logging_send_syslog_msg(glinkserver_t)
 unconfined_server_signull(glinkserver_t)
@@ -53,3 +55,6 @@ glinkserver_mmap_rw_tmpfs_files(glinkserver_t)
 allow glinkserver_t self:unix_dgram_socket { create connect write getopt setopt };
 allow glinkserver_t self:process { setrlimit signull setsched };
 allow glinkserver_t self:capability { net_admin sys_nice sys_resource dac_override };
+
+userdom_manage_user_tmp_files(glinkserver_t)
+userdom_map_tmp_files(glinkserver_t)

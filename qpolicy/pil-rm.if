@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 ## <summary>Policy for SELinux policy and userland applications.</summary>
@@ -73,6 +73,24 @@ interface(`pilrm_rw_tmpfs_files',`
     ')
 
     rw_files_pattern($1, pil_rm_tmpfs_t, pil_rm_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Unlink pil-rm tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`pilrm_unlink_tmpfs_files',`
+    gen_require(`
+        type pil_rm_tmpfs_t;
+    ')
+
+    allow $1 pil_rm_tmpfs_t:file unlink;
 ')
 
 ######################################
