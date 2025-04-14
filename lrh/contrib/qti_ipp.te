@@ -67,6 +67,7 @@ dev_rw_dma_dev(ipp_t)
 
 # unconfined_server_t
 unconfined_server_signull(ipp_t)
+unconfined_server_ptrace(ipp_t)
 
 # /usr/lib/libkiumd,liblrms,liblrmc
 dev_rw_kiumd_dev(ipp_t)

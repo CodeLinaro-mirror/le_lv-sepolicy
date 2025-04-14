@@ -43,13 +43,13 @@
 ##  </summary>
 ## </param>
 #
-interface(`ipp_gpce_be_signull',`
+interface(`ipp_gpce_be_process',`
     gen_require(`
         type gpce_be_t;
         type ipp_t;
     ')
 
-    allow $1 ipp_t:process { signull };
+    allow $1 ipp_t:process { signull ptrace };
 ')
 
 ########################################
