@@ -69,3 +69,9 @@ manage_fifo_files_pattern(hyp_video_t, hyp_video_tmp_t, hyp_video_tmp_t)
 files_tmpfs_file(hyp_video_tmpfs_t)
 fs_tmpfs_filetrans(hyp_video_t, hyp_video_tmpfs_t, { dir file })
 manage_files_pattern(hyp_video_t, hyp_video_tmpfs_t, hyp_video_tmpfs_t)
+
+# /usr/lib/libkiumd,liblrms,liblrmc
+libkiumd_mmap_exec_lib_file(hyp_video_t)
+libkiumd_ioctl_lib_file(hyp_video_t)
+libkiumd_relabel_lib_files(hyp_video_t)
+libkiumd_manage_lib_files(hyp_video_t)
