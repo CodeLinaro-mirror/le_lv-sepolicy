@@ -1,0 +1,29 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary>Policy for SELinux policy and userland applications.</summary>
+
+########################################
+## <summary>
+##  Usage of SHE library.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+
+interface(`allow_she_lib_files',`
+    gen_require(`
+        type she_lib_t;
+        class file { execute execute_no_trans getattr map open read relabelfrom };
+    ')
+
+    dev_rw_scmnode_dev($1)
+    logging_send_syslog_msg($1)
+    libkiumd_mmap_exec_lib_file($1)
+    fs_rw_dos_dirs($1) 
+    allow $1 she_lib_t:file { execute execute_no_trans getattr map open read relabelfrom };
+')
+

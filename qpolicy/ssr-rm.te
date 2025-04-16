@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(ssr-rm, 1.0)
@@ -57,3 +57,8 @@ allow ssr_rm_t self:process { setrlimit setsched };
 allow ssr_rm_t self:capability { sys_resource net_admin sys_nice };
 
 userdom_mmap_rw_inherited_user_tmp_files(ssr_rm_t)
+userdom_manage_user_tmp_files(ssr_rm_t)
+
+fs_rw_tmpfs_files(ssr_rm_t)
+fs_map_tmpfs_files(ssr_rm_t)
+pilrm_unlink_tmpfs_files(ssr_rm_t)

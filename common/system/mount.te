@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 qseecomd_getattr_persist_dirs(mount_t)
@@ -13,7 +13,21 @@ files_create_var_dirs(mount_t)
 files_delete_var_chr_files(mount_t)
 files_delete_var_dirs(mount_t)
 
+# access to root.socket for pmcd and pmdaroot process
+files_rw_var_sock_files(mount_t)
+files_create_var_sock_files(mount_t)
+files_delete_var_sock_files(mount_t)
+
 files_mounton_etc_files(mount_t)
 files_manage_etc_files(mount_t)
 files_mounton_etc_dirs(mount_t)
+files_manage_default_dirs(mount_t)
+files_manage_default_files(mount_t)
 fs_mounton_configfs_dirs(mount_t)
+fs_getattr_tracefs_dirs(mount_t)
+
+init_rw_script_stream_sockets(mount_t)
+
+systemd_rw_logind_linger_files(mount_t)
+
+allow mount_t self:capability { fowner };

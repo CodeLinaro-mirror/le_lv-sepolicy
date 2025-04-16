@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(audio-service, 1.0)
@@ -9,10 +9,15 @@ type audio_service_tmp_t;
 type audio_service_tmpfs_t;
 type audio_etc_t;
 type audio_device_t;
+type audio_power_t;
 
 init_daemon_domain(audio_service_t, audio_service_exec_t)
 
+init_rw_script_stream_sockets(audio_service_t)
+init_signull_script(audio_service_t)
+
 files_config_file(audio_etc_t)
+files_read_etc_files(audio_service_t)
 
 logging_send_syslog_msg(audio_service_t)
 
@@ -20,6 +25,7 @@ logging_send_syslog_msg(audio_service_t)
 # so file transition rules can't work, use below two interface for the moment
 fs_map_tmpfs_files(audio_service_t)
 fs_rw_tmpfs_files(audio_service_t)
+files_rw_generic_tmp_sockets(audio_service_t)
 
 # Todo, change to fs_delete_tmpfs_files after promotion
 fs_manage_tmpfs_files(audio_service_t)
@@ -53,6 +59,9 @@ term_use_unallocated_ttys(audio_service_t)
 firmware_search_dsp_dirs(audio_service_t)
 firmware_read_dsp_lnk_files(audio_service_t)
 firmware_write_dsp_dirs(audio_service_t)
+firmware_create_dsp_dirs(audio_service_t)
+firmware_create_dsp_lnk_files(audio_service_t)
+firmware_read_dsp_files(audio_service_t)
 
 fastrpc_rm_ptrace(audio_service_t)
 glinkserver_ptrace(audio_service_t)
@@ -69,7 +78,7 @@ pilrm_rw_tmpfs_files(audio_service_t)
 # ========== local ==========
 allow audio_service_t self:unix_dgram_socket { create connect getopt setopt };
 allow audio_service_t self:unix_stream_socket connectto;
-allow audio_service_t self:process { setrlimit setsched };
+allow audio_service_t self:process { setrlimit setsched ptrace };
 allow audio_service_t self:capability { sys_resource sys_nice net_admin sys_ptrace dac_override };
 allow audio_service_t self:tcp_socket {accept bind create listen setopt shutdown connect read write};
 
@@ -98,6 +107,8 @@ dev_create_sysfs_files(audio_service_t)
 # fastrpc_be thread
 files_manage_var_dirs(audio_service_t)
 
+# allow audio_service to set acdb tmp path at /var/
+files_manage_var_files(audio_service_t)
 
 # /tmp/lrmc_log_(pid).txt
 files_tmp_file(audio_service_tmp_t)
@@ -121,3 +132,6 @@ unconfined_ptrace(audio_service_t)
 
 #libkiumd
 libkiumd_mmap_exec_lib_file(audio_service_t)
+
+# pm_register
+power_use_pm_register(audio_service_t, audio_power_t)

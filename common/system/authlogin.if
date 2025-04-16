@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 ########################################
@@ -46,4 +46,23 @@ interface(`auth_manage_passwd',`
 #    files_etc_filetrans($1, passwd_file_t, file, ".pwd.lock")
 #    files_etc_filetrans($1, passwd_file_t, file, "passwd.lock")
 #    files_etc_filetrans($1, passwd_file_t, file, "group.lock")
+')
+
+########################################
+## <summary>
+## Allow read write open and getattr for passwd_file_t
+## tty device nodes.
+## </summary>
+## <param name="domain">
+## <summary>
+## Domain allowed access.
+## </summary>
+## </param>
+#
+interface(`auth_rw_passwd_files',`
+#    gen_require(`
+#        type passwd_file_t;
+#    ')
+#
+#    rw_files_pattern($1, passwd_file_t, passwd_file_t);
 ')

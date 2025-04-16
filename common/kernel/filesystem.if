@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 ##################################
@@ -183,4 +183,76 @@ interface(`fs_mounton_configfs_dirs',`
     ')
 
     allow $1 configfs_t:dir mounton;
+')
+
+##################################
+## <summary>
+##  Allow to rw open and ioctl to chr files on a DOS.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_rw_dosfs_files',`
+    gen_require(`
+        type dosfs_t;
+    ')
+
+    rw_files_pattern($1, dosfs_t, dosfs_t)
+')
+
+########################################
+## <summary>
+##  Search tracefs_t directories
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`fs_search_tracefs_dirs',`                                                                                                        
+    gen_require(`
+        type tracefs_t;
+    ')
+
+    search_dirs_pattern($1, tracefs_t, tracefs_t)
+')
+
+########################################
+## <summary>
+##  Read and write tmpfs dirs
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`fs_rw_tmpfs_dirs',`
+    gen_require(`
+        type tmpfs_t;
+    ')
+
+    allow $1 tmpfs_t:dir rw_dir_perms;
+')
+
+########################################
+## <summary>
+##  Allow the specific domain to mounton a cgroup's memory.pressure file
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Source domain
+##      </summary>
+## </param>
+#
+interface(`fs_mounton_memory_pressure',`
+    gen_require(`
+        type memory_pressure_t;
+    ')
+
+    allow $1 memory_pressure_t:file { mounton };
 ')

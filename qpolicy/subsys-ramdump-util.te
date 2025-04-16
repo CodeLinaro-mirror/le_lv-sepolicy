@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(subsys-ramdump-util, 1.0)
@@ -10,6 +10,8 @@ type ssrdump_tmp_t;
 type ssrdump_tmpfs_t;
 
 init_daemon_domain(subsys_ramdump_util_t, subsys_ramdump_util_exec_t)
+
+init_rw_script_stream_sockets(subsys_ramdump_util_t)
 
 logging_send_syslog_msg(subsys_ramdump_util_t)
 
@@ -23,7 +25,7 @@ dev_read_sysfs(subsys_ramdump_util_t)
 
 # ========== local ==========
 allow subsys_ramdump_util_t self:unix_dgram_socket { create connect };
-allow subsys_ramdump_util_t self:process { setrlimit setsched };
+allow subsys_ramdump_util_t self:process { setrlimit setsched getsched };
 allow subsys_ramdump_util_t self:capability { sys_resource sys_nice };
 
 # /var/ssrdump

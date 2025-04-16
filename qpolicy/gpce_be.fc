@@ -1,0 +1,12 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+/usr/bin/gpce_be                    --      gen_context(system_u:object_r:gpce_be_exec_t,s0)
+/usr/bin/gpce_be_test               --      gen_context(system_u:object_r:gpce_be_exec_t,s0)
+/usr/lib/libgpce(.*)?               --      gen_context(system_u:object_r:gpce_be_lib_t,s0)
+/usr/lib/libhwkm_slave_gpce(.*)?    --      gen_context(system_u:object_r:gpce_be_lib_t,s0)
+/dev/scmi_gpce                      -c      gen_context(system_u:object_r:gpce_be_dev_t,s0)
+
+
+
+

@@ -1,0 +1,148 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary>Policy for SELinux policy and userland applications.</summary>
+
+########################################
+## <summary>
+##  Map gpce_be library files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`gpce_be_map_lib_files',`
+    gen_require(`
+        type gpce_be_lib_t;
+    ')
+
+    allow $1 gpce_be_lib_t:file mmap_exec_file_perms;
+')
+
+
+########################################
+## <summary>
+##  getattr to gpce_be library files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`gpce_be_read_lib_files',`
+    gen_require(`
+        type gpce_be_lib_t;
+    ')
+
+    allow $1 gpce_be_lib_t:file read_file_perms;
+')
+
+########################################
+## <summary>
+##  manage gpce_be library files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`gpce_be_manage_lib_files',`
+    gen_require(`
+        type gpce_be_lib_t, lib_t;
+    ')
+
+    manage_files_pattern($1, lib_t, gpce_be_lib_t)
+')
+
+######################################
+## <summary>
+##  Read and write scmi devices (/dev/scmi_gpce).
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+interface(`gpce_be_rw_scmi_dev',`
+    gen_require(`
+        type device_t, gpce_be_dev_t;
+    ')
+
+    rw_chr_files_pattern($1, device_t, gpce_be_dev_t)
+')
+
+######################################
+## <summary>
+##  Read and write gpce_be files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`gpce_be_rw_tmpfs_files',`
+    gen_require(`
+        type gpce_be_tmpfs_t;
+    ')
+
+    rw_files_pattern($1, gpce_be_tmpfs_t, gpce_be_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Map, read and write gpce_be tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`gpce_be_mmap_rw_tmpfs_files',`
+    gen_require(`
+        type gpce_be_tmpfs_t;
+    ')
+
+    mmap_rw_files_pattern($1, gpce_be_tmpfs_t, gpce_be_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  create files under tmpfs filesystem for gpce_be.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`gpce_be_create_tmpfs_files',`
+    gen_require(`
+        type gpce_be_tmpfs_t;
+    ')
+
+    create_files_pattern($1, gpce_be_tmpfs_t, gpce_be_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Delete gpce_be-lrm tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`gpce_be_delete_tmpfs_files',`
+    gen_require(`
+        type gpce_be_tmpfs_t;
+    ')
+
+    delete_files_pattern($1, gpce_be_tmpfs_t, gpce_be_tmpfs_t)
+')

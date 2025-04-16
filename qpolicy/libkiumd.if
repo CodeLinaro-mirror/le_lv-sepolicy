@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 ## <summary>Policy for SELinux policy and userland applications.</summary>
@@ -74,4 +74,22 @@ interface(`libkiumd_manage_lib_files',`
     ')
 
     manage_files_pattern($1, lib_t, libkiumd_lib_t)
+')
+
+########################################
+## <summary>
+##  Read libkiumd library files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`libkiumd_read_lib_files',`
+    gen_require(`
+        type libkiumd_lib_t, lib_t;
+    ')
+
+    read_files_pattern($1, lib_t, libkiumd_lib_t)
 ')
