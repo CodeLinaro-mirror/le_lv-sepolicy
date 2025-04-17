@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(safetymonitor, 1.0)
@@ -9,6 +9,8 @@ type safetymonitor_tmp_t;
 type safetymonitor_tmpfs_t;
 
 init_daemon_domain(safetymonitor_t, safetymonitor_exec_t)
+
+init_signull_script(safetymonitor_t)
 
 logging_send_syslog_msg(safetymonitor_t)
 
@@ -28,6 +30,7 @@ dev_rw_vfio_dev(safetymonitor_t)
 dev_read_sysfs(safetymonitor_t)
 
 syscache_rm_signull(safetymonitor_t)
+ecc_err_handler_signull(safetymonitor_t)
 eva_auto_signull(safetymonitor_t)
 
 #adreno200
@@ -45,10 +48,12 @@ qcxserver_signull(safetymonitor_t)
 qcxserver_delete_tmpfs_files(safetymonitor_t)
 
 evauto_mmap_rw_tmpfs_files(safetymonitor_t)
-syscacherm_mmap_rw_tmpfs_files(safetymonitor_t)
+syscache_rm_mmap_rw_tmpfs_files(safetymonitor_t)
+ecc_err_handler_mmap_rw_tmpfs_files(safetymonitor_t)
 
 evauto_delete_tmpfs_files(safetymonitor_t)
-syscacherm_delete_tmpfs_files(safetymonitor_t)
+syscache_rm_delete_tmpfs_files(safetymonitor_t)
+ecc_err_handler_delete_tmpfs_files(safetymonitor_t)
 adreno200_delete_tmpfs_files(safetymonitor_t)
 
 #adreno200
@@ -63,6 +68,11 @@ libkiumd_mmap_exec_lib_file(safetymonitor_t)
 nsp_rsm_signull(safetymonitor_t)
 nsp_drv_signull(safetymonitor_t)
 
+#allow bin execute
+safetymonitor_execute_bins(safetymonitor_t)
+corecmd_mmap_bin_files(safetymonitor_t)
+
+
 # ========== local ==========
 allow safetymonitor_t self:unix_dgram_socket { create connect };
 allow safetymonitor_t self:process { setrlimit setsched };
@@ -75,3 +85,7 @@ manage_files_pattern(safetymonitor_t, safetymonitor_tmp_t, safetymonitor_tmp_t)
 files_tmpfs_file(safetymonitor_tmpfs_t)
 fs_tmpfs_filetrans(safetymonitor_t, safetymonitor_tmpfs_t, { dir file })
 manage_files_pattern(safetymonitor_t, safetymonitor_tmpfs_t, safetymonitor_tmpfs_t)
+
+compresmon_signull(safetymonitor_t)
+compresmon_mmap_rw_tmpfs_files(safetymonitor_t)
+compresmon_unlink_tmpfs_files(safetymonitor_t)

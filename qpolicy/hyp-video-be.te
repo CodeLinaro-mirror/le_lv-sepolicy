@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(hyp-video-be, 1.0)
@@ -9,6 +9,8 @@ type hyp_video_tmp_t;
 type hyp_video_tmpfs_t;
 
 init_daemon_domain(hyp_video_t, hyp_video_exec_t)
+
+init_rw_script_stream_sockets(hyp_video_t)
 
 logging_send_syslog_msg(hyp_video_t)
 
@@ -40,3 +42,9 @@ manage_fifo_files_pattern(hyp_video_t, hyp_video_tmp_t, hyp_video_tmp_t)
 files_tmpfs_file(hyp_video_tmpfs_t)
 fs_tmpfs_filetrans(hyp_video_t, hyp_video_tmpfs_t, { dir file })
 manage_files_pattern(hyp_video_t, hyp_video_tmpfs_t, hyp_video_tmpfs_t)
+
+# /usr/lib/libkiumd,liblrms,liblrmc
+libkiumd_mmap_exec_lib_file(hyp_video_t)
+libkiumd_ioctl_lib_file(hyp_video_t)
+libkiumd_relabel_lib_files(hyp_video_t)
+libkiumd_manage_lib_files(hyp_video_t)

@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 auth_read_shadow(getty_t)
@@ -25,6 +25,8 @@ term_relabel_unallocated_ttys(getty_t)
 files_read_var_symlinks(getty_t)
 
 fs_search_tmpfs(getty_t)
+
+init_rw_script_stream_sockets(getty_t)
 
 allow getty_t self:process { setsched setexec setkeycreate };
 allow getty_t self:capability { net_admin audit_write setuid };

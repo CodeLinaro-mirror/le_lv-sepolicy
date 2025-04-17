@@ -52,7 +52,7 @@ gpce_be_create_tmpfs_files(gpce_be_t)
 gpce_be_mmap_rw_tmpfs_files(gpce_be_t)
 gpce_be_rw_tmpfs_files(gpce_be_t)
 dev_rw_hab_dev(gpce_be_t)
-
+ipp_gpce_be_process(gpce_be_t)
 
 # /dev/shm/lrmc_rq_*
 files_tmpfs_file(gpce_be_tmpfs_t)
@@ -65,6 +65,8 @@ libkiumd_mmap_exec_lib_file(gpce_be_t)
 logging_send_syslog_msg(gpce_be_t)
 
 fs_delete_tmpfs_files(gpce_be_t)
+fs_create_mmap_rw_tmpfs_files(gpce_be_t)
+fs_create_write_tmp_files(gpce_be_t)
 
 userdom_rw_user_tmp_files(gpce_be_t)
 userdom_delete_user_tmp_files(gpce_be_t)

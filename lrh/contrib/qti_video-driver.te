@@ -135,3 +135,9 @@ dev_map_kiumd_dev(video_driver_t)
 unconfined_server_ptrace(video_driver_t)
 unconfined_server_read_files(video_driver_t)
 unconfined_ptrace(video_driver_t)
+
+# /usr/lib/libkiumd,liblrms,liblrmc
+libkiumd_mmap_exec_lib_file(video_driver_t)
+libkiumd_ioctl_lib_file(video_driver_t)
+libkiumd_relabel_lib_files(video_driver_t)
+libkiumd_manage_lib_files(video_driver_t)

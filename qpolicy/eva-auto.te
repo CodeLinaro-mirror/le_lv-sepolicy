@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(eva-auto, 1.0)
@@ -8,6 +8,7 @@ type eva_auto_exec_t;
 type eva_auto_tmp_t;
 type eva_auto_tmpfs_t;
 type eva_auto_dev_t;
+type eva_auto_power_t;
 
 init_daemon_domain(eva_auto_t, eva_auto_exec_t)
 
@@ -48,6 +49,9 @@ safetymonitor_rw_tmpfs_files(eva_auto_t)
 
 #libkiumd
 libkiumd_mmap_exec_lib_file(eva_auto_t)
+
+#libpm-client
+power_use_pm_register(eva_auto_t, eva_auto_power_t)
 
 # ========== local ==========
 allow eva_auto_t self:unix_dgram_socket { create connect };

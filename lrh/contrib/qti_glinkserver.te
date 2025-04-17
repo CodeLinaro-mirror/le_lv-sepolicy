@@ -85,3 +85,4 @@ allow glinkserver_t self:capability { net_admin sys_nice sys_resource dac_overri
 
 userdom_manage_user_tmp_files(glinkserver_t)
 userdom_map_tmp_files(glinkserver_t)
+allow glinkserver_t tmpfs_t:file unlink;

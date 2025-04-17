@@ -1,0 +1,53 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(ecc-err-handler, 1.0)
+
+type ecc_err_handler_t;
+type ecc_err_handler_exec_t;
+type ecc_err_handler_tmp_t;
+type ecc_err_handler_tmpfs_t;
+
+init_daemon_domain(ecc_err_handler_t, ecc_err_handler_exec_t)
+
+init_rw_script_stream_sockets(ecc_err_handler_t)
+
+logging_send_syslog_msg(ecc_err_handler_t)
+
+dev_rw_kiumd_dev(ecc_err_handler_t)
+dev_rw_vfio_dev(ecc_err_handler_t)
+dev_read_sysfs(ecc_err_handler_t)
+
+userdom_manage_user_tmp_files(ecc_err_handler_t)
+userdom_map_tmp_files(ecc_err_handler_t)
+
+safetymonitor_rw_tmpfs_files(ecc_err_handler_t)
+kernel_read_debugfs(ecc_err_handler_t)
+
+#libkiumd
+libkiumd_mmap_exec_lib_file(ecc_err_handler_t)
+
+#adreno200
+adreno200_rw_tmpfs_files(ecc_err_handler_t)
+adreno200_signull(ecc_err_handler_t)
+adreno200_mmap_rw_tmpfs_files(ecc_err_handler_t)
+adreno200_delete_tmpfs_files(ecc_err_handler_t)
+
+# ========== local ==========
+allow ecc_err_handler_t self:netlink_route_socket create_netlink_socket_perms;
+allow ecc_err_handler_t self:unix_dgram_socket { create connect getopt setopt };
+allow ecc_err_handler_t self:udp_socket { create ioctl };
+allow ecc_err_handler_t self:process { setrlimit setsched };
+allow ecc_err_handler_t self:capability { sys_resource sys_nice net_admin };
+
+files_tmp_file(ecc_err_handler_tmp_t)
+files_tmp_filetrans(ecc_err_handler_t, ecc_err_handler_tmp_t, { dir fifo_file file lnk_file })
+userdom_user_tmp_filetrans(ecc_err_handler_t, ecc_err_handler_tmp_t, { dir file sock_file } )
+manage_files_pattern(ecc_err_handler_t, ecc_err_handler_tmp_t, ecc_err_handler_tmp_t)
+
+files_tmpfs_file(ecc_err_handler_tmpfs_t)
+fs_tmpfs_filetrans(ecc_err_handler_t, ecc_err_handler_tmpfs_t, { dir file })
+create_files_pattern(ecc_err_handler_t, ecc_err_handler_tmpfs_t, ecc_err_handler_tmpfs_t)
+ecc_err_handler_mmap_rw_tmpfs_files(ecc_err_handler_t)
+fs_rw_tmpfs_files(ecc_err_handler_t)
+

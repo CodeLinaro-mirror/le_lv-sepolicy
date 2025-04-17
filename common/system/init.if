@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 #######################################
@@ -144,4 +144,24 @@ interface(`init_binder',`
     ')
 
     allow $1 initrc_t:binder { call transfer };
+')
+
+########################################
+## <summary>
+## Allow SELinux Domain trasition from sytemd
+##  into confined domain with NoNewPrivileges 
+##  Systemd Security feature.
+## </summary>
+## <param name="domain">
+## <summary>
+## Domain allowed access.
+## </summary>
+## </param>
+#
+interface(`init_nnp_daemon_domain',`
+    gen_require(`
+        type init_t;
+    ')
+
+    allow init_t $1:process2 { nnp_transition nosuid_transition };
 ')

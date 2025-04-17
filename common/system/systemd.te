@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 vhost_user_getattr_vhost_socket(systemd_tmpfiles_t)
@@ -21,7 +21,8 @@ libkiumd_mmap_exec_lib_file(systemd_coredump_t)
 libkiumd_ioctl_lib_file(systemd_coredump_t)
 
 allow systemd_logind_t self:capability net_admin;
-allow systemd_tmpfiles_t self:capability net_admin;
+allow systemd_tmpfiles_t self:capability net_admin ;
+allow systemd_tmpfiles_t self:process setrlimit ;
 allow systemd_modules_load_t self:capability net_admin;
 
 logging_dgram_send(systemd_resolved_t)
@@ -36,3 +37,15 @@ init_read_runtime_files(systemd_userdbd_t)
 
 # systemd-logind read init proc info, /proc/<pid>/cgroup
 init_read_script_state(systemd_logind_t)
+
+init_rw_script_stream_sockets(systemd_tmpfiles_t)
+init_rw_script_stream_sockets(systemd_resolved_t)
+init_rw_script_stream_sockets(systemd_logind_t)
+init_rw_script_stream_sockets(systemd_networkd_t)
+init_rw_script_stream_sockets(systemd_sessions_t)
+init_rw_script_stream_sockets(systemd_user_runtime_dir_t)
+init_rw_script_stream_sockets(systemd_userdbd_t)
+
+init_list_initrc_runtime_dirs(systemd_resolved_t)
+
+power_create_pm_dirs(systemd_tmpfiles_t)

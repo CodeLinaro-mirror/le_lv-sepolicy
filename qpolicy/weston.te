@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(weston, 1.0)
@@ -8,9 +8,12 @@ type weston_exec_t;
 type weston_lib_t;
 type weston_tmp_t;
 type weston_tmpfs_t;
+type weston_power_t;
 type weston_etc_t;
 
 init_daemon_domain(weston_t, weston_exec_t)
+
+init_rw_script_stream_sockets(weston_t)
 
 files_config_file(weston_etc_t)
 weston_read_config_files(weston_t)
@@ -55,6 +58,9 @@ systemd_login_read_pid_files(weston_t)
 dbus_stream_connect_system_dbusd(weston_t)
 dbus_chat_session_bus(weston_t)
 dbus_write_pid_sock_files(weston_t)
+
+# pm_register
+power_use_pm_register(weston_t, weston_power_t)
 
 dev_read_sysfs(weston_t)
 
@@ -148,6 +154,31 @@ corecmd_check_exec_bin_files(weston_t)
 #libkiumd
 libkiumd_mmap_exec_lib_file(weston_t)
 
+#ptmx_t
+term_rw_ptmx_chr_files(weston_t)
+
+#devpts_t
+term_rw_devpts_chr_files(weston_t)
+
+#passwd_file_t, this type comes from fedora-selinux, not used in refpolicy
+#auth_rw_passwd_files(weston_t)
+
+#bin_t
+corecmd_mmap_bin_files(weston_t)
+corecmd_exec_bin_files(weston_t)
+
+#var_run_t
+files_create_var_run_files(weston_t)
+files_manage_var_run_lnk_files(weston_t)
+files_rw_var_run_files(weston_t)
+files_manage_var_run_sock_files(weston_t)
+files_delete_var_run_files(weston_t)
+files_delete_var_run_sock_files(weston_t)
+files_mmap_var_run_files(weston_t)
+
+# This is a workround, rootcause is that early service start earlier than selinux initial to /dev for bootkpi, cause some devices
+# under /dev such as /dev/ksync run under uncorrect selinux context as device_t.
+dev_manage_generic_chr_files(weston_t)
 #etc_runtime_t
 files_mmap_etc_runtime_files(weston_t)
 
@@ -161,6 +192,8 @@ allow weston_t self:process { setrlimit signull setsched siginh };
 allow weston_t self:capability { sys_resource sys_nice sys_admin setuid net_admin  dac_override sys_ptrace sys_tty_config };
 allow weston_t self:capability2 { bpf };
 allow weston_t self:netlink_kobject_uevent_socket create_socket_perms;
+allow weston_t self:unix_stream_socket { connectto };
+
 allow weston_t weston_exec_t:file execute_no_trans;
 allow weston_t weston_tmpfs_t:file delete_file_perms;
 allow weston_t weston_tmp_t:sock_file { create_file_perms delete_sock_file_perms write };

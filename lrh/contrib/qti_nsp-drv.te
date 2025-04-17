@@ -63,6 +63,14 @@ safetymonitor_rw_tmpfs_files(nsp_drv_t)
 
 nspdrv_delete_tmpfs_files(nsp_drv_t)
 
+fastrpc_rm_rw_tmpfs_files(nsp_drv_t)
+fastrpc_rm_ptrace(nsp_drv_t)
+
+firmware_search_dsp_dirs(nsp_drv_t)
+firmware_read_dsp_files(nsp_drv_t)
+
+files_manage_var_files(nsp_drv_t)
+
 #libkiumd
 libkiumd_mmap_exec_lib_file(nsp_drv_t)
 
@@ -70,3 +78,8 @@ libkiumd_mmap_exec_lib_file(nsp_drv_t)
 allow nsp_drv_t self:unix_dgram_socket { create connect getopt setopt };
 allow nsp_drv_t self:process { setrlimit setsched };
 allow nsp_drv_t self:capability { sys_resource net_admin sys_nice };
+
+allow nsp_drv_t tmpfs_t:file map;
+allow nsp_drv_t tmpfs_t:file unlink;
+#allow nsp_drv_t unconfined_service_t:process signull;
+unconfined_server_signull(nsp_drv_t)
