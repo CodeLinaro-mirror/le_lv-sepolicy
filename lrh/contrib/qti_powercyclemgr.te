@@ -7,6 +7,7 @@ type powercyclemgr_t;
 type powercyclemgr_exec_t;
 type powercyclemgr_tmp_t;
 type powercyclemgr_tmpfs_t;
+type powercyclemgr_socket_t;
 
 init_daemon_domain(powercyclemgr_t, powercyclemgr_exec_t)
 
@@ -61,3 +62,5 @@ files_tmpfs_file(powercyclemgr_tmpfs_t)
 fs_tmpfs_filetrans(powercyclemgr_t, powercyclemgr_tmpfs_t, { dir file })
 powercyclemgr_create_tmpfs_files(powercyclemgr_t)
 powercyclemgr_mmap_rw_tmpfs_files(powercyclemgr_t)
+
+power_use_pm_register(powercyclemgr_t, powercyclemgr_socket_t)
