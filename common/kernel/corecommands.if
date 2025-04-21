@@ -1,0 +1,39 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+########################################
+## <summary>
+##  Mmap a bin file as executable.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`corecmd_exec_bin_files',`
+    gen_require(`
+        type bin_t;
+    ')
+
+    exec_files_pattern($1, bin_t, bin_t)
+')
+
+########################################
+## <summary>
+## Get the system status information to default context under /usr/bin
+## </summary>
+## <param name="domain">
+## <summary>
+## Domain allowed access.
+## </summary>
+## </param>
+#
+interface(`corecommands_bin_status',`
+    gen_require(`
+        type bin_t;
+    ')
+
+    allow $1 bin_t:system status;
+    allow $1 bin_t:service status;
+')
