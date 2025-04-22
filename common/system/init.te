@@ -39,6 +39,10 @@ weston_nnp_trans(initrc_t)
 mount_nnp_trans(initrc_t)
 systemd_passwd_agent_nnp_trans(initrc_t)
 systemd_resolved_nnp_trans(initrc_t)
+systemd_logind_nnp_trans(initrc_t)
+systemd_networkd_nnp_trans(initrc_t)
+systemd_coredump_nnp_trans(initrc_t)
+systemd_userdbd_nnp_trans(initrc_t)
 
 weston_read_lib_files(initrc_t)
 
@@ -52,3 +56,5 @@ fs_cgroup_filetrans_memory_pressure(initrc_t, file, "memory.pressure")
 fs_mounton_memory_pressure(initrc_t)
 
 owfds_map_lib_files(initrc_t)
+modutils_kmod_nnp_trans(initrc_t)
+term_watch_reads_unallocated_ttys(initrc_t)

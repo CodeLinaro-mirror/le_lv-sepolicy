@@ -10,6 +10,7 @@ type safetymonitor_tmpfs_t;
 
 init_daemon_domain(safetymonitor_t, safetymonitor_exec_t)
 
+init_rw_script_stream_sockets(safetymonitor_t)
 init_signull_script(safetymonitor_t)
 
 logging_send_syslog_msg(safetymonitor_t)

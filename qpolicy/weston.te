@@ -51,6 +51,8 @@ unconfined_server_ptrace(weston_t)
 unconfined_ptrace(weston_t)
 adreno200_ptrace(weston_t)
 
+adreno200_use_fds(weston_t)
+
 # /run/systemd/seats/seat0
 systemd_read_logind_sessions_files(weston_t)
 systemd_login_read_pid_files(weston_t)
@@ -86,6 +88,7 @@ term_use_unallocated_ttys(weston_t)
 
 # port:22222
 corenet_tcp_connect_generic_port(weston_t)
+corenet_tcp_connect_unreserved_ports(weston_t)
 
 # libopenwfd.so
 owfds_map_lib_files(weston_t)
@@ -193,6 +196,7 @@ allow weston_t self:capability { sys_resource sys_nice sys_admin setuid net_admi
 allow weston_t self:capability2 { bpf };
 allow weston_t self:netlink_kobject_uevent_socket create_socket_perms;
 allow weston_t self:unix_stream_socket { connectto };
+allow weston_t self:fifo_file { rw_fifo_file_perms };
 
 allow weston_t weston_exec_t:file execute_no_trans;
 allow weston_t weston_tmpfs_t:file delete_file_perms;

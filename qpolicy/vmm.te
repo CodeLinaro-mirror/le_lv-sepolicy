@@ -11,6 +11,9 @@ type vmm_tmpfs_t;
 init_daemon_domain(vmm_t, vmm_exec_t)
 
 init_rw_script_stream_sockets(vmm_t)
+init_get_generic_units_status(vmm_t)
+init_start_generic_units(vmm_t)
+init_stop_generic_units(vmm_t)
 
 #============= vmm_t ============
 logging_send_syslog_msg(vmm_t)
@@ -56,7 +59,7 @@ userdom_map_tmp_files(vmm_t)
 
 # for udev monitor thread of vmm_service
 allow vmm_t self:capability2 bpf;
-allow vmm_t self:netlink_kobject_uevent_socket { bind create getattr setopt read };
+allow vmm_t self:netlink_kobject_uevent_socket { bind create getattr setopt getopt read };
 dev_getattr_sysfs_dirs(vmm_t);
 dev_read_sysfs(vmm_t);
 udev_read_pid_files(vmm_t);
@@ -86,3 +89,6 @@ unconfined_server_stream_connectto(vmm_t)
 #for vmm_test in serial console
 userdom_manage_tmp_sockets(vmm_t)
 unconfined_stream_connect(vmm_t)
+
+#/etc/vm_config.xml
+files_read_etc_files(vmm_t)

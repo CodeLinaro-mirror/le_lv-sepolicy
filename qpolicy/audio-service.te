@@ -78,7 +78,7 @@ pilrm_rw_tmpfs_files(audio_service_t)
 # ========== local ==========
 allow audio_service_t self:unix_dgram_socket { create connect getopt setopt };
 allow audio_service_t self:unix_stream_socket connectto;
-allow audio_service_t self:process { setrlimit setsched ptrace };
+allow audio_service_t self:process { setrlimit setsched ptrace getsched signull };
 allow audio_service_t self:capability { sys_resource sys_nice net_admin sys_ptrace dac_override };
 allow audio_service_t self:tcp_socket {accept bind create listen setopt shutdown connect read write};
 
@@ -88,6 +88,7 @@ kernel_request_load_module(audio_service_t)
 
 # /tmp/awe_pkt_socket
 files_tmp_filetrans(audio_service_t, audio_service_tmp_t, sock_file, "awe_pkt_socket")
+files_tmp_filetrans(audio_service_t, audio_service_tmp_t, sock_file, "awe_alsa_socket")
 fs_associate_tmpfs(audio_service_tmp_t)
 manage_sock_files_pattern(audio_service_t, audio_service_tmp_t, audio_service_tmp_t)
 
@@ -100,6 +101,7 @@ logging_create_generic_logs(audio_service_t)
 # port 15002
 corenet_tcp_bind_generic_port(audio_service_t)
 corenet_tcp_bind_generic_node(audio_service_t)
+corenet_tcp_bind_unreserved_ports(audio_service_t)
 
 # driver override when bind vfio node
 dev_create_sysfs_files(audio_service_t)

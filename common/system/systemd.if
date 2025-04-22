@@ -223,6 +223,78 @@ interface(`systemd_resolved_nnp_trans',`
 
 ########################################
 ## <summary>
+##  Transition to systemd_coredump_t when NNP has been set.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  The type of the process performing this action.
+##  </summary>
+## </param>
+#
+interface(`systemd_coredump_nnp_trans',`
+    gen_require(`
+        type systemd_coredump_t;
+    ')
+
+    allow $1 systemd_coredump_t:process2 nnp_transition;
+')
+
+########################################
+## <summary>
+##  Transition to systemd_logind_t when NNP has been set.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  The type of the process performing this action.
+##  </summary>
+## </param>
+#
+interface(`systemd_logind_nnp_trans',`
+    gen_require(`
+        type systemd_logind_t;
+    ')
+
+    allow $1 systemd_logind_t:process2 nnp_transition;
+')
+
+########################################
+## <summary>
+##  Transition to systemd_networkd_t when NNP has been set.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  The type of the process performing this action.
+##  </summary>
+## </param>
+#
+interface(`systemd_networkd_nnp_trans',`
+    gen_require(`
+        type systemd_networkd_t;
+    ')
+
+    allow $1 systemd_networkd_t:process2 nnp_transition;
+')
+
+########################################
+## <summary>
+##  Transition to systemd_userdbd_t when NNP has been set.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  The type of the process performing this action.
+##  </summary>
+## </param>
+#
+interface(`systemd_userdbd_nnp_trans',`
+    gen_require(`
+        type systemd_userdbd_t;
+    ')
+
+    allow $1 systemd_userdbd_t:process2 nnp_transition;
+')
+
+########################################
+## <summary>
 ##  Allow the specified domain to read and write
 ##  the systemd-logind linger files
 ## </summary>
@@ -238,4 +310,42 @@ interface(`systemd_rw_logind_linger_files',`
     ')
 
     rw_files_pattern($1, systemd_logind_var_lib_t, systemd_logind_var_lib_t)
+')
+
+########################################
+## <summary>
+##  Allow the specified domain to read and write
+##  the systemd-logind linger directories
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`systemd_rw_logind_linger_dirs',`
+    gen_require(`
+        type systemd_logind_var_lib_t;
+    ')
+
+    allow $1 systemd_logind_var_lib_t:dir rw_dir_perms;
+')
+
+########################################
+## <summary>
+##  Allow the specified domain to read and write
+##  the systemd coredump directories
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`systemd_rw_coredump_dirs',`
+    gen_require(`
+        type systemd_coredump_var_lib_t;
+    ')
+
+    rw_dirs_pattern($1, systemd_coredump_var_lib_t, systemd_coredump_var_lib_t)
 ')

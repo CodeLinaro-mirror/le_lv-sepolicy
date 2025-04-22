@@ -165,3 +165,21 @@ interface(`init_nnp_daemon_domain',`
 
     allow init_t $1:process2 { nnp_transition nosuid_transition };
 ')
+
+########################################
+## <summary>
+##  Ptrace to init scripts.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`init_ptrace_script',`
+    gen_require(`
+        type initrc_t;
+    ')
+
+    allow $1 initrc_t:process ptrace;
+')
