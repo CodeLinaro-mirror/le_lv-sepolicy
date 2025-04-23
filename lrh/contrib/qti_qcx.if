@@ -159,3 +159,24 @@ interface(`qcxbeserver_ptrace',`
 
     allow $1 qcx_be_server_t:process ptrace;
 ')
+
+######################################
+## <summary>
+##  qcx_server.sock connectto create unlink write.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`qcx_server_sock',`
+    gen_require(`
+        type qcx_server_t;
+        type qcx_server_power_t;
+    ')
+
+    allow $1 qcx_server_t:unix_stream_socket connectto;
+    allow $1 qcx_server_power_t:sock_file { create unlink write };
+    allow qcx_server_t $1:unix_stream_socket connectto;
+')
