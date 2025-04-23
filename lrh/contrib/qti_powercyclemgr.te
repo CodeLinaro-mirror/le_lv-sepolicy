@@ -68,3 +68,5 @@ powercyclemgr_mmap_rw_tmpfs_files(powercyclemgr_t)
 
 power_use_pm_register(powercyclemgr_t, powercyclemgr_socket_t)
 adreno200_sock(powercyclemgr_t)
+vmm_client_connect_server(powercyclemgr_t)
+qcx_server_sock(powercyclemgr_t)
