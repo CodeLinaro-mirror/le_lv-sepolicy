@@ -104,3 +104,27 @@ interface(`nspdrv_delete_tmpfs_files',`
 
     delete_files_pattern($1, nsp_drv_tmpfs_t, nsp_drv_tmpfs_t)
 ')
+
+######################################
+## <summary>
+##  mmap nsp-drv tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`nspdrv_mmap_tmpfs_files',`
+    gen_require(`
+        type nsp_drv_tmpfs_t;
+    ')
+
+    mmap_files_pattern($1, nsp_drv_tmpfs_t, nsp_drv_tmpfs_t)
+')
+
+
+
+
+
+

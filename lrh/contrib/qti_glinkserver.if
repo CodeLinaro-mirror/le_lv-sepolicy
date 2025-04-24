@@ -139,3 +139,4 @@ interface(`glinkserver_delete_tmpfs_files',`
 
     delete_files_pattern($1, glinkserver_tmpfs_t, glinkserver_tmpfs_t)
 ')
+

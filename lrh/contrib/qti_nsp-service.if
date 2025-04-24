@@ -111,3 +111,21 @@ interface(`nspconfig_rw_tmpfs_files',`
 
     rw_files_pattern($1, nspconfig_tmpfs_t, nspconfig_tmpfs_t)
 ')
+
+######################################
+## <summary>
+##  Unlink nspconfig tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`nspconfig_delete_tmpfs_files',`
+    gen_require(`
+        type nspconfig_tmpfs_t;
+    ')
+
+    delete_files_pattern($1, nspconfig_tmpfs_t, nspconfig_tmpfs_t)
+')
