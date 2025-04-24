@@ -39,6 +39,10 @@ type nsp_drv_tmpfs_t;
 
 init_daemon_domain(nsp_drv_t, nsp_drv_exec_t)
 
+userdom_rw_user_tmp_files(nsp_drv_t)
+userdom_map_tmp_files(nsp_drv_t)
+userdom_delete_user_tmp_files(nsp_drv_t)
+
 logging_send_syslog_msg(nsp_drv_t)
 
 pil_rm_signull(nsp_drv_t)
@@ -60,6 +64,10 @@ create_files_pattern(nsp_drv_t, nsp_drv_tmpfs_t, nsp_drv_tmpfs_t)
 nspdrv_mmap_rw_tmpfs_files(nsp_drv_t)
 nspdrv_delete_tmpfs_files(nsp_drv_t)
 safetymonitor_rw_tmpfs_files(nsp_drv_t)
+
+fs_rw_tmpfs_files(nsp_drv_t)
+fs_manage_tmpfs_files(nsp_drv_t)
+fs_map_tmpfs_files(nsp_drv_t)
 
 nspdrv_delete_tmpfs_files(nsp_drv_t)
 
