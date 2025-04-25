@@ -25,6 +25,7 @@ fs_manage_dos_dirs(init_t)
 ################### initrc_t #####################
 allow initrc_t self:binder { set_context_mgr call transfer };
 
+unconfined_domain(initrc_t)
 qseecomd_manage_data_dirs(initrc_t)
 qseecomd_getattr_persist_dirs(initrc_t)
 qseecomd_setattr_persist_dirs(initrc_t)

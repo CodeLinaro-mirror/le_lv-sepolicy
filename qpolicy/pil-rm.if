@@ -95,7 +95,7 @@ interface(`pilrm_read_tmpfs_files',`
 
 ######################################
 ## <summary>
-##  Unlink pil-rm tmpfs files.
+##  Delete pil-rm tmpfs files.
 ## </summary>
 ## <param name="domain">
 ##  <summary>
@@ -103,12 +103,12 @@ interface(`pilrm_read_tmpfs_files',`
 ##  </summary>
 ## </param>
 #
-interface(`pilrm_unlink_tmpfs_files',`
+interface(`pilrm_delete_tmpfs_files',`
     gen_require(`
         type pil_rm_tmpfs_t;
     ')
 
-    allow $1 pil_rm_tmpfs_t:file unlink;
+    delete_files_pattern($1, pil_rm_tmpfs_t, pil_rm_tmpfs_t)
 ')
 
 ######################################

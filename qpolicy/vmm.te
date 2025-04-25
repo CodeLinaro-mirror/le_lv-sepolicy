@@ -61,6 +61,7 @@ userdom_map_tmp_files(vmm_t)
 allow vmm_t self:capability2 bpf;
 allow vmm_t self:netlink_kobject_uevent_socket { bind create getattr setopt getopt read };
 dev_getattr_sysfs_dirs(vmm_t);
+dev_getattr_sysfs(vmm_t)
 dev_read_sysfs(vmm_t);
 udev_read_pid_files(vmm_t);
 
