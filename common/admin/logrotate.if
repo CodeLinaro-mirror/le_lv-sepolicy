@@ -1,0 +1,21 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+########################################
+## <summary>
+##  Create, read, write, and delete logrotate files under /var/lib.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+## <rolecap/>
+#
+interface(`logrotate_manage_var_lib_files',`
+    gen_require(`
+        type logrotate_var_lib_t;
+    ')
+
+    manage_files_pattern($1, logrotate_var_lib_t, logrotate_var_lib_t)
+')

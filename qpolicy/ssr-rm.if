@@ -59,6 +59,24 @@ interface(`ssrrm_rw_tmpfs_files',`
 
 ######################################
 ## <summary>
+##  Read ssr-rm tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`ssrrm_read_tmpfs_files',`
+    gen_require(`
+        type ssr_rm_tmpfs_t;
+    ')
+
+    read_files_pattern($1, ssr_rm_tmpfs_t, ssr_rm_tmpfs_t)
+')
+
+######################################
+## <summary>
 ##  Send signull to ssr-rm related process.
 ## </summary>
 ## <param name="domain">

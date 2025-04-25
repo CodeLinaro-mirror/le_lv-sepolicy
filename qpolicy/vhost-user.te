@@ -74,3 +74,5 @@ logging_send_syslog_msg(vhost_user_qti_vm3_t)
 
 vmm_client_connect_server(vhost_user_qti_t)
 vmm_client_connect_server(vhost_user_qti_vm3_t)
+
+qcrosvm_use_fds(vhost_user_qti_t)

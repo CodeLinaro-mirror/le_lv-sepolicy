@@ -39,3 +39,21 @@ interface(`qcrosvm_signull',`
 
     allow $1 qcrosvm_t:process signull;
 ')
+
+######################################
+## <summary>
+##   Use qcrosvm file descriptors.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`qcrosvm_use_fds',`
+    gen_require(`
+        type qcrosvm_t;
+    ')
+
+    allow $1 qcrosvm_t:fd use;
+')

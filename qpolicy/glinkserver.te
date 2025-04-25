@@ -10,6 +10,7 @@ type glinkserver_tmpfs_t;
 
 init_daemon_domain(glinkserver_t, glinkserver_exec_t)
 
+init_rw_script_stream_sockets(glinkserver_t)
 init_signull_script(glinkserver_t)
 
 logging_send_syslog_msg(glinkserver_t)
@@ -53,7 +54,7 @@ glinkserver_create_tmpfs_files(glinkserver_t)
 glinkserver_mmap_rw_tmpfs_files(glinkserver_t)
 
 allow glinkserver_t self:unix_dgram_socket { create connect write getopt setopt };
-allow glinkserver_t self:process { setrlimit signull setsched };
+allow glinkserver_t self:process { setrlimit signull setsched getsched };
 allow glinkserver_t self:capability { net_admin sys_nice sys_resource dac_override };
 
 userdom_manage_user_tmp_files(glinkserver_t)

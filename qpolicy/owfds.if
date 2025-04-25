@@ -95,6 +95,24 @@ interface(`owfds_rw_tmpfs_files',`
 
 ######################################
 ## <summary>
+##  Read files under tmpfs filesystem for owfds.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`owfds_read_tmpfs_files',`
+    gen_require(`
+        type openwfd_tmpfs_t;
+    ')
+
+    read_files_pattern($1, openwfd_tmpfs_t, openwfd_tmpfs_t)
+')
+
+######################################
+## <summary>
 ##  Read and write scmi devices (/dev/scmi_mdss0 /dev/scmi_mdss1).
 ## </summary>
 ## <param name="domain">

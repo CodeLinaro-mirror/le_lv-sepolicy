@@ -276,6 +276,24 @@ interface(`dev_dontaudit_scmnode_sec_dev',`
 
 ########################################
 ## <summary>
+##  Read and write the scmnode_sec device
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`dev_rw_scmnode_sec_dev',`
+    gen_require(`
+        type device_t, scmnode_sec_device_t;
+    ')
+
+    rw_chr_files_pattern($1, device_t, scmnode_sec_device_t)
+')
+
+########################################
+## <summary>
 ##      map kiumd device.
 ## </summary>
 ## <param name="domain">

@@ -10,6 +10,8 @@ type diag_service_tmpfs_t;
 
 init_daemon_domain(diag_service_t, diag_service_exec_t)
 
+init_rw_script_stream_sockets(diag_service_t)
+
 logging_send_syslog_msg(diag_service_t)
 fs_getattr_xattr_fs(diag_service_t)
 # port 2500
@@ -17,6 +19,7 @@ corenet_tcp_connect_unreserved_ports(diag_service_t)
 corenet_tcp_bind_generic_node(diag_service_t)
 
 glinkserver_ptrace(diag_service_t)
+glinkserver_use_fds(diag_service_t)
 
 audio_service_signull(diag_service_t)
 ssctl_service_signull(diag_service_t)
@@ -35,7 +38,7 @@ diagservice_mmap_rw_tmpfs_files(diag_service_t)
 # ========== local ==========
 allow diag_service_t self:unix_dgram_socket { create connect getopt setopt };
 allow diag_service_t self:tcp_socket { create connect getopt setopt bind read write };
-allow diag_service_t self:process { setrlimit setsched };
+allow diag_service_t self:process { setrlimit setsched getsched };
 allow diag_service_t self:capability { sys_resource sys_nice net_admin sys_ptrace };
 
 # /tmp/lrms_log_(pid).txt
@@ -58,6 +61,7 @@ fs_getattr_tmpfs(diag_service_t)
 #var_t
 files_manage_var_dirs(diag_service_t)
 files_manage_var_files(diag_service_t)
+files_read_var_symlinks(diag_service_t)
 
 # var-log
 logging_create_generic_logs(diag_service_t)
