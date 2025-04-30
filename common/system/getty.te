@@ -11,6 +11,7 @@ seutil_rw_default_contexts(getty_t)
 seutil_rw_config(getty_t)
 selinux_compute_relabel_context(getty_t)
 selinux_validate_context(getty_t)
+selinux_getattr_fs(getty_t)
 
 domain_obj_id_change_exemption(getty_t)
 domain_subj_id_change_exemption(getty_t)
@@ -36,6 +37,7 @@ init_get_system_status(getty_t)
 
 kernel_getattr_proc(getty_t)
 auth_domtrans_chk_passwd(getty_t)
+auth_signal_chkpwd_process(getty_t)
 
 #dbus_list_system_bus_runtime(getty_t)
 dbus_system_bus_client(getty_t)

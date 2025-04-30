@@ -66,3 +66,21 @@ interface(`auth_rw_passwd_files',`
 #
 #    rw_files_pattern($1, passwd_file_t, passwd_file_t);
 ')
+
+########################################
+## <summary>
+## Allow to send signal for chkpwd process related permissions
+## </summary>
+## <param name="domain">
+## <summary>
+## Domain allowed access.
+## </summary>
+## </param>
+#
+interface(`auth_signal_chkpwd_process',`
+    gen_require(`
+        type chkpwd_t;
+    ')
+
+    allow $1 chkpwd_t:process { noatsecure rlimitinh siginh };
+')

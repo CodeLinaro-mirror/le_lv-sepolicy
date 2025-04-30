@@ -19,7 +19,7 @@ unconfined_server_signull(ssctl_service_t)
 unconfined_signull(ssctl_service_t)
 pilrm_rw_tmpfs_files(ssctl_service_t)
 pil_rm_signull(ssctl_service_t)
-pilrm_unlink_tmpfs_files(ssctl_service_t)
+pilrm_delete_tmpfs_files(ssctl_service_t)
 diagservice_rw_tmpfs_files(ssctl_service_t)
 
 # /tmp/lrms_log_*.txt

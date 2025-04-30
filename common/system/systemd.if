@@ -349,3 +349,40 @@ interface(`systemd_rw_coredump_dirs',`
 
     rw_dirs_pattern($1, systemd_coredump_var_lib_t, systemd_coredump_var_lib_t)
 ')
+
+########################################
+## <summary>
+##  Allow the specified domain to list
+##  the systemd coredump directories
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`systemd_list_coredump_dirs',`
+    gen_require(`
+        type systemd_coredump_var_lib_t;
+    ')
+
+    list_dirs_pattern($1, systemd_coredump_var_lib_t, systemd_coredump_var_lib_t)
+')
+
+########################################
+## <summary>
+##  Relabel systemd-coredump under /var/lib directory type.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`systemd_relabel_coredump_var_lib_dirs',`
+    gen_require(`
+        type systemd_coredump_var_lib_t;
+    ')
+
+    allow $1 systemd_coredump_var_lib_t:dir relabel_dir_perms;
+')

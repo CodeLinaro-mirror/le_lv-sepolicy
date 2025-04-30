@@ -11,3 +11,5 @@ init_rw_initrc_runtime_files(ssh_keygen_t)
 init_rw_script_stream_sockets(ssh_keygen_t)
 
 init_rw_script_stream_sockets(sshd_t)
+
+auth_signal_chkpwd_process(sshd_t)

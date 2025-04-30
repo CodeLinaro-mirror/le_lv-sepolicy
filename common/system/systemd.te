@@ -24,6 +24,8 @@ allow systemd_logind_t self:capability net_admin;
 allow systemd_tmpfiles_t self:capability net_admin ;
 allow systemd_tmpfiles_t self:process setrlimit ;
 allow systemd_modules_load_t self:capability net_admin;
+allow systemd_sessions_t self:capability net_admin;
+allow systemd_user_runtime_dir_t self:capability net_admin;
 
 logging_dgram_send(systemd_resolved_t)
 corenet_tcp_bind_generic_node(systemd_resolved_t)
@@ -38,6 +40,7 @@ init_read_runtime_files(systemd_userdbd_t)
 # systemd-logind read init proc info, /proc/<pid>/cgroup
 init_read_script_state(systemd_logind_t)
 getty_read_files(systemd_logind_t)
+getty_use_fds(systemd_logind_t)
 
 init_rw_script_stream_sockets(systemd_tmpfiles_t)
 init_rw_script_stream_sockets(systemd_resolved_t)
