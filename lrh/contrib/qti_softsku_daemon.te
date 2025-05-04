@@ -18,9 +18,10 @@ type softsku_rc_t;
 files_type(softsku_rc_t)
 
 
-
+allow softsku_daemon_t self:process { setrlimit };
 allow softsku_daemon_t self:tcp_socket { create bind listen accept read write shutdown };
 allow softsku_daemon_t self:unix_dgram_socket { create connect write };
+allow softsku_daemon_t self:capability { sys_resource };
 
 
 
@@ -43,10 +44,15 @@ corenet_tcp_bind_generic_port(softsku_daemon_t);
 corenet_tcp_bind_generic_node(softsku_daemon_t);
 dev_getattr_sysfs_fs(softsku_daemon_t);
 dev_rw_sysfs(softsku_daemon_t);
+fs_manage_tmpfs_files(softsku_daemon_t);
+fs_map_tmpfs_files(softsku_daemon_t);
 
-
+allow sku_cli_t self:process { setrlimit };
 allow sku_cli_t self:tcp_socket { create connect shutdown write };
+allow sku_cli_t self:unix_dgram_socket { create connect write };
 allow sku_cli_t softsku_rc_t:file { getattr read open };
+allow sku_cli_t self:capability { sys_resource };
+
 libkiumd_manage_lib_files(sku_cli_t);
 libkiumd_mmap_exec_lib_file(sku_cli_t);
 corenet_tcp_connect_unreserved_ports(sku_cli_t);
@@ -54,3 +60,7 @@ libkiumd_ioctl_lib_file(sku_cli_t);
 corenet_tcp_bind_generic_port(sku_cli_t);
 dev_getattr_sysfs_fs(sku_cli_t);
 dev_rw_sysfs(sku_cli_t);
+fs_manage_tmpfs_files(sku_cli_t);
+fs_map_tmpfs_files(sku_cli_t);
+logging_create_devlog_dev(sku_cli_t);
+logging_dgram_send(sku_cli_t);
