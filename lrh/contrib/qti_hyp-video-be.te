@@ -75,3 +75,6 @@ libkiumd_mmap_exec_lib_file(hyp_video_t)
 libkiumd_ioctl_lib_file(hyp_video_t)
 libkiumd_relabel_lib_files(hyp_video_t)
 libkiumd_manage_lib_files(hyp_video_t)
+
+allow hyp_video_t hyp_video_tmpfs_t:dir create;
+allow hyp_video_t hyp_video_tmpfs_t:fifo_file { create read unlink write open };
