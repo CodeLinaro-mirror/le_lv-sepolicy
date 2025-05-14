@@ -17,3 +17,5 @@ files_mounton_etc_files(mount_t)
 files_manage_etc_files(mount_t)
 files_mounton_etc_dirs(mount_t)
 fs_mounton_configfs_dirs(mount_t)
+
+files_manage_default_dirs(mount_t)

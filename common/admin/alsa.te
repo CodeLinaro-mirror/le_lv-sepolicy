@@ -9,3 +9,5 @@ files_list_default_dirs(alsa_t)
 
 #unlabeled
 files_mounton_isid_type_dirs(alsa_t)
+
+init_list_initrc_runtime_dirs(alsa_t)
