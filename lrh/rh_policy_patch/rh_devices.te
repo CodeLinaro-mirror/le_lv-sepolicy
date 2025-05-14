@@ -1,4 +1,4 @@
-# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2023, 2025 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -39,6 +39,7 @@ type scmnode_device_t;
 type scmnode_sec_device_t;
 type hab_device_t;
 type profiler_device_t;
+type ksync_device_t;
 
 dev_node(smcinvoke_device_t)
 dev_node(gunyah_device_t)
@@ -47,3 +48,4 @@ dev_node(scmnode_device_t)
 dev_node(scmnode_sec_device_t)
 dev_node(hab_device_t)
 dev_node(profiler_device_t)
+dev_node(ksync_device_t)

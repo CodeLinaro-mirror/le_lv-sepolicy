@@ -1,4 +1,4 @@
-# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2023, 2025 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -37,4 +37,5 @@
 /dev/scmnode_sec             -c      gen_context(system_u:object_r:scmnode_sec_device_t,s0)
 /dev/hab                     -c      gen_context(system_u:object_r:hab_device_t,s0)
 /dev/profiler                -c      gen_context(system_u:object_r:profiler_device_t,s0)
+/dev/ksync                   -c      gen_context(system_u:object_r:ksync_device_t,s0)
 
