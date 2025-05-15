@@ -75,4 +75,5 @@ allow ssctl_service_t self:unix_dgram_socket { connect create getopt setopt };
 allow ssctl_service_t self:capability { sys_resource };
 allow ssctl_service_t self:process { setrlimit };
 
-
+kernel_read_proc_files(ssctl_service_t)
+dev_read_sysfs(ssctl_service_t)
