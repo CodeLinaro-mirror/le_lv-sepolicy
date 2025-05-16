@@ -11,6 +11,7 @@ type vmm_tmpfs_t;
 init_daemon_domain(vmm_t, vmm_exec_t)
 
 init_rw_script_stream_sockets(vmm_t)
+init_stream_connect_script(vmm_t)
 init_get_generic_units_status(vmm_t)
 init_start_generic_units(vmm_t)
 init_stop_generic_units(vmm_t)

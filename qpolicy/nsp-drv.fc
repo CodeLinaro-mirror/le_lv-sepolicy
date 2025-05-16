@@ -1,4 +1,6 @@
 # Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
-/usr/bin/nsp_drv       --      gen_context(system_u:object_r:nsp_drv_exec_t,s0)
+/usr/bin/nsp_drv                --      gen_context(system_u:object_r:nsp_drv_exec_t,s0)
+usr/share/nsp_drv_config.xml    --      gen_context(system_u:object_r:nsp_drv_conf_t,s0)
+

@@ -9,10 +9,15 @@ type eva_auto_tmp_t;
 type eva_auto_tmpfs_t;
 type eva_auto_dev_t;
 type eva_auto_power_t;
+type eva_auto_etc_t;
 
 init_daemon_domain(eva_auto_t, eva_auto_exec_t)
 
 init_rw_script_stream_sockets(eva_auto_t)
+
+#/etc/sv_config.xml
+files_config_file(eva_auto_etc_t)
+evauto_rw_etc_files(eva_auto_t)
 
 # Allow access to /dev/scmi_eva
 dev_node(eva_auto_dev_t)

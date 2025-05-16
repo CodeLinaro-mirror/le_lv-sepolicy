@@ -93,3 +93,23 @@ interface(`evauto_rw_scmi_dev',`
 
     rw_chr_files_pattern($1, device_t, eva_auto_dev_t)
 ')
+
+######################################
+## <summary>
+##  Read and write eva_server config files in /etc/sv_config.xml.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`evauto_rw_etc_files',`
+    gen_require(`
+        type eva_auto_etc_t;
+        type etc_t;
+    ')
+
+    list_dirs_pattern($1, etc_t, eva_auto_etc_t)
+    rw_files_pattern($1, etc_t, eva_auto_etc_t)
+')
