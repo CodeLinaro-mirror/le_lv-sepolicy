@@ -75,3 +75,23 @@ interface(`nspdrv_delete_tmpfs_files',`
 
     delete_files_pattern($1, nsp_drv_tmpfs_t, nsp_drv_tmpfs_t)
 ')
+
+######################################
+## <summary>
+##  Read and write nsp_drv config files in /usr/share.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`nspdrv_rw_etc_files',`
+    gen_require(`
+        type nsp_drv_conf_t;
+        type usr_t;
+    ')
+
+    list_dirs_pattern($1, usr_t, nsp_drv_conf_t)
+    rw_files_pattern($1, usr_t, nsp_drv_conf_t)
+')

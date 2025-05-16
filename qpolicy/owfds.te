@@ -122,7 +122,7 @@ files_rw_dosfs_files(openwfd_server_t)
 files_manage_var_dirs(openwfd_server_t)
 
 allow openwfd_server_t self:unix_dgram_socket { create connect getopt setopt };
-allow openwfd_server_t self:process { setrlimit setsched getsched };
+allow openwfd_server_t self:process { setrlimit setsched getsched signal };
 allow openwfd_server_t self:capability { sys_resource sys_nice net_admin sys_ptrace kill };
 allow openwfd_server_t openwfd_tmpfs_t:file { watch watch_reads };
 

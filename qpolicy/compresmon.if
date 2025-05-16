@@ -56,3 +56,23 @@ interface(`compresmon_unlink_tmpfs_files',`
 
     allow $1 compresmon_tmpfs_t:file unlink;
 ')
+
+######################################
+## <summary>
+##  Read and write compresmon config files under /etc.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`compresmon_rw_etc_files',`
+    gen_require(`
+        type etc_t;
+        type compresmon_etc_t;
+    ')
+
+    list_dirs_pattern($1, etc_t, compresmon_etc_t)
+    rw_files_pattern($1, etc_t, compresmon_etc_t)
+')

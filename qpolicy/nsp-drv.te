@@ -7,12 +7,17 @@ type nsp_drv_t;
 type nsp_drv_exec_t;
 type nsp_drv_tmp_t;
 type nsp_drv_tmpfs_t;
+type nsp_drv_conf_t;
 
 init_daemon_domain(nsp_drv_t, nsp_drv_exec_t)
 
 init_rw_script_stream_sockets(nsp_drv_t)
 
 logging_send_syslog_msg(nsp_drv_t)
+
+#/usr/share/nsp_drv_config.xml
+files_config_file(nsp_drv_conf_t)
+nspdrv_rw_etc_files(nsp_drv_t)
 
 pil_rm_signull(nsp_drv_t)
 pilrm_rw_tmpfs_files(nsp_drv_t)

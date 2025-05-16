@@ -7,8 +7,16 @@ type compresmon_t;
 type compresmon_exec_t;
 type compresmon_tmp_t;
 type compresmon_tmpfs_t;
+type compresmon_etc_t;
 
 init_daemon_domain(compresmon_t, compresmon_exec_t)
+
+init_rw_script_stream_sockets(compresmon_t)
+init_signull_script(compresmon_t)
+
+#/etc/sv_config.xml
+files_config_file(compresmon_etc_t)
+compresmon_rw_etc_files(compresmon_t)
 
 libkiumd_ioctl_lib_file(compresmon_t)
 libkiumd_mmap_exec_lib_file(compresmon_t)
@@ -20,7 +28,7 @@ unconfined_server_ptrace(compresmon_t)
 
 files_manage_var_files(compresmon_t)
 
-allow compresmon_t self:process { setrlimit setsched };
+allow compresmon_t self:process { setrlimit setsched getsched };
 allow compresmon_t self:capability { sys_resource sys_nice sys_ptrace };
 allow compresmon_t self:unix_dgram_socket { create connect };
 allow compresmon_t self:tcp_socket { read write create connect getopt setopt };
