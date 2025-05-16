@@ -115,7 +115,7 @@ dev_rw_kiumd_dev(qseecomd_t)
 fs_create_mmap_rw_tmpfs_files(qseecomd_t)
 fs_create_write_tmp_files(qseecomd_t)
 fs_rw_tmpfs_dirs(qseecomd_t)
-fs_delete_tmpfs_files(qseecomd_t)
+fs_manage_tmpfs_files(qseecomd_t)
 
 # openwfds
 owfds_map_lib_files(qseecomd_t)

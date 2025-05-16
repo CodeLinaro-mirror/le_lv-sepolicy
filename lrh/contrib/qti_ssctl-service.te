@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2025 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -30,46 +30,49 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-policy_module(qti_sail-mailbox, 1.0)
+policy_module(qti_ssctl-service, 1.0)
 
-type sail_mailbox_t;
-type sail_mailbox_exec_t;
-type sail_mailbox_tmp_t;
-type sail_mailbox_tmpfs_t;
-type sail_mailbox_power_t;
+type ssctl_service_t;
+type ssctl_service_exec_t;
+type ssctl_service_tmp_t;
+type ssctl_service_tmpfs_t;
+type ssctl_service_power_t;
 
-init_daemon_domain(sail_mailbox_t, sail_mailbox_exec_t)
+init_daemon_domain(ssctl_service_t, ssctl_service_exec_t)
 
-logging_send_syslog_msg(sail_mailbox_t)
+logging_create_devlog_dev(ssctl_service_t)
+logging_send_syslog_msg(ssctl_service_t)
+kernel_dgram_send(ssctl_service_t)
 
-unconfined_server_signull(sail_mailbox_t)
+unconfined_server_signull(ssctl_service_t)
+unconfined_signull(ssctl_service_t)
+pilrm_rw_tmpfs_files(ssctl_service_t)
+pil_rm_signull(ssctl_service_t)
+pilrm_unlink_tmpfs_files(ssctl_service_t)
+diagservice_rw_tmpfs_files(ssctl_service_t)
 
-#libkiumd
-libkiumd_mmap_exec_lib_file(sail_mailbox_t)
+# /tmp/lrms_log_*.txt
+files_tmp_file(ssctl_service_tmp_t)
+files_tmp_filetrans(ssctl_service_t, ssctl_service_tmp_t, { dir file })
+manage_files_pattern(ssctl_service_t, ssctl_service_tmp_t, ssctl_service_tmp_t)
 
-dev_rw_kiumd_dev(sail_mailbox_t)
-dev_rw_vfio_dev(sail_mailbox_t)
-dev_read_sysfs(sail_mailbox_t)
 
-files_tmp_file(sail_mailbox_tmp_t)
-files_tmp_filetrans(sail_mailbox_t, sail_mailbox_tmp_t, { dir fifo_file file lnk_file })
-manage_files_pattern(sail_mailbox_t, sail_mailbox_tmp_t, sail_mailbox_tmp_t)
+files_tmpfs_file(ssctl_service_tmpfs_t)
+fs_tmpfs_filetrans(ssctl_service_t, ssctl_service_tmpfs_t, { dir file })
+ssctl_service_create_tmpfs_files(ssctl_service_t)
+ssctl_service_mmap_rw_tmpfs_files(ssctl_service_t)
+ssctl_service_rw_tmpfs_files(ssctl_service_t)
+allow ssctl_service_t ssctl_service_tmpfs_t:file unlink;
 
-files_tmpfs_file(sail_mailbox_tmpfs_t)
-fs_tmpfs_filetrans(sail_mailbox_t, sail_mailbox_tmpfs_t, { dir file })
-manage_files_pattern(sail_mailbox_t, sail_mailbox_tmpfs_t, sail_mailbox_tmpfs_t)
+libkiumd_mmap_exec_lib_file(ssctl_service_t)
 
-# Manage tmp files
-userdom_manage_user_tmp_files(sail_mailbox_t)
-userdom_map_tmp_files(sail_mailbox_t)
+power_use_pm_register(ssctl_service_t, ssctl_service_power_t)
 
-# Read, write, create and map files under tmpfs
-fs_create_mmap_rw_tmpfs_files(sail_mailbox_t)
+# /run/systemd/journal/dev-log
+logging_dgram_send(ssctl_service_t)
 
-# ========== local ==========
-allow sail_mailbox_t self:unix_dgram_socket { create connect getopt setopt };
-allow sail_mailbox_t self:process { setrlimit setsched };
-allow sail_mailbox_t self:capability { sys_resource sys_nice net_admin };
+allow ssctl_service_t self:unix_dgram_socket { connect create getopt setopt };
+allow ssctl_service_t self:capability { sys_resource };
+allow ssctl_service_t self:process { setrlimit };
 
-# pm_register
-power_use_pm_register(sail_mailbox_t, sail_mailbox_power_t)
+

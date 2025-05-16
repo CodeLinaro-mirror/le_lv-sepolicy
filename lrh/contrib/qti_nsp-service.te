@@ -5,16 +5,33 @@ policy_module(qti_nsp-service, 1.0)
 
 type nspconfig_t;
 type nspconfig_exec_t;
+type nspconfig_tmp_t;
+type nspconfig_tmpfs_t;
 
-#============= nspconfig_t ==============
 init_daemon_domain(nspconfig_t, nspconfig_exec_t)
+
+userdom_rw_user_tmp_files(nspconfig_t)
+userdom_map_tmp_files(nspconfig_t)
+userdom_delete_user_tmp_files(nspconfig_t)
+
+fs_rw_tmpfs_files(nspconfig_t)
+fs_map_tmpfs_files(nspconfig_t)
 
 libkiumd_mmap_exec_lib_file(nspconfig_t)
 dev_rw_kiumd_dev(nspconfig_t)
 
+dev_rw_dma_dev(nspconfig_t)
+dev_rw_kiumd_dev(nspconfig_t)
+dev_rw_vfio_dev(nspconfig_t)
+dev_read_sysfs(nspconfig_t)
+
+ssrrm_rw_tmpfs_files(nspconfig_t)
+glinkserver_rw_tmpfs_files(nspconfig_t)
+glinkserver_ptrace(nspconfig_t)
+
+allow nspconfig_t self:unix_dgram_socket { create connect getopt setopt };
+allow nspconfig_t self:capability { sys_resource sys_nice net_admin sys_ptrace dac_override };
 allow nspconfig_t self:process { setrlimit setsched };
-allow nspconfig_t self:unix_dgram_socket { create connect };
-allow nspconfig_t self:capability { sys_resource sys_nice };
 
 logging_create_devlog_dev(nspconfig_t)
 
@@ -30,3 +47,17 @@ fs_manage_tmpfs_files(nspconfig_t)
 fs_map_tmpfs_files(nspconfig_t)
 userdom_manage_tmp_files(nspconfig_t)
 files_manage_var_files(nspconfig_t)
+
+unconfined_server_signull(nspconfig_t)
+unconfined_signull(nspconfig_t)
+unconfined_server_ptrace(nspconfig_t)
+unconfined_ptrace(nspconfig_t)
+
+files_tmp_file(nspconfig_tmp_t)
+files_tmp_filetrans(nspconfig_t, nspconfig_tmp_t, { dir file })
+manage_files_pattern(nspconfig_t, nspconfig_tmp_t, nspconfig_tmp_t)
+
+files_tmpfs_file(nspconfig_tmpfs_t)
+fs_tmpfs_filetrans(nspconfig_t, nspconfig_tmpfs_t, { dir file })
+nspconfig_create_tmpfs_files(nspconfig_t)
+nspconfig_mmap_rw_tmpfs_files(nspconfig_t)

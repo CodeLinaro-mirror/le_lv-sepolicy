@@ -97,6 +97,11 @@ qcxserver_rw_tmpfs_files(qcx_server_t)
 files_tmpfs_file(qcx_server_tmpfs_t)
 fs_tmpfs_filetrans(qcx_server_t, qcx_server_tmpfs_t, { dir file })
 manage_files_pattern(qcx_server_t, qcx_server_tmpfs_t, qcx_server_tmpfs_t)
+create_dirs_pattern(qcx_server_t, qcx_server_tmpfs_t, qcx_server_tmpfs_t)
+
+# gptp
+files_write_generic_tmp_sock_files(qcx_server_t)
+unconfined_server_stream_connectto(qcx_server_t)
 
 
 # fs_t:filesystem getattr
@@ -142,6 +147,8 @@ dev_dontaudit_scmnode_sec_dev(qcx_server_t)
 allow qcx_server_t self:process { setrlimit setsched ptrace };
 allow qcx_server_t self:capability { sys_resource sys_nice dac_override sys_ptrace net_admin };
 
+
+pilrm_rw_tmpfs_files(qcx_server_t);
 
 
 

@@ -60,6 +60,9 @@ owfds_map_lib_files(unconfined_t)
 owfds_manage_lib_files(unconfined_service_t)
 owfds_manage_lib_files(unconfined_t)
 
+# allow unconfined_service_t access ipp_lib_t
+ipp_manage_lib_files(unconfined_service_t)
+
 #below lines added for libkiumd interface
 libkiumd_mmap_exec_lib_file(unconfined_service_t)
 libkiumd_mmap_exec_lib_file(unconfined_t)
@@ -78,3 +81,5 @@ weston_map_lib_files(unconfined_t)
 
 dev_rw_profiler_dev(unconfined_t)
 dev_relabel_profiler_dev(unconfined_t)
+
+allow_she_lib_files(unconfined_t)
