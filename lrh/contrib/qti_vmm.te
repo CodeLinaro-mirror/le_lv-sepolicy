@@ -113,3 +113,15 @@ unconfined_server_stream_connectto(vmm_t)
 #for vmm_test in serial console
 userdom_manage_tmp_sockets(vmm_t)
 unconfined_stream_connect(vmm_t)
+
+#for read /proc/cmdline
+kernel_read_proc_files(vmm_t)
+
+#for read la_misc/lv_misc
+storage_raw_rw_fixed_disk(vmm_t)
+
+#early stage policy
+fs_manage_tmpfs_sockets(vmm_t)
+
+#recieve PrepareForShutdown signal form org.freedesktop.login1.Manager
+systemd_dbus_chat_logind(vmm_t)
