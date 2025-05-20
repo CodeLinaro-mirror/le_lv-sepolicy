@@ -111,3 +111,26 @@ interface(`powercyclemgr_rw_tmpfs_files',`
 
     rw_files_pattern($1, powercyclemgr_tmpfs_t, powercyclemgr_tmpfs_t)
 ')
+
+
+######################################
+## <summary>
+##  read and open mouse and event device for chr_files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`powercyclemgr_read_chr_files',`
+    gen_require(`
+        type mouse_device_t;
+        type event_device_t;
+    ')
+
+    allow $1 event_device_t:chr_file { ioctl open read write };
+    allow $1 mouse_device_t:chr_file { ioctl open read write };
+
+')
+
