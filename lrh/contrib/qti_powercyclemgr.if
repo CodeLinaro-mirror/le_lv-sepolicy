@@ -96,7 +96,7 @@ interface(`powercyclemgr_mmap_rw_tmpfs_files',`
 
 ######################################
 ## <summary>
-##  Read and write powercyclemgr tmpfs files.
+##  Open, Read and write powercyclemgr tmpfs files.
 ## </summary>
 ## <param name="domain">
 ##  <summary>
@@ -110,8 +110,8 @@ interface(`powercyclemgr_rw_tmpfs_files',`
     ')
 
     rw_files_pattern($1, powercyclemgr_tmpfs_t, powercyclemgr_tmpfs_t)
+    allow $1 powercyclemgr_tmpfs_t:file open;
 ')
-
 
 ######################################
 ## <summary>
@@ -134,3 +134,20 @@ interface(`powercyclemgr_read_chr_files',`
  
 ')
 
+######################################
+## <summary>
+##  Unlink powercyclemgr tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`powercyclemgr_unlink_tmpfs_files',`
+    gen_require(`
+        type compresmon_tmpfs_t;
+    ')
+
+    allow $1 powercyclemgr_tmpfs_t:file unlink;
+')
