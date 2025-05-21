@@ -70,3 +70,13 @@ power_use_pm_register(powercyclemgr_t, powercyclemgr_socket_t)
 adreno200_sock(powercyclemgr_t)
 vmm_client_connect_server(powercyclemgr_t)
 qcx_server_sock(powercyclemgr_t)
+
+powercyclemgr_read_chr_files(powercyclemgr_t)
+
+powercyclemgr_unlink_tmpfs_files(powercyclemgr_t)
+dbus_stream_connect_system_dbusd(powercyclemgr_t)
+dbus_write_pid_sock_files(powercyclemgr_t)
+dbus_send_system_bus(powercyclemgr_t)
+systemd_dbus_chat_logind(powercyclemgr_t)
+allow powercyclemgr_t system_dbusd_var_run_t:dir search;
+
