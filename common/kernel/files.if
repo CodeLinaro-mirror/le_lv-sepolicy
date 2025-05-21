@@ -671,6 +671,24 @@ interface(`files_rw_default_dirs',`
 
 ##################################
 ## <summary>
+##  Delete character files under default type.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_delete_default_chr_files',`
+    gen_require(`
+        type default_t;
+    ')
+
+    delete_chr_files_pattern($1, default_t, default_t)
+')
+
+##################################
+## <summary>
 ##  Allow to read and write sock_files under /var.
 ## </summary>
 ## <param name="domain">
@@ -721,4 +739,40 @@ interface(`files_delete_var_sock_files',`
     ')
 
     delete_sock_files_pattern($1, var_t, var_t)
+')
+
+##################################
+## <summary>
+##  Allow to delete files under /var/lib.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_delete_var_lib_files',`
+    gen_require(`
+        type var_lib_t;
+    ')
+
+    delete_files_pattern($1, var_lib_t, var_lib_t)
+')
+
+##################################
+## <summary>
+##  Allow to manage files under /var/lib.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_manage_var_lib_files',`
+    gen_require(`
+        type var_lib_t;
+    ')
+
+    manage_files_pattern($1, var_lib_t, var_lib_t)
 ')

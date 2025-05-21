@@ -139,3 +139,21 @@ interface(`openwfd_server_rw_scmi_dev',`
 
     rw_chr_files_pattern($1, device_t, openwfd_server_dev_t)
 ')
+
+######################################
+## <summary>
+##  Map openwfd_tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`owfds_exec_tmpfs_files',`
+    gen_require(`
+        type openwfd_tmpfs_t;
+    ')
+
+    mmap_exec_files_pattern($1, openwfd_tmpfs_t, openwfd_tmpfs_t)
+')

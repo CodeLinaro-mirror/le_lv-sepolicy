@@ -93,6 +93,7 @@ display_be_delete_tmpfs_files(openwfd_server_t)
 
 owfds_create_tmpfs_files(openwfd_server_t)
 owfds_rw_tmpfs_files(openwfd_server_t)
+owfds_exec_tmpfs_files(openwfd_server_t)
 weston_mmap_rw_tmpfs_files(openwfd_server_t)
 
 weston_delete_tmpfs_files(openwfd_server_t)

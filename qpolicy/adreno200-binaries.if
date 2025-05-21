@@ -129,3 +129,39 @@ interface(`adreno200_delete_tmpfs_files',`
 
     delete_files_pattern($1, adreno200_tmpfs_t, adreno200_tmpfs_t)
 ')
+
+######################################
+## <summary>
+##  Read adreno200-binaries tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`adreno200_read_tmpfs_files',`
+    gen_require(`
+        type adreno200_tmpfs_t;
+    ')
+
+    read_files_pattern($1, adreno200_tmpfs_t, adreno200_tmpfs_t)
+')
+
+######################################
+## <summary>
+##   Use adreno file descriptors.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`adreno200_use_fds',`
+    gen_require(`
+        type adreno200_t;
+    ')
+
+    allow $1 adreno200_t:fd use;
+')

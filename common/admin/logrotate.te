@@ -2,3 +2,6 @@
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 files_rw_var_files(logrotate_t)
+files_read_var_symlinks(logrotate_t)
+
+init_rw_script_stream_sockets(logrotate_t)

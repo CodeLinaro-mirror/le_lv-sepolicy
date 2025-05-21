@@ -24,6 +24,8 @@ allow systemd_logind_t self:capability net_admin;
 allow systemd_tmpfiles_t self:capability net_admin ;
 allow systemd_tmpfiles_t self:process setrlimit ;
 allow systemd_modules_load_t self:capability net_admin;
+allow systemd_sessions_t self:capability net_admin;
+allow systemd_user_runtime_dir_t self:capability net_admin;
 
 logging_dgram_send(systemd_resolved_t)
 corenet_tcp_bind_generic_node(systemd_resolved_t)
@@ -37,6 +39,8 @@ init_read_runtime_files(systemd_userdbd_t)
 
 # systemd-logind read init proc info, /proc/<pid>/cgroup
 init_read_script_state(systemd_logind_t)
+getty_read_files(systemd_logind_t)
+getty_use_fds(systemd_logind_t)
 
 init_rw_script_stream_sockets(systemd_tmpfiles_t)
 init_rw_script_stream_sockets(systemd_resolved_t)
@@ -45,7 +49,21 @@ init_rw_script_stream_sockets(systemd_networkd_t)
 init_rw_script_stream_sockets(systemd_sessions_t)
 init_rw_script_stream_sockets(systemd_user_runtime_dir_t)
 init_rw_script_stream_sockets(systemd_userdbd_t)
+init_rw_script_stream_sockets(systemd_modules_load_t)
+init_rw_script_stream_sockets(systemd_sysctl_t)
 
 init_list_initrc_runtime_dirs(systemd_resolved_t)
 
+fs_watch_memory_pressure(systemd_userdbd_t)
+
 power_create_pm_dirs(systemd_tmpfiles_t)
+adreno200_read_tmpfs_files(systemd_tmpfiles_t)
+safetymonitor_read_tmpfs_files(systemd_tmpfiles_t)
+fs_read_tmpfs_files(systemd_tmpfiles_t)
+sailmb_read_tmpfs_files(systemd_tmpfiles_t)
+owfds_read_tmpfs_files(systemd_tmpfiles_t)
+ssrrm_read_tmpfs_files(systemd_tmpfiles_t)
+glinkserver_read_tmpfs_files(systemd_tmpfiles_t)
+pilrm_read_tmpfs_files(systemd_tmpfiles_t)
+videodriver_read_tmpfs_files(systemd_tmpfiles_t)
+videodriver_list_tmpfs_dirs(systemd_tmpfiles_t)

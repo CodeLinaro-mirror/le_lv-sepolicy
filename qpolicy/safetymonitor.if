@@ -42,6 +42,24 @@ interface(`safetymonitor_rw_tmpfs_files',`
 
 ######################################
 ## <summary>
+##  Read safetymonitor tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`safetymonitor_read_tmpfs_files',`
+    gen_require(`
+        type safetymonitor_tmpfs_t;
+    ')
+
+    read_files_pattern($1, safetymonitor_tmpfs_t, safetymonitor_tmpfs_t)
+')
+
+######################################
+## <summary>
 ##  Send signull to safetymonitor_t.
 ## </summary>
 ## <param name="domain">

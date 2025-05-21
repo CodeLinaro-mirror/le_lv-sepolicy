@@ -10,6 +10,8 @@ type nsp_drv_tmpfs_t;
 
 init_daemon_domain(nsp_drv_t, nsp_drv_exec_t)
 
+init_rw_script_stream_sockets(nsp_drv_t)
+
 logging_send_syslog_msg(nsp_drv_t)
 
 pil_rm_signull(nsp_drv_t)

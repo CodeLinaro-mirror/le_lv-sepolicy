@@ -94,3 +94,21 @@ interface(`display_be_delete_tmpfs_files',`
 
     allow $1 display_be_tmpfs_t:file delete_file_perms;
 ')
+
+######################################
+## <summary>
+##   Use display_be file descriptors.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`display_be_use_fds',`
+    gen_require(`
+        type display_be_t;
+    ')
+
+    allow $1 display_be_t:fd use;
+')

@@ -14,6 +14,7 @@ qseecomd_relabel_dev(setfiles_t)
 term_use_generic_ptys(load_policy_t)
 
 init_rw_script_stream_sockets(setfiles_t)
+kernel_getattr_proc(setfiles_t)
 
 # Because qseecomd service set corresponding capability
 allow setfiles_t self:capability dac_override;

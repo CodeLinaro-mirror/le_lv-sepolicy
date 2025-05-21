@@ -18,3 +18,21 @@ interface(`bluetooth_mount_etc_dirs',`
 
     allow $1 bluetooth_conf_t:dir mounton;
 ')
+
+########################################
+## <summary>
+##  Read bluetooth config directory (/etc/bluetooth).
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`bluetooth_read_etc_dirs',`
+    gen_require(`
+        type bluetooth_conf_t;
+    ')
+
+    allow $1 bluetooth_conf_t:dir read;
+')

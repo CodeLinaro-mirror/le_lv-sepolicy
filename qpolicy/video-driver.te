@@ -13,6 +13,7 @@ type video_driver_power_t;
 init_daemon_domain(video_driver_t, video_driver_exec_t)
 
 init_rw_script_stream_sockets(video_driver_t)
+init_ptrace_script(video_driver_t)
 
 # Allow access to /dev/scmi_video
 dev_node(video_driver_dev_t)
@@ -87,6 +88,8 @@ hyp_video_ptrace(video_driver_t)
 allow video_driver_t self:unix_dgram_socket { create connect getopt setopt };
 allow video_driver_t self:process { setrlimit setsched };
 allow video_driver_t self:capability { sys_resource sys_ptrace net_admin sys_nice sys_ptrace dac_override };
+allow video_driver_t video_driver_tmpfs_t:dir { create };
+allow video_driver_t video_driver_tmpfs_t:fifo_file { create read open };
 
 files_tmp_file(video_driver_tmp_t)
 files_tmp_filetrans(video_driver_t, video_driver_tmp_t, { dir fifo_file file lnk_file })

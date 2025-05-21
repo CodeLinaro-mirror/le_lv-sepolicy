@@ -158,3 +158,24 @@ interface(`adreno200_delete_tmpfs_files',`
 
     delete_files_pattern($1, adreno200_tmpfs_t, adreno200_tmpfs_t)
 ')
+
+######################################
+## <summary>
+##  kgsl.sock connectto create unlink write.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`adreno200_sock',`
+    gen_require(`
+        type adreno200_t;
+        type adreno200_power_t;
+    ')
+
+    allow $1 adreno200_t:unix_stream_socket connectto;
+    allow $1 adreno200_power_t:sock_file { create unlink write };
+    allow adreno200_t $1:unix_stream_socket connectto;
+')

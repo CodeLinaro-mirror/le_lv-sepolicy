@@ -78,6 +78,25 @@ interface(`videodriver_rw_tmpfs_files',`
 
 ######################################
 ## <summary>
+##  Read video-driver tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`videodriver_read_tmpfs_files',`
+    gen_require(`
+        type video_driver_tmpfs_t;
+    ')
+
+    read_files_pattern($1, video_driver_tmpfs_t, video_driver_tmpfs_t)
+    allow $1 video_driver_tmpfs_t:fifo_file getattr;
+')
+
+######################################
+## <summary>
 ##  Delete video-driver tmpfs files.
 ## </summary>
 ## <param name="domain">
@@ -92,6 +111,24 @@ interface(`videodriver_delete_tmpfs_files',`
     ')
 
     delete_files_pattern($1, video_driver_tmpfs_t, video_driver_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  List video-driver tmpfs directories.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`videodriver_list_tmpfs_dirs',`
+    gen_require(`
+        type video_driver_tmpfs_t;
+    ')
+
+    list_dirs_pattern($1, video_driver_tmpfs_t, video_driver_tmpfs_t)
 ')
 
 ######################################
