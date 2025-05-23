@@ -1,0 +1,86 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(qti_hsi2sumd, 1.0)
+
+type hsi2sumd_t;
+type hsi2sumd_exec_t;
+type hsi2sumd_power_t;
+type hsi2sumd_tmpfs_t;
+type hsi2sumd_tmp_t;
+
+init_daemon_domain(hsi2sumd_t, hsi2sumd_exec_t)
+
+logging_send_syslog_msg(hsi2sumd_t)
+
+# Todo, not clear which domain create tmpfs_t objects which audio-service access,
+# so file transition rules can't work, use below two interface for the moment
+fs_map_tmpfs_files(hsi2sumd_t)
+fs_rw_tmpfs_files(hsi2sumd_t)
+files_rw_generic_tmp_sockets(hsi2sumd_t)
+files_rw_dosfs_files(hsi2sumd_t)
+
+# Todo, change to fs_delete_tmpfs_files after promotion
+fs_manage_tmpfs_files(hsi2sumd_t)
+
+userdom_rw_user_tmp_files(hsi2sumd_t)
+userdom_map_tmp_files(hsi2sumd_t)
+userdom_delete_user_tmp_files(hsi2sumd_t)
+
+dev_rw_dma_dev(hsi2sumd_t)
+dev_rw_kiumd_dev(hsi2sumd_t)
+dev_rw_vfio_dev(hsi2sumd_t)
+dev_rw_gpio_dev(hsi2sumd_t)
+dev_rw_generic_usb_dev(hsi2sumd_t)
+dev_rw_sysfs(hsi2sumd_t)
+
+# /vendor/dsp
+firmware_search_dsp_dirs(hsi2sumd_t)
+firmware_read_dsp_files(hsi2sumd_t)
+
+unconfined_server_signull(hsi2sumd_t)
+unconfined_signull(hsi2sumd_t)
+
+ssrrm_rw_tmpfs_files(hsi2sumd_t)
+diagservice_rw_tmpfs_files(hsi2sumd_t)
+
+# ========== local ==========
+allow hsi2sumd_t self:unix_dgram_socket { create connect getopt setopt };
+allow hsi2sumd_t self:unix_stream_socket connectto;
+allow hsi2sumd_t self:process { setrlimit setsched ptrace };
+allow hsi2sumd_t self:capability { sys_resource sys_nice net_admin sys_ptrace dac_override };
+allow hsi2sumd_t self:tcp_socket {accept bind create listen setopt shutdown connect read write};
+
+# /usr/bin/awe-start-pre.sh
+kernel_request_load_module(hsi2sumd_t)
+
+# driver override when bind vfio node
+dev_create_sysfs_files(hsi2sumd_t)
+
+# /tmp/lrmc_log_(pid).txt
+files_tmp_file(hsi2sumd_tmp_t)
+files_tmp_filetrans(hsi2sumd_t, hsi2sumd_tmp_t, { dir fifo_file file lnk_file })
+manage_files_pattern(hsi2sumd_t, hsi2sumd_tmp_t, hsi2sumd_tmp_t)
+rw_files_pattern(hsi2sumd_t, hsi2sumd_tmp_t, hsi2sumd_tmp_t)
+mmap_rw_files_pattern(hsi2sumd_t, hsi2sumd_tmp_t, hsi2sumd_tmp_t)
+
+files_tmpfs_file(hsi2sumd_tmpfs_t)
+fs_tmpfs_filetrans(hsi2sumd_t, hsi2sumd_tmpfs_t, { dir file })
+create_files_pattern(hsi2sumd_t, hsi2sumd_tmpfs_t, hsi2sumd_tmpfs_t)
+delete_files_pattern(hsi2sumd_t, hsi2sumd_tmpfs_t, hsi2sumd_tmpfs_t)
+rw_files_pattern(hsi2sumd_t, hsi2sumd_tmpfs_t, hsi2sumd_tmpfs_t)
+hsi2sumd_mmap_rw_tmpfs_files(hsi2sumd_t)
+
+
+# Needed by pidfd_getfd when hsi2s-umd service running with
+# unconfined policy
+unconfined_server_ptrace(hsi2sumd_t)
+unconfined_ptrace(hsi2sumd_t)
+
+#libkiumd
+libkiumd_mmap_exec_lib_file(hsi2sumd_t)
+libkiumd_ioctl_lib_file(hsi2sumd_t)
+libkiumd_relabel_lib_files(hsi2sumd_t)
+libkiumd_manage_lib_files(hsi2sumd_t)
+
+power_use_pm_register(hsi2sumd_t, hsi2sumd_power_t)
