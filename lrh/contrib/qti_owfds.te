@@ -138,7 +138,7 @@ files_manage_var_dirs(openwfd_server_t)
 
 allow openwfd_server_t self:unix_dgram_socket { create connect getopt setopt };
 allow openwfd_server_t self:process { setrlimit setsched };
-allow openwfd_server_t self:capability { sys_resource sys_nice net_admin sys_ptrace kill };
+allow openwfd_server_t self:capability { sys_resource sys_nice net_admin sys_ptrace kill dac_override };
 
 files_tmp_filetrans(openwfd_server_t, openwfd_tmp_t, { dir file })
 manage_files_pattern(openwfd_server_t, openwfd_tmp_t, openwfd_tmp_t)
