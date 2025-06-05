@@ -98,6 +98,7 @@ files_rw_default_dirs(adreno200_t)
 files_read_etc_files(adreno200_t)
 
 init_read_state(adreno200_t)
+init_ptrace_script(adreno200_t)
 
 # ========== local ==========
 allow adreno200_t self:unix_dgram_socket { create connect };

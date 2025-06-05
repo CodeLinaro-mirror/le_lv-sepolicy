@@ -16,3 +16,169 @@ logging_send_syslog_msg(adbd_t)
 
 # port 5555
 corenet_tcp_connect_generic_port(adbd_t)
+
+require {
+    type initrc_t;
+    type auditctl_t;
+    type auditd_etc_t;
+    type adreno200_t;
+    type proc_t;
+    type default_t;
+    type diag_service_t;
+    type systemd_generator_t;
+    type systemd_networkd_t;
+    type systemd_sysctl_t;
+    type systemd_userdbd_t;
+    type systemd_user_runtime_dir_t;
+    type systemd_modules_load_t;
+    type systemd_tmpfiles_t;
+    type selinux_config_t;
+    type ssh_keygen_t;
+    type sshd_t;
+    type security_t;
+    type setfiles_t;
+    type scmnode_sec_device_t;
+    type sysfs_t;
+    type sysstat_log_t;
+    type safetymonitor_t;
+    type pil_rm_t;
+    type loadkeys_t;
+    type video_driver_t;
+    type cert_t;
+    type ipsec_t;
+    type ipsec_mgmt_t;
+    type crond_t;
+    type var_t;
+    type auditd_t;
+    type ftpd_t;
+    type user_runtime_root_t;
+    type weston_t;
+    class process ptrace;
+    class dir { search mounton relabelto };
+    class chr_file { read write open};
+    class filesystem getattr;
+    class file { map read open getattr };
+    class lnk_file { read };
+}
+
+#============= For quick fix sepolicy to unblock PF, will move into related modules later ==============
+allow adreno200_t initrc_t:process ptrace;
+allow systemd_userdbd_t default_t:dir search;
+allow diag_service_t default_t:dir search;
+allow systemd_generator_t selinux_config_t:dir search;
+allow systemd_networkd_t selinux_config_t:dir search;
+allow systemd_sysctl_t selinux_config_t:dir search;
+allow pil_rm_t scmnode_sec_device_t:chr_file { read write open };
+allow loadkeys_t security_t:filesystem getattr;
+allow loadkeys_t selinux_config_t:dir search;
+allow auditctl_t proc_t:filesystem getattr;
+allow auditctl_t auditd_etc_t:file map;
+allow auditd_t auditd_etc_t:file map;
+allow auditd_t default_t:dir search;
+allow video_driver_t scmnode_sec_device_t:chr_file { read write open };
+allow ssh_keygen_t security_t:filesystem getattr;
+allow ssh_keygen_t proc_t:file read;
+allow ssh_keygen_t selinux_config_t:dir search;
+allow ssh_keygen_t cert_t:dir search;
+allow ssh_keygen_t cert_t:file { read open getattr };
+allow ssh_keygen_t default_t:dir search;
+allow ipsec_mgmt_t default_t:dir search;
+allow crond_t var_t:lnk_file read;
+allow ftpd_t default_t:dir search;
+allow ipsec_t cert_t:dir search;
+allow ipsec_t cert_t:file { read open getattr };
+allow setfiles_t var_t:lnk_file read;
+allow sshd_t proc_t:filesystem getattr;
+allow systemd_user_runtime_dir_t user_runtime_root_t:dir mounton;
+allow weston_t sysfs_t:filesystem getattr;
+allow weston_t security_t:filesystem getattr;
+allow weston_t selinux_config_t:dir search;
+allow safetymonitor_t security_t:filesystem getattr;
+allow safetymonitor_t selinux_config_t:dir search;
+allow systemd_modules_load_t selinux_config_t:dir search;
+allow systemd_tmpfiles_t sysstat_log_t:dir relabelto;
+
+
+require {
+    type ipsec_t;
+    type initrc_t;
+    type initrc_devpts_t;
+    type default_t;
+    type ftpd_t;
+    type systemd_update_done_t;
+    type systemd_passwd_agent_t;
+    type systemd_tmpfiles_t;
+    type systemd_logind_t;
+    type subsys_ramdump_util_t;
+    type var_t;
+                            
+    class unix_stream_socket { read write getattr ioctl };
+    class dir { search write getattr add_name };
+    class chr_file { read write };
+    class lnk_file read;
+    class capability { net_admin };
+}
+
+#============= For quick fix sepolicy to unblock PF, will move into related modules later ==============
+allow systemd_update_done_t initrc_t:unix_stream_socket {read write getattr ioctl };
+allow systemd_update_done_t default_t:dir { search write add_name};
+allow systemd_update_done_t self:capability { net_admin };
+allow systemd_passwd_agent_t initrc_devpts_t:chr_file { read write };
+allow systemd_tmpfiles_t default_t:dir { search getattr };
+allow systemd_logind_t default_t:dir {search getattr};
+allow subsys_ramdump_util_t default_t:dir search;
+allow ftpd_t var_t:lnk_file read;
+allow ipsec_t default_t:dir search;
+
+require {
+    type default_t;
+    type audio_service_t;
+    type initrc_t;
+    type eva_auto_t;
+    type gpiochip_device_t;
+    type qcx_server_t;
+    type qcx_be_server_t;
+    type mnt_t;
+    type bin_t;
+    type pil_rm_t;
+    type debugfs_t;
+    type usr_t;
+    
+    class process2 nnp_transition;
+    class file { create getattr open read write };
+    class dir { add_name search write getattr open read };
+    class process { ptrace signull getsched};
+    class chr_file { getattr ioctl open read write };
+    class unix_stream_socket connectto;
+    class fd { use };
+}
+
+#============= audio_service_t ==============
+allow audio_service_t default_t:dir { add_name search write };
+allow audio_service_t default_t:file { create getattr open read write };
+
+#============= initrc_t ==============
+allow initrc_t audio_service_t:process2 nnp_transition;
+allow initrc_t qcx_server_t:process2 nnp_transition;
+allow initrc_t qcx_be_server_t:process2 nnp_transition;
+
+#============= eva_auto_t ==============
+allow eva_auto_t initrc_t:process { ptrace signull };
+
+#============= pil_rm_t ==============
+allow pil_rm_t bin_t:dir search;
+allow pil_rm_t bin_t:file { getattr open read };
+
+#============= qcx_server_t ==============
+permissive qcx_server_t;
+permissive qcx_be_server_t;
+allow qcx_server_t bin_t:dir { getattr open read search };
+allow qcx_server_t debugfs_t:dir search;
+allow qcx_server_t gpiochip_device_t:chr_file { getattr ioctl open read write };
+allow qcx_server_t initrc_t:process ptrace;
+allow qcx_server_t initrc_t:unix_stream_socket connectto;
+allow qcx_server_t mnt_t:dir search;
+allow qcx_server_t self:process { getsched signal};
+allow qcx_server_t usr_t:file { getattr open read };
+allow qcx_server_t qcx_be_server_t:fd { use };
+allow qcx_be_server_t self:process signal;
