@@ -48,7 +48,7 @@ fs_manage_tmpfs_files(softsku_daemon_t);
 fs_map_tmpfs_files(softsku_daemon_t);
 
 allow sku_cli_t self:process { setrlimit };
-allow sku_cli_t self:tcp_socket { create connect shutdown write };
+allow sku_cli_t self:tcp_socket { create connect shutdown write read };
 allow sku_cli_t self:unix_dgram_socket { create connect write };
 allow sku_cli_t softsku_rc_t:file { getattr read open };
 allow sku_cli_t self:capability { sys_resource };
