@@ -1,0 +1,58 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary>Policy for SELinux policy and userland applications.</summary>
+
+######################################
+## <summary>
+##  Map, read and write hsi2sumd tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`hsi2sumd_mmap_rw_tmpfs_files',`
+    gen_require(`
+        type hsi2sumd_tmpfs_t;
+    ')
+
+    mmap_rw_files_pattern($1, hsi2sumd_tmpfs_t, hsi2sumd_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Send signull to hsi2sumd related process.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`hsi2sumd_signull',`
+    gen_require(`
+        type hsi2sumd_t;
+    ')
+
+    allow $1 hsi2sumd_t:process signull;
+')
+
+######################################
+## <summary>
+##  Delete hsi2s service tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`hsi2sumd_delete_tmpfs_files',`
+    gen_require(`
+        type hsi2sumd_tmpfs_t;
+    ')
+
+    delete_files_pattern($1, hsi2sumd_tmpfs_t, hsi2sumd_tmpfs_t)
+')
