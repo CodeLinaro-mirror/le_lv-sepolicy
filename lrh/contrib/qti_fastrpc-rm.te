@@ -55,6 +55,7 @@ fastrpc_rm_rw_tmpfs_files(fastrpc_rm_t)
 
 nspdrv_mmap_rw_tmpfs_files(fastrpc_rm_t);
 nsp_drv_signull(fastrpc_rm_t);
+nspdrv_delete_tmpfs_files(fastrpc_rm_t)
 
 #libkiumd
 libkiumd_mmap_exec_lib_file(fastrpc_rm_t)
