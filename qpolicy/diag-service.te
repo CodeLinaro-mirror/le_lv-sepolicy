@@ -75,3 +75,4 @@ userdom_mmap_rw_inherited_user_tmp_files(diag_service_t)
 
 dev_read_sysfs(diag_service_t)
 files_read_etc_files(diag_service_t)
+fs_delete_tmpfs_files(diag_service_t)

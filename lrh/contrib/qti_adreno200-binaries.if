@@ -179,3 +179,21 @@ interface(`adreno200_sock',`
     allow $1 adreno200_power_t:sock_file { create unlink write };
     allow adreno200_t $1:unix_stream_socket connectto;
 ')
+
+######################################
+## <summary>
+##  Allow to search adreno related process infomation.
+## </summary>
+## <param name="domain">
+## <summary>
+##  Domain allowed.
+## </summary>
+## </param>
+#
+interface(`adreno200_search_etc_dir',`
+    gen_require(`
+        type adreno200_etc_t;
+    ')
+
+    search_dirs_pattern($1, adreno200_etc_t, adreno200_etc_t)
+')

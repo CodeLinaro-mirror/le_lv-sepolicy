@@ -1,4 +1,4 @@
-# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2023, 2025 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -211,4 +211,22 @@ interface(`dev_map_kiumd_dev',`
     ')
 
     allow $1 kiumd_device_t:chr_file map;
+')
+
+########################################
+## <summary>
+##  Read and write ksync device (/dev/ksync).
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`dev_rw_ksync_dev',`
+    gen_require(`
+        type device_t, ksync_device_t;
+    ')
+
+    rw_chr_files_pattern($1, device_t, ksync_device_t)
 ')

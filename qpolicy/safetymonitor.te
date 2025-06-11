@@ -72,12 +72,16 @@ nsp_drv_signull(safetymonitor_t)
 #allow bin execute
 safetymonitor_execute_bins(safetymonitor_t)
 corecmd_mmap_bin_files(safetymonitor_t)
+corecmd_exec_shell(safetymonitor_t)
 
+#/proc/filesystems
+kernel_read_proc_files(safetymonitor_t)
 
 # ========== local ==========
 allow safetymonitor_t self:unix_dgram_socket { create connect };
 allow safetymonitor_t self:process { setrlimit setsched };
 allow safetymonitor_t self:capability { sys_resource sys_nice };
+allow safetymonitor_t self:fifo_file { manage_fifo_file_perms };
 
 files_tmp_file(safetymonitor_tmp_t)
 files_tmp_filetrans(safetymonitor_t, safetymonitor_tmp_t, { dir fifo_file file lnk_file })
@@ -90,3 +94,5 @@ manage_files_pattern(safetymonitor_t, safetymonitor_tmpfs_t, safetymonitor_tmpfs
 compresmon_signull(safetymonitor_t)
 compresmon_mmap_rw_tmpfs_files(safetymonitor_t)
 compresmon_unlink_tmpfs_files(safetymonitor_t)
+
+compresmgr_signull(safetymonitor_t)

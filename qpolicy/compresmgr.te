@@ -45,3 +45,5 @@ weston_signull(compresmgr_t)
 
 adreno200_mmap_rw_tmpfs_files(compresmgr_t)
 adreno200_signull(compresmgr_t)
+
+safetymonitor_rw_tmpfs_files(compresmgr_t)

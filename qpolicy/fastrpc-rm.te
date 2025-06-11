@@ -12,6 +12,7 @@ init_daemon_domain(fastrpc_rm_t, fastrpc_rm_exec_t)
 
 init_rw_script_stream_sockets(fastrpc_rm_t)
 init_signull_script(fastrpc_rm_t)
+init_ptrace_script(fastrpc_rm_t)
 
 logging_send_syslog_msg(fastrpc_rm_t)
 

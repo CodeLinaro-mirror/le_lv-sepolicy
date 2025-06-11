@@ -38,6 +38,7 @@ type gpce_be_lib_t;
 type gpce_be_dev_t;
 type gpce_be_tmpfs_t;
 type gpce_be_tmp_t;
+type gpce_be_power_t;
 
 init_daemon_domain(gpce_be_t,gpce_be_exec_t)
 
@@ -87,6 +88,8 @@ unconfined_ptrace(gpce_be_t)
 files_tmp_file(gpce_be_tmp_t)
 files_tmp_filetrans(gpce_be_t, gpce_be_tmp_t, { dir file })
 manage_files_pattern(gpce_be_t, gpce_be_tmp_t, gpce_be_tmp_t)
+
+power_use_pm_register(gpce_be_t, gpce_be_power_t)
 
 #================local===================
 allow gpce_be_t self:process { setrlimit setsched };

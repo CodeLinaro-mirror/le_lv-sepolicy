@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2024-2025 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -114,6 +114,9 @@ dev_rw_dma_dev(weston_t)
 # /dev/kiumd
 dev_rw_kiumd_dev(weston_t)
 
+# /dev/ksync
+dev_rw_ksync_dev(weston_t)
+
 # /dev/input/event0
 dev_rw_input_dev(weston_t)
 
@@ -176,6 +179,9 @@ files_manage_var_run_sock_files(weston_t)
 files_delete_var_run_files(weston_t)
 files_delete_var_run_sock_files(weston_t)
 files_mmap_var_run_files(weston_t)
+
+#adreno200_etc_t
+adreno200_search_etc_dir(weston_t)
 
 # This is a workround, rootcause is that early service start earlier than selinux initial to /dev for bootkpi, cause some devices
 # under /dev such as /dev/ksync run under uncorrect selinux context as device_t.
