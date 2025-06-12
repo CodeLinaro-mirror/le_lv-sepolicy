@@ -1,0 +1,8 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+/usr/bin/km_lite_sample_client          --      gen_context(system_u:object_r:km_lite_sample_client_exec_t,s0)
+/usr/lib/libKeyMaster.so                --      gen_context(system_u:object_r:keymaster_lib_t,s0)
+/usr/lib/libKeyMaster.so.0              --      gen_context(system_u:object_r:keymaster_lib_t,s0)
+/usr/lib/libKeyMaster.so.0.0.0          --      gen_context(system_u:object_r:keymaster_lib_t,s0)
+
