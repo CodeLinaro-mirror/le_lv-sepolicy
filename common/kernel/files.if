@@ -373,3 +373,20 @@ interface(`files_mmap_etc_runtime_files',`
 
     mmap_read_files_pattern($1, etc_runtime_t, etc_runtime_t)
 ')
+
+###################################
+## <summary>
+## Read and Write files under default files.
+## </summary>
+## <param name="domain">
+## <summary>
+## Domain allowed.
+## </summary>
+## </param>
+#
+interface(`files_rw_default_files',`
+   gen_require(`
+       type default_t;
+   ')
+
+   rw_files_pattern($1, default_t, default_t)
