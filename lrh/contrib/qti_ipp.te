@@ -37,6 +37,7 @@ type ipp_exec_t;
 type ipp_lib_t;
 type ipp_tmpfs_t;
 type ipp_tmp_t;
+type ipp_power_t;
 
 init_daemon_domain(ipp_t,ipp_exec_t)
 
@@ -85,3 +86,5 @@ logging_dgram_send(ipp_t)
 allow ipp_t self:process { setrlimit setsched };
 allow ipp_t self:capability { sys_resource };
 allow ipp_t self:unix_dgram_socket { create connect write };
+
+power_use_pm_register(ipp_t, ipp_power_t)
