@@ -86,6 +86,9 @@ firmware_create_dsp_dirs(audio_service_t)
 firmware_create_dsp_lnk_files(audio_service_t)
 firmware_read_dsp_files(audio_service_t)
 
+# /proc/cpuinfo
+kernel_read_proc_files(audio_service_t)
+
 fastrpc_rm_ptrace(audio_service_t)
 glinkserver_ptrace(audio_service_t)
 
@@ -110,8 +113,14 @@ kernel_request_load_module(audio_service_t)
 
 # /tmp/awe_pkt_socket
 files_tmp_filetrans(audio_service_t, audio_service_tmp_t, sock_file, "awe_pkt_socket")
+files_tmp_filetrans(audio_service_t, audio_service_tmp_t, sock_file, "awe_alsa_socket")
 fs_associate_tmpfs(audio_service_tmp_t)
 manage_sock_files_pattern(audio_service_t, audio_service_tmp_t, audio_service_tmp_t)
+
+# /tmpfs/awe_alsa_socket
+filetrans_pattern(audio_service_t,tmpfs_t, audio_service_tmpfs_t, sock_file, "awe_alsa_socket")
+fs_associate_tmpfs(audio_service_tmpfs_t)
+manage_sock_files_pattern(audio_service_t, audio_service_tmpfs_t, audio_service_tmpfs_t)
 
 # /dev/random
 dev_read_rand(audio_service_t)
