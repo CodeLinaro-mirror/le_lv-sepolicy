@@ -143,6 +143,10 @@ require {
     type pil_rm_t;
     type debugfs_t;
     type usr_t;
+    type chkpwd_t;
+    type tty_device_t;
+    type sshd_t;
+    type systemd_logind_t;
     
     class process2 nnp_transition;
     class file { create getattr open read write };
@@ -182,3 +186,6 @@ allow qcx_server_t self:process { getsched signal};
 allow qcx_server_t usr_t:file { getattr open read };
 allow qcx_server_t qcx_be_server_t:fd { use };
 allow qcx_be_server_t self:process signal;
+
+allow chkpwd_t tty_device_t:chr_file { read write };
+allow systemd_logind_t sshd_t:fd use;

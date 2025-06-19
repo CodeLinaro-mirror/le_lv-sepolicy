@@ -26,6 +26,7 @@ allow systemd_tmpfiles_t self:process setrlimit ;
 allow systemd_modules_load_t self:capability net_admin;
 allow systemd_sessions_t self:capability net_admin;
 allow systemd_user_runtime_dir_t self:capability net_admin;
+allow systemd_coredump_t self:capability net_admin;
 
 logging_dgram_send(systemd_resolved_t)
 corenet_tcp_bind_generic_node(systemd_resolved_t)

@@ -18,3 +18,5 @@ init_read_runtime_files(sshd_t)
 auth_signal_chkpwd_process(sshd_t)
 unconfined_shell_domtrans(sshd_t)
 unconfined_siginh(sshd_t)
+
+allow sshd_t self:capability net_admin;

@@ -1,3 +1,8 @@
+Please note the path put the new selinux rules you created:
+For HGY, sepolicy is not shared:
+lrh -> for lemans and monaco
+common + qpolicy -> for nord
+
 lrh(federo sepolicy base): HGY arm native, Lemans HGY LV PVM(yocto), Monaco HGY LV PVM(yocto)
 common(refpolicy base): Lemans HQX LV GVM(yocto)
 qpolicy(refpolicy base): Lemans HQX LV GVM(yocto)
