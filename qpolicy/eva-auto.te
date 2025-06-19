@@ -63,7 +63,7 @@ power_use_pm_register(eva_auto_t, eva_auto_power_t)
 
 # ========== local ==========
 allow eva_auto_t self:unix_dgram_socket { create connect };
-allow eva_auto_t self:process { setrlimit setsched getsched };
+allow eva_auto_t self:process { setrlimit setsched getsched signal };
 allow eva_auto_t self:capability { sys_resource sys_nice net_admin dac_override sys_ptrace };
 
 files_tmp_file(eva_auto_tmp_t)
