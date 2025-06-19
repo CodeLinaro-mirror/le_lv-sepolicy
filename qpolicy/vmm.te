@@ -21,6 +21,7 @@ logging_send_syslog_msg(vmm_t)
 dbus_system_bus_client(vmm_t)
 init_dbus_chat(vmm_t)
 
+init_get_system_status(vmm_t)
 # check status and start of service from init_t domain
 #init_status(vmm_t)
 #init_start(vmm_t)

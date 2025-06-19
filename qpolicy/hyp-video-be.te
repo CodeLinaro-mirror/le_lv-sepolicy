@@ -50,3 +50,5 @@ libkiumd_mmap_exec_lib_file(hyp_video_t)
 libkiumd_ioctl_lib_file(hyp_video_t)
 libkiumd_relabel_lib_files(hyp_video_t)
 libkiumd_manage_lib_files(hyp_video_t)
+
+compresmon_rw_etc_files(hyp_video_t)

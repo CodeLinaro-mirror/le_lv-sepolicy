@@ -46,3 +46,5 @@ audioservice_read_etc_files(display_be_t)
 
 #/usr/bin/config.xml
 corecmd_read_bin_files(display_be_t)
+
+compresmon_rw_etc_files(display_be_t)

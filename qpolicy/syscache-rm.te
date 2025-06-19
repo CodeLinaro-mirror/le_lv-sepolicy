@@ -54,7 +54,7 @@ userdom_map_tmp_files(syscache_rm_t)
 
 # ========== local ==========
 allow syscache_rm_t self:unix_dgram_socket { create connect getopt setopt };
-allow syscache_rm_t self:process { setrlimit setsched };
+allow syscache_rm_t self:process { setrlimit setsched getsched };
 allow syscache_rm_t self:capability { sys_resource sys_nice net_admin };
 
 files_tmp_file(syscache_rm_tmp_t)
