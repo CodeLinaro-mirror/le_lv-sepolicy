@@ -33,6 +33,8 @@ fs_manage_tmpfs_files(audio_service_t)
 userdom_rw_user_tmp_files(audio_service_t)
 userdom_map_tmp_files(audio_service_t)
 userdom_delete_user_tmp_files(audio_service_t)
+userdom_rw_user_tmpfs_files(audio_service_t)
+userdom_map_user_tmpfs_files(audio_service_t)
 
 dev_rw_dma_dev(audio_service_t)
 dev_rw_kiumd_dev(audio_service_t)
@@ -68,6 +70,9 @@ glinkserver_ptrace(audio_service_t)
 
 unconfined_server_signull(audio_service_t)
 unconfined_signull(audio_service_t)
+
+# /dmabuf
+unconfined_use_fds(audio_service_t)
 
 ssrrm_rw_tmpfs_files(audio_service_t)
 glinkserver_rw_tmpfs_files(audio_service_t)
