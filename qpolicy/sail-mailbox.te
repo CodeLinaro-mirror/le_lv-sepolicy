@@ -16,6 +16,7 @@ init_rw_script_stream_sockets(sail_mailbox_t)
 logging_send_syslog_msg(sail_mailbox_t)
 
 unconfined_server_signull(sail_mailbox_t)
+unconfined_signull(sail_mailbox_t)
 
 #libkiumd
 libkiumd_mmap_exec_lib_file(sail_mailbox_t)
@@ -38,11 +39,16 @@ userdom_map_tmp_files(sail_mailbox_t)
 
 # Read, write, create and map files under tmpfs
 fs_create_mmap_rw_tmpfs_files(sail_mailbox_t)
+userdom_map_user_tmpfs_files(sail_mailbox_t)
+userdom_rw_user_tmpfs_files(sail_mailbox_t)
+userdom_delete_user_tmpfs_files(sail_mailbox_t)
 
 # ========== local ==========
 allow sail_mailbox_t self:unix_dgram_socket { create connect getopt setopt };
 allow sail_mailbox_t self:process { setrlimit setsched getsched };
 allow sail_mailbox_t self:capability { sys_resource sys_nice net_admin };
+allow sail_mailbox_t self:process signull;
+allow sail_mailbox_t sail_mailbox_tmpfs_t:file map;
 
 # pm_register
 power_use_pm_register(sail_mailbox_t, sail_mailbox_power_t)
