@@ -12,6 +12,7 @@ type kgsl_device_t;
 type hgsl_device_t;
 type ashmem_device_t;
 type dma_device_t;
+type ksync_device_t;
 
 dev_node(smcinvoke_device_t)
 dev_node(gunyah_device_t)
@@ -24,6 +25,7 @@ dev_node(kgsl_device_t)
 dev_node(hgsl_device_t)
 dev_node(ashmem_device_t)
 dev_node(dma_device_t)
+dev_node(ksync_device_t)
 
 genfscon functionfs / gen_context(system_u:object_r:usbfs_t,s0)
 
