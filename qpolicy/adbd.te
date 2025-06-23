@@ -189,3 +189,65 @@ allow qcx_be_server_t self:process signal;
 
 allow chkpwd_t tty_device_t:chr_file { read write };
 allow systemd_logind_t sshd_t:fd use;
+
+require {
+    type glinkserver_t;
+    type qcrosvm_t;
+    type diag_service_t;
+    type initrc_t;
+    type video_driver_t;
+    type vmm_t;
+    type compresmon_t;
+    type fastrpc_rm_tmpfs_t;
+    type systemd_coredump_t;
+    type default_t;
+    type hyp_video_t;
+    type display_be_t;
+    type subsys_ramdump_util_t;
+    type tmp_t;
+    type compresmon_etc_t;
+    type weston_t;
+    type tmpfs_t;
+    type init_t;
+    class dir { remove_name search write };
+    class file { read unlink write };
+    class system status;
+    class process2 nnp_transition;
+    class process signull;
+}
+
+#============= compresmon_t ==============
+allow compresmon_t fastrpc_rm_tmpfs_t:file write;
+
+#============= diag_service_t ==============
+allow diag_service_t self:process signull;
+
+#============= display_be_t ==============
+allow display_be_t compresmon_etc_t:file read;
+
+#============= glinkserver_t ==============
+allow glinkserver_t tmpfs_t:file unlink;
+
+#============= hyp_video_t ==============
+allow hyp_video_t compresmon_etc_t:file read;
+
+#============= initrc_t ==============
+allow initrc_t diag_service_t:process2 nnp_transition;
+
+#============= qcrosvm_t ==============
+allow qcrosvm_t tmp_t:dir remove_name;
+
+#============= subsys_ramdump_util_t ==============
+allow subsys_ramdump_util_t default_t:dir write;
+
+#============= systemd_coredump_t ==============
+allow systemd_coredump_t default_t:dir search;
+
+#============= video_driver_t ==============
+allow video_driver_t compresmon_etc_t:file read;
+
+#============= vmm_t ==============
+allow vmm_t init_t:system status;
+
+#============= weston_t ==============
+allow weston_t compresmon_etc_t:file read;
