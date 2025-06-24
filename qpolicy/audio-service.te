@@ -87,7 +87,6 @@ allow audio_service_t self:process { setrlimit setsched ptrace getsched signull 
 allow audio_service_t self:capability { sys_resource sys_nice net_admin sys_ptrace dac_override };
 allow audio_service_t self:tcp_socket {accept bind create listen setopt shutdown connect read write};
 
-
 # /usr/bin/awe-start-pre.sh
 kernel_request_load_module(audio_service_t)
 
@@ -137,8 +136,11 @@ manage_files_pattern(audio_service_t, audio_etc_t, audio_etc_t)
 unconfined_server_ptrace(audio_service_t)
 unconfined_ptrace(audio_service_t)
 
-#libkiumd
+# libkiumd
 libkiumd_mmap_exec_lib_file(audio_service_t)
 
 # pm_register
 power_use_pm_register(audio_service_t, audio_power_t)
+
+# compresmgr_service
+compresmon_rw_etc_files(audio_service_t)
