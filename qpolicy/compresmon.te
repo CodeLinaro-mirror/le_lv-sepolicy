@@ -29,7 +29,7 @@ unconfined_server_ptrace(compresmon_t)
 files_manage_var_files(compresmon_t)
 
 allow compresmon_t self:process { setrlimit setsched getsched };
-allow compresmon_t self:capability { sys_resource sys_nice sys_ptrace };
+allow compresmon_t self:capability { sys_resource sys_nice sys_ptrace net_admin };
 allow compresmon_t self:unix_dgram_socket { create connect };
 allow compresmon_t self:tcp_socket { read write create connect getopt setopt };
 allow compresmon_t compresmon_tmpfs_t:file map;
@@ -70,3 +70,10 @@ kernel_read_proc_files(compresmon_t)
 safetymonitor_rw_tmpfs_files(compresmon_t)
 
 fastrpc_rm_rw_tmpfs_files(compresmon_t)
+
+#Updated policies for nord onwards features
+userdom_rw_user_tmpfs_files(compresmon_t)
+userdom_map_user_tmpfs_files(compresmon_t)
+userdom_delete_user_tmpfs_files(compresmon_t)
+unconfined_signull(compresmon_t)
+pilrm_rw_tmpfs_files(compresmon_t)
