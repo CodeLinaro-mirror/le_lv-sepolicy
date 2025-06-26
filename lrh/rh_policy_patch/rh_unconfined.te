@@ -64,6 +64,7 @@ dev_rw_profiler_dev(unconfined_t)
 dev_relabel_profiler_dev(unconfined_t)
 
 allow_she_lib_files(unconfined_t)
+allow_she_lib_files(unconfined_service_t)
 
 #GPTEE_lib_t interface
 gptee_mmap_lib_files(unconfined_t)
