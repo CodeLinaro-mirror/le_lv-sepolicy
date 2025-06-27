@@ -34,6 +34,9 @@ owfds_manage_lib_files(unconfined_t)
 # allow unconfined_service_t access ipp_lib_t
 ipp_manage_lib_files(unconfined_service_t)
 
+# allow unconfined_service_t access fbe_lib_t
+fbe_mmap_exec_lib_files(unconfined_service_t)
+
 #allow unconfined_service_t access keymaster_lib_t
 keymaster_mmap_lib_files(unconfined_service_t)
 
