@@ -100,6 +100,7 @@ glinkserver_rw_tmpfs_files(audio_service_t)
 fastrpc_rm_rw_tmpfs_files(audio_service_t)
 diagservice_rw_tmpfs_files(audio_service_t)
 pilrm_rw_tmpfs_files(audio_service_t)
+audioservice_write_tmpfs_sock_file(audio_service_t);
 
 # ========== local ==========
 allow audio_service_t self:unix_dgram_socket { create connect getopt setopt };
