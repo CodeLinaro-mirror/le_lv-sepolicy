@@ -37,4 +37,6 @@
 /dev/scmnode_sec             -c      gen_context(system_u:object_r:scmnode_sec_device_t,s0)
 /dev/hab                     -c      gen_context(system_u:object_r:hab_device_t,s0)
 /dev/profiler                -c      gen_context(system_u:object_r:profiler_device_t,s0)
+/dev/ksync                   -c      gen_context(system_u:object_r:ksync_device_t,s0)
+/dev/qcom_l3_cache_config_device  -c gen_context(system_u:object_r:qcom_l3_cache_config_device_t,s0)
 
