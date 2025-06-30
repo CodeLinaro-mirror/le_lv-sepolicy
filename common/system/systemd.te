@@ -6,8 +6,10 @@ files_read_var_symlinks(systemd_tmpfiles_t)
 files_read_generic_tmp_symlinks(systemd_tmpfiles_t)
 files_relabel_var_lnk_files(systemd_tmpfiles_t)
 files_relabel_tmp_lnk_files(systemd_tmpfiles_t)
+files_manage_generic_spool_dirs(systemd_tmpfiles_t)
 fs_manage_tmpfs_dirs(systemd_tmpfiles_t)
 logging_relabel_audit_log(systemd_tmpfiles_t)
+logging_manage_audit_log(systemd_tmpfiles_t)
 weston_rw_tmpfs_files(systemd_tmpfiles_t)
 
 term_getattr_generic_ptys(systemd_logind_t)
@@ -33,6 +35,7 @@ files_read_var_symlinks(systemd_logind_t)
 init_read_runtime_files(systemd_logind_t)
 files_read_var_symlinks(systemd_userdbd_t)
 init_read_runtime_files(systemd_userdbd_t)
+fs_search_tmpfs(systemd_userdbd_t)
 
 # systemd-logind read init proc info, /proc/<pid>/cgroup
 init_read_script_state(systemd_logind_t)

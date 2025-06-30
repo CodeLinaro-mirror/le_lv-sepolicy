@@ -2,3 +2,5 @@
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 init_read_runtime_files(udev_t)
+
+fs_search_tmpfs(udev_t)
