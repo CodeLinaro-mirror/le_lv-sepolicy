@@ -160,23 +160,3 @@ interface(`audioservice_mmap_audio_dev',`
 
     allow $1 audio_device_t:chr_file map;
 ')
-
-######################################
-## <summary>
-##  write tmpfs_t sock_file (/tmp/awe_pkt_socket)
-## </summary>
-## <param name="domain">
-##  <summary>
-##  Domain allowed.
-##  </summary>
-## </param>
-#
-interface(`audioservice_write_tmpfs_sock_file',`
-    gen_require(`
-        type tmpfs_t;
-        class sock_file write;
-
-    ')
-
-    allow $1 tmpfs_t:sock_file write;
-')
