@@ -25,6 +25,7 @@ files_rw_generic_tmp_sockets(qcrosvm_t)
 files_create_tmp_files(qcrosvm_t)
 files_rw_tmp_files(qcrosvm_t)
 files_delete_tmp_dir_entry(qcrosvm_t)
+files_delete_tmp_files(qcrosvm_t)
 
 kernel_request_load_module(qcrosvm_t)
 kernel_search_debugfs(qcrosvm_t)

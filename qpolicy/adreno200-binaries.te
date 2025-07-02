@@ -116,6 +116,6 @@ init_ptrace_script(adreno200_t)
 # ========== local ==========
 allow adreno200_t self:unix_dgram_socket { create connect };
 allow adreno200_t self:tcp_socket { create connect setopt read write bind accept listen shutdown };
-allow adreno200_t self:process { signull ptrace setrlimit setsched getsched };
+allow adreno200_t self:process { signull ptrace setrlimit setsched getsched signal };
 allow adreno200_t self:capability { sys_resource sys_nice sys_ptrace dac_override net_admin };
 allow adreno200_t adreno200_tmpfs_t:file delete_file_perms;

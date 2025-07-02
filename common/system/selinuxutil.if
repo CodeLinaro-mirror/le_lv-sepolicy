@@ -46,3 +46,21 @@ interface(`seutil_rw_default_contexts',`
     allow $1 default_context_t:dir list_dir_perms;
     rw_files_pattern($1, default_context_t, default_context_t)
 ')
+
+########################################
+## <summary>
+##  Transition to setfiles_t when NNP has been set.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  The type of the process performing this action.
+##  </summary>
+## </param>
+#
+interface(`seutil_nnp_trans',`
+    gen_require(`
+        type setfiles_t;
+    ')
+
+    allow $1 setfiles_t:process2 nnp_transition;
+')
