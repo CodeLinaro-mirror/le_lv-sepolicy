@@ -105,3 +105,8 @@ logging_send_syslog_msg(vhost_user_qti_vm3_t)
 
 vmm_client_connect_server(vhost_user_qti_t)
 vmm_client_connect_server(vhost_user_qti_vm3_t)
+
+# vhost device is not relabled because of time sequency, these two line
+# will remove once time sequency adjust fine.
+dev_manage_generic_chr_files(vhost_user_qti_t)
+dev_manage_generic_chr_files(vhost_user_qti_vm3_t)
