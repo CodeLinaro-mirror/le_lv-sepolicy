@@ -9,6 +9,7 @@ fs_search_tmpfs(syslogd_t)
 
 files_read_var_symlinks(auditd_t)
 files_list_var_dirs(auditd_t)
+files_append_default_files(auditd_t)
 
 ssrrm_signull(syslogd_t)
 

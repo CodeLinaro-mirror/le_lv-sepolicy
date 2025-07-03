@@ -183,3 +183,21 @@ interface(`init_ptrace_script',`
 
     allow $1 initrc_t:process ptrace;
 ')
+
+########################################
+## <summary>
+##  Read and write to init raw socket.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`init_rw_raw_sock',`
+    gen_require(`
+        type initrc_t;
+    ')
+
+    allow $1 initrc_t:rawip_socket { read write };
+')
