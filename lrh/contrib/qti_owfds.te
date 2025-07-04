@@ -61,9 +61,16 @@ fs_tmpfs_filetrans(bridgeship_server_t, openwfd_tmpfs_t, { dir file })
 manage_files_pattern(bridgeship_server_t, openwfd_tmp_t, openwfd_tmp_t)
 manage_files_pattern(bridgeship_server_t, openwfd_tmpfs_t, openwfd_tmpfs_t)
 
+#openwfd_tmpfs_t
+owfds_map_tmpfs_files(bridgeship_server_t)
+
+#tty_device_t
+term_manage_tty_device_chr_files(bridgeship_server_t)
+
 allow bridgeship_server_t self:unix_dgram_socket { create connect write getopt setopt };
 allow bridgeship_server_t self:process { setrlimit setsched };
 allow bridgeship_server_t self:capability { sys_resource sys_nice net_admin sys_ptrace };
+allow bridgeship_server_t openwfd_server_t:process { signull };
 
 #============ openwfd_server_t ===========
 logging_send_syslog_msg(openwfd_server_t)
@@ -93,6 +100,7 @@ display_be_delete_tmpfs_files(openwfd_server_t)
 
 owfds_create_tmpfs_files(openwfd_server_t)
 owfds_rw_tmpfs_files(openwfd_server_t)
+owfds_map_tmpfs_files(openwfd_server_t)
 weston_mmap_rw_tmpfs_files(openwfd_server_t)
 
 weston_delete_tmpfs_files(openwfd_server_t)
