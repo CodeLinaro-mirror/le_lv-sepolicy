@@ -100,6 +100,7 @@ glinkserver_rw_tmpfs_files(audio_service_t)
 fastrpc_rm_rw_tmpfs_files(audio_service_t)
 diagservice_rw_tmpfs_files(audio_service_t)
 pilrm_rw_tmpfs_files(audio_service_t)
+kernel_read_debugfs(audio_service_t)
 #early stage policy
 fs_manage_tmpfs_sockets(audio_service_t)
 
