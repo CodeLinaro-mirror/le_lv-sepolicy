@@ -1,4 +1,4 @@
-# Copyright (c) 2023-2025 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -101,6 +101,8 @@ dev_rw_dma_dev(qseecomd_t)
 
 # /dev/smcinvoke
 dev_rw_smcinvoke_dev(qseecomd_t)
+minkdescriptor_mmap_lib_files(qseecomd_t)
+smcinvoke_server_stream_connectto(qseecomd_t)
 
 # search unlabeled_t type on /data
 files_mounton_isid_type_dirs(qseecomd_t)
@@ -116,6 +118,9 @@ fs_create_mmap_rw_tmpfs_files(qseecomd_t)
 fs_create_write_tmp_files(qseecomd_t)
 fs_rw_tmpfs_dirs(qseecomd_t)
 fs_manage_tmpfs_files(qseecomd_t)
+
+#unconfined
+unconfined_server_stream_connectto(qseecomd_t)
 
 # openwfds
 owfds_map_lib_files(qseecomd_t)

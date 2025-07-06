@@ -13,6 +13,9 @@ type keymaster_lib_t;
 fs_associate(keymaster_lib_t)
 keymaster_mmap_lib_files(km_lite_sample_client_t)
 
+# smcinvoke
+minkdescriptor_mmap_lib_files(km_lite_sample_client_t)
+
 # self
 allow km_lite_sample_client_t self:unix_dgram_socket { create connect write getopt setopt };
 allow km_lite_sample_client_t self:process { setrlimit setsched };

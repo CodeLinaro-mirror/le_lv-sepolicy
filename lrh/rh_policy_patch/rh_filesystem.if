@@ -1,4 +1,4 @@
-# Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -87,6 +87,24 @@ interface(`fs_create_write_tmp_files',`
 
     create_files_pattern($1, tmp_t, tmp_t);
     allow $1 tmp_t:file write_file_perms;
+')
+
+########################################
+## <summary>
+##  Read and write tmp dirs
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`fs_rw_tmp_dirs',`
+    gen_require(`
+        type tmp_t;
+    ')
+
+    allow $1 tmp_t:dir rw_dir_perms;
 ')
 
 ########################################

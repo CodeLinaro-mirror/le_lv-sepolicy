@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -100,6 +100,7 @@ dev_rw_vfio_dev(video_driver_t)
 dev_read_sysfs(video_driver_t)
 
 qseecomd_search_data(video_driver_t)
+minkdescriptor_mmap_lib_files(video_driver_t)
 
 hyp_video_read_pid(video_driver_t)
 
