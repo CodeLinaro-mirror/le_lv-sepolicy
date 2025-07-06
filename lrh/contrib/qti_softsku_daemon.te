@@ -32,6 +32,7 @@ files_rw_dosfs_files(softsku_daemon_t);
 logging_create_devlog_dev(softsku_daemon_t);
 qseecomd_getattr_persist_dirs(softsku_daemon_t);
 dev_rw_smcinvoke_dev(softsku_daemon_t);
+minkdescriptor_mmap_lib_files(softsku_daemon_t);
 qseecomd_setattr_persist(softsku_daemon_t);
 qseecomd_rw_persist(softsku_daemon_t);
 qseecomd_manage_persist(softsku_daemon_t);
@@ -46,6 +47,8 @@ dev_getattr_sysfs_fs(softsku_daemon_t);
 dev_rw_sysfs(softsku_daemon_t);
 fs_manage_tmpfs_files(softsku_daemon_t);
 fs_map_tmpfs_files(softsku_daemon_t);
+unconfined_server_stream_connectto(softsku_daemon_t)
+smcinvoke_server_stream_connectto(softsku_daemon_t)
 
 allow sku_cli_t self:process { setrlimit };
 allow sku_cli_t self:tcp_socket { create connect shutdown write read };
@@ -60,6 +63,7 @@ libkiumd_ioctl_lib_file(sku_cli_t);
 corenet_tcp_bind_generic_port(sku_cli_t);
 dev_getattr_sysfs_fs(sku_cli_t);
 dev_rw_sysfs(sku_cli_t);
+minkdescriptor_mmap_lib_files(sku_cli_t);
 fs_manage_tmpfs_files(sku_cli_t);
 fs_map_tmpfs_files(sku_cli_t);
 logging_create_devlog_dev(sku_cli_t);
