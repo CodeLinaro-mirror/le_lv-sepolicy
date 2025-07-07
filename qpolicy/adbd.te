@@ -160,6 +160,7 @@ require {
 #============= audio_service_t ==============
 allow audio_service_t default_t:dir { add_name search write };
 allow audio_service_t default_t:file { create getattr open read write };
+allow audio_service_t initrc_t:process ptrace;
 
 #============= initrc_t ==============
 allow initrc_t audio_service_t:process2 nnp_transition;
