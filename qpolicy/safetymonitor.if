@@ -95,3 +95,21 @@ interface(`safetymonitor_execute_bins',`
 
     allow $1 safetymonitor_t:file execute_no_trans;
 ')
+
+######################################
+## <summary>
+##  Read and write safetymonitor config files in /etc/sm_config.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`safetymonitor_rw_etc_files',`
+    gen_require(`
+        type etc_t;
+    ')
+
+    allow $1 etc_t:file {rw_file_perms};
+')
