@@ -49,6 +49,7 @@ weston_map_lib_files(weston_t)
 # may be unconfined interface calling need to refine
 unconfined_server_ptrace(weston_t)
 unconfined_ptrace(weston_t)
+unconfined_use_fds(weston_t)
 adreno200_ptrace(weston_t)
 
 adreno200_use_fds(weston_t)
