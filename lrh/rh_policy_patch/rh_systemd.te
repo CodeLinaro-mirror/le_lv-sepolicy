@@ -38,6 +38,7 @@ require {
     type systemd_coredump_t;
     type systemd_modules_load_t;
     type systemd_resolved_t;
+	type systemd_sleep_t;
 }
 
 vhost_user_getattr_vhost_socket(systemd_tmpfiles_t)
@@ -59,3 +60,5 @@ allow systemd_modules_load_t self:capability net_admin;
 logging_dgram_send(systemd_resolved_t)
 corenet_tcp_bind_generic_node(systemd_resolved_t)
 corenet_udp_bind_generic_node(systemd_resolved_t)
+
+logging_dgram_send(systemd_sleep_t)
