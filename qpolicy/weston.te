@@ -128,6 +128,9 @@ qseecomd_search_data(weston_t)
 userdom_manage_user_tmp_files(weston_t)
 userdom_map_tmp_files(weston_t)
 
+userdom_manage_user_tmpfs_files(weston_t)
+userdom_map_user_tmpfs_files(weston_t)
+
 # /run/udev/data
 udev_read_pid_files(weston_t)
 
