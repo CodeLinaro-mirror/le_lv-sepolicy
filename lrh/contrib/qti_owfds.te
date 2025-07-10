@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -126,6 +126,7 @@ libkiumd_mmap_exec_lib_file(bridgeship_server_t)
 
 #smcinvoke_device_t
 dev_rw_smcinvoke_dev(openwfd_server_t)
+minkdescriptor_mmap_lib_files(openwfd_server_t)
 
 #dma_device_t
 dev_rw_dma_dev(openwfd_server_t)

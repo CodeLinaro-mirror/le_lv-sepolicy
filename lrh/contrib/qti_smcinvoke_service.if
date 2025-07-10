@@ -30,74 +30,40 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-policy_module(qti_ssgtz-daemon, 1.0)
+## <summary>Policy for SELinux policy and userland applications.</summary>
 
-type ssgtz_daemon_t;
-type ssgtz_daemon_exec_t;
+########################################
+## <summary>
+##  mmap to minkdescriptor library files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`minkdescriptor_mmap_lib_files',`
+    gen_require(`
+        type minkdescriptor_lib_t;
+    ')
 
-init_daemon_domain(ssgtz_daemon_t, ssgtz_daemon_exec_t)
+    allow $1 minkdescriptor_lib_t:file mmap_file_perms;
+')
 
-# self
-allow ssgtz_daemon_t self:unix_dgram_socket { create connect write getopt setopt };
-allow ssgtz_daemon_t self:process { setrlimit setsched };
-allow ssgtz_daemon_t self:capability { sys_resource kill net_admin sys_ptrace setgid setuid sys_rawio setpcap};
-allow ssgtz_daemon_t self:capability2 { block_suspend };
+########################################
+## <summary>
+## Connect to smcinvoke_service_t with a unix socket.
+## </summary>
+## <param name="domain">
+## <summary>
+## Domain allowed access.
+## </summary>
+## </param>
+#
+interface(`smcinvoke_server_stream_connectto',`
+   gen_require(`
+       type smcinvoke_service_t;
+   ')
 
-#dosfs_t
-fs_list_dos(ssgtz_daemon_t)
-fs_read_dos_files(ssgtz_daemon_t)
-
-# libkiumd
-libkiumd_mmap_exec_lib_file(ssgtz_daemon_t)
-libkiumd_ioctl_lib_file(ssgtz_daemon_t);
-
-# kiumd
-dev_rw_kiumd_dev(ssgtz_daemon_t)
-
-# rw /dev/dma_heap/*
-dev_rw_dma_dev(ssgtz_daemon_t)
-
-
-# /dev/smcinvoke
-dev_rw_smcinvoke_dev(ssgtz_daemon_t)
-minkdescriptor_mmap_lib_files(ssgtz_daemon_t)
-
-#GPTEE
-gptee_mmap_lib_files(ssgtz_daemon_t)
-
-# /sys/power/wake_lock
-dev_rw_sysfs(ssgtz_daemon_t)
-
-# read cmdline in /proc
-kernel_read_proc_files(ssgtz_daemon_t)
-
-# syslog
-logging_create_devlog_dev(ssgtz_daemon_t)
-logging_dgram_send(ssgtz_daemon_t)
-
-# tmp
-fs_create_write_tmp_files(ssgtz_daemon_t)
-fs_create_mmap_rw_tmpfs_files(ssgtz_daemon_t)
-
-# tmpfs
-fs_manage_tmpfs_files(ssgtz_daemon_t)
-fs_map_tmpfs_files(ssgtz_daemon_t)
-fs_rw_tmpfs_dirs(ssgtz_daemon_t)
-
-# Unconfined
-unconfined_server_signull(ssgtz_daemon_t)
-unconfined_signull(ssgtz_daemon_t)
-unconfined_server_ptrace(ssgtz_daemon_t)
-unconfined_ptrace(ssgtz_daemon_t)
-
-# init
-init_write_pid_socket(ssgtz_daemon_t)
-
-# userdomin
-userdom_manage_tmp_files(ssgtz_daemon_t)
-
-# search unlabeled_t type on /data
-files_mounton_isid_type_dirs(ssgtz_daemon_t)
-
-# search root directory
-files_list_default(ssgtz_daemon_t)
+   allow $1 smcinvoke_service_t:unix_stream_socket connectto;
+')
