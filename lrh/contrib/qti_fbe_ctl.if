@@ -1,0 +1,22 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary>Policy for SELinux policy and userland applications.</summary>
+
+########################################
+## <summary>
+##  Manage FBE library files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`fbe_mmap_exec_lib_files',`
+    gen_require(`
+        type fbe_lib_t;
+    ')
+
+    allow $1 fbe_lib_t:file mmap_exec_file_perms;
+')

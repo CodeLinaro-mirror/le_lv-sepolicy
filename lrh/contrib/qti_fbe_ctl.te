@@ -1,0 +1,26 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(qti_fbe_ctl, 1.0)
+
+type fbe_sample_client_t;
+type fbe_sample_client_exec_t;
+
+init_system_domain(fbe_sample_client_t, fbe_sample_client_exec_t)
+
+# fbe_lib
+type fbe_lib_t;
+fs_associate(fbe_lib_t)
+fbe_mmap_exec_lib_files(fbe_sample_client_t)
+
+# self
+allow fbe_sample_client_t self:process { setrlimit setsched };
+allow fbe_sample_client_t self:capability { sys_resource sys_ptrace };
+
+# syslog
+logging_create_devlog_dev(fbe_sample_client_t)
+logging_dgram_send(fbe_sample_client_t)
+
+# Unconfined
+unconfined_server_signull(fbe_sample_client_t)
+unconfined_server_ptrace(fbe_sample_client_t)
