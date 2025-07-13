@@ -3,4 +3,3 @@
 
 /usr/bin/compresmon_rm               --      gen_context(system_u:object_r:compresmon_exec_t,s0)
 /usr/bin/compresmon_test             --      gen_context(system_u:object_r:compresmon_exec_t,s0)
-/etc/compresmgr_cpu_config.xml       --      gen_context(system_u:object_r:compresmon_etc_t,s0)

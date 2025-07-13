@@ -68,7 +68,7 @@ power_use_pm_register(eva_auto_t, eva_auto_power_t)
 dev_rw_scmnode_dev(eva_auto_t)
 
 #compres
-compresmon_rw_etc_files(eva_auto_t)
+compresmgr_rw_etc_files(eva_auto_t)
 
 # ========== local ==========
 allow eva_auto_t self:unix_dgram_socket { create connect };

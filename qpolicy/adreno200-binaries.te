@@ -97,6 +97,9 @@ safetymonitor_rw_tmpfs_files(adreno200_t)
 #libpm-client
 power_use_pm_register(adreno200_t, adreno200_power_t)
 
+# compresmgr_service
+compresmgr_rw_etc_files(adreno200_t)
+
 systemd_write_inhibit_pipes(adreno200_t)
 systemd_dbus_chat_logind(adreno200_t)
 dbus_write_pid_sock_files(adreno200_t)

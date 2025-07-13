@@ -195,7 +195,7 @@ files_mmap_etc_runtime_files(weston_t)
 userdom_user_runtime_filetrans(weston_t, weston_tmp_t, { dir file sock_file })
 userdom_mmap_rw_user_runtime_files(weston_t)
 
-compresmon_rw_etc_files(weston_t)
+compresmgr_rw_etc_files(weston_t)
 
 allow weston_t self:unix_dgram_socket { create connect };
 allow weston_t self:unix_stream_socket connectto;
