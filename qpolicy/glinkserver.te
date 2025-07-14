@@ -27,6 +27,7 @@ audio_service_signull(glinkserver_t)
 ssrrm_rw_tmpfs_files(glinkserver_t)
 fastrpc_rm_mmap_rw_tmpfs_files(glinkserver_t)
 diagservice_mmap_rw_tmpfs_files(glinkserver_t)
+diagservice_delete_tmpfs_files(glinkserver_t)
 audioservice_mmap_rw_tmpfs_files(glinkserver_t)
 audioservice_delete_tmpfs_files(glinkserver_t)
 
