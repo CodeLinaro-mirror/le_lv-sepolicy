@@ -150,7 +150,7 @@ interface(`openwfd_server_rw_scmi_dev',`
 ##  </summary>
 ## </param>
 #
-interface(`owfds_exec_tmpfs_files',`
+interface(`owfds_map_tmpfs_files',`
     gen_require(`
         type openwfd_tmpfs_t;
     ')
