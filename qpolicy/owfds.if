@@ -113,7 +113,7 @@ interface(`owfds_read_tmpfs_files',`
 
 ######################################
 ## <summary>
-##  Read and write scmi devices (/dev/scmi_mdss0 /dev/scmi_mdss1).
+##  Read and write device nodes (/dev/scmi_mdss0 /dev/scmi_mdss1 /dev/hab-virq).
 ## </summary>
 ## <param name="domain">
 ##  <summary>
@@ -121,7 +121,7 @@ interface(`owfds_read_tmpfs_files',`
 ##  </summary>
 ## </param>
 #
-interface(`openwfd_server_rw_scmi_dev',`
+interface(`openwfd_server_rw_dev',`
     gen_require(`
         type device_t, openwfd_server_dev_t;
     ')
