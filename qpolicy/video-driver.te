@@ -120,4 +120,4 @@ libkiumd_ioctl_lib_file(video_driver_t)
 libkiumd_relabel_lib_files(video_driver_t)
 libkiumd_manage_lib_files(video_driver_t)
 
-compresmon_rw_etc_files(video_driver_t)
+compresmgr_rw_etc_files(video_driver_t)

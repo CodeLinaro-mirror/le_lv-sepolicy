@@ -206,7 +206,7 @@ require {
     type display_be_t;
     type subsys_ramdump_util_t;
     type tmp_t;
-    type compresmon_etc_t;
+    type compresmgr_etc_t;
     type weston_t;
     type tmpfs_t;
     type init_t;
@@ -224,13 +224,13 @@ allow compresmon_t fastrpc_rm_tmpfs_t:file write;
 allow diag_service_t self:process signull;
 
 #============= display_be_t ==============
-allow display_be_t compresmon_etc_t:file read;
+allow display_be_t compresmgr_etc_t:file read;
 
 #============= glinkserver_t ==============
 allow glinkserver_t tmpfs_t:file unlink;
 
 #============= hyp_video_t ==============
-allow hyp_video_t compresmon_etc_t:file read;
+allow hyp_video_t compresmgr_etc_t:file read;
 
 #============= initrc_t ==============
 allow initrc_t diag_service_t:process2 nnp_transition;
@@ -245,10 +245,10 @@ allow subsys_ramdump_util_t default_t:dir write;
 allow systemd_coredump_t default_t:dir search;
 
 #============= video_driver_t ==============
-allow video_driver_t compresmon_etc_t:file read;
+allow video_driver_t compresmgr_etc_t:file read;
 
 #============= vmm_t ==============
 allow vmm_t init_t:system status;
 
 #============= weston_t ==============
-allow weston_t compresmon_etc_t:file read;
+allow weston_t compresmgr_etc_t:file read;

@@ -146,4 +146,4 @@ libkiumd_mmap_exec_lib_file(audio_service_t)
 power_use_pm_register(audio_service_t, audio_power_t)
 
 # compresmgr_service
-compresmon_rw_etc_files(audio_service_t)
+compresmgr_rw_etc_files(audio_service_t)
