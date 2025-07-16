@@ -61,6 +61,7 @@ dev_rw_dma_dev(ssgtz_daemon_t)
 # /dev/smcinvoke
 dev_rw_smcinvoke_dev(ssgtz_daemon_t)
 minkdescriptor_mmap_lib_files(ssgtz_daemon_t)
+smcinvoke_server_stream_connectto(ssgtz_daemon_t)
 
 #GPTEE
 gptee_mmap_lib_files(ssgtz_daemon_t)
