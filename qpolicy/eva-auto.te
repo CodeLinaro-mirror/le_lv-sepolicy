@@ -70,6 +70,12 @@ dev_rw_scmnode_dev(eva_auto_t)
 #compres
 compresmgr_rw_etc_files(eva_auto_t)
 
+# QLF
+files_manage_default_dirs(eva_auto_t)
+files_manage_var_dirs(eva_auto_t)
+files_manage_var_files(eva_auto_t)
+files_manage_var_symlinks(eva_auto_t)
+
 # ========== local ==========
 allow eva_auto_t self:unix_dgram_socket { create connect };
 allow eva_auto_t self:process { setrlimit setsched getsched signal };
