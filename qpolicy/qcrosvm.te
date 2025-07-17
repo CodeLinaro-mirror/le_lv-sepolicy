@@ -54,6 +54,10 @@ vhost_user_stream_connect_vhostu_vm3(qcrosvm_t)
 vhost_user_getattr_vhost_socket(qcrosvm_t)
 vhost_user_getattr_vhost_socket_vm3(qcrosvm_t)
 
+# manage tmp dir
+files_manage_generic_tmp_dirs(qcrosvm_t)
+files_manage_generic_tmp_files(qcrosvm_t)
+
 # ========== local ==========
 allow qcrosvm_t self:tun_socket { create };
 allow qcrosvm_t self:udp_socket { create ioctl };
