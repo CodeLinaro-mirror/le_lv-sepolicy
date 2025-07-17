@@ -39,6 +39,8 @@ type scmnode_device_t;
 type scmnode_sec_device_t;
 type hab_device_t;
 type profiler_device_t;
+type ksync_device_t;
+type qcom_l3_cache_config_device_t;
 
 dev_node(smcinvoke_device_t)
 dev_node(gunyah_device_t)
@@ -47,3 +49,5 @@ dev_node(scmnode_device_t)
 dev_node(scmnode_sec_device_t)
 dev_node(hab_device_t)
 dev_node(profiler_device_t)
+dev_node(ksync_device_t)
+dev_node(qcom_l3_cache_config_device_t)
