@@ -22,6 +22,7 @@ userdom_delete_user_tmp_files(fastrpc_rm_t)
 
 fs_rw_tmpfs_files(fastrpc_rm_t)
 fs_map_tmpfs_files(fastrpc_rm_t)
+fs_delete_tmpfs_files(fastrpc_rm_t)
 
 dev_rw_dma_dev(fastrpc_rm_t)
 dev_rw_kiumd_dev(fastrpc_rm_t)

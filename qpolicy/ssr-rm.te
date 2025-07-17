@@ -11,6 +11,7 @@ type ssr_rm_tmpfs_t;
 init_daemon_domain(ssr_rm_t, ssr_rm_exec_t)
 
 init_rw_script_stream_sockets(ssr_rm_t)
+init_signull_script(ssr_rm_t)
 
 logging_create_devlog_dev(ssr_rm_t)
 kernel_dgram_send(ssr_rm_t)
@@ -27,6 +28,7 @@ pil_rm_signull(ssr_rm_t)
 glinkserver_mmap_rw_tmpfs_files(ssr_rm_t)
 fastrpc_rm_mmap_rw_tmpfs_files(ssr_rm_t)
 diagservice_mmap_rw_tmpfs_files(ssr_rm_t)
+diagservice_delete_tmpfs_files(ssr_rm_t)
 pilrm_mmap_rw_tmpfs_files(ssr_rm_t)
 audioservice_mmap_rw_tmpfs_files(ssr_rm_t)
 subsys_ramdump_rw_files(ssr_rm_t)

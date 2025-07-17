@@ -12,6 +12,7 @@ type qcx_server_power_t;
 
 
 init_daemon_domain(qcx_server_t, qcx_server_exec_t)
+init_rw_script_stream_sockets(qcx_server_t)
 
 
 # used to access /dev/scmi_camera

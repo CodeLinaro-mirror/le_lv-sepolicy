@@ -111,3 +111,21 @@ interface(`diagservice_rw_tmpfs_files',`
 
     rw_files_pattern($1, diag_service_tmpfs_t, diag_service_tmpfs_t)
 ')
+
+######################################
+## <summary>
+##  Delete diagservice-service tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`diagservice_delete_tmpfs_files',`
+    gen_require(`
+        type diag_service_tmpfs_t;
+    ')
+
+    delete_files_pattern($1, diag_service_tmpfs_t, diag_service_tmpfs_t)
+')
