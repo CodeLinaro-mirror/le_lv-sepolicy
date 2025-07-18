@@ -69,6 +69,8 @@ dev_rw_hab_dev(audio_service_t)
 dev_rw_generic_usb_dev(audio_service_t)
 dev_rw_sysfs(audio_service_t)
 
+# /dev/hab
+dev_manage_generic_chr_files(audio_service_t)
 
 # /dev/ipc_shmem
 dev_node(audio_device_t)

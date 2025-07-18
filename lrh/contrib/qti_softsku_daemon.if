@@ -20,3 +20,21 @@ interface(`softsku_daemon_signull',`
 
     allow $1 softsku_daemon_t:process signull;
 ')
+
+######################################
+## <summary>
+##  Send ptrace to softsku_daemon_t.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`softsku_daemon_ptrace',`
+    gen_require(`
+        type softsku_daemon_t;
+    ')
+
+    allow $1 softsku_daemon_t:process ptrace;
+')

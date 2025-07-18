@@ -89,6 +89,7 @@ qseecomd_ptrace(smcinvoke_service_t)
 ipp_gpce_be_process(smcinvoke_service_t)
 ssgtz_daemon_signull(smcinvoke_service_t)
 softsku_daemon_signull(smcinvoke_service_t)
+softsku_daemon_ptrace(smcinvoke_service_t)
 
 # init
 init_write_pid_socket(smcinvoke_service_t)
