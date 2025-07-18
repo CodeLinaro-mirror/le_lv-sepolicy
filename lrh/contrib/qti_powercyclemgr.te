@@ -70,6 +70,10 @@ power_use_pm_register(powercyclemgr_t, powercyclemgr_socket_t)
 adreno200_sock(powercyclemgr_t)
 vmm_client_connect_server(powercyclemgr_t)
 qcx_server_sock(powercyclemgr_t)
+openwfd_server_pm_sock(powercyclemgr_t)
+weston_pm_sock(powercyclemgr_t)
+video_driver_socket_connect(powercyclemgr_t)
+video_driver_sockfile_manage(powercyclemgr_t)
 
 powercyclemgr_read_chr_files(powercyclemgr_t)
 
