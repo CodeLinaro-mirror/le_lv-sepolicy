@@ -36,3 +36,21 @@ interface(`corenet_tcp_bind_unreserved_ports',`
 
     allow $1 unreserved_port_t:tcp_socket name_bind;
 ')
+
+########################################
+## <summary>
+##  Bind ICMP sockets to generic nodes.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`corenet_icmp_bind_generic_node',`
+    gen_require(`
+        type node_t;
+    ')
+
+    allow $1 node_t:icmp_socket node_bind;
+')

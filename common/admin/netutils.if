@@ -1,0 +1,20 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+########################################
+## <summary>
+##  Transition to ping_t when NNP has been set.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  The type of the process performing this action.
+##  </summary>
+## </param>
+#
+interface(`netutils_ping_nnp_trans',`
+    gen_require(`
+        type ping_t;
+    ')
+
+    allow $1 ping_t:process2 nnp_transition;
+')
