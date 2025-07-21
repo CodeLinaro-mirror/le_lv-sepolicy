@@ -172,3 +172,7 @@ libkiumd_mmap_exec_lib_file(audio_service_t)
 
 # pm_register
 power_use_pm_register(audio_service_t, audio_power_t)
+
+files_create_default_dirs(audio_service_t)
+files_create_default_files(audio_service_t)
+files_manage_default_files(audio_service_t)

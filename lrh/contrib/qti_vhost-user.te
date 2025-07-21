@@ -117,3 +117,5 @@ files_manage_default_files(vhost_user_qti_t);
 files_create_default_dir(vhost_user_qti_vm3_t);
 files_manage_default_files(vhost_user_qti_vm3_t);
 
+fs_rw_tmpfs_dirs(vhost_user_qti_t)
+fs_manage_tmpfs_sockets(vhost_user_qti_t)
