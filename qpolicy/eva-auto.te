@@ -19,6 +19,11 @@ init_rw_script_stream_sockets(eva_auto_t)
 files_config_file(eva_auto_etc_t)
 evauto_rw_etc_files(eva_auto_t)
 
+# Launch sv_server as non-root
+userdom_use_all_users_fds(eva_auto_t)
+userdom_rw_user_tmpfs_files(eva_auto_t)
+userdom_delete_user_tmpfs_files(eva_auto_t)
+
 # Read dummy files in /etc/ folder
 files_read_etc_runtime_files(eva_auto_t)
 
@@ -79,7 +84,7 @@ files_manage_var_symlinks(eva_auto_t)
 # ========== local ==========
 allow eva_auto_t self:unix_dgram_socket { create connect };
 allow eva_auto_t self:process { setrlimit setsched getsched signal };
-allow eva_auto_t self:capability { sys_resource sys_nice net_admin dac_override sys_ptrace dac_read_search };
+allow eva_auto_t self:capability { sys_resource sys_nice net_admin dac_override sys_ptrace dac_read_search kill };
 
 files_tmp_file(eva_auto_tmp_t)
 files_tmp_filetrans(eva_auto_t, eva_auto_tmp_t, { dir fifo_file file lnk_file })
