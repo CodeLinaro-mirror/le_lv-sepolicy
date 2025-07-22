@@ -1,4 +1,4 @@
-# Copyright (c) 2025 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -62,6 +62,8 @@ ipp_manage_ipp_exec_files(ipp_t)
 
 # smcinvoke
 dev_rw_smcinvoke_dev(ipp_t)
+minkdescriptor_mmap_lib_files(ipp_t)
+smcinvoke_server_stream_connectto(ipp_t)
 
 # rw /dev/dma_heap/linux,cma
 dev_rw_dma_dev(ipp_t)
@@ -69,6 +71,7 @@ dev_rw_dma_dev(ipp_t)
 # unconfined_server_t
 unconfined_server_signull(ipp_t)
 unconfined_server_ptrace(ipp_t)
+unconfined_server_stream_connectto(ipp_t)
 
 # /usr/lib/libkiumd,liblrms,liblrmc
 dev_rw_kiumd_dev(ipp_t)

@@ -22,6 +22,7 @@ userdom_delete_user_tmp_files(fastrpc_rm_t)
 
 fs_rw_tmpfs_files(fastrpc_rm_t)
 fs_map_tmpfs_files(fastrpc_rm_t)
+fs_delete_tmpfs_files(fastrpc_rm_t)
 
 dev_rw_dma_dev(fastrpc_rm_t)
 dev_rw_kiumd_dev(fastrpc_rm_t)
@@ -61,3 +62,8 @@ fastrpc_rm_rw_tmpfs_files(fastrpc_rm_t)
 
 #libkiumd
 libkiumd_mmap_exec_lib_file(fastrpc_rm_t)
+
+compresmon_signull(fastrpc_rm_t)
+compresmon_mmap_rw_tmpfs_files(fastrpc_rm_t)
+compresmon_unlink_tmpfs_files(fastrpc_rm_t)
+

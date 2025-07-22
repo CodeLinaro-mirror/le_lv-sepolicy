@@ -7,16 +7,14 @@ type compresmon_t;
 type compresmon_exec_t;
 type compresmon_tmp_t;
 type compresmon_tmpfs_t;
-type compresmon_etc_t;
 
 init_daemon_domain(compresmon_t, compresmon_exec_t)
 
 init_rw_script_stream_sockets(compresmon_t)
 init_signull_script(compresmon_t)
 
-#/etc/sv_config.xml
-files_config_file(compresmon_etc_t)
-compresmon_rw_etc_files(compresmon_t)
+#/etc/compresmgr_cpu_config.xml
+compresmgr_rw_etc_files(compresmon_t)
 
 libkiumd_ioctl_lib_file(compresmon_t)
 libkiumd_mmap_exec_lib_file(compresmon_t)
@@ -29,7 +27,7 @@ unconfined_server_ptrace(compresmon_t)
 files_manage_var_files(compresmon_t)
 
 allow compresmon_t self:process { setrlimit setsched getsched };
-allow compresmon_t self:capability { sys_resource sys_nice sys_ptrace };
+allow compresmon_t self:capability { sys_resource sys_nice sys_ptrace net_admin };
 allow compresmon_t self:unix_dgram_socket { create connect };
 allow compresmon_t self:tcp_socket { read write create connect getopt setopt };
 allow compresmon_t compresmon_tmpfs_t:file map;
@@ -49,6 +47,8 @@ logging_manage_generic_logs(compresmon_t)
 dev_read_sysfs(compresmon_t)
 
 dev_rw_vfio_dev(compresmon_t)
+
+dev_rw_ksync_dev(compresmon_t)
 
 logging_send_syslog_msg(compresmon_t)
 
@@ -70,3 +70,15 @@ kernel_read_proc_files(compresmon_t)
 safetymonitor_rw_tmpfs_files(compresmon_t)
 
 fastrpc_rm_rw_tmpfs_files(compresmon_t)
+
+#Updated policies for nord onwards features
+userdom_rw_user_tmpfs_files(compresmon_t)
+userdom_map_user_tmpfs_files(compresmon_t)
+userdom_delete_user_tmpfs_files(compresmon_t)
+unconfined_signull(compresmon_t)
+pilrm_rw_tmpfs_files(compresmon_t)
+unconfined_use_fds(compresmon_t)
+files_manage_default_files(compresmon_t)
+files_read_etc_files(compresmon_t)
+files_search_default(compresmon_t)
+systemd_read_resolved_runtime(compresmon_t)

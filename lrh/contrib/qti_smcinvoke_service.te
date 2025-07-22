@@ -1,0 +1,98 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted (subject to the limitations in the
+# disclaimer below) provided that the following conditions are met:
+#
+#    * Redistributions of source code must retain the above copyright
+#      notice, this list of conditions and the following disclaimer.
+#
+#    * Redistributions in binary form must reproduce the above
+#      copyright notice, this list of conditions and the following
+#      disclaimer in the documentation and/or other materials provided
+#      with the distribution.
+#
+#    * Neither the name of Qualcomm Innovation Center, Inc. nor the names of its
+#      contributors may be used to endorse or promote products derived
+#      from this software without specific prior written permission.
+#
+# NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE
+# GRANTED BY THIS LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT
+# HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED
+# WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+# IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+# ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+# GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER
+# IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+# OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+# IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+policy_module(qti_smcinvoke_service, 1.0)
+
+type smcinvoke_service_t;
+type smcinvoke_service_exec_t;
+
+init_system_domain(smcinvoke_service_t, smcinvoke_service_exec_t)
+
+# minkdescriptor
+type minkdescriptor_lib_t;
+fs_associate(minkdescriptor_lib_t)
+minkdescriptor_mmap_lib_files(smcinvoke_service_t)
+
+# self
+allow smcinvoke_service_t self:unix_dgram_socket { create connect write getopt setopt };
+allow smcinvoke_service_t self:process { setrlimit setsched };
+allow smcinvoke_service_t self:capability { sys_resource kill net_admin sys_ptrace };
+
+# libkiumd, liblrms, liblrmc
+libkiumd_mmap_exec_lib_file(smcinvoke_service_t)
+# kiumd
+dev_rw_kiumd_dev(smcinvoke_service_t)
+
+# scmnode, scmnode_sec dev
+dev_rw_scmnode_dev(smcinvoke_service_t)
+dev_rw_scmnode_sec_dev(smcinvoke_service_t)
+
+# rw /dev/dma_heap/*
+dev_rw_dma_dev(smcinvoke_service_t)
+
+# syslog
+logging_create_devlog_dev(smcinvoke_service_t)
+logging_dgram_send(smcinvoke_service_t)
+
+# sysfs
+dev_read_sysfs(smcinvoke_service_t)
+
+# tmp
+fs_rw_tmp_dirs(smcinvoke_service_t)
+fs_create_write_tmp_files(smcinvoke_service_t)
+
+# tmpfs
+fs_manage_tmpfs_files(smcinvoke_service_t)
+fs_map_tmpfs_files(smcinvoke_service_t)
+fs_rw_tmpfs_dirs(smcinvoke_service_t)
+
+# Unconfined
+unconfined_server_signull(smcinvoke_service_t)
+unconfined_signull(smcinvoke_service_t)
+unconfined_server_ptrace(smcinvoke_service_t)
+unconfined_ptrace(smcinvoke_service_t)
+
+# qseecomd
+qseecomd_signull(smcinvoke_service_t)
+qseecomd_ptrace(smcinvoke_service_t)
+
+# signull
+ipp_gpce_be_process(smcinvoke_service_t)
+ssgtz_daemon_signull(smcinvoke_service_t)
+softsku_daemon_signull(smcinvoke_service_t)
+softsku_daemon_ptrace(smcinvoke_service_t)
+
+# init
+init_write_pid_socket(smcinvoke_service_t)
+
+# for smcinvoke_vendor_client registering with smcinvoke_service (smcinvoke_service_t)
+userdom_manage_tmp_files(smcinvoke_service_t)

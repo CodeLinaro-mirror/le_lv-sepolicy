@@ -12,6 +12,9 @@ type gpce_be_tmp_t;
 
 init_daemon_domain(gpce_be_t,gpce_be_exec_t)
 
+init_rw_script_stream_sockets(gpce_be_t)
+init_signull_script(gpce_be_t)
+
 dev_node(gpce_be_dev_t)
 
 gpce_be_rw_scmi_dev(gpce_be_t)
@@ -58,5 +61,5 @@ files_tmp_filetrans(gpce_be_t, gpce_be_tmp_t, { dir file })
 manage_files_pattern(gpce_be_t, gpce_be_tmp_t, gpce_be_tmp_t)
 
 #================local===================
-allow gpce_be_t self:process { setrlimit setsched };
+allow gpce_be_t self:process { setrlimit setsched getsched };
 allow gpce_be_t self:capability { sys_resource sys_nice dac_override};

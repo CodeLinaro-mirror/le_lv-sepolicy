@@ -87,7 +87,7 @@ libkiumd_mmap_exec_lib_file(video_driver_t)
 hyp_video_ptrace(video_driver_t)
 # ========== local ==========
 allow video_driver_t self:unix_dgram_socket { create connect getopt setopt };
-allow video_driver_t self:process { setrlimit setsched };
+allow video_driver_t self:process { setrlimit setsched signal };
 allow video_driver_t self:capability { sys_resource sys_ptrace net_admin sys_nice sys_ptrace dac_override };
 allow video_driver_t video_driver_tmpfs_t:dir { create };
 allow video_driver_t video_driver_tmpfs_t:fifo_file { create read open };
@@ -120,4 +120,4 @@ libkiumd_ioctl_lib_file(video_driver_t)
 libkiumd_relabel_lib_files(video_driver_t)
 libkiumd_manage_lib_files(video_driver_t)
 
-compresmon_rw_etc_files(video_driver_t)
+compresmgr_rw_etc_files(video_driver_t)

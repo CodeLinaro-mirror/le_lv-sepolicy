@@ -12,6 +12,7 @@ weston_rw_tmpfs_files(systemd_tmpfiles_t)
 
 term_getattr_generic_ptys(systemd_logind_t)
 weston_delete_tmpfs_sock_files(systemd_logind_t)
+vmm_dbus_msg(systemd_logind_t)
 
 weston_map_lib_files(systemd_coredump_t)
 owfds_map_lib_files(systemd_coredump_t)
@@ -71,3 +72,4 @@ videodriver_read_tmpfs_files(systemd_tmpfiles_t)
 videodriver_list_tmpfs_dirs(systemd_tmpfiles_t)
 sysstat_manage_log(systemd_tmpfiles_t)
 
+files_manage_default_dirs(systemd_update_done_t)

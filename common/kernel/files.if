@@ -776,3 +776,39 @@ interface(`files_manage_var_lib_files',`
 
     manage_files_pattern($1, var_lib_t, var_lib_t)
 ')
+
+##################################
+## <summary>
+##  Allow to append files under /data.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_append_default_files',`
+    gen_require(`
+        type default_t;
+    ')
+
+    append_files_pattern($1, default_t, default_t)
+')
+
+########################################
+## <summary>
+##  Delete generic tmp files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_delete_tmp_files',`
+    gen_require(`
+        type tmp_t;
+    ')
+
+    delete_files_pattern($1, tmp_t, tmp_t)
+')

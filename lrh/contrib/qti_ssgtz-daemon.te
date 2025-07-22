@@ -1,0 +1,104 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted (subject to the limitations in the
+# disclaimer below) provided that the following conditions are met:
+#
+#    * Redistributions of source code must retain the above copyright
+#      notice, this list of conditions and the following disclaimer.
+#
+#    * Redistributions in binary form must reproduce the above
+#      copyright notice, this list of conditions and the following
+#      disclaimer in the documentation and/or other materials provided
+#      with the distribution.
+#
+#    * Neither the name of Qualcomm Innovation Center, Inc. nor the names of its
+#      contributors may be used to endorse or promote products derived
+#      from this software without specific prior written permission.
+#
+# NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE
+# GRANTED BY THIS LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT
+# HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED
+# WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+# IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+# ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+# GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER
+# IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+# OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+# IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+policy_module(qti_ssgtz-daemon, 1.0)
+
+type ssgtz_daemon_t;
+type ssgtz_daemon_exec_t;
+
+init_daemon_domain(ssgtz_daemon_t, ssgtz_daemon_exec_t)
+
+# self
+allow ssgtz_daemon_t self:unix_dgram_socket { create connect write getopt setopt };
+allow ssgtz_daemon_t self:process { setrlimit setsched };
+allow ssgtz_daemon_t self:capability { sys_resource kill net_admin sys_ptrace setgid setuid sys_rawio setpcap};
+allow ssgtz_daemon_t self:capability2 { block_suspend };
+
+#dosfs_t
+fs_list_dos(ssgtz_daemon_t)
+fs_read_dos_files(ssgtz_daemon_t)
+
+# libkiumd
+libkiumd_mmap_exec_lib_file(ssgtz_daemon_t)
+libkiumd_ioctl_lib_file(ssgtz_daemon_t);
+
+# kiumd
+dev_rw_kiumd_dev(ssgtz_daemon_t)
+
+# rw /dev/dma_heap/*
+dev_rw_dma_dev(ssgtz_daemon_t)
+
+
+# /dev/smcinvoke
+dev_rw_smcinvoke_dev(ssgtz_daemon_t)
+minkdescriptor_mmap_lib_files(ssgtz_daemon_t)
+smcinvoke_server_stream_connectto(ssgtz_daemon_t)
+
+#GPTEE
+gptee_mmap_lib_files(ssgtz_daemon_t)
+
+# /sys/power/wake_lock
+dev_rw_sysfs(ssgtz_daemon_t)
+
+# read cmdline in /proc
+kernel_read_proc_files(ssgtz_daemon_t)
+
+# syslog
+logging_create_devlog_dev(ssgtz_daemon_t)
+logging_dgram_send(ssgtz_daemon_t)
+
+# tmp
+fs_create_write_tmp_files(ssgtz_daemon_t)
+fs_create_mmap_rw_tmpfs_files(ssgtz_daemon_t)
+
+# tmpfs
+fs_manage_tmpfs_files(ssgtz_daemon_t)
+fs_map_tmpfs_files(ssgtz_daemon_t)
+fs_rw_tmpfs_dirs(ssgtz_daemon_t)
+
+# Unconfined
+unconfined_server_signull(ssgtz_daemon_t)
+unconfined_signull(ssgtz_daemon_t)
+unconfined_server_ptrace(ssgtz_daemon_t)
+unconfined_ptrace(ssgtz_daemon_t)
+
+# init
+init_write_pid_socket(ssgtz_daemon_t)
+
+# userdomin
+userdom_manage_tmp_files(ssgtz_daemon_t)
+
+# search unlabeled_t type on /data
+files_mounton_isid_type_dirs(ssgtz_daemon_t)
+
+# search root directory
+files_list_default(ssgtz_daemon_t)

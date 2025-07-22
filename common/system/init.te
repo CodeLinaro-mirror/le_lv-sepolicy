@@ -59,3 +59,7 @@ fs_mounton_memory_pressure(initrc_t)
 owfds_map_lib_files(initrc_t)
 modutils_kmod_nnp_trans(initrc_t)
 term_watch_reads_unallocated_ttys(initrc_t)
+
+compresmgr_nnp_trans(initrc_t)
+seutil_nnp_trans(initrc_t)
+netutils_ping_nnp_trans(initrc_t)

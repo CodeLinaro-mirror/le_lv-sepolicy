@@ -1,4 +1,4 @@
-# Copyright (c) 2023, 2025 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -124,6 +124,42 @@ interface(`dev_rw_scmnode_dev',`
 
 ########################################
 ## <summary>
+##  Don't audit scmnode device (/dev/scmnode).
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`dev_dontaudit_scmnode_dev',`
+    gen_require(`
+        type scmnode_device_t;
+    ')
+
+    dontaudit $1 scmnode_device_t:chr_file rw_chr_file_perms;
+')
+
+########################################
+## <summary>
+##  Read and write scmnode_sec device (/dev/scmnode_sec).
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`dev_rw_scmnode_sec_dev',`
+    gen_require(`
+        type device_t, scmnode_sec_device_t;
+    ')
+
+    rw_chr_files_pattern($1, device_t, scmnode_sec_device_t)
+')
+
+########################################
+## <summary>
 ##  Don't audit scmnode_sec device (/dev/scmnode_sec).
 ## </summary>
 ## <param name="domain">
@@ -229,4 +265,21 @@ interface(`dev_rw_ksync_dev',`
     ')
 
     rw_chr_files_pattern($1, device_t, ksync_device_t)
+')
+########################################
+## <summary>
+##  Read and write device (/dev/qcom_l3_cache_config_device).
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`dev_rw_qcom_l3_cache_config_device_dev',`
+    gen_require(`
+        type device_t, qcom_l3_cache_config_device_t;
+    ')
+
+    rw_chr_files_pattern($1, device_t, qcom_l3_cache_config_device_t)
 ')

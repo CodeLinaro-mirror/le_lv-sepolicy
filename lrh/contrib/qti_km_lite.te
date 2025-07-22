@@ -1,0 +1,41 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(qti_km_lite, 1.0)
+
+type km_lite_sample_client_t;
+type km_lite_sample_client_exec_t;
+
+init_system_domain(km_lite_sample_client_t, km_lite_sample_client_exec_t)
+
+# Keymaster_lib
+type keymaster_lib_t;
+fs_associate(keymaster_lib_t)
+keymaster_mmap_lib_files(km_lite_sample_client_t)
+
+# smcinvoke
+minkdescriptor_mmap_lib_files(km_lite_sample_client_t)
+
+# self
+allow km_lite_sample_client_t self:unix_dgram_socket { create connect write getopt setopt };
+allow km_lite_sample_client_t self:process { setrlimit setsched };
+allow km_lite_sample_client_t self:capability { sys_resource kill net_admin sys_ptrace };
+
+# syslog
+logging_create_devlog_dev(km_lite_sample_client_t)
+logging_dgram_send(km_lite_sample_client_t)
+
+# rw /dev/dma_heap/*
+dev_rw_dma_dev(km_lite_sample_client_t)
+
+# tmpfs
+fs_manage_tmpfs_files(km_lite_sample_client_t)
+fs_map_tmpfs_files(km_lite_sample_client_t)
+fs_rw_tmpfs_dirs(km_lite_sample_client_t)
+
+# Unconfined
+unconfined_server_signull(km_lite_sample_client_t)
+unconfined_signull(km_lite_sample_client_t)
+unconfined_server_ptrace(km_lite_sample_client_t)
+unconfined_ptrace(km_lite_sample_client_t)
+

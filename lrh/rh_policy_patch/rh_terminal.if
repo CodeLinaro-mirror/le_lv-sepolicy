@@ -24,7 +24,7 @@ interface(`term_rw_ptmx_chr_files',`
 
 ########################################
 ## <summary>
-## Allow read write open and ioctl for ptmx_t
+## Allow read write open and ioctl for devpts_t
 ## tty device nodes.
 ## </summary>
 ## <param name="domain">
@@ -41,3 +41,21 @@ interface(`term_rw_devpts_chr_files',`
     rw_chr_files_pattern($1, devpts_t, devpts_t);
 ')
 
+########################################
+## <summary>
+## Allow manage chr_files for tty_device_t
+## tty device nodes.
+## </summary>
+## <param name="domain">
+## <summary>
+## Domain allowed access.
+## </summary>
+## </param>
+#
+interface(`term_manage_tty_device_chr_files',`
+    gen_require(`
+        type tty_device_t;
+    ')
+
+    manage_chr_files_pattern($1, tty_device_t, tty_device_t);
+')

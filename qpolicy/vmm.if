@@ -58,3 +58,24 @@ interface(`vmm_client_connect_server',`
     allow $1 tmp_t:sock_file { create unlink write };
     allow vmm_t $1:unix_stream_socket connectto;
 ')
+
+########################################
+## <summary>
+##   Send and receive messages from
+##   vmm over dbus.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`vmm_dbus_msg',`
+    gen_require(`
+        type vmm_t;
+        class dbus send_msg;
+    ')
+
+    allow $1 vmm_t:dbus send_msg;
+    allow vmm_t $1:dbus send_msg;
+')

@@ -99,3 +99,11 @@ qcxserver_mmap_rw_tmpfs_files(pil_rm_t)
 evauto_mmap_rw_tmpfs_files(pil_rm_t)
 evauto_delete_tmpfs_files(pil_rm_t)
 eva_auto_signull(pil_rm_t)
+
+compresmon_signull(pil_rm_t)
+compresmon_mmap_rw_tmpfs_files(pil_rm_t)
+compresmon_unlink_tmpfs_files(pil_rm_t)
+
+#lrms
+userdom_manage_user_tmpfs_files(pil_rm_t)
+mmap_rw_files_pattern(pil_rm_t,user_tmpfs_t,user_tmpfs_t)

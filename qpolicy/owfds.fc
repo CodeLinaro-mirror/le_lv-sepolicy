@@ -7,4 +7,4 @@
 /usr/lib/libwire_user.so                 --      gen_context(system_u:object_r:openwfd_lib_t,s0)
 /dev/scmi_mdss0                          -c      gen_context(system_u:object_r:openwfd_server_dev_t,s0)
 /dev/scmi_mdss1                          -c      gen_context(system_u:object_r:openwfd_server_dev_t,s0)
-
+/dev/hab-virq                            -c      gen_context(system_u:object_r:openwfd_server_dev_t,s0)

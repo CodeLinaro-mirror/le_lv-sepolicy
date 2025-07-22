@@ -39,14 +39,11 @@ manage_files_pattern(syscache_rm_t, syscache_rm_tmp_t, syscache_rm_tmp_t)
 mmap_read_files_pattern(syscache_rm_t, syscache_rm_tmp_t, syscache_rm_tmp_t)
 
 # map /dev/shm/lrmc_rq_*
-files_tmpfs_file(syscache_rm_tmpfs_t)
-fs_tmpfs_filetrans(syscache_rm_t, syscache_rm_tmpfs_t, { dir file })
 syscache_rm_create_tmpfs_files(syscache_rm_t)
 syscache_rm_mmap_rw_tmpfs_files(syscache_rm_t)
 syscache_rm_rw_tmpfs_files(syscache_rm_t)
 syscache_rm_tmpfs_map_files(syscache_rm_t)
-allow syscache_rm_t syscache_rm_tmpfs_t:file map;
-allow syscache_rm_t syscache_rm_tmpfs_t:file unlink;
+allow syscache_rm_t syscache_rm_tmpfs_t:file { map unlink };
 
 # for syscache_drv_test registering with syscache_rm (user_tmp_t)
 userdom_manage_tmp_files(syscache_rm_t)
@@ -65,8 +62,6 @@ manage_files_pattern(syscache_rm_t, syscache_rm_tmp_t, syscache_rm_tmp_t)
 files_tmpfs_file(syscache_rm_tmpfs_t)
 fs_tmpfs_filetrans(syscache_rm_t, syscache_rm_tmpfs_t, { dir file })
 create_files_pattern(syscache_rm_t, syscache_rm_tmpfs_t, syscache_rm_tmpfs_t)
-syscacherm_mmap_rw_tmpfs_files(syscache_rm_t)
-fs_rw_tmpfs_files(syscache_rm_t)
 
 # for running syscache_drv_test app in adb shell
 unconfined_server_signull(syscache_rm_t);

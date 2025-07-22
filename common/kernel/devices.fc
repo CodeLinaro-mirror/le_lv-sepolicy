@@ -12,3 +12,4 @@
 /dev/hgsl                    -c      gen_context(system_u:object_r:hgsl_device_t,s0)
 /dev/ashmem                  -c      gen_context(system_u:object_r:ashmem_device_t,s0)
 /dev/dma_heap/.+             -c      gen_context(system_u:object_r:dma_device_t,s0)
+/dev/ksync                   -c      gen_context(system_u:object_r:ksync_device_t,s0)

@@ -30,6 +30,16 @@ dev_rw_scmnode_dev(adreno200_t)
 dev_rw_scmnode_sec_dev(adreno200_t)
 dev_read_sysfs(adreno200_t)
 
+# /dev/ksync
+dev_rw_ksync_dev(adreno200_t)
+
+# /sys/kernel/debugfs/
+kernel_search_debugfs(adreno200_t)
+
+# This is a workround, rootcause is that early service start earlier than selinux initial to /dev for bootkpi, cause some devices
+# under /dev such as /dev/ksync run under uncorrect selinux context as device_t.
+dev_manage_generic_chr_files(adreno200_t)
+
 # /var/log/kgsl-(ip).log
 logging_create_generic_logs(adreno200_t)
 logging_read_generic_logs(adreno200_t)
@@ -37,6 +47,9 @@ logging_read_generic_logs(adreno200_t)
 # Create gsl_hab_server-(pid).log under /var/volatile/log/
 files_create_var_files(adreno200_t)
 files_rw_var_files(adreno200_t)
+
+# Create dir under /var/
+files_create_var_dirs(adreno200_t)
 
 # port 22222
 corenet_tcp_connect_generic_port(adreno200_t)
@@ -57,7 +70,7 @@ unconfined_server_read_files(adreno200_t)
 
 unconfined_server_ptrace(adreno200_t)
 unconfined_ptrace(adreno200_t)
-
+unconfined_use_fds(adreno200_t)
 files_tmp_file(adreno200_tmp_t)
 files_tmp_filetrans(adreno200_t, adreno200_tmp_t, { dir file })
 manage_files_pattern(adreno200_t, adreno200_tmp_t, adreno200_tmp_t)
@@ -84,6 +97,9 @@ safetymonitor_rw_tmpfs_files(adreno200_t)
 #libpm-client
 power_use_pm_register(adreno200_t, adreno200_power_t)
 
+# compresmgr_service
+compresmgr_rw_etc_files(adreno200_t)
+
 systemd_write_inhibit_pipes(adreno200_t)
 systemd_dbus_chat_logind(adreno200_t)
 dbus_write_pid_sock_files(adreno200_t)
@@ -103,6 +119,6 @@ init_ptrace_script(adreno200_t)
 # ========== local ==========
 allow adreno200_t self:unix_dgram_socket { create connect };
 allow adreno200_t self:tcp_socket { create connect setopt read write bind accept listen shutdown };
-allow adreno200_t self:process { signull ptrace setrlimit setsched };
+allow adreno200_t self:process { signull ptrace setrlimit setsched getsched signal };
 allow adreno200_t self:capability { sys_resource sys_nice sys_ptrace dac_override net_admin };
 allow adreno200_t adreno200_tmpfs_t:file delete_file_perms;

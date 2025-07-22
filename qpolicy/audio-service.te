@@ -33,6 +33,8 @@ fs_manage_tmpfs_files(audio_service_t)
 userdom_rw_user_tmp_files(audio_service_t)
 userdom_map_tmp_files(audio_service_t)
 userdom_delete_user_tmp_files(audio_service_t)
+userdom_rw_user_tmpfs_files(audio_service_t)
+userdom_map_user_tmpfs_files(audio_service_t)
 
 dev_rw_dma_dev(audio_service_t)
 dev_rw_kiumd_dev(audio_service_t)
@@ -69,11 +71,17 @@ glinkserver_ptrace(audio_service_t)
 unconfined_server_signull(audio_service_t)
 unconfined_signull(audio_service_t)
 
+# /dmabuf
+unconfined_use_fds(audio_service_t)
+
 ssrrm_rw_tmpfs_files(audio_service_t)
 glinkserver_rw_tmpfs_files(audio_service_t)
 fastrpc_rm_rw_tmpfs_files(audio_service_t)
 diagservice_rw_tmpfs_files(audio_service_t)
 pilrm_rw_tmpfs_files(audio_service_t)
+kernel_read_debugfs(audio_service_t)
+#early stage policy
+fs_manage_tmpfs_sockets(audio_service_t)
 
 # ========== local ==========
 allow audio_service_t self:unix_dgram_socket { create connect getopt setopt };
@@ -81,7 +89,6 @@ allow audio_service_t self:unix_stream_socket connectto;
 allow audio_service_t self:process { setrlimit setsched ptrace getsched signull };
 allow audio_service_t self:capability { sys_resource sys_nice net_admin sys_ptrace dac_override };
 allow audio_service_t self:tcp_socket {accept bind create listen setopt shutdown connect read write};
-
 
 # /usr/bin/awe-start-pre.sh
 kernel_request_load_module(audio_service_t)
@@ -132,8 +139,11 @@ manage_files_pattern(audio_service_t, audio_etc_t, audio_etc_t)
 unconfined_server_ptrace(audio_service_t)
 unconfined_ptrace(audio_service_t)
 
-#libkiumd
+# libkiumd
 libkiumd_mmap_exec_lib_file(audio_service_t)
 
 # pm_register
 power_use_pm_register(audio_service_t, audio_power_t)
+
+# compresmgr_service
+compresmgr_rw_etc_files(audio_service_t)

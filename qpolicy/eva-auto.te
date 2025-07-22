@@ -19,6 +19,9 @@ init_rw_script_stream_sockets(eva_auto_t)
 files_config_file(eva_auto_etc_t)
 evauto_rw_etc_files(eva_auto_t)
 
+# Read dummy files in /etc/ folder
+files_read_etc_runtime_files(eva_auto_t)
+
 # Allow access to /dev/scmi_eva
 dev_node(eva_auto_dev_t)
 evauto_rw_scmi_dev(eva_auto_t)
@@ -61,10 +64,22 @@ libkiumd_mmap_exec_lib_file(eva_auto_t)
 #libpm-client
 power_use_pm_register(eva_auto_t, eva_auto_power_t)
 
+#scm node
+dev_rw_scmnode_dev(eva_auto_t)
+
+#compres
+compresmgr_rw_etc_files(eva_auto_t)
+
+# QLF
+files_manage_default_dirs(eva_auto_t)
+files_manage_var_dirs(eva_auto_t)
+files_manage_var_files(eva_auto_t)
+files_manage_var_symlinks(eva_auto_t)
+
 # ========== local ==========
 allow eva_auto_t self:unix_dgram_socket { create connect };
-allow eva_auto_t self:process { setrlimit setsched getsched };
-allow eva_auto_t self:capability { sys_resource sys_nice net_admin dac_override sys_ptrace };
+allow eva_auto_t self:process { setrlimit setsched getsched signal };
+allow eva_auto_t self:capability { sys_resource sys_nice net_admin dac_override sys_ptrace dac_read_search };
 
 files_tmp_file(eva_auto_tmp_t)
 files_tmp_filetrans(eva_auto_t, eva_auto_tmp_t, { dir fifo_file file lnk_file })

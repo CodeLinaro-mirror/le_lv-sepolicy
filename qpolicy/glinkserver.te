@@ -27,6 +27,7 @@ audio_service_signull(glinkserver_t)
 ssrrm_rw_tmpfs_files(glinkserver_t)
 fastrpc_rm_mmap_rw_tmpfs_files(glinkserver_t)
 diagservice_mmap_rw_tmpfs_files(glinkserver_t)
+diagservice_delete_tmpfs_files(glinkserver_t)
 audioservice_mmap_rw_tmpfs_files(glinkserver_t)
 audioservice_delete_tmpfs_files(glinkserver_t)
 
@@ -59,3 +60,4 @@ allow glinkserver_t self:capability { net_admin sys_nice sys_resource dac_overri
 
 userdom_manage_user_tmp_files(glinkserver_t)
 userdom_map_tmp_files(glinkserver_t)
+fs_manage_tmpfs_files(glinkserver_t)

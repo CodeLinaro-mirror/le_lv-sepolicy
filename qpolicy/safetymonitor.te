@@ -7,6 +7,7 @@ type safetymonitor_t;
 type safetymonitor_exec_t;
 type safetymonitor_tmp_t;
 type safetymonitor_tmpfs_t;
+type safetymonitor_power_t;
 
 init_daemon_domain(safetymonitor_t, safetymonitor_exec_t)
 
@@ -73,6 +74,12 @@ nsp_drv_signull(safetymonitor_t)
 safetymonitor_execute_bins(safetymonitor_t)
 corecmd_mmap_bin_files(safetymonitor_t)
 corecmd_exec_shell(safetymonitor_t)
+
+#xml reading access /etc/sm_config
+safetymonitor_rw_etc_files(safetymonitor_t)
+
+# pm_register
+power_use_pm_register(safetymonitor_t, safetymonitor_power_t)
 
 #/proc/filesystems
 kernel_read_proc_files(safetymonitor_t)

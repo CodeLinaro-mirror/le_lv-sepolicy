@@ -1,4 +1,4 @@
-# Copyright (c) 2024-2025 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -80,6 +80,8 @@ fs_create_mmap_rw_tmpfs_files(pil_rm_t)
 #libkiumd
 libkiumd_mmap_exec_lib_file(pil_rm_t)
 
+minkdescriptor_mmap_lib_files(pil_rm_t)
+
 dev_rw_scmnode_dev(pil_rm_t)
 dev_dontaudit_scmnode_sec_dev(pil_rm_t)
 dev_rw_kiumd_dev(pil_rm_t)
@@ -105,7 +107,7 @@ power_use_pm_register(pil_rm_t, pil_rm_power_t)
 # ========== local ==========
 allow pil_rm_t self:unix_dgram_socket { create connect getopt setopt };
 allow pil_rm_t self:process { setrlimit setsched };
-allow pil_rm_t self:capability { sys_resource sys_nice net_admin };
+allow pil_rm_t self:capability { sys_resource sys_nice net_admin kill};
 allow pil_rm_t device_t:chr_file { read write };
 allow pil_rm_t device_t:chr_file open;
 
