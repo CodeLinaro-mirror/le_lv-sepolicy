@@ -33,6 +33,7 @@ qseecomd_manage_data_files(initrc_t)
 
 audioservice_rw_etc_files(initrc_t)
 
+vmm_nnp_trans(initrc_t)
 pulseaudio_binder(initrc_t)
 sailmb_nnp_transition(initrc_t)
 fstools_nnp_trans(initrc_t)
