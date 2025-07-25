@@ -5,3 +5,4 @@
 /usr/bin/vmm_service               --      gen_context(system_u:object_r:vmm_exec_t,s0)
 /usr/bin/vmm-ramdump               --      gen_context(system_u:object_r:vmm_exec_t,s0)
 /usr/bin/vmm_test                  --      gen_context(system_u:object_r:vmm_exec_t,s0)
+/usr/bin/vmm-boot-lcm              --      gen_context(system_u:object_r:vmm_exec_t,s0)
