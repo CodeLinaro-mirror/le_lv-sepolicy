@@ -41,6 +41,8 @@ logging_create_devlog_dev(powercyclemgr_t)
 
 allow powercyclemgr_t power_qcom_pm_t:sock_file {write read};
 allow powercyclemgr_t unconfined_service_t:unix_stream_socket connectto;
+audioservice_write_audio_power(audio_power_t)
+audioservice_connect_audio_sock(audio_service_t)
 
 files_manage_generic_tmp_dirs(powercyclemgr_t)
 files_manage_generic_tmp_files(powercyclemgr_t)
