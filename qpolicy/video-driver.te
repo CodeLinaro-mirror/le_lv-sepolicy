@@ -113,6 +113,10 @@ dev_map_kiumd_dev(video_driver_t)
 unconfined_server_ptrace(video_driver_t)
 unconfined_server_read_files(video_driver_t)
 unconfined_ptrace(video_driver_t)
+unconfined_use_fds(video_driver_t)
+unconfined_server_stream_connectto(video_driver_t)
+unconfined_server_signull(video_driver_t)
+unconfined_signull(video_driver_t)
 
 # /usr/lib/libkiumd,liblrms,liblrmc
 libkiumd_mmap_exec_lib_file(video_driver_t)
@@ -121,3 +125,15 @@ libkiumd_relabel_lib_files(video_driver_t)
 libkiumd_manage_lib_files(video_driver_t)
 
 compresmgr_rw_etc_files(video_driver_t)
+
+userdom_relabel_user_tmpfs_dirs(video_driver_t)
+userdom_relabel_user_tmpfs_files(video_driver_t)
+userdom_user_tmpfs_file(video_driver_t)
+userdom_map_user_tmpfs_files(video_driver_t)
+userdom_read_user_tmpfs_files(video_driver_t)
+userdom_dontaudit_read_user_tmpfs_files(video_driver_t)
+userdom_rw_user_tmpfs_files(video_driver_t)
+userdom_delete_user_tmpfs_files(video_driver_t)
+userdom_manage_user_tmpfs_files(video_driver_t)
+
+mmap_rw_files_pattern(video_driver_t,user_tmpfs_t,user_tmpfs_t)
