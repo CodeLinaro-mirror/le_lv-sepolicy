@@ -48,6 +48,14 @@ allow syscache_rm_t syscache_rm_tmpfs_t:file { map unlink };
 # for syscache_drv_test registering with syscache_rm (user_tmp_t)
 userdom_manage_tmp_files(syscache_rm_t)
 userdom_map_tmp_files(syscache_rm_t)
+userdom_read_user_tmpfs_files(syscache_rm_t);
+userdom_rw_user_tmpfs_files(syscache_rm_t);
+userdom_delete_user_tmpfs_files(syscache_rm_t);
+userdom_map_user_tmpfs_files(syscache_rm_t);
+
+# unconfined 
+unconfined_signull(syscache_rm_t)
+#============= syscache_rm_t ==============
 
 # ========== local ==========
 allow syscache_rm_t self:unix_dgram_socket { create connect getopt setopt };
