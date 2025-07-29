@@ -19,3 +19,39 @@ interface(`sysadm_rw_stream_socket',`
 
     allow $1 sysadm_systemd_t:unix_stream_socket connected_stream_socket_perms;
 ')
+
+########################################
+## <summary>
+## Allow some domain to create key to sysadm_t
+## </summary>
+## <param name="domain">
+## <summary>
+## Domain allowed access.
+## </summary>
+## </param>
+#
+interface(`sysadm_create_key',`
+    gen_require(`
+        type sysadm_t;
+    ')
+
+    allow $1 sysadm_t:key create;
+')
+
+########################################
+## <summary>
+## Allow some domain to inherit attributes from sysadm_t process
+## </summary>
+## <param name="domain">
+## <summary>
+## Domain allowed access.
+## </summary>
+## </param>
+#
+interface(`sysadm_inherit_process_attributes',`
+    gen_require(`
+        type sysadm_t;
+    ')
+
+    allow $1 sysadm_t:process { noatsecure rlimitinh siginh };
+')

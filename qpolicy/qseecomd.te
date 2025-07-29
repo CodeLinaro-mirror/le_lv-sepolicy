@@ -48,7 +48,7 @@ files_list_mnt(qseecomd_t)
 # local
 allow qseecomd_t self:unix_dgram_socket { create connect };
 allow qseecomd_t self:capability { setgid setpcap setuid dac_override sys_rawio dac_read_search sys_resource };
-allow qseecomd_t self:process { setcap setrlimit };
+allow qseecomd_t self:process { setcap setrlimit signal };
 allow qseecomd_t self:capability2 { block_suspend };
 
 # search root directory
