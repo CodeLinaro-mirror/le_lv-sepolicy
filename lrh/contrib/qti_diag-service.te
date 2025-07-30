@@ -30,6 +30,9 @@ audioservice_delete_tmpfs_files(diag_service_t)
 ssctl_service_mmap_rw_tmpfs_files(diag_service_t)
 hsi2sumd_mmap_rw_tmpfs_files(diag_service_t)
 hsi2sumd_delete_tmpfs_files(diag_service_t)
+kernel_search_debugfs(diag_service_t)
+fs_search_tracefs_dirs(diag_service_t)
+fs_rw_tracefs_files(diag_service_t)
 
 # kernel
 kernel_signull(diag_service_t)
