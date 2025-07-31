@@ -46,5 +46,5 @@ libkiumd_mmap_exec_lib_file(nsp_drv_t)
 
 ## ========== local ==========
 allow nsp_drv_t self:unix_dgram_socket { create connect getopt setopt };
-allow nsp_drv_t self:process { setrlimit setsched };
+allow nsp_drv_t self:process { setrlimit setsched getsched};
 allow nsp_drv_t self:capability { sys_resource net_admin sys_nice };
