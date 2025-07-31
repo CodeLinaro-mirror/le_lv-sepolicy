@@ -100,6 +100,10 @@ nspdrv_delete_tmpfs_files(safetymonitor_t)
 safetymonitor_execute_bins(safetymonitor_t)
 corecmd_mmap_bin_files(safetymonitor_t)
 
+#powercyclemgr
+powercyclemgr_signull(safetymonitor_t)
+powercyclemgr_mmap_rw_tmpfs_files(safetymonitor_t)
+powercyclemgr_rw_tmpfs_files(safetymonitor_t)
 
 # ========== local ==========
 allow safetymonitor_t self:unix_dgram_socket { create connect };
