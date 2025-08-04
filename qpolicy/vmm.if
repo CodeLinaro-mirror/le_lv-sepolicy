@@ -79,3 +79,21 @@ interface(`vmm_dbus_msg',`
     allow $1 vmm_t:dbus send_msg;
     allow vmm_t $1:dbus send_msg;
 ')
+
+########################################
+## <summary>
+##  Transition to vmm_t when NNP has been set.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  The type of the process performing this action.
+##  </summary>
+## </param>
+#
+interface(`vmm_nnp_trans',`
+    gen_require(`
+        type vmm_t;
+    ')
+
+    allow $1 vmm_t:process2 nnp_transition;
+')
