@@ -28,6 +28,14 @@ allow subsys_ramdump_util_t self:unix_dgram_socket { create connect };
 allow subsys_ramdump_util_t self:process { setrlimit setsched getsched };
 allow subsys_ramdump_util_t self:capability { sys_resource sys_nice };
 
+#tmpfs_t
+fs_getattr_tmpfs(subsys_ramdump_util_t)
+
+#var_t
+files_manage_var_dirs(subsys_ramdump_util_t)
+files_manage_var_files(subsys_ramdump_util_t)
+files_read_var_symlinks(subsys_ramdump_util_t)
+
 # /var/ssrdump
 files_var_filetrans(subsys_ramdump_util_t, ssrdump_var_t, dir)
 manage_dirs_pattern(subsys_ramdump_util_t, ssrdump_var_t, ssrdump_var_t)
