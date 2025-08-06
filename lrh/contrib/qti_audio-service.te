@@ -49,6 +49,7 @@ logging_send_syslog_msg(audio_service_t)
 fs_map_tmpfs_files(audio_service_t)
 fs_rw_tmpfs_files(audio_service_t)
 files_rw_generic_tmp_sockets(audio_service_t)
+files_rw_default_dirs(audio_service_t)
 
 # Todo, change to fs_delete_tmpfs_files after promotion
 fs_manage_tmpfs_files(audio_service_t)

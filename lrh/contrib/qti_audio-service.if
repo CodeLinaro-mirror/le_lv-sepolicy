@@ -180,3 +180,39 @@ interface(`audioservice_write_tmpfs_sock_file',`
 
     allow $1 tmpfs_t:sock_file write;
 ')
+
+######################################
+## <summary>
+##  Write audio power
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`audioservice_write_audio_power',`
+    gen_require(`
+        type audio_power_t;
+    ')
+
+    allow $1 audio_power_t:sock_file write;
+')
+
+######################################
+## <summary>
+##  Sock audio service
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`audioservice_connect_audio_sock',`
+    gen_require(`
+        type audio_service_t;
+    ')
+
+    allow $1 audio_service_t:unix_stream_socket connectto;
+')
