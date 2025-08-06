@@ -111,3 +111,21 @@ interface(`nspconfig_rw_tmpfs_files',`
 
     rw_files_pattern($1, nspconfig_tmpfs_t, nspconfig_tmpfs_t)
 ')
+
+########################################
+## <summary>
+##  Transition to nspconfig_t when NNP has been set.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  The type of the process performing this action.
+##  </summary>
+## </param>
+#
+interface(`nspconfig_nnp_transition',`
+    gen_require(`
+        type nspconfig_t;
+    ')
+
+    allow $1 nspconfig_t:process2 nnp_transition;
+')
