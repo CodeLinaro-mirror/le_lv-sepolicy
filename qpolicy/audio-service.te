@@ -94,6 +94,38 @@ allow audio_service_t self:process { setrlimit setsched ptrace getsched signull 
 allow audio_service_t self:capability { sys_resource sys_nice net_admin sys_ptrace dac_override dac_read_search};
 allow audio_service_t self:tcp_socket {accept bind create listen setopt shutdown connect read write};
 
+# ========== Beginning of additional AudioReach rules support ==========
+# Allow audio_service_t to send D-Bus messages to other audio_service_t processes
+# If the service is registered on the system bus, allow acquiring the service
+audioservice_dbus_chat(audio_service_t)
+audioservice_ipc_sockets(audio_service_t)
+audioservice_process_control(audio_service_t)
+audioservice_tcp_comm(audio_service_t)
+
+glinkserver_use_fds(audio_service_t)
+
+# D-Bus and systemd access for suspend/resume and session handling
+dbus_system_bus_client(audio_service_t)
+systemd_dbus_chat_logind(audio_service_t)
+systemd_write_inhibit_pipes(audio_service_t)
+
+systemd_read_logind_sessions_files(audio_service_t)
+systemd_login_read_pid_files(audio_service_t)
+
+dbus_chat_session_bus(audio_service_t)
+dbus_write_pid_sock_files(audio_service_t)
+dbus_read_pid_files(audio_service_t)
+dbus_search_system_dbusd_runtime_dir(audio_service_t)
+dbus_write_system_dbusd_runtime_sock(audio_service_t)
+dbus_stream_connect_system_dbusd(audio_service_t)
+dbus_system_bus_unconfined(audio_service_t)
+
+# Audio-specific configs
+audioservice_read_etc_files(audio_service_t)
+kernel_read_proc_files(audio_service_t)
+
+# ========== End of additional AudioReach rules support ==========
+
 # /usr/bin/awe-start-pre.sh
 kernel_request_load_module(audio_service_t)
 
