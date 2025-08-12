@@ -85,7 +85,7 @@ power_use_pm_register(eva_auto_t, eva_auto_power_t)
 # ========== local ==========
 allow eva_auto_t self:unix_dgram_socket { create connect };
 allow eva_auto_t self:process { setrlimit setsched };
-allow eva_auto_t self:capability { sys_resource sys_nice net_admin dac_override sys_ptrace };
+allow eva_auto_t self:capability { sys_resource sys_nice net_admin dac_override sys_ptrace kill};
 
 files_tmp_file(eva_auto_tmp_t)
 files_tmp_filetrans(eva_auto_t, eva_auto_tmp_t, { dir fifo_file file lnk_file })
