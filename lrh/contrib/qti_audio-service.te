@@ -121,6 +121,7 @@ manage_sock_files_pattern(audio_service_t, audio_service_tmp_t, audio_service_tm
 filetrans_pattern(audio_service_t,tmpfs_t, audio_service_tmpfs_t, sock_file, "awe_alsa_socket")
 fs_associate_tmpfs(audio_service_tmpfs_t)
 manage_sock_files_pattern(audio_service_t, audio_service_tmpfs_t, audio_service_tmpfs_t)
+fs_manage_tmpfs_sockets(audio_service_t)
 
 # /dev/random
 dev_read_rand(audio_service_t)
