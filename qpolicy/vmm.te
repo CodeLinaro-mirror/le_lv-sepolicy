@@ -81,6 +81,7 @@ allow vmm_t vmm_tmpfs_t:file delete_file_perms;
 unconfined_server_signull(vmm_t);
 fs_map_tmpfs_files(vmm_t);
 fs_rw_tmpfs_files(vmm_t);
+fs_manage_tmpfs_sockets(vmm_t)
 
 # for vmm server communication with vmm client
 allow vmm_t self:unix_stream_socket connectto;
