@@ -123,7 +123,7 @@ interface(`qseecomd_manage_data_dirs',`
 
 ########################################
 ## <summary>
-##	Search qseecomd data.
+##	Search qseecomd data directory.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -131,7 +131,7 @@ interface(`qseecomd_manage_data_dirs',`
 ##	</summary>
 ## </param>
 #
-interface(`qseecomd_search_data',`
+interface(`qseecomd_search_data_dirs',`
     gen_require(`
         type qseecomd_data_t;
     ')
