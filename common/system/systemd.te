@@ -72,6 +72,7 @@ videodriver_read_tmpfs_files(systemd_tmpfiles_t)
 videodriver_list_tmpfs_dirs(systemd_tmpfiles_t)
 sysstat_manage_log(systemd_tmpfiles_t)
 files_manage_default_files(systemd_tmpfiles_t)
+files_read_default_symlinks(systemd_tmpfiles_t)
 
 files_manage_default_dirs(systemd_update_done_t)
 

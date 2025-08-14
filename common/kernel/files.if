@@ -231,6 +231,24 @@ interface(`files_rw_isid_type_dirs',`
 
 ########################################
 ## <summary>
+## getattr and read unlabeled symbolic links
+## </summary>
+## <param name="domain">
+## <summary>
+## Domain allowed access.
+## </summary>
+## </param>
+#
+interface(`files_read_unlabeled_symlinks',`
+    gen_require(`
+        type unlabeled_t;
+    ')
+
+    allow $1 unlabeled_t:lnk_file read_lnk_file_perms;
+')
+
+########################################
+## <summary>
 ##  Mount a filesystem on the
 ##  etc files.
 ## </summary>

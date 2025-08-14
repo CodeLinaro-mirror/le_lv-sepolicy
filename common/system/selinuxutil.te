@@ -16,5 +16,8 @@ term_use_generic_ptys(load_policy_t)
 init_rw_script_stream_sockets(setfiles_t)
 kernel_getattr_proc(setfiles_t)
 
+# restorecon /persist/run
+files_read_unlabeled_symlinks(setfiles_t)
+
 # Because qseecomd service set corresponding capability
 allow setfiles_t self:capability dac_override;
