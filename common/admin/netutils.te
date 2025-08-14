@@ -3,3 +3,5 @@
 
 init_use_script_ptys(ping_t)
 corenet_icmp_bind_generic_node(ping_t)
+
+corecmd_exec_bin(ping_t)
