@@ -76,3 +76,22 @@ interface(`compresmon_rw_etc_files',`
     list_dirs_pattern($1, etc_t, compresmon_etc_t)
     rw_files_pattern($1, etc_t, compresmon_etc_t)
 ')
+
+########################################
+## <summary>
+##  Transition to compresmon_t when NNP has been set.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  The type of the process performing this action.
+##  </summary>
+## </param>
+#
+interface(`compresmon_nnp_trans',`
+    gen_require(`
+        type compresmon_t;
+    ')
+
+    allow $1 compresmon_t:process2 nnp_transition;
+')
+
