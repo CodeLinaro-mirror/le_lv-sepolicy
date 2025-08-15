@@ -82,3 +82,7 @@ fs_delete_tmpfs_files(diag_service_t)
 userdom_manage_user_tmpfs_files(diag_service_t)
 unconfined_signull(diag_service_t)
 mmap_rw_files_pattern(diag_service_t,user_tmpfs_t,user_tmpfs_t)
+
+init_signull_script(diag_service_t)
+fs_map_tmpfs_files(diag_service_t)
+fs_rw_tmpfs_files(diag_service_t)
