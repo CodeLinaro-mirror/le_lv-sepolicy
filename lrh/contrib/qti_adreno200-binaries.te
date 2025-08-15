@@ -121,6 +121,8 @@ systemd_dbus_chat_logind(adreno200_t)
 dbus_write_pid_sock_files(adreno200_t)
 dbus_stream_connect_system_dbusd(adreno200_t)
 dbus_send_system_bus(adreno200_t)
+init_dbus_chat(adreno200_t)
+systemd_start_systemd_services(adreno200_t)
 
 #cgroup_t
 fs_getattr_cgroup(adreno200_t)
