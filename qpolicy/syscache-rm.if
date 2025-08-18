@@ -128,3 +128,21 @@ interface(`syscache_rm_tmpfs_map_files',`
 
     allow $1 syscache_rm_tmpfs_t:file mmap_exec_file_perms;
 ')
+
+#######################################
+## <summary>
+##  Transition to syscache_rm_t when NNP has been set.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  The type of the process performing this action.
+##  </summary>
+## </param>
+#
+interface(`syscache_rm_nnp_trans',`
+    gen_require(`
+        type syscache_rm_t;
+    ')
+
+    allow $1 syscache_rm_t:process2 nnp_transition;
+')

@@ -194,3 +194,40 @@ interface(`weston_delete_tmpfs_sock_files',`
 
     delete_sock_files_pattern($1, weston_tmpfs_t, weston_tmpfs_t)
 ')
+
+######################################
+## <summary>
+## -pm-client-weston.sock connectto.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`weston_connect_pm_socket',`
+    gen_require(`
+        type weston_t;
+    ')
+
+    allow $1 weston_t:unix_stream_socket connectto;
+    allow weston_t $1:unix_stream_socket connectto;
+')
+
+######################################
+## <summary>
+## -pm-client-weston.sock file manage.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`weston_manage_pm_sockfile',`
+    gen_require(`
+        type weston_power_t;
+    ')
+
+    allow $1 weston_power_t:sock_file manage_sock_file_perms;
+')

@@ -4,6 +4,7 @@
 /usr/bin/qseecomd               --      gen_context(system_u:object_r:qseecomd_exec_t,s0)
 /data/tzstorage(/.*)?                   gen_context(system_u:object_r:qseecomd_data_t,s0)
 /persist/data(/.*)?                     gen_context(system_u:object_r:qseecomd_persist_t,s0)
+/persist/run(/.*)?                      gen_context(system_u:object_r:var_t,s0)
 /etc/initscripts/qseecomd       --      gen_context(system_u:object_r:qseecomd_initscript_exec_t,s0)
 /dev/qseecom                    -c      gen_context(system_u:object_r:qseecom_device_t,s0)
 /data/misc(/.*)?                        gen_context(system_u:object_r:qseecomd_data_t,s0)

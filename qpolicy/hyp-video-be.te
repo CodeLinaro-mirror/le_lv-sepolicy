@@ -33,7 +33,7 @@ videodriver_rw_tmpfs_files(hyp_video_t)
 # ========== local ==========
 allow hyp_video_t self:unix_dgram_socket { create connect getopt setopt };
 allow hyp_video_t self:process { setsched };
-allow hyp_video_t self:capability { sys_resource sys_nice net_admin };
+allow hyp_video_t self:capability { sys_resource sys_nice net_admin kill};
 
 files_tmp_file(hyp_video_tmp_t)
 files_tmp_filetrans(hyp_video_t, hyp_video_tmp_t, { dir fifo_file file lnk_file })

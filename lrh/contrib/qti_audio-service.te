@@ -48,7 +48,11 @@ logging_send_syslog_msg(audio_service_t)
 # so file transition rules can't work, use below two interface for the moment
 fs_map_tmpfs_files(audio_service_t)
 fs_rw_tmpfs_files(audio_service_t)
+fs_rw_tracefs_files(audio_service_t)
+fs_search_tracefs_dirs(audio_service_t)
 files_rw_generic_tmp_sockets(audio_service_t)
+files_rw_default_dirs(audio_service_t)
+kernel_search_debugfs(audio_service_t)
 
 # Todo, change to fs_delete_tmpfs_files after promotion
 fs_manage_tmpfs_files(audio_service_t)
@@ -111,7 +115,7 @@ fs_manage_tmpfs_sockets(audio_service_t)
 allow audio_service_t self:unix_dgram_socket { create connect getopt setopt };
 allow audio_service_t self:unix_stream_socket connectto;
 allow audio_service_t self:process { setrlimit setsched ptrace };
-allow audio_service_t self:capability { sys_resource sys_nice net_admin sys_ptrace dac_override };
+allow audio_service_t self:capability { sys_resource sys_nice net_admin sys_ptrace dac_override dac_read_search};
 allow audio_service_t self:tcp_socket {accept bind create listen setopt shutdown connect read write};
 
 # /usr/bin/awe-start-pre.sh
@@ -127,6 +131,7 @@ manage_sock_files_pattern(audio_service_t, audio_service_tmp_t, audio_service_tm
 filetrans_pattern(audio_service_t,tmpfs_t, audio_service_tmpfs_t, sock_file, "awe_alsa_socket")
 fs_associate_tmpfs(audio_service_tmpfs_t)
 manage_sock_files_pattern(audio_service_t, audio_service_tmpfs_t, audio_service_tmpfs_t)
+fs_manage_tmpfs_sockets(audio_service_t)
 
 # /dev/random
 dev_read_rand(audio_service_t)
@@ -172,3 +177,7 @@ libkiumd_mmap_exec_lib_file(audio_service_t)
 
 # pm_register
 power_use_pm_register(audio_service_t, audio_power_t)
+
+files_create_default_dirs(audio_service_t)
+files_create_default_files(audio_service_t)
+files_manage_default_files(audio_service_t)

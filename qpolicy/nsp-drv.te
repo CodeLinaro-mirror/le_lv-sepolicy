@@ -40,11 +40,18 @@ nspdrv_delete_tmpfs_files(nsp_drv_t)
 safetymonitor_rw_tmpfs_files(nsp_drv_t)
 
 nspdrv_delete_tmpfs_files(nsp_drv_t)
+nspconfig_signull(nsp_drv_t)
+nspconfig_create_tmpfs_files(nsp_drv_t)
+nspconfig_mmap_rw_tmpfs_files(nsp_drv_t)
+nspconfig_rw_tmpfs_files(nsp_drv_t)
 
 #libkiumd
 libkiumd_mmap_exec_lib_file(nsp_drv_t)
 
 ## ========== local ==========
 allow nsp_drv_t self:unix_dgram_socket { create connect getopt setopt };
-allow nsp_drv_t self:process { setrlimit setsched };
+allow nsp_drv_t self:process { setrlimit setsched getsched};
 allow nsp_drv_t self:capability { sys_resource net_admin sys_nice };
+allow nsp_drv_t nsp_drv_tmpfs_t:file map;
+allow nsp_drv_t nsp_drv_tmpfs_t:file unlink;
+allow nsp_drv_t tmpfs_t:file { map unlink };

@@ -5,6 +5,8 @@ auth_read_shadow(getty_t)
 auth_rw_lastlog(getty_t)
 systemd_dbus_chat_logind(getty_t)
 systemd_write_inherited_logind_sessions_pipes(getty_t)
+sysadm_create_key(getty_t)
+sysadm_inherit_process_attributes(getty_t)
 
 seutil_read_login_config(getty_t)
 seutil_rw_default_contexts(getty_t)
@@ -27,6 +29,7 @@ term_relabel_unallocated_ttys(getty_t)
 files_read_var_symlinks(getty_t)
 files_search_default(getty_t)
 files_manage_default_files(getty_t)
+files_read_default_symlinks(getty_t)
 
 fs_search_tmpfs(getty_t)
 

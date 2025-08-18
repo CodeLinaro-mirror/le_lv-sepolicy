@@ -157,3 +157,40 @@ interface(`owfds_map_tmpfs_files',`
 
     mmap_exec_files_pattern($1, openwfd_tmpfs_t, openwfd_tmpfs_t)
 ')
+
+######################################
+## <summary>
+##  pm-umd-display-0/1.sock connectto.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`openwfd_server_connect_pm_socket',`
+    gen_require(`
+        type openwfd_server_t;
+    ')
+
+    allow $1 openwfd_server_t:unix_stream_socket connectto;
+    allow openwfd_server_t $1:unix_stream_socket connectto;
+')
+
+######################################
+## <summary>
+##  pm-umd-display-0/1.sock file manage.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`openwfd_server_manage_pm_sockfile',`
+    gen_require(`
+        type openwfd_server_power_t;
+    ')
+
+    allow $1 openwfd_server_power_t:sock_file manage_sock_file_perms;
+')

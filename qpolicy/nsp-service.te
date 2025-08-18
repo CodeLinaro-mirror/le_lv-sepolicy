@@ -28,6 +28,10 @@ dev_read_sysfs(nspconfig_t)
 ssrrm_rw_tmpfs_files(nspconfig_t)
 glinkserver_rw_tmpfs_files(nspconfig_t)
 glinkserver_ptrace(nspconfig_t)
+nspdrv_mmap_rw_tmpfs_files(nspconfig_t)
+nspdrv_delete_tmpfs_files(nspconfig_t)
+nspdrv_rw_etc_files(nspconfig_t)
+
 
 allow nspconfig_t self:unix_dgram_socket { create connect getopt setopt };
 allow nspconfig_t self:capability { sys_resource sys_nice net_admin sys_ptrace dac_override };
@@ -63,3 +67,4 @@ files_tmpfs_file(nspconfig_tmpfs_t)
 fs_tmpfs_filetrans(nspconfig_t, nspconfig_tmpfs_t, { dir file })
 nspconfig_create_tmpfs_files(nspconfig_t)
 nspconfig_mmap_rw_tmpfs_files(nspconfig_t)
+allow initrc_t nspconfig_t:process2 nnp_transition;

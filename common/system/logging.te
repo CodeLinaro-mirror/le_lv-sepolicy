@@ -5,11 +5,13 @@ files_create_default_dirs(syslogd_t)
 files_manage_default_files(syslogd_t)
 files_mmap_default_files(syslogd_t)
 files_read_var_symlinks(syslogd_t)
+files_read_default_symlinks(syslogd_t)
 fs_search_tmpfs(syslogd_t)
 
 files_read_var_symlinks(auditd_t)
 files_list_var_dirs(auditd_t)
 files_append_default_files(auditd_t)
+files_read_default_symlinks(auditd_t)
 
 ssrrm_signull(syslogd_t)
 display_be_signull(syslogd_t)
