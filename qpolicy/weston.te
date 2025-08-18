@@ -25,7 +25,7 @@ fs_map_tmpfs_files(weston_t)
 fs_rw_tmpfs_files(weston_t)
 
 # Todo, unlabeled_t, could remove after setting selinxu context to /data mount
-files_mounton_isid_type_dirs(weston_t)
+kernel_mounton_unlabeled_dirs(weston_t)
 files_list_default_dirs(weston_t)
 files_read_usr_files(weston_t)
 files_search_mnt(weston_t)
@@ -119,7 +119,7 @@ dev_rw_dri(weston_t)
 sysnet_read_config(weston_t)
 
 # /data/misc
-qseecomd_search_data(weston_t)
+qseecomd_search_data_dirs(weston_t)
 
 # /run/user/0/wayland-0
 # userdom_manage_user_tmp_dirs(weston_t)
