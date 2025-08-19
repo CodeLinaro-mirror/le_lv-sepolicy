@@ -18,3 +18,21 @@ interface(`corecmd_exec_bin_files',`
 
 	exec_files_pattern($1, bin_t, bin_t)
 ')
+
+########################################
+## <summary>
+##      Allow to execute shell_exec type file.
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+#
+interface(`corecmd_exec_shell_exec_files',`
+        gen_require(`
+                type shell_exec_t;
+        ')
+
+        exec_files_pattern($1, shell_exec_t, shell_exec_t)
+')
