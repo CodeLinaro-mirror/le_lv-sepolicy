@@ -77,6 +77,9 @@ fs_read_dos_files(pil_rm_t)
 
 fs_delete_tmpfs_files(pil_rm_t)
 fs_create_mmap_rw_tmpfs_files(pil_rm_t)
+kernel_search_debugfs(pil_rm_t)
+fs_search_tracefs_dirs(pil_rm_t)
+fs_rw_tracefs_files(pil_rm_t)
 
 #libkiumd
 libkiumd_mmap_exec_lib_file(pil_rm_t)
