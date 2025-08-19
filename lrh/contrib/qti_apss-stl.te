@@ -8,6 +8,7 @@ type apss_stl_exec_t;
 type apss_stl_tmp_t;
 type apss_stl_tmpfs_t;
 type apss_stl_power_t;
+type apss_stl_config_etc_t;
 
 init_daemon_domain(apss_stl_t, apss_stl_exec_t)
 
@@ -41,6 +42,9 @@ libkiumd_mmap_exec_lib_file(apss_stl_t)
 
 # pm_register
 power_use_pm_register(apss_stl_t, apss_stl_power_t)
+
+# read apss stl xml configuration file
+apss_stl_read_config_files(apss_stl_t)
 
 ## ========== local ==========
 allow apss_stl_t self:unix_dgram_socket { create connect getopt setopt };
