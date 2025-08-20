@@ -59,6 +59,24 @@ interface(`files_create_default_dirs',`
 
 ##################################
 ## <summary>
+##  Relabel dirs under default type.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_relabel_default_dirs',`
+    gen_require(`
+        type default_t;
+    ')
+
+    relabel_dirs_pattern($1, default_t, default_t)
+')
+
+##################################
+## <summary>
 ##  Search and list dirs under default type.
 ## </summary>
 ## <param name="domain">
