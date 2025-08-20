@@ -21,3 +21,8 @@ files_read_unlabeled_symlinks(setfiles_t)
 
 # Because qseecomd service set corresponding capability
 allow setfiles_t self:capability dac_override;
+
+files_rw_root_chr_files(setfiles_t)
+
+# /boot/early-ramdisk/early_ramdisk_init.log
+fs_rw_tmpfs_files(setfiles_t)

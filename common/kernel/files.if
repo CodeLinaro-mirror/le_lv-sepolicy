@@ -811,3 +811,22 @@ interface(`files_delete_tmp_files',`
 
     delete_files_pattern($1, tmp_t, tmp_t)
 ')
+
+########################################
+## <summary>
+##  Allow read and write character device nodes in
+##  the root directory.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_rw_root_chr_files',`
+    gen_require(`
+        type root_t;
+    ')
+
+    allow $1 root_t:chr_file rw_chr_file_perms;
+')

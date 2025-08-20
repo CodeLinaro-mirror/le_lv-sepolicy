@@ -181,7 +181,6 @@ allow qcx_server_t debugfs_t:dir search;
 allow qcx_server_t gpiochip_device_t:chr_file { getattr ioctl open read write };
 allow qcx_server_t initrc_t:process ptrace;
 allow qcx_server_t initrc_t:unix_stream_socket connectto;
-allow qcx_server_t mnt_t:dir search;
 allow qcx_server_t self:process { getsched signal};
 allow qcx_server_t usr_t:file { getattr open read };
 allow qcx_server_t qcx_be_server_t:fd { use };
