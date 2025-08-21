@@ -150,3 +150,10 @@ power_use_pm_register(audio_service_t, audio_power_t)
 
 # compresmgr_service
 compresmgr_rw_etc_files(audio_service_t)
+
+# fastrpc
+fastrpc_rm_use_fds(audio_service_t)
+files_exec_usr_files(audio_service_t)
+fs_rw_tracefs_files(audio_service_t)
+files_read_var_symlinks(audio_service_t)
+files_watch_var_dirs(audio_service_t)
