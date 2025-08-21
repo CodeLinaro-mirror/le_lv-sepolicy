@@ -39,6 +39,24 @@ interface(`files_map_var_files',`
     allow $1 var_t:file map;
 ')
 
+########################################
+## <summary>
+##  Watch dirs under /var.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`files_watch_var_dirs',`
+	gen_require(`
+		type var_t;
+	')
+
+	allow $1 var_t:dir watch;
+')
+
 ##################################
 ## <summary>
 ##  Create dirs under default type.

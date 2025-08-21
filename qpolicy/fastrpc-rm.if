@@ -60,6 +60,24 @@ interface(`fastrpc_rm_ptrace',`
 
 ######################################
 ## <summary>
+##  Use fastrpc-rm file descriptors.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`fastrpc_rm_use_fds',`
+    gen_require(`
+        type fastrpc_rm_t;
+    ')
+
+    allow $1 fastrpc_rm_t:fd use;
+')
+
+######################################
+## <summary>
 ##  create files under tmpfs filesystem for fastrpc-rm.
 ## </summary>
 ## <param name="domain">
