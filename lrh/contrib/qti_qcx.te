@@ -98,6 +98,7 @@ files_tmpfs_file(qcx_server_tmpfs_t)
 fs_tmpfs_filetrans(qcx_server_t, qcx_server_tmpfs_t, { dir file })
 manage_files_pattern(qcx_server_t, qcx_server_tmpfs_t, qcx_server_tmpfs_t)
 create_dirs_pattern(qcx_server_t, qcx_server_tmpfs_t, qcx_server_tmpfs_t)
+fs_manage_tmpfs_sockets(qcx_server_t)
 
 # gptp
 files_write_generic_tmp_sock_files(qcx_server_t)
