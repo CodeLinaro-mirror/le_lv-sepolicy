@@ -62,3 +62,5 @@ nspdrv_delete_tmpfs_files(fastrpc_rm_t)
 
 #libkiumd
 libkiumd_mmap_exec_lib_file(fastrpc_rm_t)
+
+fs_delete_tmpfs_files(fastrpc_rm_t)
