@@ -108,6 +108,12 @@ dev_read_rand(audio_service_t)
 # /var/log/*
 logging_create_generic_logs(audio_service_t)
 
+# allow qlf to create dir for audio in /var/log/
+files_create_var_dirs(audio_service_t)
+
+# Allow qlf to check file status in /var/log/
+files_read_var_symlinks(audio_service_t)
+
 # port 15002
 corenet_tcp_bind_generic_port(audio_service_t)
 corenet_tcp_bind_generic_node(audio_service_t)
