@@ -87,7 +87,7 @@ powercyclemgr_rw_tmpfs_files(safetymonitor_t)
 # ========== local ==========
 allow safetymonitor_t self:unix_dgram_socket { create connect };
 allow safetymonitor_t self:process { setrlimit setsched };
-allow safetymonitor_t self:capability { sys_resource sys_nice };
+allow safetymonitor_t self:capability { sys_resource sys_nice dac_override kill};
 
 files_tmp_file(safetymonitor_tmp_t)
 files_tmp_filetrans(safetymonitor_t, safetymonitor_tmp_t, { dir fifo_file file lnk_file })
