@@ -197,7 +197,7 @@ interface(`weston_delete_tmpfs_sock_files',`
 
 ######################################
 ## <summary>
-## -pm-client-weston.sock connectto create unlink write.
+## -pm-client-weston.sock connectto.
 ## </summary>
 ## <param name="domain">
 ##  <summary>
@@ -205,13 +205,29 @@ interface(`weston_delete_tmpfs_sock_files',`
 ##  </summary>
 ## </param>
 #
-interface(`weston_pm_sock',`
+interface(`weston_connect_pm_socket',`
     gen_require(`
         type weston_t;
-        type weston_power_t;
     ')
 
     allow $1 weston_t:unix_stream_socket connectto;
-    allow $1 weston_power_t:sock_file { create unlink write };
     allow weston_t $1:unix_stream_socket connectto;
+')
+
+######################################
+## <summary>
+## -pm-client-weston.sock file manage.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`weston_manage_pm_sockfile',`
+    gen_require(`
+        type weston_power_t;
+    ')
+
+    allow $1 weston_power_t:sock_file manage_sock_file_perms;
 ')
