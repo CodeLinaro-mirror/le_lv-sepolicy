@@ -38,8 +38,8 @@ logging_create_devlog_dev(powercyclemgr_t)
 
 allow powercyclemgr_t power_qcom_pm_t:sock_file {write read};
 allow powercyclemgr_t unconfined_service_t:unix_stream_socket connectto;
-audioservice_write_audio_power(audio_power_t)
-audioservice_connect_audio_sock(audio_service_t)
+audioservice_write_audio_power(powercyclemgr_t)
+audioservice_connect_audio_sock(powercyclemgr_t)
 
 files_manage_generic_tmp_dirs(powercyclemgr_t)
 files_manage_generic_tmp_files(powercyclemgr_t)
@@ -72,8 +72,10 @@ power_use_pm_register(powercyclemgr_t, powercyclemgr_socket_t)
 adreno200_sock(powercyclemgr_t)
 vmm_client_connect_server(powercyclemgr_t)
 qcx_server_sock(powercyclemgr_t)
-openwfd_server_pm_sock(powercyclemgr_t)
-weston_pm_sock(powercyclemgr_t)
+openwfd_server_connect_pm_socket(powercyclemgr_t)
+openwfd_server_manage_pm_sockfile(powercyclemgr_t)
+weston_connect_pm_socket(powercyclemgr_t)
+weston_manage_pm_sockfile(powercyclemgr_t)
 video_driver_socket_connect(powercyclemgr_t)
 video_driver_sockfile_manage(powercyclemgr_t)
 
