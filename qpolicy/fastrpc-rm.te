@@ -28,6 +28,7 @@ dev_rw_dma_dev(fastrpc_rm_t)
 dev_rw_kiumd_dev(fastrpc_rm_t)
 dev_rw_vfio_dev(fastrpc_rm_t)
 dev_read_sysfs(fastrpc_rm_t)
+dev_map_kiumd_dev(fastrpc_rm_t)
 
 ssrrm_rw_tmpfs_files(fastrpc_rm_t)
 glinkserver_rw_tmpfs_files(fastrpc_rm_t)
