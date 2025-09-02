@@ -104,6 +104,8 @@ compresmon_signull(pil_rm_t)
 compresmon_mmap_rw_tmpfs_files(pil_rm_t)
 compresmon_unlink_tmpfs_files(pil_rm_t)
 
+compresmgr_rw_etc_files(pil_rm_t)
+
 #lrms
 userdom_manage_user_tmpfs_files(pil_rm_t)
 mmap_rw_files_pattern(pil_rm_t,user_tmpfs_t,user_tmpfs_t)
