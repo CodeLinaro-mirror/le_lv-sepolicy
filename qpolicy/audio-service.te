@@ -87,6 +87,7 @@ kernel_read_debugfs(audio_service_t)
 fs_manage_tmpfs_sockets(audio_service_t)
 
 # ========== local ==========
+dev_manage_generic_chr_files(audio_service_t)
 allow audio_service_t self:unix_dgram_socket { create connect getopt setopt };
 allow audio_service_t self:unix_stream_socket connectto;
 allow audio_service_t self:process { setrlimit setsched ptrace getsched signull };
