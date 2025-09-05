@@ -1,0 +1,5 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+/usr/bin/synx-service               --      gen_context(system_u:object_r:synxservice_exec_t,s0)
+/dev/umd_ipclite                    -c      gen_context(system_u:object_r:synxservice_dev_t,s0)
