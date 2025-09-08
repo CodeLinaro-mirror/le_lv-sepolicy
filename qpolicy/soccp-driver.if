@@ -1,0 +1,131 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary>Policy for SELinux policy and userland applications.</summary>
+
+######################################
+## <summary>
+##  Map, read and write soccp-driver tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`soccp_driver_mmap_rw_tmpfs_files',`
+    gen_require(`
+        type soccp_driver_tmpfs_t;
+    ')
+
+    mmap_rw_files_pattern($1, soccp_driver_tmpfs_t, soccp_driver_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Read and write soccp-driver tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`soccp_driver_rw_tmpfs_files',`
+    gen_require(`
+        type soccp_driver_tmpfs_t;
+    ')
+
+    rw_files_pattern($1, soccp_driver_tmpfs_t, soccp_driver_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Read soccp-driver tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`soccp_driver_read_tmpfs_files',`
+    gen_require(`
+        type soccp_driver_tmpfs_t;
+    ')
+
+    read_files_pattern($1, soccp_driver_tmpfs_t, soccp_driver_tmpfs_t)
+    allow $1 soccp_driver_tmpfs_t:fifo_file getattr;
+')
+
+######################################
+## <summary>
+##  Delete soccp-driver tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`soccp_driver_delete_tmpfs_files',`
+    gen_require(`
+        type soccp_driver_tmpfs_t;
+    ')
+
+    delete_files_pattern($1, soccp_driver_tmpfs_t, soccp_driver_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  List soccp-driver tmpfs directories.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`soccp_driver_list_tmpfs_dirs',`
+    gen_require(`
+        type soccp_driver_tmpfs_t;
+    ')
+
+    list_dirs_pattern($1, soccp_driver_tmpfs_t, soccp_driver_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Send signull to soccp related process.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`soccp_driver_signull',`
+    gen_require(`
+        type soccp_driver_t;
+    ')
+
+    allow $1 soccp_driver_t:process signull;
+')
+
+######################################
+## <summary>
+##  Read and write scmi devices.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`soccp_driver_rw_scmi_dev',`
+    gen_require(`
+        type device_t, soccp_driver_scmi_dev_t;
+    ')
+
+    rw_chr_files_pattern($1, device_t, soccp_driver_scmi_dev_t)
+')

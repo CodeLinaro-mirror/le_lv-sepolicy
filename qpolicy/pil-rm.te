@@ -45,6 +45,7 @@ videodriver_mmap_rw_tmpfs_files(pil_rm_t)
 adreno200_mmap_rw_tmpfs_files(pil_rm_t)
 adreno200_delete_tmpfs_files(pil_rm_t)
 ssctl_service_mmap_rw_tmpfs_files(pil_rm_t)
+soccp_driver_mmap_rw_tmpfs_files(pil_rm_t)
 
 # /firmware/qcom/sa8775p/image/cdsp0.mdt
 fs_list_dos(pil_rm_t)
@@ -107,3 +108,4 @@ compresmon_unlink_tmpfs_files(pil_rm_t)
 #lrms
 userdom_manage_user_tmpfs_files(pil_rm_t)
 mmap_rw_files_pattern(pil_rm_t,user_tmpfs_t,user_tmpfs_t)
+soccp_driver_signull(pil_rm_t)

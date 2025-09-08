@@ -1,0 +1,5 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+/usr/bin/soccp-drv    --      gen_context(system_u:object_r:soccp_driver_exec_t,s0)
+/dev/scmi_soccp       -c      gen_context(system_u:object_r:soccp_driver_scmi_dev_t,s0)
