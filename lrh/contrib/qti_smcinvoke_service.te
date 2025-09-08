@@ -88,6 +88,7 @@ qseecomd_ptrace(smcinvoke_service_t)
 # signull
 ipp_gpce_be_process(smcinvoke_service_t)
 ssgtz_daemon_signull(smcinvoke_service_t)
+ssgtz_daemon_ptrace(smcinvoke_service_t)
 softsku_daemon_signull(smcinvoke_service_t)
 softsku_daemon_ptrace(smcinvoke_service_t)
 

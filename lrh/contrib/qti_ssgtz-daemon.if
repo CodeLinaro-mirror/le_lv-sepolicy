@@ -49,3 +49,21 @@ interface(`ssgtz_daemon_signull',`
 
     allow $1 ssgtz_daemon_t:process signull;
 ')
+
+######################################
+## <summary>
+##  ptrace to ssgtz_daemon_t related process.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`ssgtz_daemon_ptrace',`
+    gen_require(`
+        type ssgtz_daemon_t;
+    ')
+
+    allow $1 ssgtz_daemon_t:process ptrace;
+')
