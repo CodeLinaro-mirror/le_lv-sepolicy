@@ -64,3 +64,5 @@ safetymonitor_rw_tmpfs_files(compresmon_t)
 fs_map_tmpfs_files(compresmon_tmpfs_t)
 fs_manage_tmpfs_files(compresmon_tmpfs_t)
 allow compresmon_t compresmon_tmpfs_t:file map;
+
+pilrm_rw_tmpfs_files(compresmon_t)
