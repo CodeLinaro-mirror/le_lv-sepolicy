@@ -63,6 +63,9 @@ dev_rw_vfio_dev(eva_auto_t)
 safetymonitor_rw_tmpfs_files(eva_auto_t)
 pilrm_rw_tmpfs_files(eva_auto_t)
 
+# pfm
+pfm_rw_tmpfs_files(eva_auto_t)
+
 #libkiumd
 libkiumd_mmap_exec_lib_file(eva_auto_t)
 

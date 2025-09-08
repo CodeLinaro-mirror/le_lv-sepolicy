@@ -35,6 +35,10 @@ syscache_rm_signull(safetymonitor_t)
 ecc_err_handler_signull(safetymonitor_t)
 eva_auto_signull(safetymonitor_t)
 
+pfm_mmap_rw_tmpfs_files(safetymonitor_t)
+pfm_signull(safetymonitor_t)
+pfm_delete_tmpfs_files(safetymonitor_t)
+
 #adreno200
 adreno200_rw_tmpfs_files(safetymonitor_t)
 adreno200_signull(safetymonitor_t)
