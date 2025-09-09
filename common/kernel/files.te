@@ -1,6 +1,4 @@
 # Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
-policy_module(rh_files, 1.0)
-
 type safety_config_etc_t;
