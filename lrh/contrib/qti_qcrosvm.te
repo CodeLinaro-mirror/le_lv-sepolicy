@@ -58,6 +58,7 @@ dev_read_sysfs(qcrosvm_t)
 
 fs_rw_tracefs_files(qcrosvm_t)
 fs_list_dos(qcrosvm_t)
+fs_getattr_tmpfs(qcrosvm_t)
 
 unconfined_server_stream_connectto(qcrosvm_t)
 
