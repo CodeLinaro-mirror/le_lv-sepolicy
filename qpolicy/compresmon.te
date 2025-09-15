@@ -26,7 +26,7 @@ unconfined_server_ptrace(compresmon_t)
 
 files_manage_var_files(compresmon_t)
 
-allow compresmon_t self:process { setrlimit setsched getsched };
+allow compresmon_t self:process { setrlimit setsched getsched signull ptrace };
 allow compresmon_t self:capability { sys_resource sys_nice sys_ptrace net_admin };
 allow compresmon_t self:unix_dgram_socket { create connect };
 allow compresmon_t self:tcp_socket { read write create connect getopt setopt };
@@ -82,3 +82,6 @@ files_manage_default_files(compresmon_t)
 files_read_etc_files(compresmon_t)
 files_search_default(compresmon_t)
 systemd_read_resolved_runtime(compresmon_t)
+
+init_ptrace_script(compresmon_t)
+dev_rw_dma_dev(compresmon_t)

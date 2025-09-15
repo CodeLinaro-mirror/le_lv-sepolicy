@@ -48,6 +48,7 @@ manage_files_pattern(subsys_ramdump_util_t, ssrdump_tmp_t, ssrdump_tmp_t)
 
 files_tmpfs_file(ssrdump_tmpfs_t)
 files_create_default_dirs(ssrdump_tmpfs_t)
+files_rw_default_dirs(ssrdump_tmpfs_t)
 fs_tmpfs_filetrans(subsys_ramdump_util_t, ssrdump_tmpfs_t, { dir file })
 create_files_pattern(subsys_ramdump_util_t, ssrdump_tmpfs_t, ssrdump_tmpfs_t)
 manage_files_pattern(subsys_ramdump_util_t, ssrdump_tmpfs_t, ssrdump_tmpfs_t)

@@ -84,6 +84,9 @@ power_use_pm_register(safetymonitor_t, safetymonitor_power_t)
 #/proc/filesystems
 kernel_read_proc_files(safetymonitor_t)
 
+#compute-resmgr
+compresmgr_rw_etc_files(safetymonitor_t)
+
 # ========== local ==========
 allow safetymonitor_t self:unix_dgram_socket { create connect };
 allow safetymonitor_t self:process { setrlimit setsched getsched };

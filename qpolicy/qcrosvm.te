@@ -16,7 +16,7 @@ virt_image(qcrosvm_boot_t)
 fs_type(qcrosvm_boot_t)
 
 # Todo, unlabeled_t, could remove after setting selinxu context to /data mount
-files_mounton_isid_type_dirs(qcrosvm_t)
+kernel_mounton_unlabeled_dirs(qcrosvm_t)
 
 # Todo, unlabeled_t, could remove after setting selinxu context to /firmware/vm/boot mount
 files_manage_isid_type_files(qcrosvm_t)
@@ -70,3 +70,7 @@ allow qcrosvm_t qcrosvm_boot_t:lnk_file read;
 
 logging_send_syslog_msg(qcrosvm_t)
 read_files_pattern(qcrosvm_t, qcrosvm_boot_t, qcrosvm_boot_t)
+
+fs_getattr_all_sockets(qcrosvm_t)
+fs_manage_tmpfs_sockets(qcrosvm_t)
+fs_manage_tmpfs_files(qcrosvm_t)

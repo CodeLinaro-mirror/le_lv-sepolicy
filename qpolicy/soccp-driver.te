@@ -1,0 +1,60 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(soccp-driver, 1.0)
+
+type soccp_driver_t;
+type soccp_driver_exec_t;
+type soccp_driver_power_t;
+type soccp_driver_scmi_dev_t;
+type soccp_driver_tmp_t;
+type soccp_driver_tmpfs_t;
+
+init_daemon_domain(soccp_driver_t, soccp_driver_exec_t)
+
+init_rw_script_stream_sockets(soccp_driver_t)
+
+dev_node(soccp_driver_scmi_dev_t)
+
+soccp_driver_rw_scmi_dev(soccp_driver_t)
+
+logging_send_syslog_msg(soccp_driver_t)
+
+# libkiumd
+libkiumd_mmap_exec_lib_file(soccp_driver_t)
+dev_rw_kiumd_dev(soccp_driver_t)
+dev_rw_vfio_dev(soccp_driver_t)
+dev_read_sysfs(soccp_driver_t)
+
+# pm_register
+power_use_pm_register(soccp_driver_t, soccp_driver_power_t)
+
+dev_rw_dma_dev(soccp_driver_t)
+dev_rw_hab_dev(soccp_driver_t)
+pilrm_rw_tmpfs_files(soccp_driver_t)
+
+## ========== local ==========
+# Use interfaces for common operations where possible
+domain_use_interactive_fds(soccp_driver_t)
+
+files_tmp_file(soccp_driver_tmp_t)
+files_tmp_filetrans(soccp_driver_t, soccp_driver_tmp_t, { dir fifo_file file lnk_file })
+create_dirs_pattern(soccp_driver_t, soccp_driver_tmp_t, soccp_driver_tmp_t)
+manage_files_pattern(soccp_driver_t, soccp_driver_tmp_t, soccp_driver_tmp_t)
+manage_fifo_files_pattern(soccp_driver_t, soccp_driver_tmp_t, soccp_driver_tmp_t)
+
+files_tmpfs_file(soccp_driver_tmpfs_t)
+fs_tmpfs_filetrans(soccp_driver_t, soccp_driver_tmpfs_t, { dir file })
+create_files_pattern(soccp_driver_t, soccp_driver_tmpfs_t, soccp_driver_tmpfs_t)
+soccp_driver_mmap_rw_tmpfs_files(soccp_driver_t)
+soccp_driver_delete_tmpfs_files(soccp_driver_t)
+soccp_driver_rw_tmpfs_files(soccp_driver_t)
+
+# For operations without existing interfaces
+allow soccp_driver_t self:unix_dgram_socket { create connect getopt setopt };
+allow soccp_driver_t self:process { setrlimit setsched };
+allow soccp_driver_t self:capability { sys_resource net_admin sys_nice };
+allow soccp_driver_t self:capability dac_override;
+allow soccp_driver_t self:process getsched;
+
+dev_map_kiumd_dev(soccp_driver_t)

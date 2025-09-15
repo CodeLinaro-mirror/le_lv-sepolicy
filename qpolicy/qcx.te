@@ -10,7 +10,6 @@ type qcx_server_tmpfs_t;
 type qcx_server_dev_t;
 type qcx_server_power_t;
 
-
 init_daemon_domain(qcx_server_t, qcx_server_exec_t)
 init_rw_script_stream_sockets(qcx_server_t)
 
@@ -18,43 +17,34 @@ init_rw_script_stream_sockets(qcx_server_t)
 dev_node(qcx_server_dev_t)
 qcxserver_rw_scmi_dev(qcx_server_t)
 
-
 # logging
 logging_send_syslog_msg(qcx_server_t)
 
-
 # libkiumd
 libkiumd_mmap_exec_lib_file(qcx_server_t)
-
 
 # safetymonitor
 safetymonitor_signull(qcx_server_t)
 safetymonitor_rw_tmpfs_files(qcx_server_t)
 
-
 # qcx_be_server
 qcxbeserver_ptrace(qcx_server_t)
-
 
 # openwfds
 owfds_map_lib_files(qcx_server_t)
 owfds_read_lib_files(qcx_server_t)
 
-
 # unconfined
 unconfined_ptrace(qcx_server_t)
 unconfined_server_ptrace(qcx_server_t)
 
-
 # user_temp_t
 userdom_write_user_tmp_files(qcx_server_t)
-
 
 # /tmp/
 files_tmp_file(qcx_server_tmp_t)
 files_tmp_filetrans(qcx_server_t, qcx_server_tmp_t, { dir file })
 manage_files_pattern(qcx_server_t, qcx_server_tmp_t, qcx_server_tmp_t)
-
 
 # tmpfs
 fs_manage_tmpfs_dirs(qcx_server_t)
@@ -77,31 +67,26 @@ unconfined_server_stream_connectto(qcx_server_t)
 # fs_t:filesystem getattr
 fs_getattr_xattr_fs(qcx_server_t)
 
-
 # default_t
 files_manage_default_dirs(qcx_server_t)
 files_manage_default_files(qcx_server_t)
 
-
 # Todo, unlabeled_t, could remove after setting selinxu context to /data mount
-files_mounton_isid_type_dirs(qcx_server_t)
+kernel_mounton_unlabeled_dirs(qcx_server_t)
 files_manage_isid_type_dirs(qcx_server_t)
 files_manage_isid_type_files(qcx_server_t)
-
 
 # pm_register
 power_use_pm_register(qcx_server_t, qcx_server_power_t)
 
-
 # /var
 files_manage_var_dirs(qcx_server_t)
 files_manage_var_files(qcx_server_t)
-
+files_search_mnt(qcx_server_t)
 
 # tracefs
 fs_search_tracefs_dirs(qcx_server_t)
 fs_rw_tracefs_files(qcx_server_t)
-
 
 # /dev/<node>
 dev_rw_dma_dev(qcx_server_t)
@@ -113,14 +98,10 @@ dev_rw_realtime_clock(qcx_server_t)
 dev_rw_scmnode_dev(qcx_server_t)
 dev_dontaudit_scmnode_sec_dev(qcx_server_t)
 
-
 allow qcx_server_t self:process { setrlimit setsched ptrace };
 allow qcx_server_t self:capability { sys_resource sys_nice dac_override sys_ptrace net_admin };
 
-
 pilrm_rw_tmpfs_files(qcx_server_t);
-
-
 
 #============= qcx_be_server =============
 
@@ -128,26 +109,22 @@ type qcx_be_server_t;
 type qcx_be_server_exec_t;
 type qcx_be_server_power_t;
 
-
 init_daemon_domain(qcx_be_server_t, qcx_be_server_exec_t)
-
+init_rw_script_stream_sockets(qcx_be_server_t)
 
 # logging
 logging_send_syslog_msg(qcx_be_server_t)
 
-
 # qcx_server
 qcxserver_rw_tmpfs_files(qcx_be_server_t)
-
 
 # tmpfs
 fs_map_tmpfs_files(qcx_be_server_t)
 fs_manage_tmpfs_files(qcx_be_server_t)
 
-
 # /var
 files_manage_var_files(qcx_be_server_t)
-
+files_search_mnt(qcx_be_server_t)
 
 # /dev/<node>
 dev_rw_dma_dev(qcx_be_server_t)
@@ -155,19 +132,15 @@ dev_rw_hab_dev(qcx_be_server_t)
 dev_read_sysfs(qcx_be_server_t)
 dev_rw_scmnode_dev(qcx_be_server_t)
 
-
 # libkiumd
 libkiumd_mmap_exec_lib_file(qcx_be_server_t)
-
 
 # default_t
 files_manage_default_dirs(qcx_be_server_t)
 files_manage_default_files(qcx_be_server_t)
 
-
 # pm_register
 power_use_pm_register(qcx_be_server_t, qcx_be_server_power_t)
-
 
 allow qcx_be_server_t self:process { setsched };
 allow qcx_be_server_t self:capability { sys_resource sys_nice dac_override net_admin};

@@ -25,7 +25,7 @@ fs_map_tmpfs_files(weston_t)
 fs_rw_tmpfs_files(weston_t)
 
 # Todo, unlabeled_t, could remove after setting selinxu context to /data mount
-files_mounton_isid_type_dirs(weston_t)
+kernel_mounton_unlabeled_dirs(weston_t)
 files_list_default_dirs(weston_t)
 files_read_usr_files(weston_t)
 files_search_mnt(weston_t)
@@ -35,6 +35,7 @@ dbus_send_system_bus(weston_t)
 systemd_dbus_chat_logind(weston_t)
 
 init_signal(weston_t)
+init_signal_script(weston_t)
 init_read_state(weston_t)
 init_stream_connect_script(weston_t)
 
@@ -119,7 +120,7 @@ dev_rw_dri(weston_t)
 sysnet_read_config(weston_t)
 
 # /data/misc
-qseecomd_search_data(weston_t)
+qseecomd_search_data_dirs(weston_t)
 
 # /run/user/0/wayland-0
 # userdom_manage_user_tmp_dirs(weston_t)
@@ -177,6 +178,9 @@ term_rw_devpts_chr_files(weston_t)
 corecmd_mmap_bin_files(weston_t)
 corecmd_exec_bin_files(weston_t)
 
+#shell_exec_t
+corecmd_exec_shell_exec_files(weston_t)
+
 #var_run_t
 files_create_var_run_files(weston_t)
 files_manage_var_run_lnk_files(weston_t)
@@ -185,6 +189,9 @@ files_manage_var_run_sock_files(weston_t)
 files_delete_var_run_files(weston_t)
 files_delete_var_run_sock_files(weston_t)
 files_mmap_var_run_files(weston_t)
+
+#default_t
+files_manage_default_files(weston_t)
 
 # This is a workround, rootcause is that early service start earlier than selinux initial to /dev for bootkpi, cause some devices
 # under /dev such as /dev/ksync run under uncorrect selinux context as device_t.

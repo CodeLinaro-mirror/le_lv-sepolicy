@@ -98,6 +98,7 @@ files_tmpfs_file(qcx_server_tmpfs_t)
 fs_tmpfs_filetrans(qcx_server_t, qcx_server_tmpfs_t, { dir file })
 manage_files_pattern(qcx_server_t, qcx_server_tmpfs_t, qcx_server_tmpfs_t)
 create_dirs_pattern(qcx_server_t, qcx_server_tmpfs_t, qcx_server_tmpfs_t)
+fs_manage_tmpfs_sockets(qcx_server_t)
 
 # gptp
 files_write_generic_tmp_sock_files(qcx_server_t)
@@ -200,3 +201,5 @@ power_use_pm_register(qcx_be_server_t, qcx_be_server_power_t)
 
 allow qcx_be_server_t self:process { setsched };
 allow qcx_be_server_t self:capability { sys_resource sys_nice dac_override net_admin};
+allow qcx_be_server_t scmnode_device_t:chr_file { ioctl open read write };
+allow qcx_be_server_t scmnode_sec_device_t:chr_file { open read write };

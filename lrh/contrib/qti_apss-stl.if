@@ -75,3 +75,21 @@ interface(`apss_stl_delete_tmpfs_files',`
 
     delete_files_pattern($1, apss_stl_tmpfs_t, apss_stl_tmpfs_t)
 ')
+
+######################################
+## <summary>
+##  Read APSS STL configuration in /etc/apss_stl_config.xml.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`apss_stl_read_config_files',`
+    gen_require(`
+        type apss_stl_config_etc_t;
+    ')
+
+    allow $1 apss_stl_config_etc_t:file { read open getattr };
+')

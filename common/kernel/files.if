@@ -39,6 +39,24 @@ interface(`files_map_var_files',`
     allow $1 var_t:file map;
 ')
 
+########################################
+## <summary>
+##  Watch dirs under /var.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`files_watch_var_dirs',`
+	gen_require(`
+		type var_t;
+	')
+
+	allow $1 var_t:dir watch;
+')
+
 ##################################
 ## <summary>
 ##  Create dirs under default type.
@@ -55,6 +73,24 @@ interface(`files_create_default_dirs',`
     ')
 
     create_dirs_pattern($1, default_t, default_t)
+')
+
+##################################
+## <summary>
+##  Relabel dirs under default type.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_relabel_default_dirs',`
+    gen_require(`
+        type default_t;
+    ')
+
+    relabel_dirs_pattern($1, default_t, default_t)
 ')
 
 ##################################
@@ -131,25 +167,6 @@ interface(`files_search_pids',`
     allow $1 var_t:lnk_file read_lnk_file_perms;
     allow $1 var_run_t:lnk_file read_lnk_file_perms;
     search_dirs_pattern($1, var_t, var_run_t)
-')
-
-########################################
-## <summary>
-##  Mount a filesystem on a directory on new filesystems
-##  that has not yet been labeled.
-## </summary>
-## <param name="domain">
-##  <summary>
-##  Domain allowed access.
-##  </summary>
-## </param>
-#
-interface(`files_mounton_isid_type_dirs',`
-    gen_require(`
-        type unlabeled_t;
-    ')
-
-    allow $1 unlabeled_t:dir { search_dir_perms mounton };
 ')
 
 ########################################
@@ -829,4 +846,41 @@ interface(`files_delete_tmp_files',`
     ')
 
     delete_files_pattern($1, tmp_t, tmp_t)
+')
+
+########################################
+## <summary>
+##  Allow read and write character device nodes in
+##  the root directory.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_rw_root_chr_files',`
+    gen_require(`
+        type root_t;
+    ')
+
+    allow $1 root_t:chr_file rw_chr_file_perms;
+')
+
+########################################
+## <summary>
+##  Read safety config files in /etc/safety_config.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`files_read_safety_config_files',`
+    gen_require(`
+        type safety_config_etc_t;
+    ')
+
+    allow $1 safety_config_etc_t:file { read open getattr };
 ')

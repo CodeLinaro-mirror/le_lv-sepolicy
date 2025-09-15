@@ -201,3 +201,21 @@ interface(`init_rw_raw_sock',`
 
     allow $1 initrc_t:rawip_socket { read write };
 ')
+
+########################################
+## <summary>
+##      Create directory under /var/lib/systemd/ dir
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`init_create_var_lib_dirs',`
+    gen_require(`
+        type init_var_lib_t;
+    ')
+
+    allow $1 init_var_lib_t:dir create_dir_perms;
+')

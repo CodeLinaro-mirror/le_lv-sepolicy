@@ -5,7 +5,7 @@
 
 ######################################
 ## <summary>
-##  Send signull to fastrpc-rm related process.
+##  Map, read and write soccp-driver tmpfs files.
 ## </summary>
 ## <param name="domain">
 ##  <summary>
@@ -13,17 +13,17 @@
 ##  </summary>
 ## </param>
 #
-interface(`fastrpc_rm_signull',`
+interface(`soccp_driver_mmap_rw_tmpfs_files',`
     gen_require(`
-        type fastrpc_rm_t;
+        type soccp_driver_tmpfs_t;
     ')
 
-    allow $1 fastrpc_rm_t:process signull;
+    mmap_rw_files_pattern($1, soccp_driver_tmpfs_t, soccp_driver_tmpfs_t)
 ')
 
 ######################################
 ## <summary>
-##  Check fastrpc-rm related process infomation, such as ps tool.
+##  Read and write soccp-driver tmpfs files.
 ## </summary>
 ## <param name="domain">
 ##  <summary>
@@ -31,18 +31,17 @@ interface(`fastrpc_rm_signull',`
 ##  </summary>
 ## </param>
 #
-interface(`fastrpc_rm_read_pid',`
+interface(`soccp_driver_rw_tmpfs_files',`
     gen_require(`
-        type fastrpc_rm_t;
+        type soccp_driver_tmpfs_t;
     ')
 
-    files_search_pids($1)
-    read_files_pattern($1, fastrpc_rm_t, fastrpc_rm_t)
+    rw_files_pattern($1, soccp_driver_tmpfs_t, soccp_driver_tmpfs_t)
 ')
 
 ######################################
 ## <summary>
-##  ptrace to fastrpc-rm related process.
+##  Read soccp-driver tmpfs files.
 ## </summary>
 ## <param name="domain">
 ##  <summary>
@@ -50,17 +49,18 @@ interface(`fastrpc_rm_read_pid',`
 ##  </summary>
 ## </param>
 #
-interface(`fastrpc_rm_ptrace',`
+interface(`soccp_driver_read_tmpfs_files',`
     gen_require(`
-        type fastrpc_rm_t;
+        type soccp_driver_tmpfs_t;
     ')
 
-    allow $1 fastrpc_rm_t:process ptrace;
+    read_files_pattern($1, soccp_driver_tmpfs_t, soccp_driver_tmpfs_t)
+    allow $1 soccp_driver_tmpfs_t:fifo_file getattr;
 ')
 
 ######################################
 ## <summary>
-##  Use fastrpc-rm file descriptors.
+##  Delete soccp-driver tmpfs files.
 ## </summary>
 ## <param name="domain">
 ##  <summary>
@@ -68,17 +68,17 @@ interface(`fastrpc_rm_ptrace',`
 ##  </summary>
 ## </param>
 #
-interface(`fastrpc_rm_use_fds',`
+interface(`soccp_driver_delete_tmpfs_files',`
     gen_require(`
-        type fastrpc_rm_t;
+        type soccp_driver_tmpfs_t;
     ')
 
-    allow $1 fastrpc_rm_t:fd use;
+    delete_files_pattern($1, soccp_driver_tmpfs_t, soccp_driver_tmpfs_t)
 ')
 
 ######################################
 ## <summary>
-##  create files under tmpfs filesystem for fastrpc-rm.
+##  List soccp-driver tmpfs directories.
 ## </summary>
 ## <param name="domain">
 ##  <summary>
@@ -86,17 +86,17 @@ interface(`fastrpc_rm_use_fds',`
 ##  </summary>
 ## </param>
 #
-interface(`fastrpc_rm_create_tmpfs_files',`
+interface(`soccp_driver_list_tmpfs_dirs',`
     gen_require(`
-        type fastrpc_rm_tmpfs_t;
+        type soccp_driver_tmpfs_t;
     ')
 
-    create_files_pattern($1, fastrpc_rm_tmpfs_t, fastrpc_rm_tmpfs_t)
+    list_dirs_pattern($1, soccp_driver_tmpfs_t, soccp_driver_tmpfs_t)
 ')
 
 ######################################
 ## <summary>
-##  Map, read and write fastrpc-rm tmpfs files.
+##  Send signull to soccp related process.
 ## </summary>
 ## <param name="domain">
 ##  <summary>
@@ -104,17 +104,17 @@ interface(`fastrpc_rm_create_tmpfs_files',`
 ##  </summary>
 ## </param>
 #
-interface(`fastrpc_rm_mmap_rw_tmpfs_files',`
+interface(`soccp_driver_signull',`
     gen_require(`
-        type fastrpc_rm_tmpfs_t;
+        type soccp_driver_t;
     ')
 
-    mmap_rw_files_pattern($1, fastrpc_rm_tmpfs_t, fastrpc_rm_tmpfs_t)
+    allow $1 soccp_driver_t:process signull;
 ')
 
 ######################################
 ## <summary>
-##  Read and write fastrpc-rm tmpfs files.
+##  Read and write scmi devices.
 ## </summary>
 ## <param name="domain">
 ##  <summary>
@@ -122,10 +122,10 @@ interface(`fastrpc_rm_mmap_rw_tmpfs_files',`
 ##  </summary>
 ## </param>
 #
-interface(`fastrpc_rm_rw_tmpfs_files',`
+interface(`soccp_driver_rw_scmi_dev',`
     gen_require(`
-        type fastrpc_rm_tmpfs_t;
+        type device_t, soccp_driver_scmi_dev_t;
     ')
 
-    rw_files_pattern($1, fastrpc_rm_tmpfs_t, fastrpc_rm_tmpfs_t)
+    rw_chr_files_pattern($1, device_t, soccp_driver_scmi_dev_t)
 ')

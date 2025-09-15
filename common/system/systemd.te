@@ -56,6 +56,7 @@ init_rw_script_stream_sockets(systemd_sysctl_t)
 init_rw_script_stream_sockets(systemd_coredump_t)
 
 init_list_initrc_runtime_dirs(systemd_resolved_t)
+init_create_var_lib_dirs(systemd_tmpfiles_t)
 
 fs_watch_memory_pressure(systemd_userdbd_t)
 
@@ -68,6 +69,7 @@ owfds_read_tmpfs_files(systemd_tmpfiles_t)
 ssrrm_read_tmpfs_files(systemd_tmpfiles_t)
 glinkserver_read_tmpfs_files(systemd_tmpfiles_t)
 pilrm_read_tmpfs_files(systemd_tmpfiles_t)
+syscache_rm_rw_tmpfs_files(systemd_tmpfiles_t)
 videodriver_read_tmpfs_files(systemd_tmpfiles_t)
 videodriver_list_tmpfs_dirs(systemd_tmpfiles_t)
 sysstat_manage_log(systemd_tmpfiles_t)
@@ -75,6 +77,9 @@ files_manage_default_files(systemd_tmpfiles_t)
 files_read_default_symlinks(systemd_tmpfiles_t)
 
 files_manage_default_dirs(systemd_update_done_t)
+files_relabel_default_dirs(systemd_tmpfiles_t)
 
 #systemd_logind access /var/lib/systemd/linger
 files_manage_default_files(systemd_logind_t)
+
+weston_read_pid(systemd_logind_t)

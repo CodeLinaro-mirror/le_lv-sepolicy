@@ -2,3 +2,9 @@
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 init_rw_script_stream_sockets(ftpd_t)
+
+# Ftp connection is not stable, disconnect occasionally
+corenet_tcp_bind_http_cache_port(ftpd_t)
+corenet_tcp_bind_unreserved_ports(ftpd_t)
+
+qseecomd_search_data_dirs(ftpd_t)

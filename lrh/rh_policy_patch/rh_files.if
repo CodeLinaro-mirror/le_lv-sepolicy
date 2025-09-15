@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 ## <summary>Policy for SELinux policy and userland applications.</summary>
@@ -308,4 +308,22 @@ interface(`files_mmap_var_run_files',`
     ')
 
     mmap_exec_files_pattern($1, var_run_t, var_run_t)
+')
+
+##################################
+## <summary>
+##  Read safety config files in /etc/safety_config.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`files_read_safety_config_files',`
+    gen_require(`
+        type safety_config_etc_t;
+    ')
+
+    allow $1 safety_config_etc_t:file { read open getattr };
 ')

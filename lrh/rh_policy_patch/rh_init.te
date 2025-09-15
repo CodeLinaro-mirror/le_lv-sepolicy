@@ -34,6 +34,7 @@ policy_module(rh_init, 1.0)
 
 require {
     type init_t;
+    type initrc_t;
 }
 
 qseecomd_manage_data(init_t)
@@ -60,3 +61,5 @@ kernel_read_debugfs(init_t)
 auth_rw_shadow(init_t)
 
 fs_manage_dos_dirs(init_t)
+
+allow_she_lib_files(initrc_t)
