@@ -1,0 +1,59 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(synxservice, 1.0)
+
+type synxservice_t;
+type synxservice_exec_t;
+type synxservice_tmp_t;
+type synxservice_tmpfs_t;
+type synxservice_dev_t;
+
+init_daemon_domain(synxservice_t, synxservice_exec_t)
+
+init_rw_script_stream_sockets(synxservice_t)
+init_signull_script(synxservice_t)
+
+# Allow access to /dev/ipclite
+dev_node(synxservice_dev_t)
+synxservice_rw_ipclite_dev(synxservice_t)
+synxservice_mmap_ipclite_dev(synxservice_t)
+
+# Allow access to other nodes
+dev_rw_scmnode_dev(synxservice_t)
+dev_dontaudit_scmnode_sec_dev(synxservice_t)
+dev_rw_kiumd_dev(synxservice_t)
+dev_rw_vfio_dev(synxservice_t)
+dev_read_sysfs(synxservice_t)
+libkiumd_mmap_exec_lib_file(synxservice_t)
+
+# /dev/dma_heap/system
+dev_rw_dma_dev(synxservice_t)
+
+logging_send_syslog_msg(synxservice_t)
+unconfined_server_signull(synxservice_t)
+unconfined_signull(synxservice_t)
+fs_rw_tmpfs_files(synxservice_t)
+fs_map_tmpfs_files(synxservice_t)
+
+# /tmp/lrms_log_*.txt
+files_tmp_file(synxservice_tmp_t)
+files_tmp_filetrans(synxservice_t, synxservice_tmp_t, { dir file })
+create_files_pattern(synxservice_t, synxservice_tmp_t, synxservice_tmp_t)
+rw_files_pattern(synxservice_t, synxservice_tmp_t, synxservice_tmp_t)
+manage_files_pattern(synxservice_t, synxservice_tmp_t, synxservice_tmp_t)
+
+#/dev/shm/lrmc_rq_(pid)
+files_tmpfs_file(synxservice_tmpfs_t)
+fs_tmpfs_filetrans(synxservice_t, synxservice_tmpfs_t, { dir file })
+synxservice_create_tmpfs_files(synxservice_t)
+synxservice_mmap_rw_tmpfs_files(synxservice_t)
+synxservice_delete_tmpfs_files(synxservice_t)
+
+allow synxservice_t self:unix_dgram_socket { create connect write getopt setopt };
+allow synxservice_t self:process { setrlimit signull setsched getsched };
+allow synxservice_t self:capability { net_admin sys_nice sys_resource dac_override };
+
+userdom_manage_user_tmp_files(synxservice_t)
+userdom_map_tmp_files(synxservice_t)
+fs_manage_tmpfs_files(synxservice_t)
