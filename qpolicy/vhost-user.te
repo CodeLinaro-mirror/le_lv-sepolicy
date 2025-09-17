@@ -83,3 +83,6 @@ dev_read_sysfs(vhost_user_qti_vm3_t);
 
 fs_rw_tmpfs_dirs(vhost_user_qti_t)
 fs_manage_tmpfs_sockets(vhost_user_qti_t)
+
+fs_rw_tmpfs_dirs(vhost_user_qti_vm3_t)
+fs_manage_tmpfs_sockets(vhost_user_qti_vm3_t)
