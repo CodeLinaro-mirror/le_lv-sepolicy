@@ -30,6 +30,7 @@ audio_service_signull(pil_rm_t)
 adreno200_signull(pil_rm_t)
 adreno200_read_pid(pil_rm_t)
 ssctl_service_signull(pil_rm_t)
+subsys_ramdump_rw_files(pil_rm_t)
 
 ssrrm_rw_tmpfs_files(pil_rm_t)
 ssrrm_signull(pil_rm_t)
