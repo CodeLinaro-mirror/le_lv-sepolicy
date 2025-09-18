@@ -157,3 +157,24 @@ interface(`owfds_map_tmpfs_files',`
 
     mmap_exec_files_pattern($1, openwfd_tmpfs_t, openwfd_tmpfs_t)
 ')
+
+######################################
+## <summary>
+##  pm-umd-display-0/1.sock connectto create unlink write.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`openwfd_server_pm_sock',`
+    gen_require(`
+        type openwfd_server_t;
+        type openwfd_server_power_t;
+    ')
+
+    allow $1 openwfd_server_t:unix_stream_socket connectto;
+    allow $1 openwfd_server_power_t:sock_file { create unlink write };
+    allow openwfd_server_t $1:unix_stream_socket connectto;
+')
