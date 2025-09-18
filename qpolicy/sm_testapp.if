@@ -1,0 +1,58 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary>Policy for SELinux policy and userland applications.</summary>
+
+######################################
+## <summary>
+##  Send signull to sm_testapp_t.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`sm_testapp_signull',`
+    gen_require(`
+        type sm_testapp_t;
+    ')
+
+    allow $1 sm_testapp_t:process signull;
+')
+
+######################################
+## <summary>
+##  Map, read and write sm_testapp tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`sm_testapp_mmap_rw_tmpfs_files',`
+    gen_require(`
+        type sm_testapp_tmpfs_t;
+    ')
+
+    mmap_rw_files_pattern($1, sm_testapp_tmpfs_t, sm_testapp_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Delete sm_testapp tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`sm_testapp_delete_tmpfs_files',`
+    gen_require(`
+        type sm_testapp_tmpfs_t;
+    ')
+
+    delete_files_pattern($1, sm_testapp_tmpfs_t, sm_testapp_tmpfs_t)
+')
