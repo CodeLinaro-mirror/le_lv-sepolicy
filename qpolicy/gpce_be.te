@@ -9,11 +9,17 @@ type gpce_be_lib_t;
 type gpce_be_dev_t;
 type gpce_be_tmpfs_t;
 type gpce_be_tmp_t;
+type gpce_be_etc_t;
 
 init_daemon_domain(gpce_be_t,gpce_be_exec_t)
 
 init_rw_script_stream_sockets(gpce_be_t)
 init_signull_script(gpce_be_t)
+
+# allow access to /etc/security/gpce_config.xml
+files_config_file(gpce_be_etc_t)
+gpce_be_rw_etc_files(gpce_be_t)
+files_read_etc_files(gpce_be_t)
 
 dev_node(gpce_be_dev_t)
 
