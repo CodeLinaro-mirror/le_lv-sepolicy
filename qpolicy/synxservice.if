@@ -1,0 +1,94 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary>Policy for SELinux policy and userland applications.</summary>
+
+######################################
+## <summary>
+##  create files under tmpfs filesystem for synx-service.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`synxservice_create_tmpfs_files',`
+    gen_require(`
+        type synxservice_tmpfs_t;
+    ')
+
+    create_files_pattern($1, synxservice_tmpfs_t, synxservice_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Map, read and write synx-service tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`synxservice_mmap_rw_tmpfs_files',`
+    gen_require(`
+        type synxservice_tmpfs_t;
+    ')
+
+    mmap_rw_files_pattern($1, synxservice_tmpfs_t, synxservice_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Delete synx-service tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`synxservice_delete_tmpfs_files',`
+    gen_require(`
+        type synxservice_tmpfs_t;
+    ')
+
+    delete_files_pattern($1, synxservice_tmpfs_t, synxservice_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Read and write ipclite device (/dev/umd_ipclite).
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`synxservice_rw_ipclite_dev',`
+    gen_require(`
+        type device_t, synxservice_dev_t;
+    ')
+
+    rw_chr_files_pattern($1, device_t, synxservice_dev_t)
+')
+
+######################################
+## <summary>
+##  MMAP ipclite device (/dev/umd_ipclite)
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`synxservice_mmap_ipclite_dev',`
+    gen_require(`
+        type synxservice_dev_t;
+    ')
+
+    allow $1 synxservice_dev_t:chr_file map;
+')
