@@ -76,6 +76,7 @@ allow auditctl_t auditd_etc_t:file map;
 allow auditd_t auditd_etc_t:file map;
 allow auditd_t default_t:dir search;
 allow video_driver_t scmnode_sec_device_t:chr_file { read write open };
+allow eva_auto_t scmnode_sec_device_t:chr_file { read write open };
 allow ssh_keygen_t security_t:filesystem getattr;
 allow ssh_keygen_t proc_t:file read;
 allow ssh_keygen_t selinux_config_t:dir search;
@@ -165,6 +166,7 @@ allow audio_service_t initrc_t:process ptrace;
 allow initrc_t audio_service_t:process2 nnp_transition;
 allow initrc_t qcx_server_t:process2 nnp_transition;
 allow initrc_t qcx_be_server_t:process2 nnp_transition;
+allow initrc_t eva_auto_t:process2 nnp_transition;
 
 #============= eva_auto_t ==============
 allow eva_auto_t initrc_t:process { ptrace signull };
