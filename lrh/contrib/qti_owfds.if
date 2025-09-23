@@ -179,6 +179,42 @@ interface(`openwfd_server_connect_pm_socket',`
 
 ######################################
 ## <summary>
+##  openwfd server signull
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`openwfd_server_signull',`
+     gen_require(`
+         type openwfd_server_t;
+     ')
+
+     allow $1 openwfd_server_t:process signull;
+')
+
+######################################
+## <summary>
+##  openwfd server ptrace
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`openwfd_server_ptrace',`
+     gen_require(`
+         type openwfd_server_t;
+     ')
+
+     allow $1 openwfd_server_t:process ptrace;
+')
+
+######################################
+## <summary>
 ##  pm-umd-display-0/1.sock file manage.
 ## </summary>
 ## <param name="domain">
