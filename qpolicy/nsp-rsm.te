@@ -28,6 +28,9 @@ logging_send_syslog_msg(nsp_rsm_t)
 
 safetymonitor_rw_tmpfs_files(nsp_rsm_t)
 
+# pfm
+pfm_rw_tmpfs_files(nsp_rsm_t)
+
 fs_manage_tmpfs_files(nsp_rsm_t)
 fs_map_tmpfs_files(nsp_rsm_t)
 userdom_manage_tmp_files(nsp_rsm_t)

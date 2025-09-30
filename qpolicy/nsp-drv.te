@@ -48,6 +48,9 @@ nspconfig_rw_tmpfs_files(nsp_drv_t)
 #libkiumd
 libkiumd_mmap_exec_lib_file(nsp_drv_t)
 
+# pfm
+pfm_rw_tmpfs_files(nsp_drv_t)
+
 ## ========== local ==========
 allow nsp_drv_t self:unix_dgram_socket { create connect getopt setopt };
 allow nsp_drv_t self:process { setrlimit setsched getsched};

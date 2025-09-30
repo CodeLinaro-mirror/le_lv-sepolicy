@@ -27,6 +27,9 @@ libkiumd_mmap_exec_lib_file(qcx_server_t)
 safetymonitor_signull(qcx_server_t)
 safetymonitor_rw_tmpfs_files(qcx_server_t)
 
+# pfm
+pfm_rw_tmpfs_files(qcx_server_t)
+
 # qcx_be_server
 qcxbeserver_ptrace(qcx_server_t)
 
