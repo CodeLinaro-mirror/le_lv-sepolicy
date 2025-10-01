@@ -83,6 +83,13 @@ dbus_read_pid_files(video_driver_t)
 # pm_register
 power_use_pm_register(video_driver_t, video_driver_power_t)
 
+#var_t
+files_manage_var_dirs(video_driver_t)
+files_manage_var_files(video_driver_t)
+files_manage_var_symlinks(video_driver_t)
+files_relabel_var_dirs(video_driver_t)
+files_append_var_files(video_driver_t)
+
 # Todo, unlabeled_t, could remove after setting selinxu context to /data mount
 # /data/mmosal_logmask.cfg
 files_rw_isid_type_dirs(video_driver_t)
