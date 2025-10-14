@@ -60,6 +60,11 @@ fs_tmpfs_filetrans(fastrpc_rm_t, fastrpc_rm_tmpfs_t, { dir file })
 fastrpc_rm_create_tmpfs_files(fastrpc_rm_t)
 fastrpc_rm_mmap_rw_tmpfs_files(fastrpc_rm_t)
 fastrpc_rm_rw_tmpfs_files(fastrpc_rm_t)
+fastrpc_rm_unlink_tmpfs_files(fastrpc_rm_t)
+fastrpc_read_user_tmpfs(fastrpc_rm_t)
+fastrpc_write_user_tmpfs(fastrpc_rm_t)
+fastrpc_open_user_tmpfs(fastrpc_rm_t)
+fastrpc_map_user_tmpfs(fastrpc_rm_t)
 
 #libkiumd
 libkiumd_mmap_exec_lib_file(fastrpc_rm_t)
