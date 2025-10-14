@@ -35,6 +35,10 @@ syscache_rm_signull(safetymonitor_t)
 ecc_err_handler_signull(safetymonitor_t)
 eva_auto_signull(safetymonitor_t)
 
+pfm_mmap_rw_tmpfs_files(safetymonitor_t)
+pfm_signull(safetymonitor_t)
+pfm_delete_tmpfs_files(safetymonitor_t)
+
 #adreno200
 adreno200_rw_tmpfs_files(safetymonitor_t)
 adreno200_signull(safetymonitor_t)
@@ -86,6 +90,11 @@ kernel_read_proc_files(safetymonitor_t)
 
 #compute-resmgr
 compresmgr_rw_etc_files(safetymonitor_t)
+
+#sm_testapp
+sm_testapp_mmap_rw_tmpfs_files(safetymonitor_t)
+sm_testapp_delete_tmpfs_files(safetymonitor_t)
+userdom_manage_user_tmpfs_files(safetymonitor_t)
 
 # ========== local ==========
 allow safetymonitor_t self:unix_dgram_socket { create connect };

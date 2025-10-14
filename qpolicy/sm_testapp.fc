@@ -1,0 +1,4 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+/usr/sbin/sm_testapp     --      gen_context(system_u:object_r:sm_testapp_exec_t,s0)

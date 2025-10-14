@@ -89,6 +89,9 @@ syscache_rm_rw_tmpfs_files(adreno200_t)
 #safetymonitor
 safetymonitor_rw_tmpfs_files(adreno200_t)
 
+#pfm
+pfm_rw_tmpfs_files(adreno200_t)
+
 #libpm-client
 power_use_pm_register(adreno200_t, adreno200_power_t)
 

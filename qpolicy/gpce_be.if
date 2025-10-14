@@ -146,3 +146,23 @@ interface(`gpce_be_delete_tmpfs_files',`
 
     delete_files_pattern($1, gpce_be_tmpfs_t, gpce_be_tmpfs_t)
 ')
+
+######################################
+## <summary>
+##  Read and write gpce_be config files under /etc.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`gpce_be_rw_etc_files',`
+    gen_require(`
+        type etc_t;
+        type gpce_be_etc_t;
+    ')
+
+    list_dirs_pattern($1, etc_t, gpce_be_etc_t)
+    rw_files_pattern($1, etc_t, gpce_be_etc_t)
+')

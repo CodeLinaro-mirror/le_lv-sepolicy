@@ -1,0 +1,10 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(sm_testapp, 1.0)
+
+type sm_testapp_t;
+type sm_testapp_tmpfs_t;
+type sm_testapp_exec_t;
+
+safetymonitor_rw_tmpfs_files(sm_testapp_t)

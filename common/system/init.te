@@ -68,3 +68,5 @@ netutils_ping_nnp_trans(initrc_t)
 syscache_rm_nnp_trans(initrc_t)
 
 allow_she_lib_files(initrc_t)
+
+files_read_safety_config_files(initrc_t)
