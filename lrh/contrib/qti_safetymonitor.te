@@ -58,6 +58,10 @@ apss_stl_mmap_rw_tmpfs_files(safetymonitor_t)
 apss_stl_signull(safetymonitor_t)
 apss_stl_delete_tmpfs_files(safetymonitor_t)
 
+pfm_mmap_rw_tmpfs_files(safetymonitor_t)
+pfm_signull(safetymonitor_t)
+pfm_delete_tmpfs_files(safetymonitor_t)
+
 #adreno200
 adreno200_mmap_rw_tmpfs_files(safetymonitor_t)
 
