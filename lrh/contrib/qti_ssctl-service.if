@@ -105,3 +105,23 @@ interface(`ssctl_service_rw_tmpfs_files',`
 
     rw_files_pattern($1, ssctl_service_tmpfs_t, ssctl_service_tmpfs_t)
 ')
+
+######################################
+## <summary>
+##  Sock audio service
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`ssctl_service_connect_sock',`
+    gen_require(`
+        type ssctl_service_t;
+	type ssctl_service_power_t;
+    ')
+
+    allow $1 ssctl_service_t:unix_stream_socket connectto;
+    allow $1 ssctl_service_power_t:sock_file write;
+')
