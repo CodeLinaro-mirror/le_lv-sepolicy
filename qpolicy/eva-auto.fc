@@ -5,5 +5,5 @@
 /usr/bin/sv_server      --      gen_context(system_u:object_r:eva_auto_exec_t,s0)
 /usr/bin/sv_hyp_server  --      gen_context(system_u:object_r:eva_auto_exec_t,s0)
 /etc/sv_config.xml      --      gen_context(system_u:object_r:eva_auto_etc_t,s0)
-/etc/sv/stl/xra_match_9120_stl.bin      --      gen_context(system_u:object_r:eva_auto_etc_t,s0)
+/etc/sv/(/.*)           --      gen_context(system_u:object_r:eva_auto_etc_t,s0)
 /dev/scmi_eva           -c      gen_context(system_u:object_r:eva_auto_dev_t,s0)
