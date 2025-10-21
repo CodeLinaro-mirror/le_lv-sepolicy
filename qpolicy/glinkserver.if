@@ -146,3 +146,39 @@ interface(`glinkserver_use_fds',`
 
     allow $1 glinkserver_t:fd use;
 ')
+
+########################################
+## <summary>
+##  Read and write umd_glink device (/dev/umd_glink).
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`glinkserver_rw_umd_glink_dev',`
+    gen_require(`
+        type device_t, umd_glink_device_t;
+    ')
+
+    rw_chr_files_pattern($1, device_t, umd_glink_device_t)
+')
+
+########################################
+## <summary>
+##      map umd_pil device.
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+#
+interface(`glinkserver_map_umd_glink_dev',`
+    gen_require(`
+        type umd_glink_device_t;
+    ')
+
+    allow $1 umd_glink_device_t:chr_file map;
+')

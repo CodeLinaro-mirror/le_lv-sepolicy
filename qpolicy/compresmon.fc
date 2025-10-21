@@ -3,3 +3,4 @@
 
 /usr/bin/compresmon_rm               --      gen_context(system_u:object_r:compresmon_exec_t,s0)
 /usr/bin/compresmon_test             --      gen_context(system_u:object_r:compresmon_exec_t,s0)
+/dev/nsp_sysmon                      -c      gen_context(system_u:object_r:nsp_sysmon_device_t,s0)

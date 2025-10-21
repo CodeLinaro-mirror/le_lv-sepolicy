@@ -113,3 +113,39 @@ interface(`safetymonitor_rw_etc_files',`
 
     allow $1 etc_t:file {rw_file_perms};
 ')
+
+######################################
+## <summary>
+##  Read and write safety-ddr devices.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`safetymonitor_rw_dev',`
+    gen_require(`
+        type device_t, safety_ddr_device_t;
+    ')
+
+    rw_chr_files_pattern($1, device_t, safety_ddr_device_t)
+')
+
+########################################
+## <summary>
+##      map safety-ddr device.
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+#
+interface(`safetymonitor_map_dev',`
+    gen_require(`
+        type safety_ddr_device_t;
+    ')
+
+    allow $1 safety_ddr_device_t:chr_file map;
+')

@@ -7,8 +7,10 @@ type qdss_service_t;
 type qdss_service_exec_t;
 type qdss_service_tmp_t;
 type qdss_service_tmpfs_t;
+type qdss_service_device_t;
 
 init_daemon_domain(qdss_service_t, qdss_service_exec_t)
+dev_node(qdss_service_device_t)
 
 init_rw_script_stream_sockets(qdss_service_t)
 
@@ -64,6 +66,7 @@ libkiumd_mmap_exec_lib_file(qdss_service_t)
 userdom_mmap_rw_inherited_user_tmp_files(qdss_service_t)
 
 dev_read_sysfs(qdss_service_t)
+qdssservice_rw_dev(qdss_service_t)
 files_read_etc_files(qdss_service_t)
 fs_delete_tmpfs_files(qdss_service_t)
 
@@ -74,4 +77,4 @@ mmap_rw_files_pattern(qdss_service_t,user_tmpfs_t,user_tmpfs_t)
 diagservice_rw_tmpfs_files(qdss_service_t)
 allow qdss_service_t qdss_service_tmpfs_t:file unlink;
 init_rw_script_tmp_files(qdss_service_t)
-
+qdssservice_map_dev(qdss_service_t)
