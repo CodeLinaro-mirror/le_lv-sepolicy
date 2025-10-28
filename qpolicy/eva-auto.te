@@ -62,6 +62,7 @@ dev_read_sysfs(eva_auto_t)
 
 dev_rw_dma_dev(eva_auto_t)
 dev_rw_kiumd_dev(eva_auto_t)
+dev_map_kiumd_dev(eva_auto_t)
 dev_rw_vfio_dev(eva_auto_t)
 
 safetymonitor_rw_tmpfs_files(eva_auto_t)
