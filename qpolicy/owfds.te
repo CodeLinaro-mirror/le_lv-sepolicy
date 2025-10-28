@@ -145,7 +145,7 @@ files_search_default(openwfd_server_t)
 allow openwfd_server_t self:unix_dgram_socket { create connect getopt setopt };
 allow openwfd_server_t self:process { setrlimit setsched getsched signal };
 allow openwfd_server_t self:capability { sys_resource sys_nice net_admin sys_ptrace kill dac_override };
-allow openwfd_server_t openwfd_tmpfs_t:file { watch watch_reads };
+allow openwfd_server_t openwfd_tmpfs_t:file { watch watch_reads map };
 
 files_tmp_filetrans(openwfd_server_t, openwfd_tmp_t, { dir file })
 manage_files_pattern(openwfd_server_t, openwfd_tmp_t, openwfd_tmp_t)
