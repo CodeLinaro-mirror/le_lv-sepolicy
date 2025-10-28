@@ -71,3 +71,7 @@ fs_delete_tmpfs_files(qdss_service_t)
 userdom_manage_user_tmpfs_files(qdss_service_t)
 unconfined_signull(qdss_service_t)
 mmap_rw_files_pattern(qdss_service_t,user_tmpfs_t,user_tmpfs_t)
+diagservice_rw_tmpfs_files(qdss_service_t)
+allow qdss_service_t qdss_service_tmpfs_t:file unlink;
+init_rw_script_tmp_files(qdss_service_t)
+
