@@ -79,6 +79,7 @@ corecmd_mmap_bin_files(safetymonitor_t)
 powercyclemgr_signull(safetymonitor_t)
 powercyclemgr_mmap_rw_tmpfs_files(safetymonitor_t)
 powercyclemgr_rw_tmpfs_files(safetymonitor_t)
+powercyclemgr_unlink_tmpfs_files(safetymonitor_t)
 
 # ========== local ==========
 allow safetymonitor_t self:unix_dgram_socket { create connect };
