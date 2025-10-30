@@ -84,7 +84,7 @@ fs_rw_tmpfs_files(vmm_t);
 fs_manage_tmpfs_sockets(vmm_t)
 
 # for vmm server communication with vmm client
-allow vmm_t self:unix_stream_socket connectto;
+allow vmm_t self:unix_stream_socket { connectto listen accept };
 files_create_tmp_sock_files(vmm_t)
 files_delete_tmp_sockets(vmm_t)
 files_rw_generic_tmp_sockets(vmm_t)

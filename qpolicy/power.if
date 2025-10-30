@@ -63,3 +63,39 @@ interface(`power_create_pm_dirs',`
 
     create_dirs_pattern($1, power_qcom_pm_t, power_qcom_pm_t)
 ')
+
+######################################
+## <summary>
+##  create socket files for power module.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`power_create_sock_files',`
+    gen_require(`
+        type power_qcom_pm_t;
+    ')
+
+    create_sock_files_pattern($1, power_qcom_pm_t, power_qcom_pm_t)                                                                                 
+')
+
+########################################
+## <summary>
+##  setattr to socket files for power.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`power_setattr_sock_files',`
+    gen_require(`
+        type power_qcom_pm_t;
+    ')
+
+    setattr_sock_files_pattern($1, power_qcom_pm_t, power_qcom_pm_t)
+')

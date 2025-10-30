@@ -78,6 +78,7 @@ power_use_pm_register(eva_auto_t, eva_auto_power_t)
 
 #scm node
 dev_rw_scmnode_dev(eva_auto_t)
+dev_rw_scmnode_sec_dev(eva_auto_t)
 
 #compres
 compresmgr_rw_etc_files(eva_auto_t)
@@ -90,6 +91,7 @@ files_manage_var_symlinks(eva_auto_t)
 
 # ========== local ==========
 allow eva_auto_t self:unix_dgram_socket { create connect };
+allow eva_auto_t self:unix_stream_socket { listen };
 allow eva_auto_t self:process { setrlimit setsched getsched signal };
 allow eva_auto_t self:capability { sys_resource sys_nice net_admin dac_override sys_ptrace dac_read_search kill };
 

@@ -22,7 +22,7 @@ libkiumd_ioctl_lib_file(compresmgr_t)
 libkiumd_mmap_exec_lib_file(compresmgr_t)
 dev_rw_kiumd_dev(compresmgr_t)
 
-allow compresmgr_t self:process { setrlimit setsched getsched signull};
+allow compresmgr_t self:process { setrlimit setsched getsched signull signal };
 allow compresmgr_t self:unix_dgram_socket { create connect };
 allow compresmgr_t self:capability { sys_resource sys_nice net_admin};
 allow compresmgr_t compresmgr_tmpfs_t:file { map open read write };

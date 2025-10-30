@@ -102,9 +102,10 @@ dev_rw_gpio_dev(qcx_server_t)
 dev_read_sysfs(qcx_server_t)
 dev_rw_realtime_clock(qcx_server_t)
 dev_rw_scmnode_dev(qcx_server_t)
-dev_dontaudit_scmnode_sec_dev(qcx_server_t)
+dev_rw_scmnode_sec_dev(qcx_server_t)
 
 allow qcx_server_t self:process { setrlimit setsched ptrace };
+allow qcx_server_t self:unix_stream_socket { listen };
 allow qcx_server_t self:capability { sys_resource sys_nice dac_override sys_ptrace net_admin };
 
 pilrm_rw_tmpfs_files(qcx_server_t);
