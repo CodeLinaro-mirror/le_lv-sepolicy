@@ -256,3 +256,41 @@ interface(`fs_mounton_memory_pressure',`
 
     allow $1 memory_pressure_t:file { mounton };
 ')
+
+########################################
+## <summary>
+##  Read general named pipes on tmpfs filesystems.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`fs_read_tmpfs_fifo_files',`
+    gen_require(`
+        type tmpfs_t;
+    ')
+
+    allow $1 tmpfs_t:dir list_dir_perms;
+    read_fifo_files_pattern($1, tmpfs_t, tmpfs_t)
+')
+
+########################################
+## <summary>
+##  Read general socket files on tmpfs filesystems.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`fs_read_tmpfs_sock_files',`
+    gen_require(`
+        type tmpfs_t;
+    ')
+
+    allow $1 tmpfs_t:dir list_dir_perms;
+    read_sock_files_pattern($1, tmpfs_t, tmpfs_t)
+')

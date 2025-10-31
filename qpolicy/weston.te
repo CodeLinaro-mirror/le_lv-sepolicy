@@ -205,7 +205,7 @@ userdom_mmap_rw_user_runtime_files(weston_t)
 compresmgr_rw_etc_files(weston_t)
 
 allow weston_t self:unix_dgram_socket { create connect };
-allow weston_t self:unix_stream_socket connectto;
+allow weston_t self:unix_stream_socket { connectto listen accept };
 allow weston_t self:tcp_socket create_socket_perms;
 allow weston_t self:process { setrlimit signull setsched siginh signal };
 allow weston_t self:capability { sys_resource sys_nice sys_admin setuid net_admin  dac_override sys_ptrace sys_tty_config };

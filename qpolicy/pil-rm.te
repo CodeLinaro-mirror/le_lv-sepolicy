@@ -59,7 +59,7 @@ fs_create_mmap_rw_tmpfs_files(pil_rm_t)
 libkiumd_mmap_exec_lib_file(pil_rm_t)
 
 dev_rw_scmnode_dev(pil_rm_t)
-dev_dontaudit_scmnode_sec_dev(pil_rm_t)
+dev_rw_scmnode_sec_dev(pil_rm_t)
 dev_rw_kiumd_dev(pil_rm_t)
 dev_rw_vfio_dev(pil_rm_t)
 dev_read_sysfs(pil_rm_t)
@@ -86,7 +86,7 @@ files_read_etc_files(pil_rm_t)
 
 # ========== local ==========
 allow pil_rm_t self:unix_dgram_socket { create connect getopt setopt };
-allow pil_rm_t self:process { setrlimit setsched getsched };
+allow pil_rm_t self:process { setrlimit setsched getsched signal };
 allow pil_rm_t self:capability { sys_resource sys_nice net_admin kill};
 
 userdom_mmap_rw_inherited_user_tmp_files(pil_rm_t, pil_rm_tmp_t)

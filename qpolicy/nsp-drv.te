@@ -32,6 +32,8 @@ create_files_pattern(nsp_drv_t, nsp_drv_tmp_t, nsp_drv_tmp_t)
 manage_files_pattern(nsp_drv_t, nsp_drv_tmp_t, nsp_drv_tmp_t)
 
 fs_rw_tmpfs_files(nsp_drv_t)
+fs_map_tmpfs_files(nsp_drv_t)
+fs_delete_tmpfs_files(nsp_drv_t)
 files_tmpfs_file(nsp_drv_tmpfs_t)
 fs_tmpfs_filetrans(nsp_drv_t, nsp_drv_tmpfs_t, { dir file })
 create_files_pattern(nsp_drv_t, nsp_drv_tmpfs_t, nsp_drv_tmpfs_t)
@@ -51,10 +53,13 @@ libkiumd_mmap_exec_lib_file(nsp_drv_t)
 # pfm
 pfm_rw_tmpfs_files(nsp_drv_t)
 
+power_create_sock_files(nsp_drv_t)
+power_setattr_sock_files(nsp_drv_t)
+
 ## ========== local ==========
 allow nsp_drv_t self:unix_dgram_socket { create connect getopt setopt };
+allow nsp_drv_t self:unix_stream_socket { listen };
 allow nsp_drv_t self:process { setrlimit setsched getsched};
 allow nsp_drv_t self:capability { sys_resource net_admin sys_nice };
 allow nsp_drv_t nsp_drv_tmpfs_t:file map;
 allow nsp_drv_t nsp_drv_tmpfs_t:file unlink;
-allow nsp_drv_t tmpfs_t:file { map unlink };

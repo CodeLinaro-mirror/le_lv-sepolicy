@@ -143,6 +143,7 @@ logging_create_generic_logs(openwfd_server_t)
 files_search_default(openwfd_server_t)
 
 allow openwfd_server_t self:unix_dgram_socket { create connect getopt setopt };
+allow openwfd_server_t self:unix_stream_socket { listen };
 allow openwfd_server_t self:process { setrlimit setsched getsched signal };
 allow openwfd_server_t self:capability { sys_resource sys_nice net_admin sys_ptrace kill dac_override };
 allow openwfd_server_t openwfd_tmpfs_t:file { watch watch_reads };

@@ -6,3 +6,5 @@ files_read_var_symlinks(ipsec_mgmt_t)
 
 init_rw_script_stream_sockets(ipsec_t)
 init_rw_script_stream_sockets(ipsec_mgmt_t)
+
+allow ipsec_t self:unix_stream_socket { listen accept };

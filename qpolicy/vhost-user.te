@@ -62,6 +62,8 @@ vhost_user_create_vhost_socket(vhost_user_qti_vm3_t, vhost_user_tmp_vm3_t, "linu
 allow vhost_user_qti_t vhost_user_tmp_t:sock_file unlink;
 allow vhost_user_qti_vm3_t vhost_user_tmp_vm3_t:sock_file unlink;
 
+allow vhost_user_qti_t self:unix_stream_socket { listen accept };
+
 # vhost_user_qti_t does not need this since we already set the permission
 # by the above init_daemon_domain(vhost_user_qti_t, vhost_user_qti_exec_t)
 # Because the vhost_user_qti_exec_vm3_t is empty object.
