@@ -69,7 +69,7 @@ term_manage_tty_device_chr_files(bridgeship_server_t)
 
 allow bridgeship_server_t self:unix_dgram_socket { create connect write getopt setopt };
 allow bridgeship_server_t self:process { setrlimit setsched };
-allow bridgeship_server_t self:capability { sys_resource sys_nice net_admin sys_ptrace };
+allow bridgeship_server_t self:capability { sys_resource sys_nice net_admin sys_ptrace dac_override };
 allow bridgeship_server_t openwfd_server_t:process { signull };
 
 #============ openwfd_server_t ===========

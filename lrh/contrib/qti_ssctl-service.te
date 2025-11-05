@@ -77,3 +77,7 @@ allow ssctl_service_t self:process { setrlimit };
 
 kernel_read_proc_files(ssctl_service_t)
 dev_read_sysfs(ssctl_service_t)
+dev_rw_kiumd_dev(ssctl_service_t)
+dev_rw_vfio_dev(ssctl_service_t)
+dev_map_kiumd_dev(ssctl_service_t)
+libkiumd_mmap_exec_lib_file(ssctl_service_t)

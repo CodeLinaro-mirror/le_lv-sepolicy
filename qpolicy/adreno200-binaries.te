@@ -51,6 +51,9 @@ files_rw_var_files(adreno200_t)
 # Create dir under /var/
 files_create_var_dirs(adreno200_t)
 
+# Allow resolving symlink as /var/log -> /var/volatile/log
+allow adreno200_t var_t:lnk_file { read getattr };
+
 # port 22222
 corenet_tcp_connect_generic_port(adreno200_t)
 corenet_tcp_connect_unreserved_ports(adreno200_t)

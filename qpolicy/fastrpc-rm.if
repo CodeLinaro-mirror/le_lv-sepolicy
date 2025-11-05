@@ -129,3 +129,95 @@ interface(`fastrpc_rm_rw_tmpfs_files',`
 
     rw_files_pattern($1, fastrpc_rm_tmpfs_t, fastrpc_rm_tmpfs_t)
 ')
+
+
+
+######################################
+## <summary>
+##  Read and write fastrpc-rm tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`fastrpc_rm_unlink_tmpfs_files',`
+    gen_require(`
+        type fastrpc_rm_tmpfs_t;
+    ')
+
+    allow $1 fastrpc_rm_tmpfs_t:file unlink;
+')
+
+######################################
+## <summary>
+##  Read fastrpc-rm user_tmpfs_t files
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`fastrpc_read_user_tmpfs',`
+    gen_require(`
+        type user_tmpfs_t;
+    ')
+
+    allow $1 user_tmpfs_t:file read;
+')
+
+######################################
+## <summary>
+##  Write fastrpc-rm user_tmpfs_t files
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`fastrpc_write_user_tmpfs',`
+    gen_require(`
+        type user_tmpfs_t;
+    ')
+
+    allow $1 user_tmpfs_t:file write;
+')
+
+######################################
+## <summary>
+##  Open fastrpc-rm user_tmpfs_t files
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`fastrpc_open_user_tmpfs',`
+    gen_require(`
+        type user_tmpfs_t;
+    ')
+
+    allow $1 user_tmpfs_t:file open;
+')
+
+######################################
+## <summary>
+##  Map fastrpc-rm user_tmpfs_t files
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`fastrpc_map_user_tmpfs',`
+    gen_require(`
+        type user_tmpfs_t;
+    ')
+
+    allow $1 user_tmpfs_t:file map;
+')

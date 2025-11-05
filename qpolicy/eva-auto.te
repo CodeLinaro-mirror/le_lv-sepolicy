@@ -33,6 +33,7 @@ files_read_etc_runtime_files(eva_auto_t)
 # Allow access to /dev/scmi_eva
 dev_node(eva_auto_dev_t)
 evauto_rw_scmi_dev(eva_auto_t)
+dev_rw_hab_dev(eva_auto_t)
 
 logging_send_syslog_msg(eva_auto_t)
 
