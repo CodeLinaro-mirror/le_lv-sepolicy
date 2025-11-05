@@ -7,6 +7,7 @@ type diag_service_t;
 type diag_service_exec_t;
 type diag_service_tmp_t;
 type diag_service_tmpfs_t;
+type diag_service_power_t;
 
 init_daemon_domain(diag_service_t, diag_service_exec_t)
 
@@ -79,3 +80,7 @@ userdom_mmap_rw_inherited_user_tmp_files(diag_service_t)
 dev_read_sysfs(diag_service_t)
 
 diagservice_unlink_tmpfs_files(glinkserver_t)
+
+# pm_register
+power_use_pm_register(diag_service_t, diag_service_power_t)
+
