@@ -42,6 +42,8 @@ gen_require(`
     type audio_vendor_exec_t;
     type gstreamer_data_t;
     type gstreamer_lib_t;
+    type gstreamer_etc_t;
+    type qcom_etc_t;
 ')
 
 qti_list_dsp_dirs(init_t)
@@ -73,4 +75,6 @@ allow initrc_t self:bpf { map_create map_read map_write prog_load prog_run };
 allow initrc_t self:cap_userns { dac_override net_admin net_raw setgid setuid sys_admin sys_ptrace };
 allow initrc_t audio_vendor_exec_t:service { start status stop };
 allow initrc_t gstreamer_data_t:file getattr;
-allow initrc_t gstreamer_lib_t:file getattr;
+allow initrc_t gstreamer_lib_t:file { getattr open read map execute };
+allow initrc_t gstreamer_etc_t:file { getattr open read };
+allow initrc_t qcom_etc_t:file { getattr open read };
