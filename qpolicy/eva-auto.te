@@ -92,7 +92,7 @@ files_manage_var_symlinks(eva_auto_t)
 # ========== local ==========
 allow eva_auto_t self:unix_dgram_socket { create connect };
 allow eva_auto_t self:unix_stream_socket { listen };
-allow eva_auto_t self:process { setrlimit setsched getsched signal };
+allow eva_auto_t self:process { setrlimit setsched getsched signal signull ptrace };
 allow eva_auto_t self:capability { sys_resource sys_nice net_admin dac_override sys_ptrace dac_read_search kill };
 
 files_tmp_file(eva_auto_tmp_t)
