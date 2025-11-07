@@ -128,3 +128,42 @@ interface(`pilrm_rw_scmi_dev',`
 
     rw_chr_files_pattern($1, device_t, pil_rm_scmi_dev_t)
 ')
+
+######################################
+## <summary>
+##  Create the /dev/pil-done file.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`pilrm_create_pil_done_filetrans',`
+    gen_require(`
+        type device_t, pil_done_dev_t;
+    ')
+
+    allow $1 pil_done_dev_t:file {create write open };
+    allow pil_done_dev_t device_t:filesystem associate;
+    filetrans_pattern($1, device_t, pil_done_dev_t, file, $2)
+')
+
+######################################
+## <summary>
+##  Read the /dev/pil-done file.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`pilrm_read_pil_done',`
+    gen_require(`
+        type pil_done_dev_t;
+    ')
+
+    read_files_pattern($1, pil_done_dev_t, pil_done_dev_t)
+    list_dirs_pattern($1, pil_done_dev_t, pil_done_dev_t)
+')
