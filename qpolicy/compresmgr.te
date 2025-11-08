@@ -66,4 +66,5 @@ pilrm_rw_tmpfs_files(compresmgr_t)
 #for MPAM configfs mkdirs
 fs_create_configfs_dirs(compresmgr_t)
 fs_rw_configfs_files(compresmgr_t)
+fs_create_configfs_files(compresmgr_t)
 
