@@ -109,6 +109,7 @@ allow qcx_server_t self:unix_stream_socket { listen };
 allow qcx_server_t self:capability { sys_resource sys_nice dac_override sys_ptrace net_admin };
 
 pilrm_rw_tmpfs_files(qcx_server_t);
+pilrm_read_pil_done(qcx_server_t);
 syscache_rm_rw_tmpfs_files(qcx_server_t);
 
 #============= qcx_be_server =============
