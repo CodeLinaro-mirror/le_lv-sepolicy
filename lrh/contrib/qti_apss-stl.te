@@ -46,6 +46,9 @@ power_use_pm_register(apss_stl_t, apss_stl_power_t)
 # read apss stl xml configuration file
 apss_stl_read_config_files(apss_stl_t)
 
+# xml reading access /etc/safety_config
+files_read_safety_config_files(apss_stl_t)
+
 ## ========== local ==========
 allow apss_stl_t self:unix_dgram_socket { create connect getopt setopt };
 allow apss_stl_t self:process { setrlimit setsched execmem };
