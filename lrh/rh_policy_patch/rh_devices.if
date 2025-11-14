@@ -230,20 +230,3 @@ interface(`dev_rw_ksync_dev',`
 
     rw_chr_files_pattern($1, device_t, ksync_device_t)
 ')
-########################################
-## <summary>
-##  Read and write device (/dev/qcom_l3_cache_config_device).
-## </summary>
-## <param name="domain">
-##  <summary>
-##  Domain allowed access.
-##  </summary>
-## </param>
-#
-interface(`dev_rw_qcom_l3_cache_config_device_dev',`
-    gen_require(`
-        type device_t, qcom_l3_cache_config_device_t;
-    ')
-
-    rw_chr_files_pattern($1, device_t, qcom_l3_cache_config_device_t)
-')
