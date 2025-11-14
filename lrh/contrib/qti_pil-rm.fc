@@ -35,3 +35,4 @@
 /dev/scmi_nsp1        -c      gen_context(system_u:object_r:pil_rm_scmi_dev_t,s0)
 /dev/scmi_gpdsp0      -c      gen_context(system_u:object_r:pil_rm_scmi_dev_t,s0)
 /dev/scmi_gpdsp1      -c      gen_context(system_u:object_r:pil_rm_scmi_dev_t,s0)
+/dev/pil-done         --      gen_context(system_u:object_r:pil_done_dev_t,s0)
