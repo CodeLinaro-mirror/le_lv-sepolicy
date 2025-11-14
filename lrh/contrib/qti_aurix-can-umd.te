@@ -1,0 +1,71 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(qti_aurix-can-umd, 1.0)
+
+type aurix-can-umd_t;
+type aurix-can-umd_exec_t;
+type aurix-can-umd_power_t;
+type aurix-can-umd_tmpfs_t;
+type aurix-can-umd_tmp_t;
+
+init_daemon_domain(aurix-can-umd_t, aurix-can-umd_exec_t)
+
+logging_send_syslog_msg(aurix-can-umd_t)
+
+fs_map_tmpfs_files(aurix-can-umd_t)
+fs_rw_tmpfs_files(aurix-can-umd_t)
+files_rw_generic_tmp_sockets(aurix-can-umd_t)
+files_rw_dosfs_files(aurix-can-umd_t)
+
+# Todo, change to fs_delete_tmpfs_files after promotion
+fs_manage_tmpfs_files(aurix-can-umd_t)
+
+userdom_rw_user_tmp_files(aurix-can-umd_t)
+userdom_map_tmp_files(aurix-can-umd_t)
+userdom_delete_user_tmp_files(aurix-can-umd_t)
+
+dev_rw_kiumd_dev(aurix-can-umd_t)
+dev_rw_gpio_dev(aurix-can-umd_t)
+dev_rw_generic_usb_dev(aurix-can-umd_t)
+dev_rw_sysfs(aurix-can-umd_t)
+
+unconfined_server_signull(aurix-can-umd_t)
+unconfined_signull(aurix-can-umd_t)
+
+# ========== local ==========
+allow aurix-can-umd_t self:unix_dgram_socket { create connect getopt setopt };
+allow aurix-can-umd_t self:unix_stream_socket connectto;
+allow aurix-can-umd_t self:process { setrlimit setsched ptrace };
+allow aurix-can-umd_t self:capability { sys_resource sys_nice net_admin sys_ptrace dac_override };
+allow aurix-can-umd_t self:tcp_socket {accept bind create listen setopt shutdown connect read write};
+
+# /tmp/lrmc_log_(pid).txt
+files_tmp_file(aurix-can-umd_tmp_t)
+files_tmp_filetrans(aurix-can-umd_t, aurix-can-umd_tmp_t, { dir fifo_file file lnk_file })
+manage_files_pattern(aurix-can-umd_t, aurix-can-umd_tmp_t, aurix-can-umd_tmp_t)
+rw_files_pattern(aurix-can-umd_t, aurix-can-umd_tmp_t, aurix-can-umd_tmp_t)
+mmap_rw_files_pattern(aurix-can-umd_t, aurix-can-umd_tmp_t, aurix-can-umd_tmp_t)
+
+files_tmpfs_file(aurix-can-umd_tmpfs_t)
+fs_tmpfs_filetrans(aurix-can-umd_t, aurix-can-umd_tmpfs_t, { dir file })
+create_files_pattern(aurix-can-umd_t, aurix-can-umd_tmpfs_t, aurix-can-umd_tmpfs_t)
+delete_files_pattern(aurix-can-umd_t, aurix-can-umd_tmpfs_t, aurix-can-umd_tmpfs_t)
+rw_files_pattern(aurix-can-umd_t, aurix-can-umd_tmpfs_t, aurix-can-umd_tmpfs_t)
+
+# /dev/ttysHS1
+term_open_unallocated_ttys(aurix-can-umd_t)
+term_use_unallocated_ttys(aurix-can-umd_t)
+
+# Needed by pidfd_getfd when aurix-can-umd service running with
+# unconfined policy
+unconfined_server_ptrace(aurix-can-umd_t)
+unconfined_ptrace(aurix-can-umd_t)
+
+#libkiumd
+libkiumd_mmap_exec_lib_file(aurix-can-umd_t)
+libkiumd_ioctl_lib_file(aurix-can-umd_t)
+libkiumd_relabel_lib_files(aurix-can-umd_t)
+libkiumd_manage_lib_files(aurix-can-umd_t)
+
+power_use_pm_register(aurix-can-umd_t, aurix-can-umd_power_t)
