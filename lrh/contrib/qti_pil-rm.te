@@ -38,6 +38,11 @@ type pil_rm_tmp_t;
 type pil_rm_tmpfs_t;
 type pil_rm_power_t;
 type pil_rm_scmi_dev_t;
+type pil_done_dev_t;
+
+files_type(pil_done_dev_t)
+pilrm_create_pil_done_filetrans(pil_rm_t, "pil-done")
+
 init_daemon_domain(pil_rm_t, pil_rm_exec_t)
 
 dev_node(pil_rm_scmi_dev_t)
