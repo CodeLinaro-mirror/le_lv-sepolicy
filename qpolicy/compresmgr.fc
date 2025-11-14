@@ -1,6 +1,0 @@
-# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
-# SPDX-License-Identifier: BSD-3-Clause-Clear
-
-/usr/bin/compresmgr_service             --      gen_context(system_u:object_r:compresmgr_exec_t,s0)
-/usr/bin/compresmgr_test                --      gen_context(system_u:object_r:compresmgr_exec_t,s0)
-/etc/compresmgr_cpu_config.xml       --      gen_context(system_u:object_r:compresmgr_etc_t,s0)

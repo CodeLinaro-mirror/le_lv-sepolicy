@@ -1,11 +1,10 @@
-# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(qti_compresmgr, 1.0)
 
 type compresmgr_t;
 type compresmgr_exec_t;
-type compresmgr_tmpfs_t;
 
 #============= compresmgr_t ==============
 init_daemon_domain(compresmgr_t, compresmgr_exec_t)
@@ -20,6 +19,7 @@ allow compresmgr_t self:capability { sys_resource sys_nice};
 unconfined_server_signull(compresmgr_t)
 dev_manage_sysfs(compresmgr_t)
 dev_rw_vfio_dev(compresmgr_t)
+
 
 logging_create_devlog_dev(compresmgr_t)
 logging_send_syslog_msg(compresmgr_t)
