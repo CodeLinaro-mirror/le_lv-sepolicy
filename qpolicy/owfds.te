@@ -153,3 +153,6 @@ manage_files_pattern(openwfd_server_t, openwfd_tmp_t, openwfd_tmp_t)
 
 fs_tmpfs_filetrans(openwfd_server_t, openwfd_tmpfs_t, { dir file })
 manage_files_pattern(openwfd_server_t, openwfd_tmpfs_t, openwfd_tmpfs_t)
+
+compresmgr_rw_etc_files(openwfd_server_t)
+compresmgr_rw_etc_files(bridgeship_server_t)
