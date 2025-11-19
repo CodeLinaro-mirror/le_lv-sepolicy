@@ -34,4 +34,6 @@
 /usr/bin/sail_updater       --      gen_context(system_u:object_r:sail_mailbox_exec_t,s0)
 /usr/bin/saildbg            --      gen_context(system_u:object_r:sail_mailbox_exec_t,s0)
 /usr/bin/sail_console_chan_app  --  gen_context(system_u:object_r:sail_mailbox_exec_t,s0)
-/usr/bin/sail_test_chan_app    --    gen_context(system_u:object_r:sail_mailbox_exec_t,s0)
+/usr/bin/sail_test_chan_app     --  gen_context(system_u:object_r:sail_mailbox_exec_t,s0)
+/usr/bin/sail_updater_v2        --  gen_context(system_u:object_r:sail_mailbox_exec_t,s0)
+
