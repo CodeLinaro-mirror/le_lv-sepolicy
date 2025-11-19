@@ -50,3 +50,40 @@ interface(`sailmb_read_pid',`
     files_search_pids($1)
     read_files_pattern($1, sail_mailbox_t, sail_mailbox_t)
 ')
+
+######################################
+## <summary>
+##  Read sail mailbox tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`sailmb_read_tmpfs_files',`
+    gen_require(`
+        type sail_mailbox_tmpfs_t;
+    ')
+
+    read_files_pattern($1, sail_mailbox_tmpfs_t, sail_mailbox_tmpfs_t)
+')
+
+########################################
+## <summary>
+##  Transition to sail_mailbox_t when NNP has been set.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  The type of the process performing this action.
+##  </summary>
+## </param>
+#
+interface(`sailmb_nnp_transition',`
+    gen_require(`
+        type sail_mailbox_t;
+    ')
+
+    allow $1 sail_mailbox_t:process2 nnp_transition;
+')
+

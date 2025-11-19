@@ -35,14 +35,18 @@ policy_module(qti_sail-mailbox, 1.0)
 type sail_mailbox_t;
 type sail_mailbox_exec_t;
 type sail_mailbox_tmp_t;
+type sail_mailbox_log_t;
 type sail_mailbox_tmpfs_t;
 type sail_mailbox_power_t;
 
 init_daemon_domain(sail_mailbox_t, sail_mailbox_exec_t)
+init_rw_script_stream_sockets(sail_mailbox_t)
+init_signull_script(sail_mailbox_t)
 
 logging_send_syslog_msg(sail_mailbox_t)
 
 unconfined_server_signull(sail_mailbox_t)
+unconfined_signull(sail_mailbox_t)
 
 #libkiumd
 libkiumd_mmap_exec_lib_file(sail_mailbox_t)
@@ -52,12 +56,26 @@ dev_rw_vfio_dev(sail_mailbox_t)
 dev_read_sysfs(sail_mailbox_t)
 
 files_tmp_file(sail_mailbox_tmp_t)
-files_tmp_filetrans(sail_mailbox_t, sail_mailbox_tmp_t, { dir fifo_file file lnk_file })
+files_tmp_filetrans(sail_mailbox_t, sail_mailbox_tmp_t, { dir fifo_file file lnk_file sock_file })
 manage_files_pattern(sail_mailbox_t, sail_mailbox_tmp_t, sail_mailbox_tmp_t)
 
 files_tmpfs_file(sail_mailbox_tmpfs_t)
-fs_tmpfs_filetrans(sail_mailbox_t, sail_mailbox_tmpfs_t, { dir file })
+fs_tmpfs_filetrans(sail_mailbox_t, sail_mailbox_tmpfs_t, { dir fifo_file file lnk_file sock_file })
 manage_files_pattern(sail_mailbox_t, sail_mailbox_tmpfs_t, sail_mailbox_tmpfs_t)
+
+manage_sock_files_pattern(sail_mailbox_t, sail_mailbox_tmpfs_t, sail_mailbox_tmpfs_t)
+manage_fifo_files_pattern(sail_mailbox_t, sail_mailbox_tmpfs_t, sail_mailbox_tmpfs_t)
+manage_dirs_pattern(sail_mailbox_t, sail_mailbox_tmpfs_t, sail_mailbox_tmpfs_t)
+
+manage_sock_files_pattern(sail_mailbox_t, sail_mailbox_tmp_t, sail_mailbox_tmp_t)
+manage_fifo_files_pattern(sail_mailbox_t, sail_mailbox_tmp_t, sail_mailbox_tmp_t)
+manage_dirs_pattern(sail_mailbox_t, sail_mailbox_tmp_t, sail_mailbox_tmp_t)
+
+logging_log_file(sail_mailbox_log_t)
+manage_dirs_pattern(sail_mailbox_t, sail_mailbox_log_t, sail_mailbox_log_t)
+manage_files_pattern(sail_mailbox_t, sail_mailbox_log_t, sail_mailbox_log_t)
+manage_lnk_files_pattern(sail_mailbox_t, sail_mailbox_log_t, sail_mailbox_log_t)
+logging_log_filetrans(sail_mailbox_t, sail_mailbox_log_t, { dir file })
 
 # Manage tmp files
 userdom_manage_user_tmp_files(sail_mailbox_t)
@@ -65,11 +83,45 @@ userdom_map_tmp_files(sail_mailbox_t)
 
 # Read, write, create and map files under tmpfs
 fs_create_mmap_rw_tmpfs_files(sail_mailbox_t)
+fs_map_tmpfs_files(sail_mailbox_t)
+fs_manage_tmpfs_files(sail_mailbox_t)
+userdom_rw_user_tmpfs_files(sail_mailbox_t)
+userdom_delete_user_tmpfs_files(sail_mailbox_t)
+fs_getattr_tmpfs(sail_mailbox_t)
+userdom_manage_user_tmpfs_files(sail_mailbox_t)
+#userdom_map_user_tmpfs_files(sail_mailbox_t)
+
+files_search_default(sail_mailbox_t)
+files_manage_default_dirs(sail_mailbox_t)
+files_manage_default_files(sail_mailbox_t)
+files_read_default_symlinks(sail_mailbox_t)
+
+files_search_var(sail_mailbox_t)
+files_manage_var_dirs(sail_mailbox_t)
+files_manage_var_files(sail_mailbox_t)
+files_read_var_symlinks(sail_mailbox_t)
+
+files_manage_generic_tmp_files(sail_mailbox_t)
+logging_create_generic_logs(sail_mailbox_t)
+logging_read_generic_logs(sail_mailbox_t)
+
+files_create_var_run_files(sail_mailbox_t)
+files_manage_var_run_lnk_files(sail_mailbox_t)
+files_rw_var_run_files(sail_mailbox_t)
+files_manage_var_run_sock_files(sail_mailbox_t)
+files_delete_var_run_files(sail_mailbox_t)
+files_delete_var_run_sock_files(sail_mailbox_t)
+files_mmap_var_run_files(sail_mailbox_t)
 
 # ========== local ==========
 allow sail_mailbox_t self:unix_dgram_socket { create connect getopt setopt };
-allow sail_mailbox_t self:process { setrlimit setsched };
-allow sail_mailbox_t self:capability { sys_resource sys_nice net_admin };
+allow sail_mailbox_t self:unix_stream_socket { listen };
+allow sail_mailbox_t self:process { setrlimit setsched getsched };
+allow sail_mailbox_t self:capability { sys_resource sys_nice net_admin sys_ptrace };
+allow sail_mailbox_t self:process signull;
+allow sail_mailbox_t self:process signal;
+allow sail_mailbox_t sail_mailbox_tmpfs_t:file map;
+allow sail_mailbox_t sail_mailbox_t:process signal;
 
 # pm_register
 power_use_pm_register(sail_mailbox_t, sail_mailbox_power_t)
