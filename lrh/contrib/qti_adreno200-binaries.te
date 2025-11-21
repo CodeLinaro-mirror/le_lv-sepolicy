@@ -111,6 +111,9 @@ files_rw_default_dirs(adreno200_t)
 
 init_read_state(adreno200_t)
 
+# open/read/write chr_file
+dev_rw_input_dev(adreno200_t)
+
 # ========== local ==========
 allow adreno200_t self:unix_dgram_socket { create connect };
 allow adreno200_t self:tcp_socket { create connect setopt read write bind accept listen shutdown };

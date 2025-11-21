@@ -7,6 +7,7 @@ type compresmgr_t;
 type compresmgr_exec_t;
 type compresmgr_tmpfs_t;
 type compresmgr_etc_t;
+type compresmgr_power_t;
 
 #============= compresmgr_t ==============
 init_daemon_domain(compresmgr_t, compresmgr_exec_t)
@@ -22,7 +23,7 @@ libkiumd_ioctl_lib_file(compresmgr_t)
 libkiumd_mmap_exec_lib_file(compresmgr_t)
 dev_rw_kiumd_dev(compresmgr_t)
 
-allow compresmgr_t self:process { setrlimit setsched getsched signull};
+allow compresmgr_t self:process { setrlimit setsched getsched signull signal };
 allow compresmgr_t self:unix_dgram_socket { create connect };
 allow compresmgr_t self:capability { sys_resource sys_nice net_admin};
 allow compresmgr_t compresmgr_tmpfs_t:file { map open read write };
@@ -56,6 +57,9 @@ adreno200_signull(compresmgr_t)
 
 safetymonitor_rw_tmpfs_files(compresmgr_t)
 
+#power manager power_use_pm_register
+power_use_pm_register(compresmgr_t, compresmgr_power_t)
+
 # map /dev/shm/lrmc_rq_*
 userdom_rw_user_tmpfs_files(compresmgr_t)
 userdom_map_user_tmpfs_files(compresmgr_t)
@@ -66,4 +70,5 @@ pilrm_rw_tmpfs_files(compresmgr_t)
 #for MPAM configfs mkdirs
 fs_create_configfs_dirs(compresmgr_t)
 fs_rw_configfs_files(compresmgr_t)
+fs_create_configfs_files(compresmgr_t)
 

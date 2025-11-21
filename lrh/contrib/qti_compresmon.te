@@ -43,6 +43,9 @@ dev_rw_vfio_dev(compresmon_t)
 
 dev_rw_ksync_dev(compresmon_t)
 
+# open/read/write chr_file
+dev_rw_input_dev(compresmon_t)
+
 logging_send_syslog_msg(compresmon_t)
 
 userdom_mmap_rw_inherited_user_tmp_files(compresmon_t)

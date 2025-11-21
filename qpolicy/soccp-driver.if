@@ -19,6 +19,7 @@ interface(`soccp_driver_mmap_rw_tmpfs_files',`
     ')
 
     mmap_rw_files_pattern($1, soccp_driver_tmpfs_t, soccp_driver_tmpfs_t)
+    allow $1 soccp_driver_tmpfs_t:file unlink;
 ')
 
 ######################################

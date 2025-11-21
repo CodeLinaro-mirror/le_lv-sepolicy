@@ -97,3 +97,14 @@ init_write_pid_socket(smcinvoke_service_t)
 
 # for smcinvoke_vendor_client registering with smcinvoke_service (smcinvoke_service_t)
 userdom_manage_tmp_files(smcinvoke_service_t)
+
+# openwfd
+openwfd_server_signull(smcinvoke_service_t)
+openwfd_server_ptrace(smcinvoke_service_t)
+
+owfds_rw_tmpfs_files(smcinvoke_service_t)
+owfds_map_tmpfs_files(smcinvoke_service_t)
+fs_search_tracefs_dirs(smcinvoke_service_t)
+fs_rw_tracefs_files(smcinvoke_service_t)
+
+

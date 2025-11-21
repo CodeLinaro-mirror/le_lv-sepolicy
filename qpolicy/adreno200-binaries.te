@@ -51,6 +51,9 @@ files_rw_var_files(adreno200_t)
 # Create dir under /var/
 files_create_var_dirs(adreno200_t)
 
+# Allow resolving symlink as /var/log -> /var/volatile/log
+allow adreno200_t var_t:lnk_file { read getattr };
+
 # port 22222
 corenet_tcp_connect_generic_port(adreno200_t)
 corenet_tcp_connect_unreserved_ports(adreno200_t)
@@ -119,8 +122,12 @@ files_read_etc_files(adreno200_t)
 init_read_state(adreno200_t)
 init_ptrace_script(adreno200_t)
 
+# open/read/write chr_file
+dev_rw_input_dev(adreno200_t)
+
 # ========== local ==========
 allow adreno200_t self:unix_dgram_socket { create connect };
+allow adreno200_t self:unix_stream_socket { listen };
 allow adreno200_t self:tcp_socket { create connect setopt read write bind accept listen shutdown };
 allow adreno200_t self:process { signull ptrace setrlimit setsched getsched signal };
 allow adreno200_t self:capability { sys_resource sys_nice sys_ptrace dac_override net_admin };

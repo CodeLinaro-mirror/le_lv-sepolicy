@@ -7,6 +7,7 @@ type diag_service_t;
 type diag_service_exec_t;
 type diag_service_tmp_t;
 type diag_service_tmpfs_t;
+type diag_service_power_t;
 
 init_daemon_domain(diag_service_t, diag_service_exec_t)
 
@@ -86,3 +87,11 @@ mmap_rw_files_pattern(diag_service_t,user_tmpfs_t,user_tmpfs_t)
 init_signull_script(diag_service_t)
 fs_map_tmpfs_files(diag_service_t)
 fs_rw_tmpfs_files(diag_service_t)
+
+allow diag_service_t diag_service_tmpfs_t:file unlink;
+qdss_service_signull(diag_service_t)
+qdssservice_mmap_rw_tmpfs_files(diag_service_t)
+qdssservice_rw_tmpfs_files(diag_service_t)
+
+# pm_register
+power_use_pm_register(diag_service_t, diag_service_power_t)

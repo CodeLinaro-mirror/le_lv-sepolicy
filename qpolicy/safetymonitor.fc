@@ -2,3 +2,4 @@
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 /usr/sbin/safetymonitor     --      gen_context(system_u:object_r:safetymonitor_exec_t,s0)
+/usr/sbin/sm_testapp     --      gen_context(system_u:object_r:safetymonitor_exec_t,s0)

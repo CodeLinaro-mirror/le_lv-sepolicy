@@ -129,3 +129,23 @@ interface(`diagservice_delete_tmpfs_files',`
 
     delete_files_pattern($1, diag_service_tmpfs_t, diag_service_tmpfs_t)
 ')
+
+######################################
+## <summary>
+##  unlink diagservice-service tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`diagservice_unlink_tmpfs_files',`
+    gen_require(`
+        type diag_service_tmpfs_t;
+    ')
+
+    allow $1 diag_service_tmpfs_t:file unlink;
+
+')
+

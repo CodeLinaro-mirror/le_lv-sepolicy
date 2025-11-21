@@ -45,6 +45,7 @@ userdom_delete_user_tmpfs_files(sail_mailbox_t)
 
 # ========== local ==========
 allow sail_mailbox_t self:unix_dgram_socket { create connect getopt setopt };
+allow sail_mailbox_t self:unix_stream_socket { listen };
 allow sail_mailbox_t self:process { setrlimit setsched getsched };
 allow sail_mailbox_t self:capability { sys_resource sys_nice net_admin };
 allow sail_mailbox_t self:process signull;

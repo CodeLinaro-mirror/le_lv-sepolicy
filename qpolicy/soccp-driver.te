@@ -57,6 +57,7 @@ init_signull_script(soccp_driver_t)
 
 # For operations without existing interfaces
 allow soccp_driver_t self:unix_dgram_socket { create connect getopt setopt };
+allow soccp_driver_t self:unix_stream_socket { listen };
 allow soccp_driver_t self:process { setrlimit setsched };
 allow soccp_driver_t self:capability { sys_resource net_admin sys_nice };
 allow soccp_driver_t self:capability dac_override;
