@@ -22,6 +22,9 @@ evauto_rw_etc_files(eva_auto_t)
 # Read safety config under /etc/safety_config
 files_read_safety_config_files(eva_auto_t)
 
+# Read stl files under /etc/sv/stl
+evauto_read_stl_files(eva_auto_t)
+
 # Launch sv_server as non-root
 userdom_use_all_users_fds(eva_auto_t)
 userdom_rw_user_tmpfs_files(eva_auto_t)

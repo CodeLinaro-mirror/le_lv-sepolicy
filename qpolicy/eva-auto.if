@@ -113,3 +113,23 @@ interface(`evauto_rw_etc_files',`
     list_dirs_pattern($1, etc_t, eva_auto_etc_t)
     rw_files_pattern($1, etc_t, eva_auto_etc_t)
 ')
+
+##################################
+## <summary>
+##  Read stl config files in /etc/sv/stl.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`evauto_read_stl_files',`
+    gen_require(`
+        type etc_t;
+        type eva_auto_etc_t;
+    ')
+
+    files_search_etc($1)
+    read_files_pattern($1, eva_auto_etc_t, etc_t)
+')
