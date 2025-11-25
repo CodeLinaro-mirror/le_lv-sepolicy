@@ -65,6 +65,7 @@ fastrpc_read_user_tmpfs(fastrpc_rm_t)
 fastrpc_write_user_tmpfs(fastrpc_rm_t)
 fastrpc_open_user_tmpfs(fastrpc_rm_t)
 fastrpc_map_user_tmpfs(fastrpc_rm_t)
+fastrpc_rw_rm_tmpfs_files(fastrpc_t)
 
 #libkiumd
 libkiumd_mmap_exec_lib_file(fastrpc_rm_t)
@@ -76,3 +77,4 @@ compresmon_unlink_tmpfs_files(fastrpc_rm_t)
 # /dev/shm/lrmc_rq_*
 nspdrv_mmap_rw_tmpfs_files(fastrpc_rm_t)
 nsp_drv_signull(fastrpc_rm_t)
+fastrpc_signull(fastrpc_rm_t)

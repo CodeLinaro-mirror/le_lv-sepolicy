@@ -22,6 +22,24 @@ interface(`eva_auto_read_pid',`
     read_files_pattern($1, eva_auto_t, eva_auto_t)
 ')
 
+########################################
+## <summary>
+##  Transition to vmm_t when NNP has been set.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  The type of the process performing this action.
+##  </summary>
+## </param>
+#
+interface(`eva_auto_nnp_trans',`
+    gen_require(`
+        type eva_auto_t;
+    ')
+
+    allow $1 eva_auto_t:process2 nnp_transition;
+')
+
 ######################################
 ## <summary>
 ##  Send signull to eva-auto related process.
