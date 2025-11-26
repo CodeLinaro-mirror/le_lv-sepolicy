@@ -7,7 +7,6 @@ type safetymonitor_t;
 type safetymonitor_exec_t;
 type safetymonitor_tmp_t;
 type safetymonitor_tmpfs_t;
-type safetymonitor_power_t;
 
 init_daemon_domain(safetymonitor_t, safetymonitor_exec_t)
 
@@ -80,10 +79,6 @@ corecmd_mmap_bin_files(safetymonitor_t)
 powercyclemgr_signull(safetymonitor_t)
 powercyclemgr_mmap_rw_tmpfs_files(safetymonitor_t)
 powercyclemgr_rw_tmpfs_files(safetymonitor_t)
-
-# pm_register
-power_use_pm_register(safetymonitor_t, safetymonitor_power_t)
-
 
 # ========== local ==========
 allow safetymonitor_t self:unix_dgram_socket { create connect };
