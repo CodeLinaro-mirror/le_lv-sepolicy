@@ -109,10 +109,6 @@ power_use_pm_register(pil_rm_t, pil_rm_power_t)
 allow pil_rm_t self:unix_dgram_socket { create connect getopt setopt };
 allow pil_rm_t self:process { setrlimit setsched };
 allow pil_rm_t self:capability { sys_resource sys_nice net_admin kill};
-allow pil_rm_t device_t:chr_file { read write };
-allow pil_rm_t device_t:chr_file open;
-allow pil_rm_t device_t:dir { add_name write };
-allow pil_rm_t device_t:file { create write };
 
 userdom_mmap_rw_inherited_user_tmp_files(pil_rm_t, pil_rm_tmp_t)
 userdom_manage_user_tmp_files(pil_rm_t)
