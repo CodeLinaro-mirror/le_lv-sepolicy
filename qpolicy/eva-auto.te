@@ -29,9 +29,12 @@ evauto_read_stl_files(eva_auto_t)
 userdom_use_all_users_fds(eva_auto_t)
 userdom_rw_user_tmpfs_files(eva_auto_t)
 userdom_delete_user_tmpfs_files(eva_auto_t)
+userdom_map_user_tmpfs_files(eva_auto_t)
+userdom_map_tmp_files(eva_auto_t)
 
 # Read dummy files in /etc/ folder
 files_read_etc_runtime_files(eva_auto_t)
+files_rw_etc_files(eva_auto_t)
 
 # Allow access to /dev/scmi_eva
 dev_node(eva_auto_dev_t)
