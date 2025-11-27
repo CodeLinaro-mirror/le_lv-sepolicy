@@ -108,3 +108,21 @@ interface(`unconfined_siginh',`
 
     allow $1 unconfined_t:process { siginh noatsecure rlimitinh};
 ')
+
+########################################
+## <summary>
+##  Allow apps to rw unix_stream_socket on unconfined user
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`unconfined_stream_socket_rw',`
+    gen_require(`
+        type unconfined_t;
+    ')
+
+    allow $1 unconfined_t:unix_stream_socket { rw_socket_perms };
+')
