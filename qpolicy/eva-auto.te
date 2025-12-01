@@ -14,6 +14,8 @@ type eva_auto_etc_t;
 init_daemon_domain(eva_auto_t, eva_auto_exec_t)
 
 init_rw_script_stream_sockets(eva_auto_t)
+init_signull_script(eva_auto_t)
+init_ptrace_script(eva_auto_t)
 
 #/etc/sv_config.xml
 files_config_file(eva_auto_etc_t)
@@ -112,3 +114,6 @@ fs_tmpfs_filetrans(eva_auto_t, eva_auto_tmpfs_t, { dir file })
 create_files_pattern(eva_auto_t, eva_auto_tmpfs_t, eva_auto_tmpfs_t)
 manage_files_pattern(eva_auto_t, eva_auto_tmpfs_t, eva_auto_tmpfs_t)
 evauto_mmap_rw_tmpfs_files(eva_auto_t)
+
+# /var overlay
+kernel_read_unlabeled_state(eva_auto_t)

@@ -39,6 +39,7 @@ init_telinit(getty_t)
 init_get_system_status(getty_t)
 
 kernel_getattr_proc(getty_t)
+kernel_read_unlabeled_state(getty_t)
 auth_domtrans_chk_passwd(getty_t)
 auth_signal_chkpwd_process(getty_t)
 

@@ -30,7 +30,7 @@ glinkserver_rw_tmpfs_files(nspconfig_t)
 glinkserver_ptrace(nspconfig_t)
 nspdrv_mmap_rw_tmpfs_files(nspconfig_t)
 nspdrv_delete_tmpfs_files(nspconfig_t)
-nspdrv_rw_etc_files(nspconfig_t)
+nspdrv_rw_usr_config_files(nspconfig_t)
 
 
 allow nspconfig_t self:unix_dgram_socket { create connect getopt setopt };

@@ -97,8 +97,8 @@ files_read_safety_config_files(safetymonitor_t)
 # ========== local ==========
 allow safetymonitor_t self:unix_dgram_socket { create connect };
 allow safetymonitor_t self:unix_stream_socket { listen };
-allow safetymonitor_t self:process { setrlimit setsched getsched };
-allow safetymonitor_t self:capability { sys_resource sys_nice };
+allow safetymonitor_t self:process { setrlimit setsched getsched signal };
+allow safetymonitor_t self:capability { sys_resource sys_nice kill dac_override };
 allow safetymonitor_t self:fifo_file { manage_fifo_file_perms };
 
 files_tmp_file(safetymonitor_tmp_t)

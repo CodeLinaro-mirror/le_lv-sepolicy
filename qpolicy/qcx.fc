@@ -3,4 +3,5 @@
 
 /usr/bin/qcxserver         --      gen_context(system_u:object_r:qcx_server_exec_t,s0)
 /usr/bin/qcx_be_server     --      gen_context(system_u:object_r:qcx_be_server_exec_t,s0)
+/usr/bin/camera/camxoverridesettings.txt     --      gen_context(system_u:object_r:qcx_server_config_t,s0)
 /dev/scmi_camera           -c      gen_context(system_u:object_r:qcx_server_dev_t,s0)

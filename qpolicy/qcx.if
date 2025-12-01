@@ -130,3 +130,22 @@ interface(`qcxbeserver_ptrace',`
 
     allow $1 qcx_be_server_t:process ptrace;
 ')
+
+######################################
+## <summary>
+##  Read qcxserver config files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`qcxserver_read_config_files',`
+    gen_require(`
+        type qcx_server_config_t;
+        type bin_t;
+    ')
+
+    read_files_pattern($1, bin_t, qcx_server_config_t)
+')

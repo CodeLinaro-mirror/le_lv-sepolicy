@@ -12,12 +12,16 @@ type nsp_drv_conf_t;
 init_daemon_domain(nsp_drv_t, nsp_drv_exec_t)
 
 init_rw_script_stream_sockets(nsp_drv_t)
+init_signull_script(nsp_drv_t)
 
 logging_send_syslog_msg(nsp_drv_t)
 
 #/usr/share/nsp_drv_config.xml
 files_config_file(nsp_drv_conf_t)
-nspdrv_rw_etc_files(nsp_drv_t)
+nspdrv_rw_usr_config_files(nsp_drv_t)
+
+# /etc/nsp_config_*.xml
+nspdrv_rw_etc_config_files(nsp_drv_t)
 
 pil_rm_signull(nsp_drv_t)
 pilrm_rw_tmpfs_files(nsp_drv_t)
@@ -55,6 +59,31 @@ pfm_rw_tmpfs_files(nsp_drv_t)
 
 power_create_sock_files(nsp_drv_t)
 power_setattr_sock_files(nsp_drv_t)
+
+# /etc/compresmgr_cpu_config.xml
+compresmgr_rw_etc_files(nsp_drv_t)
+
+# /dev/mqueue/fastrpc-rm
+fastrpc_rm_rw_tmpfs_files(nsp_drv_t)
+fastrpc_rm_ptrace(nsp_drv_t)
+
+# dmabuf
+fastrpc_rm_use_fds(nsp_drv_t)
+
+# dm-0, vendor
+files_search_default(nsp_drv_t)
+
+# sde10,/vendor/dsp/cdsp/fastrpc_shell_unsigned_3 
+firmware_search_dsp_dirs(nsp_drv_t)
+firmware_read_dsp_files(nsp_drv_t)
+
+# /var/volatile/log/frpc
+files_create_var_dirs(nsp_drv_t)
+files_watch_var_dirs(nsp_drv_t)
+files_list_var_dirs(nsp_drv_t)
+
+# /var overlay
+kernel_read_unlabeled_state(nsp_drv_t)
 
 ## ========== local ==========
 allow nsp_drv_t self:unix_dgram_socket { create connect getopt setopt };

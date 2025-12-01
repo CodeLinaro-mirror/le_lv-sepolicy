@@ -130,7 +130,23 @@ interface(`fastrpc_rm_rw_tmpfs_files',`
     rw_files_pattern($1, fastrpc_rm_tmpfs_t, fastrpc_rm_tmpfs_t)
 ')
 
+######################################
+## <summary>
+##  Read fastrpc-rm tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`fastrpc_rm_read_tmpfs_files',`
+    gen_require(`
+        type fastrpc_rm_tmpfs_t;
+    ')
 
+    read_files_pattern($1, fastrpc_rm_tmpfs_t, fastrpc_rm_tmpfs_t)
+')
 
 ######################################
 ## <summary>

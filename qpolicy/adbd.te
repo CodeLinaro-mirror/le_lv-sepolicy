@@ -21,7 +21,6 @@ require {
     type initrc_t;
     type auditctl_t;
     type auditd_etc_t;
-    type adreno200_t;
     type proc_t;
     type default_t;
     type diag_service_t;
@@ -61,7 +60,6 @@ require {
 }
 
 #============= For quick fix sepolicy to unblock PF, will move into related modules later ==============
-allow adreno200_t initrc_t:process ptrace;
 allow systemd_userdbd_t default_t:dir search;
 allow diag_service_t default_t:dir search;
 allow systemd_generator_t selinux_config_t:dir search;
@@ -132,7 +130,6 @@ require {
     type audio_service_t;
     type initrc_t;
     type eva_auto_t;
-    type gpiochip_device_t;
     type qcx_server_t;
     type qcx_be_server_t;
     type mnt_t;
@@ -156,16 +153,12 @@ require {
 #============= audio_service_t ==============
 allow audio_service_t default_t:dir { add_name search write };
 allow audio_service_t default_t:file { create getattr open read write };
-allow audio_service_t initrc_t:process ptrace;
 
 #============= initrc_t ==============
 allow initrc_t audio_service_t:process2 nnp_transition;
 allow initrc_t qcx_server_t:process2 nnp_transition;
 allow initrc_t qcx_be_server_t:process2 nnp_transition;
 allow initrc_t eva_auto_t:process2 nnp_transition;
-
-#============= eva_auto_t ==============
-allow eva_auto_t initrc_t:process { ptrace signull };
 
 #============= pil_rm_t ==============
 allow pil_rm_t bin_t:dir search;
@@ -176,8 +169,6 @@ permissive qcx_server_t;
 permissive qcx_be_server_t;
 allow qcx_server_t bin_t:dir { getattr open read search };
 allow qcx_server_t debugfs_t:dir search;
-allow qcx_server_t gpiochip_device_t:chr_file { getattr ioctl open read write };
-allow qcx_server_t initrc_t:process ptrace;
 allow qcx_server_t initrc_t:unix_stream_socket connectto;
 allow qcx_server_t self:process { getsched signal};
 allow qcx_server_t usr_t:file { getattr open read };

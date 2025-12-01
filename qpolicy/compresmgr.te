@@ -22,6 +22,7 @@ compresmgr_rw_etc_files(compresmgr_t)
 libkiumd_ioctl_lib_file(compresmgr_t)
 libkiumd_mmap_exec_lib_file(compresmgr_t)
 dev_rw_kiumd_dev(compresmgr_t)
+dev_rw_l3cache_config_dev(compresmgr_t)
 
 allow compresmgr_t self:process { setrlimit setsched getsched signull signal };
 allow compresmgr_t self:unix_dgram_socket { create connect };
