@@ -237,3 +237,19 @@ interface(`fastrpc_map_user_tmpfs',`
 
     allow $1 user_tmpfs_t:file map;
 ')
+
+interface(`fastrpc_rw_rm_tmpfs_files', `
+    gen_require(`
+        type fastrpc_rm_tmpfs_t;
+    ')
+    rw_files_pattern($1, fastrpc_rm_tmpfs_t, fastrpc_rm_tmpfs_t)
+')
+
+interface(`fastrpc_rm_interact',`
+    gen_require(`
+        type fastrpc_rm_t;
+    ')
+
+    allow $1 fastrpc_rm_t:fd use;
+    allow $1 fastrpc_rm_t:process ptrace;
+')
