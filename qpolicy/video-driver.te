@@ -14,6 +14,7 @@ init_daemon_domain(video_driver_t, video_driver_exec_t)
 
 init_rw_script_stream_sockets(video_driver_t)
 init_ptrace_script(video_driver_t)
+init_read_script_state(video_driver_t)
 
 # Allow access to /dev/scmi_video
 dev_node(video_driver_dev_t)

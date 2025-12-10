@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 vhost_user_getattr_vhost_socket(systemd_tmpfiles_t)
+vhost_user_getattr_vhost_socket_vm3(systemd_tmpfiles_t)
 files_read_var_symlinks(systemd_tmpfiles_t)
 files_read_generic_tmp_symlinks(systemd_tmpfiles_t)
 files_relabel_var_lnk_files(systemd_tmpfiles_t)
@@ -27,7 +28,7 @@ allow systemd_tmpfiles_t self:process setrlimit ;
 allow systemd_modules_load_t self:capability net_admin;
 allow systemd_sessions_t self:capability net_admin;
 allow systemd_user_runtime_dir_t self:capability net_admin;
-allow systemd_coredump_t self:capability net_admin;
+allow systemd_coredump_t self:capability { net_admin dac_read_search dac_override };
 
 logging_dgram_send(systemd_resolved_t)
 corenet_tcp_bind_generic_node(systemd_resolved_t)
@@ -87,3 +88,19 @@ files_manage_default_files(systemd_logind_t)
 weston_read_pid(systemd_logind_t)
 
 audioservice_mmap_rw_tmpfs_files(systemd_tmpfiles_t)
+
+# /tmp/qcxserver.lock
+qcxserver_rw_tmpfs_files(systemd_tmpfiles_t)
+
+# /tmp/lrm_server_1178_soccp-drv.txt
+soccp_driver_read_tmpfs_files(systemd_tmpfiles_t)
+kernel_read_unlabeled_state(systemd_tmpfiles_t)
+fastrpc_rm_read_tmpfs_files(systemd_tmpfiles_t)
+nspdrv_read_tmpfs_files(systemd_tmpfiles_t)
+hypvb_getattr_tmpfs_fifo_files(systemd_tmpfiles_t)
+hypvb_list_tmpfs_dirs(systemd_tmpfiles_t)
+pfm_read_tmpfs_files(systemd_tmpfiles_t)
+
+# /var overlay
+kernel_relabelfrom_unlabeled_dirs(systemd_tmpfiles_t)
+kernel_relabelfrom_unlabeled_symlinks(systemd_tmpfiles_t)

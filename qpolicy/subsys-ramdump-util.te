@@ -25,7 +25,7 @@ dev_read_sysfs(subsys_ramdump_util_t)
 
 # ========== local ==========
 allow subsys_ramdump_util_t self:unix_dgram_socket { create connect };
-allow subsys_ramdump_util_t self:process { setrlimit setsched getsched };
+allow subsys_ramdump_util_t self:process { setrlimit setsched getsched signal };
 allow subsys_ramdump_util_t self:capability { sys_resource sys_nice };
 
 #tmpfs_t

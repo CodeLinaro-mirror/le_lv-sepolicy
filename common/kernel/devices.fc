@@ -13,3 +13,4 @@
 /dev/ashmem                  -c      gen_context(system_u:object_r:ashmem_device_t,s0)
 /dev/dma_heap/.+             -c      gen_context(system_u:object_r:dma_device_t,s0)
 /dev/ksync                   -c      gen_context(system_u:object_r:ksync_device_t,s0)
+/dev/qcom_l3_cache_config_device         -c      gen_context(system_u:object_r:l3cache_config_device_t,s0)

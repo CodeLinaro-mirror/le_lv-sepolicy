@@ -67,7 +67,7 @@ userdom_manage_user_tmpfs_files(openwfd_server_t)
 
 dev_rw_kiumd_dev(openwfd_server_t)
 dev_rw_vfio_dev(openwfd_server_t)
-dev_rw_gpio_dev(openwfd_server_t)
+dev_rw_gpiochip_dev(openwfd_server_t)
 dev_rw_input_dev(openwfd_server_t)
 
 unconfined_server_signull(openwfd_server_t)
@@ -156,3 +156,7 @@ manage_files_pattern(openwfd_server_t, openwfd_tmpfs_t, openwfd_tmpfs_t)
 
 compresmgr_rw_etc_files(openwfd_server_t)
 compresmgr_rw_etc_files(bridgeship_server_t)
+
+kernel_search_debugfs(openwfd_server_t)
+kernel_read_unlabeled_state(openwfd_server_t)
+fs_rw_tracefs_files(openwfd_server_t)

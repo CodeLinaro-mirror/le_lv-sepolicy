@@ -57,7 +57,7 @@ interface(`dev_rw_kiumd_dev',`
 
 ########################################
 ## <summary>
-##  Read and write gpio devices (/dev/gpiochip0).
+##  Read and write gpiochip devices (/dev/gpiochip0).
 ## </summary>
 ## <param name="domain">
 ##  <summary>
@@ -65,12 +65,12 @@ interface(`dev_rw_kiumd_dev',`
 ##  </summary>
 ## </param>
 #
-interface(`dev_rw_gpio_dev',`
-#    gen_require(`
-#        type device_t, gpio_device_t;
-#    ')
+interface(`dev_rw_gpiochip_dev',`
+    gen_require(`
+        type device_t, gpiochip_device_t;
+    ')
 
-#    rw_chr_files_pattern($1, device_t, gpio_device_t)
+    rw_chr_files_pattern($1, device_t, gpiochip_device_t)
 ')
 
 ########################################
@@ -326,4 +326,22 @@ interface(`dev_rw_ksync_dev',`
     ')
 
     rw_chr_files_pattern($1, device_t, ksync_device_t)
+')
+
+########################################
+## <summary>
+##  Read and write ksync device (/dev/qcom_l3_cache_config_device).
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`dev_rw_l3cache_config_dev',`
+    gen_require(`
+        type device_t, l3cache_config_device_t;
+    ')
+
+    rw_chr_files_pattern($1, device_t, l3cache_config_device_t)
 ')

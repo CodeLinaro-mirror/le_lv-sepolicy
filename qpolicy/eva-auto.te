@@ -14,6 +14,8 @@ type eva_auto_etc_t;
 init_daemon_domain(eva_auto_t, eva_auto_exec_t)
 
 init_rw_script_stream_sockets(eva_auto_t)
+init_signull_script(eva_auto_t)
+init_ptrace_script(eva_auto_t)
 
 #/etc/sv_config.xml
 files_config_file(eva_auto_etc_t)
@@ -22,13 +24,19 @@ evauto_rw_etc_files(eva_auto_t)
 # Read safety config under /etc/safety_config
 files_read_safety_config_files(eva_auto_t)
 
+# Read stl files under /etc/sv/stl
+evauto_read_stl_files(eva_auto_t)
+
 # Launch sv_server as non-root
 userdom_use_all_users_fds(eva_auto_t)
 userdom_rw_user_tmpfs_files(eva_auto_t)
 userdom_delete_user_tmpfs_files(eva_auto_t)
+userdom_map_user_tmpfs_files(eva_auto_t)
+userdom_map_tmp_files(eva_auto_t)
 
 # Read dummy files in /etc/ folder
 files_read_etc_runtime_files(eva_auto_t)
+files_rw_etc_files(eva_auto_t)
 
 # Allow access to /dev/scmi_eva
 dev_node(eva_auto_dev_t)
@@ -106,3 +114,6 @@ fs_tmpfs_filetrans(eva_auto_t, eva_auto_tmpfs_t, { dir file })
 create_files_pattern(eva_auto_t, eva_auto_tmpfs_t, eva_auto_tmpfs_t)
 manage_files_pattern(eva_auto_t, eva_auto_tmpfs_t, eva_auto_tmpfs_t)
 evauto_mmap_rw_tmpfs_files(eva_auto_t)
+
+# /var overlay
+kernel_read_unlabeled_state(eva_auto_t)

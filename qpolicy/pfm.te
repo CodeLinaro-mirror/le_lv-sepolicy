@@ -66,7 +66,7 @@ mmap_rw_files_pattern(pfm_t,user_tmpfs_t,user_tmpfs_t)
 # ========== local ==========
 allow pfm_t self:unix_dgram_socket { create connect };
 allow pfm_t self:process { setrlimit setsched getsched };
-allow pfm_t self:capability { sys_resource sys_nice net_admin dac_override };
+allow pfm_t self:capability { sys_resource sys_nice net_admin dac_override kill };
 
 files_tmp_file(pfm_tmp_t)
 files_tmp_filetrans(pfm_t, pfm_tmp_t, { dir fifo_file file lnk_file })

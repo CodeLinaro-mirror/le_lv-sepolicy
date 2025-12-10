@@ -93,3 +93,21 @@ interface(`pfm_rw_tmpfs_files',`
 
     rw_files_pattern($1, pfm_tmpfs_t, pfm_tmpfs_t)
 ')
+
+######################################
+## <summary>
+##  Read pfm tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`pfm_read_tmpfs_files',`
+    gen_require(`
+        type pfm_tmpfs_t;
+    ')
+
+    read_files_pattern($1, pfm_tmpfs_t, pfm_tmpfs_t)
+')

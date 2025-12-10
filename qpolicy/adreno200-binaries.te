@@ -97,6 +97,9 @@ syscache_rm_rw_tmpfs_files(adreno200_t)
 #safetymonitor
 safetymonitor_rw_tmpfs_files(adreno200_t)
 
+#xml reading access /etc/safety_config
+files_read_safety_config_files(adreno200_t)
+
 # pfm
 pfm_rw_tmpfs_files(adreno200_t)
 
@@ -120,7 +123,10 @@ files_rw_default_dirs(adreno200_t)
 files_read_etc_files(adreno200_t)
 
 init_read_state(adreno200_t)
+init_read_script_state(adreno200_t)
 init_ptrace_script(adreno200_t)
+init_dbus_chat(adreno200_t)
+init_start_generic_units(adreno200_t)
 
 # open/read/write chr_file
 dev_rw_input_dev(adreno200_t)

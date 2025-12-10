@@ -393,6 +393,24 @@ interface(`files_delete_var_dirs',`
 
 ##################################
 ## <summary>
+##  Read and write generic directories under /var.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_rw_var_dirs',`
+    gen_require(`
+        type var_t;
+    ')
+
+    rw_dirs_pattern($1, var_t, var_t)
+')
+
+##################################
+## <summary>
 ##  Allow to map files under /var/run.
 ## </summary>
 ## <param name="domain">

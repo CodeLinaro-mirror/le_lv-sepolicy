@@ -15,6 +15,7 @@ init_daemon_domain(audio_service_t, audio_service_exec_t)
 
 init_rw_script_stream_sockets(audio_service_t)
 init_signull_script(audio_service_t)
+init_ptrace_script(audio_service_t)
 
 files_config_file(audio_etc_t)
 files_read_etc_files(audio_service_t)
@@ -42,7 +43,7 @@ userdom_map_user_tmpfs_files(audio_service_t)
 dev_rw_dma_dev(audio_service_t)
 dev_rw_kiumd_dev(audio_service_t)
 dev_rw_vfio_dev(audio_service_t)
-dev_rw_gpio_dev(audio_service_t)
+dev_rw_gpiochip_dev(audio_service_t)
 dev_rw_hab_dev(audio_service_t)
 dev_rw_generic_usb_dev(audio_service_t)
 dev_rw_sysfs(audio_service_t)
@@ -83,6 +84,7 @@ fastrpc_rm_rw_tmpfs_files(audio_service_t)
 diagservice_rw_tmpfs_files(audio_service_t)
 pilrm_rw_tmpfs_files(audio_service_t)
 kernel_read_debugfs(audio_service_t)
+kernel_read_proc_files(audio_service_t)
 #early stage policy
 fs_manage_tmpfs_sockets(audio_service_t)
 
@@ -164,3 +166,8 @@ files_exec_usr_files(audio_service_t)
 fs_rw_tracefs_files(audio_service_t)
 files_read_var_symlinks(audio_service_t)
 files_watch_var_dirs(audio_service_t)
+
+dev_rw_input_dev(audio_service_t)
+
+# /var overlay
+kernel_read_unlabeled_state(audio_service_t)

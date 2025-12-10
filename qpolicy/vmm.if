@@ -57,7 +57,8 @@ interface(`vmm_client_connect_server',`
     allow $1 vmm_t:unix_stream_socket connectto;
     allow $1 tmp_t:sock_file { create unlink write };
     allow $1 tmpfs_t:sock_file { create unlink write };
-    allow vmm_t $1:unix_stream_socket connectto;
+    allow vmm_t $1:unix_stream_socket { connectto read write };
+    allow vmm_t $1:fd use;
 ')
 
 ########################################

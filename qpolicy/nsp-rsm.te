@@ -9,11 +9,13 @@ type nsp_rsm_exec_t;
 #============= nsp_rsm_t ==============
 init_daemon_domain(nsp_rsm_t, nsp_rsm_exec_t)
 
+init_rw_script_stream_sockets(nsp_rsm_t)
+
 libkiumd_mmap_exec_lib_file(nsp_rsm_t)
 dev_rw_kiumd_dev(nsp_rsm_t)
 dev_read_sysfs(nsp_rsm_t)
 
-allow nsp_rsm_t self:process { setrlimit setsched };
+allow nsp_rsm_t self:process { setrlimit setsched getsched };
 allow nsp_rsm_t self:unix_dgram_socket { create connect };
 allow nsp_rsm_t self:capability { sys_resource sys_nice };
 userdom_map_tmp_files(nsp_rsm_t)
@@ -39,3 +41,6 @@ files_manage_var_files(nsp_rsm_t)
 kernel_read_proc_files(nsp_rsm_t)
 #for executing through adb shell
 unconfined_server_signull(nsp_rsm_t)
+
+# /etc/compresmgr_cpu_config.xml 
+compresmgr_rw_etc_files(nsp_rsm_t)
