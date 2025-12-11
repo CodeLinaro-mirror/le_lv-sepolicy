@@ -36,6 +36,7 @@ type diag_service_t;
 type diag_service_exec_t;
 type diag_service_tmp_t;
 type diag_service_tmpfs_t;
+type diag_service_power_t;
 
 init_daemon_domain(diag_service_t, diag_service_exec_t)
 
@@ -99,3 +100,7 @@ libkiumd_mmap_exec_lib_file(diag_service_t)
 userdom_mmap_rw_inherited_user_tmp_files(diag_service_t)
 
 dev_read_sysfs(diag_service_t)
+
+# pm_register
+power_use_pm_register(diag_service_t, diag_service_power_t)
+
