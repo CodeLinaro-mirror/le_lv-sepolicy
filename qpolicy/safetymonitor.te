@@ -118,3 +118,9 @@ compresmon_mmap_rw_tmpfs_files(safetymonitor_t)
 compresmon_unlink_tmpfs_files(safetymonitor_t)
 
 compresmgr_signull(safetymonitor_t)
+
+#display
+owfds_rw_tmpfs_files(safetymonitor_t)
+openwfd_mmap_rw_tmpfs_files(safetymonitor_t)
+openwfd_server_signull(safetymonitor_t)
+allow safetymonitor_t self:capability kill;
