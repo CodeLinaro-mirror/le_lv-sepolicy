@@ -1,0 +1,5 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+/usr/bin/aurix-can-umd		--	gen_context(system_u:object_r:aurix-can-umd_exec_t,s0)
+/usr/bin/libcwtest                    --        gen_context(system_u:object_r:aurix-can-umd_exec_t,s0)

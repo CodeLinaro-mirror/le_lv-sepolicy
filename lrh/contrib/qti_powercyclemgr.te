@@ -74,6 +74,8 @@ openwfd_server_connect_pm_socket(powercyclemgr_t)
 openwfd_server_manage_pm_sockfile(powercyclemgr_t)
 weston_connect_pm_socket(powercyclemgr_t)
 weston_manage_pm_sockfile(powercyclemgr_t)
+video_driver_socket_connect(powercyclemgr_t)
+video_driver_sockfile_manage(powercyclemgr_t)
 
 powercyclemgr_read_chr_files(powercyclemgr_t)
 

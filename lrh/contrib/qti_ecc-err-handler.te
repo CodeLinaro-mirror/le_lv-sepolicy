@@ -77,4 +77,4 @@ fs_tmpfs_filetrans(ecc_err_handler_t, ecc_err_handler_tmpfs_t, { dir file })
 create_files_pattern(ecc_err_handler_t, ecc_err_handler_tmpfs_t, ecc_err_handler_tmpfs_t)
 ecc_err_handler_mmap_rw_tmpfs_files(ecc_err_handler_t)
 fs_rw_tmpfs_files(ecc_err_handler_t)
-
+kernel_read_debugfs(ecc_err_handler_t)
