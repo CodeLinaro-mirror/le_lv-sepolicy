@@ -238,6 +238,16 @@ interface(`fastrpc_map_user_tmpfs',`
     allow $1 user_tmpfs_t:file map;
 ')
 
+######################################
+## <summary>
+##  rw fastrpc-rm tmpfs_t files
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
 interface(`fastrpc_rw_rm_tmpfs_files', `
     gen_require(`
         type fastrpc_rm_tmpfs_t;
@@ -245,6 +255,17 @@ interface(`fastrpc_rw_rm_tmpfs_files', `
     rw_files_pattern($1, fastrpc_rm_tmpfs_t, fastrpc_rm_tmpfs_t)
 ')
 
+######################################
+## <summary>
+##  ptrace to fastrpc-rm related process.
+##  use file descriptors for fastrpc-rm
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
 interface(`fastrpc_rm_interact',`
     gen_require(`
         type fastrpc_rm_t;
