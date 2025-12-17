@@ -23,3 +23,6 @@
 /dev/vhost-vm3-vnw                        -c      gen_context(system_u:object_r:vhost_user_device_vm3_t,s0)
 /dev/vhost-vm3-ext                        -c      gen_context(system_u:object_r:vhost_user_device_vm3_t,s0)
 /dev/vhost-vm3-gpce                       -c      gen_context(system_u:object_r:vhost_user_device_vm3_t,s0)
+/dev/vhost-vm3-soccp                      -c      gen_context(system_u:object_r:vhost_user_device_vm3_t,s0)
+/dev/vhost-vm3-dprx                       -c      gen_context(system_u:object_r:vhost_user_device_vm3_t,s0)
+/dev/vhost-vm3-eva                        -c      gen_context(system_u:object_r:vhost_user_device_vm3_t,s0)
