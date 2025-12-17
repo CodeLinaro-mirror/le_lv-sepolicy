@@ -69,8 +69,10 @@ allow vhost_user_qti_t vhost_user_tmp_t:sock_file unlink;
 allow vhost_user_qti_vm3_t vhost_user_tmp_vm3_t:sock_file unlink;
 
 allow vhost_user_qti_t self:unix_stream_socket { listen accept };
-allow vhost_user_qti_t self:capability { net_admin };
-allow vhost_user_qti_vm3_t self:capability { net_admin };
+allow vhost_user_qti_t self:process { setsched };
+allow vhost_user_qti_vm3_t self:process { setsched };
+allow vhost_user_qti_t self:capability { net_admin sys_nice };
+allow vhost_user_qti_vm3_t self:capability { net_admin sys_nice };
 
 # vhost_user_qti_t does not need this since we already set the permission
 # by the above init_daemon_domain(vhost_user_qti_t, vhost_user_qti_exec_t)
@@ -97,3 +99,13 @@ fs_manage_tmpfs_sockets(vhost_user_qti_t)
 
 fs_rw_tmpfs_dirs(vhost_user_qti_vm3_t)
 fs_manage_tmpfs_sockets(vhost_user_qti_vm3_t)
+
+libkiumd_mmap_exec_lib_file(vhost_user_qti_t)
+libkiumd_mmap_exec_lib_file(vhost_user_qti_vm3_t)
+libkiumd_read_lib_files(vhost_user_qti_t)
+libkiumd_read_lib_files(vhost_user_qti_vm3_t)
+libkiumd_manage_lib_files(vhost_user_qti_t)
+libkiumd_manage_lib_files(vhost_user_qti_vm3_t)
+
+compresmgr_rw_etc_files(vhost_user_qti_t)
+compresmgr_rw_etc_files(vhost_user_qti_vm3_t)

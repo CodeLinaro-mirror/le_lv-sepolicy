@@ -93,6 +93,11 @@ vhost_user_create_vhost_socket(vhost_user_qti_vm3_t, vhost_user_tmp_vm3_t, "linu
 allow vhost_user_qti_t vhost_user_tmp_t:sock_file unlink;
 allow vhost_user_qti_vm3_t vhost_user_tmp_vm3_t:sock_file unlink;
 
+allow vhost_user_qti_t self:process { setsched };
+allow vhost_user_qti_vm3_t self:process { setsched };
+allow vhost_user_qti_t self:capability { sys_nice };
+allow vhost_user_qti_vm3_t self:capability { sys_nice };
+
 # vhost_user_qti_t does not need this since we already set the permission
 # by the above init_daemon_domain(vhost_user_qti_t, vhost_user_qti_exec_t)
 # Because the vhost_user_qti_exec_vm3_t is empty object.
@@ -127,3 +132,10 @@ dev_read_sysfs(vhost_user_qti_vm3_t);
 
 fs_rw_tmpfs_dirs(vhost_user_qti_vm3_t)
 fs_manage_tmpfs_sockets(vhost_user_qti_vm3_t)
+
+libkiumd_mmap_exec_lib_file(vhost_user_qti_t)
+libkiumd_mmap_exec_lib_file(vhost_user_qti_vm3_t)
+libkiumd_read_lib_files(vhost_user_qti_t)
+libkiumd_read_lib_files(vhost_user_qti_vm3_t)
+libkiumd_manage_lib_files(vhost_user_qti_t)
+libkiumd_manage_lib_files(vhost_user_qti_vm3_t)
