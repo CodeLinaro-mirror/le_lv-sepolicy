@@ -12,6 +12,8 @@ init_daemon_domain(syscache_rm_t, syscache_rm_exec_t)
 
 init_rw_script_stream_sockets(syscache_rm_t)
 
+init_signull_script(syscache_rm_t);
+
 logging_send_syslog_msg(syscache_rm_t)
 
 dev_rw_kiumd_dev(syscache_rm_t)
