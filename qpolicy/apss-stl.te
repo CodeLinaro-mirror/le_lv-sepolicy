@@ -56,6 +56,5 @@ userdom_map_user_tmpfs_files(apss_stl_t)
 
 ## ========== local ==========
 allow apss_stl_t self:unix_dgram_socket { create connect getopt setopt };
-allow apss_stl_t self:process { setrlimit setsched getsched signal};
+allow apss_stl_t self:process { setrlimit setsched getsched signal execmem };
 allow apss_stl_t self:capability { sys_resource sys_nice };
-
