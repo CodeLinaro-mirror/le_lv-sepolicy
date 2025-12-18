@@ -26,6 +26,8 @@ fs_rw_tmpfs_files(weston_t)
 
 # Todo, unlabeled_t, could remove after setting selinxu context to /data mount
 kernel_mounton_unlabeled_dirs(weston_t)
+kernel_read_unlabeled_state(weston_t)
+kernel_manage_unlabeled_dirs(weston_t)
 files_list_default_dirs(weston_t)
 files_read_usr_files(weston_t)
 files_search_mnt(weston_t)
