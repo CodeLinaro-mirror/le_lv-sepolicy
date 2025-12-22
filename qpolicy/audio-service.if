@@ -185,3 +185,78 @@ interface(`audioservice_connect_audio_sock',`
 
     allow $1 audio_service_t:unix_stream_socket connectto;
 ')
+
+########################################
+## <summary>
+## Allow audio-service domains to communicate with each other over D-Bus.
+## </summary>
+## <param name="domain">
+## <summary>
+## Domain allowed access.
+## </summary>
+## </param>
+#
+interface(`audioservice_dbus_chat',`
+    gen_require(`
+        type audio_service_t;
+        class dbus { send_msg acquire_svc };
+    ')
+
+    allow $1 audio_service_t:dbus { send_msg acquire_svc };
+')
+
+########################################
+## <summary>
+## Allow audio-service domains to use UNIX sockets for inter-process communication.
+## </summary>
+## <param name="domain">
+## <summary>
+## Domain allowed access.
+## </summary>
+## </param>
+#
+interface(`audioservice_ipc_sockets',`
+    gen_require(`
+        type audio_service_t;
+    ')
+
+    allow $1 audio_service_t:unix_dgram_socket { create connect getopt setopt };
+    allow $1 audio_service_t:unix_stream_socket connectto;
+')
+
+########################################
+## <summary>
+## Allow audio-service domains to manage process and capabilities for coordination.
+## </summary>
+## <param name="domain">
+## <summary>
+## Domain allowed access.
+## </summary>
+## </param>
+#
+interface(`audioservice_process_control',`
+    gen_require(`
+        type audio_service_t;
+    ')
+
+    allow $1 audio_service_t:process { setrlimit setsched ptrace getsched signull };
+    allow $1 audio_service_t:capability { sys_resource sys_nice net_admin sys_ptrace dac_override };
+')
+
+########################################
+## <summary>
+## Allow audio-service domains to use TCP sockets for communication.
+## </summary>
+## <param name="domain">
+## <summary>
+## Domain allowed access.
+## </summary>
+## </param>
+#
+interface(`audioservice_tcp_comm',`
+    gen_require(`
+        type audio_service_t;
+    ')
+
+    allow $1 audio_service_t:tcp_socket { accept bind create listen setopt shutdown connect read write };
+')
