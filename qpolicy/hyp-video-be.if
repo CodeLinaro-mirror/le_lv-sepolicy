@@ -129,3 +129,21 @@ interface(`hypvb_list_tmpfs_dirs',`
 
     list_dirs_pattern($1, hyp_video_tmpfs_t, hyp_video_tmpfs_t)
 ')
+
+######################################
+## <summary>
+##  Allow a domain to use file descriptors owned by hyp_video_t.
+## </summary>
+## <param name="domain">
+##  <summary>
+##   Domain that is allowed to use hyp_video_t FDs.
+##  </summary>
+## </param>
+#
+interface(`hyp_video_use_fds',`
+    gen_require(`
+        type hyp_video_t;
+    ')
+
+    allow $1 hyp_video_t:fd use;
+')
