@@ -1,10 +1,13 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 /usr/bin/bridgechip_server               --      gen_context(system_u:object_r:bridgeship_server_exec_t,s0)
 /usr/bin/openwfd_server                  --      gen_context(system_u:object_r:openwfd_server_exec_t,s0)
+/usr/bin/openwfd_server-QM               --      gen_context(system_u:object_r:openwfd_server_exec_t,s0)
+/usr/bin/openwfd_server_safe             --      gen_context(system_u:object_r:openwfd_server_exec_t,s0)
 /usr/lib/libopenwfd.so                   --      gen_context(system_u:object_r:openwfd_lib_t,s0)
+/usr/lib/libopenwfd_safe.so              --      gen_context(system_u:object_r:openwfd_lib_t,s0)
 /usr/lib/libwire_user.so                 --      gen_context(system_u:object_r:openwfd_lib_t,s0)
 /dev/scmi_mdss0                          -c      gen_context(system_u:object_r:openwfd_server_dev_t,s0)
 /dev/scmi_mdss1                          -c      gen_context(system_u:object_r:openwfd_server_dev_t,s0)
-
+/dev/hab-virq                            -c      gen_context(system_u:object_r:openwfd_server_dev_t,s0)

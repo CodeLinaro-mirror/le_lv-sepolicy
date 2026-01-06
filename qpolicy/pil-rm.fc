@@ -1,8 +1,15 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 /usr/bin/pil-rm       --      gen_context(system_u:object_r:pil_rm_exec_t,s0)
+/dev/umd_pil          -c      gen_context(system_u:object_r:pil_rm_umd_dev_t,s0)
 /dev/scmi_nsp0        -c      gen_context(system_u:object_r:pil_rm_scmi_dev_t,s0)
 /dev/scmi_nsp1        -c      gen_context(system_u:object_r:pil_rm_scmi_dev_t,s0)
+/dev/scmi_nsp2        -c      gen_context(system_u:object_r:pil_rm_scmi_dev_t,s0)
+/dev/scmi_nsp3        -c      gen_context(system_u:object_r:pil_rm_scmi_dev_t,s0)
 /dev/scmi_gpdsp0      -c      gen_context(system_u:object_r:pil_rm_scmi_dev_t,s0)
 /dev/scmi_gpdsp1      -c      gen_context(system_u:object_r:pil_rm_scmi_dev_t,s0)
+/dev/scmi_hpass0      -c      gen_context(system_u:object_r:pil_rm_scmi_dev_t,s0)
+/dev/scmi_hpass1      -c      gen_context(system_u:object_r:pil_rm_scmi_dev_t,s0)
+/dev/scmi_hpass2      -c      gen_context(system_u:object_r:pil_rm_scmi_dev_t,s0)
+/dev/pil-done         --      gen_context(system_u:object_r:pil_done_dev_t,s0)

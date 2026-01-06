@@ -1,0 +1,78 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary>Policy for SELinux policy and userland applications.</summary>
+
+######################################
+## <summary>
+##  Send signull to ssctl_service_t.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`ssctl_service_signull',`
+    gen_require(`
+        type ssctl_service_t;
+    ')
+
+    allow $1 ssctl_service_t:process signull;
+')
+
+
+
+######################################
+## <summary>
+##  create files under tmpfs filesystem for ssctl-service.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`ssctl_service_create_tmpfs_files',`
+    gen_require(`
+        type ssctl_service_tmpfs_t;
+    ')
+
+    create_files_pattern($1, ssctl_service_tmpfs_t, ssctl_service_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Map, read and write ssctl-service tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`ssctl_service_mmap_rw_tmpfs_files',`
+    gen_require(`
+        type ssctl_service_tmpfs_t;
+    ')
+
+    mmap_rw_files_pattern($1, ssctl_service_tmpfs_t, ssctl_service_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Read and write ssctl-service tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`ssctl_service_rw_tmpfs_files',`
+    gen_require(`
+        type ssctl_service_tmpfs_t;
+    ')
+
+    rw_files_pattern($1, ssctl_service_tmpfs_t, ssctl_service_tmpfs_t)
+')

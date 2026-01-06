@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(syscache-rm, 1.0)
@@ -7,8 +7,17 @@ type syscache_rm_t;
 type syscache_rm_exec_t;
 type syscache_rm_tmp_t;
 type syscache_rm_tmpfs_t;
+type syscache_rm_umd_dev_t;
 
 init_daemon_domain(syscache_rm_t, syscache_rm_exec_t)
+
+dev_node(syscache_rm_umd_dev_t)
+syscache_rm_rw_umd_dev(syscache_rm_t)
+syscache_rm_map_umd_dev(syscache_rm_t)
+
+init_rw_script_stream_sockets(syscache_rm_t)
+
+init_signull_script(syscache_rm_t);
 
 logging_send_syslog_msg(syscache_rm_t)
 
@@ -30,9 +39,34 @@ adreno200_signull(syscache_rm_t)
 adreno200_mmap_rw_tmpfs_files(syscache_rm_t)
 adreno200_delete_tmpfs_files(syscache_rm_t)
 
+# /tmp/lrms_log_*.txt
+files_tmp_file(syscache_rm_t)
+files_tmp_filetrans(syscache_rm_t, syscache_rm_tmp_t, { dir file })
+manage_files_pattern(syscache_rm_t, syscache_rm_tmp_t, syscache_rm_tmp_t)
+mmap_read_files_pattern(syscache_rm_t, syscache_rm_tmp_t, syscache_rm_tmp_t)
+
+# map /dev/shm/lrmc_rq_*
+syscache_rm_create_tmpfs_files(syscache_rm_t)
+syscache_rm_mmap_rw_tmpfs_files(syscache_rm_t)
+syscache_rm_rw_tmpfs_files(syscache_rm_t)
+syscache_rm_tmpfs_map_files(syscache_rm_t)
+allow syscache_rm_t syscache_rm_tmpfs_t:file { map unlink };
+
+# for syscache_drv_test registering with syscache_rm (user_tmp_t)
+userdom_manage_tmp_files(syscache_rm_t)
+userdom_map_tmp_files(syscache_rm_t)
+userdom_read_user_tmpfs_files(syscache_rm_t);
+userdom_rw_user_tmpfs_files(syscache_rm_t);
+userdom_delete_user_tmpfs_files(syscache_rm_t);
+userdom_map_user_tmpfs_files(syscache_rm_t);
+
+# unconfined 
+unconfined_signull(syscache_rm_t)
+#============= syscache_rm_t ==============
+
 # ========== local ==========
 allow syscache_rm_t self:unix_dgram_socket { create connect getopt setopt };
-allow syscache_rm_t self:process { setrlimit setsched };
+allow syscache_rm_t self:process { setrlimit setsched getsched signal };
 allow syscache_rm_t self:capability { sys_resource sys_nice net_admin };
 
 files_tmp_file(syscache_rm_tmp_t)
@@ -43,6 +77,14 @@ manage_files_pattern(syscache_rm_t, syscache_rm_tmp_t, syscache_rm_tmp_t)
 files_tmpfs_file(syscache_rm_tmpfs_t)
 fs_tmpfs_filetrans(syscache_rm_t, syscache_rm_tmpfs_t, { dir file })
 create_files_pattern(syscache_rm_t, syscache_rm_tmpfs_t, syscache_rm_tmpfs_t)
-syscacherm_mmap_rw_tmpfs_files(syscache_rm_t)
-fs_rw_tmpfs_files(syscache_rm_t)
 
+# for running syscache_drv_test app in adb shell
+unconfined_server_signull(syscache_rm_t);
+fs_map_tmpfs_files(syscache_rm_t);
+fs_rw_tmpfs_files(syscache_rm_t);
+
+# qcxserver
+qcxserver_rw_tmpfs_files(syscache_rm_t)
+qcxserver_delete_tmpfs_files(syscache_rm_t)
+qcxserver_mmap_rw_tmpfs_files(syscache_rm_t)
+qcxserver_signull(syscache_rm_t)

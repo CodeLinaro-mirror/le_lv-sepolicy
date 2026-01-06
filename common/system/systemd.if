@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 ######################################
@@ -141,7 +141,7 @@ interface(`systemd_sysadm_user',`
         type sysadm_systemd_t;
     ')
 
-    allow sysadm_systemd_t self:capability { mknod sys_admin };
+    allow sysadm_systemd_t self:capability { mknod sys_admin net_admin dac_override};
     allow sysadm_systemd_t self:capability2 { bpf perfmon };
     allow sysadm_systemd_t self:process setrlimit;
     allow sysadm_systemd_t self:unix_dgram_socket sendto;
@@ -155,6 +155,9 @@ interface(`systemd_sysadm_user',`
     files_read_var_symlinks(sysadm_systemd_t)
 
     pulseaudio_nnp_transition(sysadm_systemd_t)
+
+    sysadm_inherit_process_attributes(sysadm_systemd_t)
+    kernel_getattr_proc(sysadm_systemd_t)
 ')
 
 ########################################
@@ -173,4 +176,216 @@ interface(`systemd_passwd_agent_nnp_trans',`
     ')
 
     allow $1 systemd_passwd_agent_t:process2 nnp_transition;
+')
+
+########################################
+## <summary>
+##  Create objects in /var/run/ with a private type using a type_transition
+## </summary>
+## <param name="private type">
+##  <summary>
+##  The type of the object to be created.
+##  </summary>
+## </param>
+## <param name="object">
+##  <summary>
+##  The object class of the object being created.
+##  </summary>
+## </param>
+## <param name="name" optional="true">
+##  <summary>
+##  The name of the object being created.
+##  </summary>
+## </param>
+#
+interface(`systemd_pid_filetrans_tmpfiles',`
+    gen_require(`
+        type systemd_tmpfiles_t;
+    ')
+
+    files_pid_filetrans(systemd_tmpfiles_t, $1, $2, $3)
+')
+
+########################################
+## <summary>
+##  Transition to systemd_resolved_t when NNP has been set.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  The type of the process performing this action.
+##  </summary>
+## </param>
+#
+interface(`systemd_resolved_nnp_trans',`
+    gen_require(`
+        type systemd_resolved_t;
+    ')
+
+    allow $1 systemd_resolved_t:process2 nnp_transition;
+')
+
+########################################
+## <summary>
+##  Transition to systemd_coredump_t when NNP has been set.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  The type of the process performing this action.
+##  </summary>
+## </param>
+#
+interface(`systemd_coredump_nnp_trans',`
+    gen_require(`
+        type systemd_coredump_t;
+    ')
+
+    allow $1 systemd_coredump_t:process2 nnp_transition;
+')
+
+########################################
+## <summary>
+##  Transition to systemd_logind_t when NNP has been set.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  The type of the process performing this action.
+##  </summary>
+## </param>
+#
+interface(`systemd_logind_nnp_trans',`
+    gen_require(`
+        type systemd_logind_t;
+    ')
+
+    allow $1 systemd_logind_t:process2 nnp_transition;
+')
+
+########################################
+## <summary>
+##  Transition to systemd_networkd_t when NNP has been set.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  The type of the process performing this action.
+##  </summary>
+## </param>
+#
+interface(`systemd_networkd_nnp_trans',`
+    gen_require(`
+        type systemd_networkd_t;
+    ')
+
+    allow $1 systemd_networkd_t:process2 nnp_transition;
+')
+
+########################################
+## <summary>
+##  Transition to systemd_userdbd_t when NNP has been set.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  The type of the process performing this action.
+##  </summary>
+## </param>
+#
+interface(`systemd_userdbd_nnp_trans',`
+    gen_require(`
+        type systemd_userdbd_t;
+    ')
+
+    allow $1 systemd_userdbd_t:process2 nnp_transition;
+')
+
+########################################
+## <summary>
+##  Allow the specified domain to read and write
+##  the systemd-logind linger files
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`systemd_rw_logind_linger_files',`
+    gen_require(`
+        type systemd_logind_var_lib_t;
+    ')
+
+    rw_files_pattern($1, systemd_logind_var_lib_t, systemd_logind_var_lib_t)
+')
+
+########################################
+## <summary>
+##  Allow the specified domain to read and write
+##  the systemd-logind linger directories
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`systemd_rw_logind_linger_dirs',`
+    gen_require(`
+        type systemd_logind_var_lib_t;
+    ')
+
+    allow $1 systemd_logind_var_lib_t:dir rw_dir_perms;
+')
+
+########################################
+## <summary>
+##  Allow the specified domain to read and write
+##  the systemd coredump directories
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`systemd_rw_coredump_dirs',`
+    gen_require(`
+        type systemd_coredump_var_lib_t;
+    ')
+
+    rw_dirs_pattern($1, systemd_coredump_var_lib_t, systemd_coredump_var_lib_t)
+')
+
+########################################
+## <summary>
+##  Allow the specified domain to list
+##  the systemd coredump directories
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`systemd_list_coredump_dirs',`
+    gen_require(`
+        type systemd_coredump_var_lib_t;
+    ')
+
+    list_dirs_pattern($1, systemd_coredump_var_lib_t, systemd_coredump_var_lib_t)
+')
+
+########################################
+## <summary>
+##  Relabel systemd-coredump under /var/lib directory type.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`systemd_relabel_coredump_var_lib_dirs',`
+    gen_require(`
+        type systemd_coredump_var_lib_t;
+    ')
+
+    allow $1 systemd_coredump_var_lib_t:dir relabel_dir_perms;
 ')

@@ -1,5 +1,6 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
-# # SPDX-License-Identifier: BSD-3-Clause-Clear
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
 policy_module(fastrpc-rm, 1.0)
 
 type fastrpc_rm_t;
@@ -9,6 +10,10 @@ type fastrpc_rm_tmpfs_t;
 
 init_daemon_domain(fastrpc_rm_t, fastrpc_rm_exec_t)
 
+init_rw_script_stream_sockets(fastrpc_rm_t)
+init_signull_script(fastrpc_rm_t)
+init_ptrace_script(fastrpc_rm_t)
+
 logging_send_syslog_msg(fastrpc_rm_t)
 
 userdom_rw_user_tmp_files(fastrpc_rm_t)
@@ -17,11 +22,13 @@ userdom_delete_user_tmp_files(fastrpc_rm_t)
 
 fs_rw_tmpfs_files(fastrpc_rm_t)
 fs_map_tmpfs_files(fastrpc_rm_t)
+fs_delete_tmpfs_files(fastrpc_rm_t)
 
 dev_rw_dma_dev(fastrpc_rm_t)
 dev_rw_kiumd_dev(fastrpc_rm_t)
 dev_rw_vfio_dev(fastrpc_rm_t)
 dev_read_sysfs(fastrpc_rm_t)
+dev_map_kiumd_dev(fastrpc_rm_t)
 
 ssrrm_rw_tmpfs_files(fastrpc_rm_t)
 glinkserver_rw_tmpfs_files(fastrpc_rm_t)
@@ -29,6 +36,7 @@ audioservice_mmap_rw_tmpfs_files(fastrpc_rm_t)
 audioservice_delete_tmpfs_files(fastrpc_rm_t)
 
 glinkserver_ptrace(fastrpc_rm_t)
+glinkserver_use_fds(fastrpc_rm_t)
 
 audio_service_signull(fastrpc_rm_t)
 
@@ -40,7 +48,7 @@ unconfined_ptrace(fastrpc_rm_t)
 # ========== local ==========
 allow fastrpc_rm_t self:unix_dgram_socket { create connect getopt setopt };
 allow fastrpc_rm_t self:capability { sys_resource sys_nice net_admin sys_ptrace dac_override };
-allow fastrpc_rm_t self:process { setrlimit setsched };
+allow fastrpc_rm_t self:process { setrlimit setsched getsched signal};
 
 # /tmp/lrmc_log_(pid).txt
 files_tmp_file(fastrpc_rm_tmp_t)
@@ -51,6 +59,22 @@ files_tmpfs_file(fastrpc_rm_tmpfs_t)
 fs_tmpfs_filetrans(fastrpc_rm_t, fastrpc_rm_tmpfs_t, { dir file })
 fastrpc_rm_create_tmpfs_files(fastrpc_rm_t)
 fastrpc_rm_mmap_rw_tmpfs_files(fastrpc_rm_t)
+fastrpc_rm_rw_tmpfs_files(fastrpc_rm_t)
+fastrpc_rm_unlink_tmpfs_files(fastrpc_rm_t)
+fastrpc_read_user_tmpfs(fastrpc_rm_t)
+fastrpc_write_user_tmpfs(fastrpc_rm_t)
+fastrpc_open_user_tmpfs(fastrpc_rm_t)
+fastrpc_map_user_tmpfs(fastrpc_rm_t)
+fastrpc_rw_rm_tmpfs_files(fastrpc_t)
 
 #libkiumd
 libkiumd_mmap_exec_lib_file(fastrpc_rm_t)
+
+compresmon_signull(fastrpc_rm_t)
+compresmon_mmap_rw_tmpfs_files(fastrpc_rm_t)
+compresmon_unlink_tmpfs_files(fastrpc_rm_t)
+
+# /dev/shm/lrmc_rq_*
+nspdrv_mmap_rw_tmpfs_files(fastrpc_rm_t)
+nsp_drv_signull(fastrpc_rm_t)
+fastrpc_signull(fastrpc_rm_t)

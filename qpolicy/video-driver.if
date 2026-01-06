@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 ## <summary>Policy for SELinux policy and userland applications.</summary>
@@ -78,6 +78,25 @@ interface(`videodriver_rw_tmpfs_files',`
 
 ######################################
 ## <summary>
+##  Read video-driver tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`videodriver_read_tmpfs_files',`
+    gen_require(`
+        type video_driver_tmpfs_t;
+    ')
+
+    read_files_pattern($1, video_driver_tmpfs_t, video_driver_tmpfs_t)
+    allow $1 video_driver_tmpfs_t:fifo_file getattr;
+')
+
+######################################
+## <summary>
 ##  Delete video-driver tmpfs files.
 ## </summary>
 ## <param name="domain">
@@ -96,6 +115,24 @@ interface(`videodriver_delete_tmpfs_files',`
 
 ######################################
 ## <summary>
+##  List video-driver tmpfs directories.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`videodriver_list_tmpfs_dirs',`
+    gen_require(`
+        type video_driver_tmpfs_t;
+    ')
+
+    list_dirs_pattern($1, video_driver_tmpfs_t, video_driver_tmpfs_t)
+')
+
+######################################
+## <summary>
 ##  Read and write scmi devices (/dev/scmi_video).
 ## </summary>
 ## <param name="domain">
@@ -110,4 +147,43 @@ interface(`videodriver_rw_scmi_dev',`
     ')
 
     rw_chr_files_pattern($1, device_t, video_driver_dev_t)
+')
+
+######################################
+## <summary>
+##  video_driver.sock connectto.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`video_driver_socket_connect',`
+    gen_require(`
+        type video_driver_t;
+        type video_driver_power_t;
+    ')
+
+    allow $1 video_driver_t:unix_stream_socket connectto;
+    allow video_driver_t $1:unix_stream_socket connectto;
+')
+
+######################################
+## <summary>
+##  video_driver.sock file manage.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`video_driver_sockfile_manage',`
+    gen_require(`
+        type video_driver_t;
+        type video_driver_power_t;
+    ')
+
+    allow $1 video_driver_power_t:sock_file { create unlink write };
 ')

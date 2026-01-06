@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 ## <summary>Policy for SELinux policy and userland applications.</summary>
@@ -60,6 +60,24 @@ interface(`fastrpc_rm_ptrace',`
 
 ######################################
 ## <summary>
+##  Use fastrpc-rm file descriptors.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`fastrpc_rm_use_fds',`
+    gen_require(`
+        type fastrpc_rm_t;
+    ')
+
+    allow $1 fastrpc_rm_t:fd use;
+')
+
+######################################
+## <summary>
 ##  create files under tmpfs filesystem for fastrpc-rm.
 ## </summary>
 ## <param name="domain">
@@ -110,4 +128,149 @@ interface(`fastrpc_rm_rw_tmpfs_files',`
     ')
 
     rw_files_pattern($1, fastrpc_rm_tmpfs_t, fastrpc_rm_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Read fastrpc-rm tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`fastrpc_rm_read_tmpfs_files',`
+    gen_require(`
+        type fastrpc_rm_tmpfs_t;
+    ')
+
+    read_files_pattern($1, fastrpc_rm_tmpfs_t, fastrpc_rm_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Read and write fastrpc-rm tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`fastrpc_rm_unlink_tmpfs_files',`
+    gen_require(`
+        type fastrpc_rm_tmpfs_t;
+    ')
+
+    allow $1 fastrpc_rm_tmpfs_t:file unlink;
+')
+
+######################################
+## <summary>
+##  Read fastrpc-rm user_tmpfs_t files
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`fastrpc_read_user_tmpfs',`
+    gen_require(`
+        type user_tmpfs_t;
+    ')
+
+    allow $1 user_tmpfs_t:file read;
+')
+
+######################################
+## <summary>
+##  Write fastrpc-rm user_tmpfs_t files
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`fastrpc_write_user_tmpfs',`
+    gen_require(`
+        type user_tmpfs_t;
+    ')
+
+    allow $1 user_tmpfs_t:file write;
+')
+
+######################################
+## <summary>
+##  Open fastrpc-rm user_tmpfs_t files
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`fastrpc_open_user_tmpfs',`
+    gen_require(`
+        type user_tmpfs_t;
+    ')
+
+    allow $1 user_tmpfs_t:file open;
+')
+
+######################################
+## <summary>
+##  Map fastrpc-rm user_tmpfs_t files
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`fastrpc_map_user_tmpfs',`
+    gen_require(`
+        type user_tmpfs_t;
+    ')
+
+    allow $1 user_tmpfs_t:file map;
+')
+
+######################################
+## <summary>
+##  rw fastrpc-rm tmpfs_t files
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`fastrpc_rw_rm_tmpfs_files', `
+    gen_require(`
+        type fastrpc_rm_tmpfs_t;
+    ')
+    rw_files_pattern($1, fastrpc_rm_tmpfs_t, fastrpc_rm_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  ptrace to fastrpc-rm related process.
+##  use file descriptors for fastrpc-rm
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`fastrpc_rm_interact',`
+    gen_require(`
+        type fastrpc_rm_t;
+    ')
+
+    allow $1 fastrpc_rm_t:fd use;
+    allow $1 fastrpc_rm_t:process ptrace;
 ')

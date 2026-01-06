@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 ## <summary>Policy for SELinux policy and userland applications.</summary>
@@ -218,4 +218,22 @@ interface(`weston_nnp_trans',`
     ')
 
     allow $1 weston_t:process2 nnp_transition;
+')
+
+######################################
+## <summary>
+##   Use weston file descriptors.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`weston_use_fds',`
+    gen_require(`
+        type weston_t;
+    ')
+
+    allow $1 weston_t:fd use;
 ')

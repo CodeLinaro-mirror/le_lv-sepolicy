@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 ## <summary>Policy for SELinux policy and userland applications.</summary>
@@ -95,6 +95,24 @@ interface(`glinkserver_rw_tmpfs_files',`
 
 ######################################
 ## <summary>
+##  Read glink-service-lrm tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`glinkserver_read_tmpfs_files',`
+    gen_require(`
+        type glinkserver_tmpfs_t;
+    ')
+
+    read_files_pattern($1, glinkserver_tmpfs_t, glinkserver_tmpfs_t)
+')
+
+######################################
+## <summary>
 ##  Delete glink-service-lrm tmpfs files.
 ## </summary>
 ## <param name="domain">
@@ -109,4 +127,58 @@ interface(`glinkserver_delete_tmpfs_files',`
     ')
 
     delete_files_pattern($1, glinkserver_tmpfs_t, glinkserver_tmpfs_t)
+')
+
+######################################
+## <summary>
+##   Use glinkserver file descriptors.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`glinkserver_use_fds',`
+    gen_require(`
+        type glinkserver_t;
+    ')
+
+    allow $1 glinkserver_t:fd use;
+')
+
+########################################
+## <summary>
+##  Read and write umd_glink device (/dev/umd_glink).
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`glinkserver_rw_umd_glink_dev',`
+    gen_require(`
+        type device_t, umd_glink_device_t;
+    ')
+
+    rw_chr_files_pattern($1, device_t, umd_glink_device_t)
+')
+
+########################################
+## <summary>
+##      map umd_pil device.
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+#
+interface(`glinkserver_map_umd_glink_dev',`
+    gen_require(`
+        type umd_glink_device_t;
+    ')
+
+    allow $1 umd_glink_device_t:chr_file map;
 ')

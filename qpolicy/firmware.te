@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(firmware, 1.0)
@@ -8,3 +8,4 @@ type dsp_file_t;
 
 files_mountpoint(dsp_file_t)
 fs_associate(dsp_file_t)
+fs_type(dsp_file_t)

@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(qcrosvm, 1.0)
@@ -9,19 +9,29 @@ type qcrosvm_boot_t;
 
 init_daemon_domain(qcrosvm_t, qcrosvm_exec_t)
 
+init_rw_script_stream_sockets(qcrosvm_t)
+init_stream_connect_script(qcrosvm_t)
+init_read_script_tmp_files(qcrosvm_t)
+
 virt_image(qcrosvm_boot_t)
+fs_type(qcrosvm_boot_t)
 
 # Todo, unlabeled_t, could remove after setting selinxu context to /data mount
-files_mounton_isid_type_dirs(qcrosvm_t)
+kernel_mounton_unlabeled_dirs(qcrosvm_t)
 
 # Todo, unlabeled_t, could remove after setting selinxu context to /firmware/vm/boot mount
 files_manage_isid_type_files(qcrosvm_t)
 
 files_rw_generic_tmp_sockets(qcrosvm_t)
+files_create_tmp_files(qcrosvm_t)
+files_rw_tmp_files(qcrosvm_t)
+files_delete_tmp_dir_entry(qcrosvm_t)
+files_delete_tmp_files(qcrosvm_t)
 
 kernel_request_load_module(qcrosvm_t)
 kernel_search_debugfs(qcrosvm_t)
 dev_getattr_fs(qcrosvm_t)
+dev_read_sysfs(qcrosvm_t)
 
 fs_rw_tracefs_files(qcrosvm_t)
 fs_list_dos(qcrosvm_t)
@@ -35,15 +45,33 @@ dev_rw_gunyah_dev(qcrosvm_t)
 dev_rw_input_dev(qcrosvm_t)
 dev_rw_vhost(qcrosvm_t)
 vhost_user_rw_vhost_dev(qcrosvm_t)
+vhost_user_rw_vhost_vm3_dev(qcrosvm_t)
 vhost_user_write_vhost_socket(qcrosvm_t)
+vhost_user_write_vhost_socket_vm3(qcrosvm_t)
 corenet_rw_tun_tap_dev(qcrosvm_t)
 
-# conect to /tmp/linux-vm2-disp-skt
+# connect to /tmp/linux-vm2-disp-skt
 vhost_user_stream_connect_vhostu(qcrosvm_t)
+vhost_user_stream_connect_vhostu_vm3(qcrosvm_t)
+# call getattr on vhost-user-qti sockets
+vhost_user_getattr_vhost_socket(qcrosvm_t)
+vhost_user_getattr_vhost_socket_vm3(qcrosvm_t)
+
+# manage tmp dir
+files_manage_generic_tmp_dirs(qcrosvm_t)
+files_manage_generic_tmp_files(qcrosvm_t)
 
 # ========== local ==========
 allow qcrosvm_t self:tun_socket { create };
 allow qcrosvm_t self:udp_socket { create ioctl };
+allow qcrosvm_t self:process { getsched };
 allow qcrosvm_t self:capability { net_admin dac_override dac_read_search };
+allow qcrosvm_t self:anon_inode { create map read write };
+allow qcrosvm_t qcrosvm_boot_t:lnk_file read;
 
+logging_send_syslog_msg(qcrosvm_t)
 read_files_pattern(qcrosvm_t, qcrosvm_boot_t, qcrosvm_boot_t)
+
+fs_getattr_all_sockets(qcrosvm_t)
+fs_manage_tmpfs_sockets(qcrosvm_t)
+fs_manage_tmpfs_files(qcrosvm_t)

@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 ########################################
@@ -103,4 +103,40 @@ interface(`dbus_sysadm_user',`
     selinux_use_status_page(sysadm_dbusd_t)
 
     systemd_user_send_systemd_notify($1, sysadm_dbusd_t)
+')
+
+########################################
+## <summary>
+## Allow domain to search the system_dbusd_runtime_t directory.
+## </summary>
+## <param name="domain">
+## <summary>
+## Domain allowed access.
+## </summary>
+## </param>
+#
+interface(`dbus_search_system_dbusd_runtime_dir',`
+    gen_require(`
+        type system_dbusd_runtime_t;
+    ')
+
+    allow $1 system_dbusd_runtime_t:dir search;
+')
+
+########################################
+## <summary>
+## Allow domain to write to system_dbusd_runtime_t sock_file.
+## </summary>
+## <param name="domain">
+## <summary>
+## Domain allowed access.
+## </summary>
+## </param>
+#
+interface(`dbus_write_system_dbusd_runtime_sock',`
+    gen_require(`
+        type system_dbusd_runtime_t;
+    ')
+
+    allow $1 system_dbusd_runtime_t:sock_file write;
 ')

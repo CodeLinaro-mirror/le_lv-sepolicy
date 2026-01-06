@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(pil-rm, 1.0)
@@ -7,13 +7,24 @@ type pil_rm_t;
 type pil_rm_exec_t;
 type pil_rm_tmp_t;
 type pil_rm_tmpfs_t;
+type pil_rm_power_t;
 type pil_rm_scmi_dev_t;
+type pil_done_dev_t;
+type pil_rm_umd_dev_t;
+
+files_type(pil_done_dev_t)
+pilrm_create_pil_done_filetrans(pil_rm_t, "pil-done")
 
 init_daemon_domain(pil_rm_t, pil_rm_exec_t)
+dev_node(pil_rm_umd_dev_t)
+
+init_rw_script_stream_sockets(pil_rm_t)
+init_signull_script(pil_rm_t)
 
 dev_node(pil_rm_scmi_dev_t)
 
 pilrm_rw_scmi_dev(pil_rm_t)
+pilrm_rw_umd_dev(pil_rm_t)
 
 logging_send_syslog_msg(pil_rm_t)
 
@@ -25,8 +36,12 @@ video_driver_signull(pil_rm_t)
 audio_service_signull(pil_rm_t)
 adreno200_signull(pil_rm_t)
 adreno200_read_pid(pil_rm_t)
+ssctl_service_signull(pil_rm_t)
+subsys_ramdump_rw_files(pil_rm_t)
 
 ssrrm_rw_tmpfs_files(pil_rm_t)
+ssrrm_signull(pil_rm_t)
+ssrrm_tmpfs_map_files(pil_rm_t)
 
 audioservice_delete_tmpfs_files(pil_rm_t)
 nspdrv_delete_tmpfs_files(pil_rm_t)
@@ -36,6 +51,9 @@ nspdrv_mmap_rw_tmpfs_files(pil_rm_t)
 audioservice_mmap_rw_tmpfs_files(pil_rm_t)
 videodriver_mmap_rw_tmpfs_files(pil_rm_t)
 adreno200_mmap_rw_tmpfs_files(pil_rm_t)
+adreno200_delete_tmpfs_files(pil_rm_t)
+ssctl_service_mmap_rw_tmpfs_files(pil_rm_t)
+soccp_driver_mmap_rw_tmpfs_files(pil_rm_t)
 
 # /firmware/qcom/sa8775p/image/cdsp0.mdt
 fs_list_dos(pil_rm_t)
@@ -48,8 +66,10 @@ fs_create_mmap_rw_tmpfs_files(pil_rm_t)
 libkiumd_mmap_exec_lib_file(pil_rm_t)
 
 dev_rw_scmnode_dev(pil_rm_t)
+dev_rw_scmnode_sec_dev(pil_rm_t)
 dev_rw_kiumd_dev(pil_rm_t)
 dev_rw_vfio_dev(pil_rm_t)
+dev_dontaudit_scmnode_sec_dev(pil_rm_t)
 dev_read_sysfs(pil_rm_t)
 
 # /tmp/lrms_log_*.txt
@@ -63,11 +83,41 @@ files_tmpfs_file(pil_rm_tmpfs_t)
 fs_tmpfs_filetrans(pil_rm_t, pil_rm_tmpfs_t, { dir file })
 pilrm_create_tmpfs_files(pil_rm_t)
 pilrm_mmap_rw_tmpfs_files(pil_rm_t)
+pilrm_delete_tmpfs_files(pil_rm_t)
+
+
+#power manager power_use_pm_register
+power_use_pm_register(pil_rm_t, pil_rm_power_t)
+
+#/etc/sysconfig/sa8797_hpass0_cfg
+files_read_etc_files(pil_rm_t)
 
 # ========== local ==========
 allow pil_rm_t self:unix_dgram_socket { create connect getopt setopt };
-allow pil_rm_t self:process { setrlimit setsched };
-allow pil_rm_t self:capability { sys_resource sys_nice net_admin };
+allow pil_rm_t self:process { setrlimit setsched getsched signal };
+allow pil_rm_t self:capability { sys_resource sys_nice net_admin kill};
 
 userdom_mmap_rw_inherited_user_tmp_files(pil_rm_t, pil_rm_tmp_t)
 userdom_manage_user_tmp_files(pil_rm_t)
+
+dev_map_kiumd_dev(pil_rm_t)
+pilrm_map_umd_dev(pil_rm_t)
+
+qcxserver_signull(pil_rm_t)
+qcxserver_delete_tmpfs_files(pil_rm_t)
+qcxserver_mmap_rw_tmpfs_files(pil_rm_t)
+
+evauto_mmap_rw_tmpfs_files(pil_rm_t)
+evauto_delete_tmpfs_files(pil_rm_t)
+eva_auto_signull(pil_rm_t)
+
+compresmon_signull(pil_rm_t)
+compresmon_mmap_rw_tmpfs_files(pil_rm_t)
+compresmon_unlink_tmpfs_files(pil_rm_t)
+
+compresmgr_rw_etc_files(pil_rm_t)
+
+#lrms
+userdom_manage_user_tmpfs_files(pil_rm_t)
+mmap_rw_files_pattern(pil_rm_t,user_tmpfs_t,user_tmpfs_t)
+soccp_driver_signull(pil_rm_t)

@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 /usr/bin/sailmb_server      --      gen_context(system_u:object_r:sail_mailbox_exec_t,s0)
@@ -7,4 +7,5 @@
 /usr/bin/sail_console_chan_app  --  gen_context(system_u:object_r:sail_mailbox_exec_t,s0)
 /usr/bin/sail_test_chan_app     --  gen_context(system_u:object_r:sail_mailbox_exec_t,s0)
 /usr/bin/sail_updater_v2        --  gen_context(system_u:object_r:sail_mailbox_exec_t,s0)
-
+/dev/sail-mailbox              -c      gen_context(system_u:object_r:sail_mailbox_device_t,s0)
+/dev/sail-mailbox-ota          -c      gen_context(system_u:object_r:sail_mailbox_ota_device_t,s0)

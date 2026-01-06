@@ -1,0 +1,21 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+########################################
+## <summary>
+##  read getty process files in the /proc directory.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+## <rolecap/>
+#
+interface(`getty_read_files',`
+    gen_require(`
+        type getty_t;
+    ')
+
+    read_files_pattern($1, getty_t, getty_t)
+')

@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 ## <summary>Policy for SELinux policy and userland applications.</summary>
@@ -74,4 +74,98 @@ interface(`nspdrv_delete_tmpfs_files',`
     ')
 
     delete_files_pattern($1, nsp_drv_tmpfs_t, nsp_drv_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Read nsp-drv tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`nspdrv_read_tmpfs_files',`
+    gen_require(`
+        type nsp_drv_tmpfs_t;
+    ')
+
+    read_files_pattern($1, nsp_drv_tmpfs_t, nsp_drv_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Read and write nsp_drv config files in /usr/share.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`nspdrv_rw_usr_config_files',`
+    gen_require(`
+        type nsp_drv_conf_t;
+        type usr_t;
+    ')
+
+    list_dirs_pattern($1, usr_t, nsp_drv_conf_t)
+    rw_files_pattern($1, usr_t, nsp_drv_conf_t)
+')
+
+######################################
+## <summary>
+##  Read and write nsp_drv config files in /etc.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`nspdrv_rw_etc_config_files',`
+    gen_require(`
+        type nsp_drv_conf_t;
+        type etc_t;
+    ')
+
+    list_dirs_pattern($1,etc_t, nsp_drv_conf_t)
+    rw_files_pattern($1, etc_t, nsp_drv_conf_t)
+')
+
+######################################
+## <summary>
+##  Read and write umd nsp_drv devices.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`nsp_drv_rm_rw_umd_dev',`
+    gen_require(`
+        type device_t, umd_nsp_drv_device_t;
+    ')
+
+    rw_chr_files_pattern($1, device_t, umd_nsp_drv_device_t)
+')
+
+########################################
+## <summary>
+##      map nsp_drv device.
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+#
+interface(`nsp_drv_rm_map_umd_dev',`
+    gen_require(`
+        type umd_nsp_drv_device_t;
+    ')
+
+    allow $1 umd_nsp_drv_device_t:chr_file map;
 ')

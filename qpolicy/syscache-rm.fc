@@ -1,5 +1,6 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 /usr/bin/syscache-rm        --      gen_context(system_u:object_r:syscache_rm_exec_t,s0)
 /usr/bin/syscache_drv_test  --      gen_context(system_u:object_r:syscache_rm_exec_t,s0)
+/dev/umd_llcc               -c      gen_context(system_u:object_r:syscache_rm_umd_dev_t,s0)

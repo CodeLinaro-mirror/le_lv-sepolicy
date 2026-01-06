@@ -1,19 +1,58 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 qseecomd_getattr_persist_dirs(mount_t)
 
-
+unconfined_domain(mount_t)
 # /etc/bluetooth
 bluetooth_mount_etc_dirs(mount_t)
+bluetooth_read_etc_dirs(mount_t)
+bluetooth_read_config(mount_t)
 
 files_read_var_symlinks(mount_t)
+files_relabel_var_dirs(mount_t)
 files_manage_var_files(mount_t)
 files_create_var_dirs(mount_t)
 files_delete_var_chr_files(mount_t)
 files_delete_var_dirs(mount_t)
+files_rw_var_lib_dirs(mount_t)
+files_delete_var_lib_files(mount_t)
+files_manage_var_lib_files(mount_t)
+files_relabel_var_lib_dirs(mount_t)
+
+# access to root.socket for pmcd and pmdaroot process
+files_rw_var_sock_files(mount_t)
+files_create_var_sock_files(mount_t)
+files_delete_var_sock_files(mount_t)
 
 files_mounton_etc_files(mount_t)
 files_manage_etc_files(mount_t)
 files_mounton_etc_dirs(mount_t)
+files_manage_default_dirs(mount_t)
+files_manage_default_files(mount_t)
+files_delete_default_chr_files(mount_t)
+files_search_locks(mount_t)
+
 fs_mounton_configfs_dirs(mount_t)
+fs_rw_configfs_files(mount_t)
+fs_getattr_tracefs_dirs(mount_t)
+
+init_rw_script_stream_sockets(mount_t)
+
+dbus_read_lib_files(mount_t)
+dbus_relabel_lib_dirs(mount_t)
+
+#/home/var_upper/lib/systemd/*
+init_manage_var_lib_files(mount_t)
+init_relabel_var_lib_dirs(mount_t)
+systemd_rw_logind_linger_files(mount_t)
+systemd_rw_logind_linger_dirs(mount_t)
+
+logrotate_manage_var_lib_files(mount_t)
+
+# coredump
+systemd_rw_coredump_dirs(mount_t)
+systemd_list_coredump_dirs(mount_t)
+systemd_relabel_coredump_var_lib_dirs(mount_t)
+
+allow mount_t self:capability { fowner };

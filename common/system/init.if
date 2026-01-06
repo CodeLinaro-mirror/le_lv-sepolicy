@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 #######################################
@@ -144,4 +144,78 @@ interface(`init_binder',`
     ')
 
     allow $1 initrc_t:binder { call transfer };
+')
+
+########################################
+## <summary>
+## Allow SELinux Domain trasition from sytemd
+##  into confined domain with NoNewPrivileges 
+##  Systemd Security feature.
+## </summary>
+## <param name="domain">
+## <summary>
+## Domain allowed access.
+## </summary>
+## </param>
+#
+interface(`init_nnp_daemon_domain',`
+    gen_require(`
+        type init_t;
+    ')
+
+    allow init_t $1:process2 { nnp_transition nosuid_transition };
+')
+
+########################################
+## <summary>
+##  Ptrace to init scripts.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`init_ptrace_script',`
+    gen_require(`
+        type initrc_t;
+    ')
+
+    allow $1 initrc_t:process ptrace;
+')
+
+########################################
+## <summary>
+##  Read and write to init raw socket.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`init_rw_raw_sock',`
+    gen_require(`
+        type initrc_t;
+    ')
+
+    allow $1 initrc_t:rawip_socket { read write };
+')
+
+########################################
+## <summary>
+##      Create directory under /var/lib/systemd/ dir
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`init_create_var_lib_dirs',`
+    gen_require(`
+        type init_var_lib_t;
+    ')
+
+    allow $1 init_var_lib_t:dir create_dir_perms;
 ')

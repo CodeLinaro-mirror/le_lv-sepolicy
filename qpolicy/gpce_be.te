@@ -1,0 +1,73 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(gpce_be, 1.0)
+
+type gpce_be_t;
+type gpce_be_exec_t;
+type gpce_be_lib_t;
+type gpce_be_dev_t;
+type gpce_be_tmpfs_t;
+type gpce_be_tmp_t;
+type gpce_be_etc_t;
+type gpce_be_power_t;
+
+init_daemon_domain(gpce_be_t,gpce_be_exec_t)
+
+init_rw_script_stream_sockets(gpce_be_t)
+init_signull_script(gpce_be_t)
+
+# allow access to /etc/security/gpce_config.xml
+files_config_file(gpce_be_etc_t)
+gpce_be_rw_etc_files(gpce_be_t)
+files_read_etc_files(gpce_be_t)
+
+dev_node(gpce_be_dev_t)
+
+gpce_be_rw_scmi_dev(gpce_be_t)
+gpce_be_read_lib_files(gpce_be_t)
+gpce_be_map_lib_files(gpce_be_t)
+gpce_be_manage_lib_files(gpce_be_t)
+gpce_be_delete_tmpfs_files(gpce_be_t)
+gpce_be_create_tmpfs_files(gpce_be_t)
+gpce_be_mmap_rw_tmpfs_files(gpce_be_t)
+gpce_be_rw_tmpfs_files(gpce_be_t)
+dev_rw_hab_dev(gpce_be_t)
+
+
+# /dev/shm/lrmc_rq_*
+files_tmpfs_file(gpce_be_tmpfs_t)
+fs_tmpfs_filetrans(gpce_be_t, gpce_be_tmpfs_t, { dir file })
+
+# /usr/lib/libkiumd,liblrms,liblrmc
+libkiumd_mmap_exec_lib_file(gpce_be_t)
+
+#============ gpce_be_t ===========
+logging_send_syslog_msg(gpce_be_t)
+
+fs_delete_tmpfs_files(gpce_be_t)
+
+userdom_rw_user_tmp_files(gpce_be_t)
+userdom_delete_user_tmp_files(gpce_be_t)
+userdom_map_tmp_files(gpce_be_t)
+dev_rw_dma_dev(gpce_be_t)
+
+dev_rw_kiumd_dev(gpce_be_t)
+dev_rw_vfio_dev(gpce_be_t)
+dev_read_sysfs(gpce_be_t)
+
+unconfined_server_signull(gpce_be_t)
+unconfined_server_ptrace(gpce_be_t)
+unconfined_signull(gpce_be_t)
+unconfined_ptrace(gpce_be_t)
+
+power_use_pm_register(gpce_be_t, gpce_be_power_t)
+
+# /tmp/lrms_log_*.txt
+files_tmp_file(gpce_be_tmp_t)
+files_tmp_filetrans(gpce_be_t, gpce_be_tmp_t, { dir file })
+manage_files_pattern(gpce_be_t, gpce_be_tmp_t, gpce_be_tmp_t)
+
+#================local===================
+allow gpce_be_t self:process { setrlimit setsched getsched };
+allow gpce_be_t self:capability { sys_resource sys_nice dac_override};

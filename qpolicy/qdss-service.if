@@ -1,0 +1,151 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary>Policy for SELinux policy and userland applications.</summary>
+
+######################################
+## <summary>
+##  Send signull to qdss-service related process.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`qdss_service_signull',`
+    gen_require(`
+        type qdss_service_t;
+    ')
+
+    allow $1 qdss_service_t:process signull;
+')
+
+######################################
+## <summary>
+##  Check qdss-service related process infomation, such as ps tool.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`qdss_service_read_pid',`
+    gen_require(`
+        type qdss_service_t;
+    ')
+
+    files_search_pids($1)
+    read_files_pattern($1, qdss_service_t, qdss_service_t)
+')
+
+######################################
+## <summary>
+##  ptrace to qdss-service related process.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`qdss_service_ptrace',`
+    gen_require(`
+        type qdss_service_t;
+    ')
+
+    allow $1 qdss_service_t:process ptrace;
+')
+
+######################################
+## <summary>
+##  create files under tmpfs filesystem for qdss-service.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`qdssservice_create_tmpfs_files',`
+    gen_require(`
+        type qdss_service_tmpfs_t;
+    ')
+
+    create_files_pattern($1, qdss_service_tmpfs_t, qdss_service_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Map, read and write qdss-service tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`qdssservice_mmap_rw_tmpfs_files',`
+    gen_require(`
+        type qdss_service_tmpfs_t;
+    ')
+
+    mmap_rw_files_pattern($1, qdss_service_tmpfs_t, qdss_service_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Read and write qdssservice-service tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`qdssservice_rw_tmpfs_files',`
+    gen_require(`
+        type qdss_service_tmpfs_t;
+    ')
+
+    rw_files_pattern($1, qdss_service_tmpfs_t, qdss_service_tmpfs_t)
+')
+
+
+########################################
+## <summary>
+##  Read and write qdss-service device (/dev/qdss-service).
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`qdssservice_rw_dev',`
+    gen_require(`
+        type device_t, qdss_service_device_t;
+    ')
+
+    rw_chr_files_pattern($1, device_t, qdss_service_device_t)
+')
+
+
+########################################
+## <summary>
+##      map qdss-service device.
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+#
+interface(`qdssservice_map_dev',`
+    gen_require(`
+        type qdss_service_device_t;
+    ')
+
+    allow $1 qdss_service_device_t:chr_file map;
+')

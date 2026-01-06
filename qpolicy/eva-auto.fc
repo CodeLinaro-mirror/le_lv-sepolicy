@@ -1,5 +1,11 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 /usr/bin/eva_server     --      gen_context(system_u:object_r:eva_auto_exec_t,s0)
+/usr/bin/sv_server      --      gen_context(system_u:object_r:eva_auto_exec_t,s0)
+/usr/bin/sv_hyp_server  --      gen_context(system_u:object_r:eva_auto_exec_t,s0)
+/etc/eva_config.xml     --      gen_context(system_u:object_r:eva_auto_etc_t,s0)
+/etc/EvaStlConfig.xml   --      gen_context(system_u:object_r:eva_auto_etc_t,s0)
+/etc/sv_config.xml      --      gen_context(system_u:object_r:eva_auto_etc_t,s0)
+/etc/sv/(/.*)           --      gen_context(system_u:object_r:eva_auto_etc_t,s0)
 /dev/scmi_eva           -c      gen_context(system_u:object_r:eva_auto_dev_t,s0)

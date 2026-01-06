@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(subsys-ramdump-util, 1.0)
@@ -8,8 +8,12 @@ type subsys_ramdump_util_exec_t;
 type ssrdump_var_t;
 type ssrdump_tmp_t;
 type ssrdump_tmpfs_t;
+type subsystem_ramdump_util_device_t;
 
 init_daemon_domain(subsys_ramdump_util_t, subsys_ramdump_util_exec_t)
+dev_node(subsystem_ramdump_util_device_t)
+
+init_rw_script_stream_sockets(subsys_ramdump_util_t)
 
 logging_send_syslog_msg(subsys_ramdump_util_t)
 
@@ -18,13 +22,23 @@ logging_send_syslog_msg(subsys_ramdump_util_t)
 fs_associate(ssrdump_var_t)
 
 dev_rw_kiumd_dev(subsys_ramdump_util_t)
+subsystem_ramdump_util_rm_rw_umd_dev(subsys_ramdump_util_t)
+subsystem_ramdump_util_rm_map_umd_dev(subsys_ramdump_util_t)
 dev_rw_vfio_dev(subsys_ramdump_util_t)
 dev_read_sysfs(subsys_ramdump_util_t)
 
 # ========== local ==========
 allow subsys_ramdump_util_t self:unix_dgram_socket { create connect };
-allow subsys_ramdump_util_t self:process { setrlimit setsched };
+allow subsys_ramdump_util_t self:process { setrlimit setsched getsched signal };
 allow subsys_ramdump_util_t self:capability { sys_resource sys_nice };
+
+#tmpfs_t
+fs_getattr_tmpfs(subsys_ramdump_util_t)
+
+#var_t
+files_manage_var_dirs(subsys_ramdump_util_t)
+files_manage_var_files(subsys_ramdump_util_t)
+files_read_var_symlinks(subsys_ramdump_util_t)
 
 # /var/ssrdump
 files_var_filetrans(subsys_ramdump_util_t, ssrdump_var_t, dir)
@@ -37,6 +51,8 @@ create_files_pattern(subsys_ramdump_util_t, ssrdump_tmp_t, ssrdump_tmp_t)
 manage_files_pattern(subsys_ramdump_util_t, ssrdump_tmp_t, ssrdump_tmp_t)
 
 files_tmpfs_file(ssrdump_tmpfs_t)
+files_create_default_dirs(ssrdump_tmpfs_t)
+files_rw_default_dirs(ssrdump_tmpfs_t)
 fs_tmpfs_filetrans(subsys_ramdump_util_t, ssrdump_tmpfs_t, { dir file })
 create_files_pattern(subsys_ramdump_util_t, ssrdump_tmpfs_t, ssrdump_tmpfs_t)
 manage_files_pattern(subsys_ramdump_util_t, ssrdump_tmpfs_t, ssrdump_tmpfs_t)
@@ -52,3 +68,7 @@ ssrrm_tmpfs_map_files(subsys_ramdump_util_t)
 
 unconfined_server_signull(subsys_ramdump_util_t)
 fs_create_mmap_rw_tmpfs_files(subsys_ramdump_util_t)
+
+pilrm_rw_tmpfs_files(subsys_ramdump_util_t)
+pilrm_mmap_rw_tmpfs_files(subsys_ramdump_util_t)
+pil_rm_signull(subsys_ramdump_util_t)

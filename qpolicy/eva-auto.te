@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(eva-auto, 1.0)
@@ -8,12 +8,40 @@ type eva_auto_exec_t;
 type eva_auto_tmp_t;
 type eva_auto_tmpfs_t;
 type eva_auto_dev_t;
+type eva_auto_power_t;
+type eva_auto_etc_t;
 
 init_daemon_domain(eva_auto_t, eva_auto_exec_t)
+
+init_rw_script_stream_sockets(eva_auto_t)
+init_signull_script(eva_auto_t)
+init_ptrace_script(eva_auto_t)
+
+#/etc/sv_config.xml
+files_config_file(eva_auto_etc_t)
+evauto_rw_etc_files(eva_auto_t)
+
+# Read safety config under /etc/safety_config
+files_read_safety_config_files(eva_auto_t)
+
+# Read stl files under /etc/sv/stl
+evauto_read_stl_files(eva_auto_t)
+
+# Launch sv_server as non-root
+userdom_use_all_users_fds(eva_auto_t)
+userdom_rw_user_tmpfs_files(eva_auto_t)
+userdom_delete_user_tmpfs_files(eva_auto_t)
+userdom_map_user_tmpfs_files(eva_auto_t)
+userdom_map_tmp_files(eva_auto_t)
+
+# Read dummy files in /etc/ folder
+files_read_etc_runtime_files(eva_auto_t)
+files_rw_etc_files(eva_auto_t)
 
 # Allow access to /dev/scmi_eva
 dev_node(eva_auto_dev_t)
 evauto_rw_scmi_dev(eva_auto_t)
+dev_rw_hab_dev(eva_auto_t)
 
 logging_send_syslog_msg(eva_auto_t)
 
@@ -42,17 +70,39 @@ dev_read_sysfs(eva_auto_t)
 
 dev_rw_dma_dev(eva_auto_t)
 dev_rw_kiumd_dev(eva_auto_t)
+dev_map_kiumd_dev(eva_auto_t)
 dev_rw_vfio_dev(eva_auto_t)
 
 safetymonitor_rw_tmpfs_files(eva_auto_t)
+pilrm_rw_tmpfs_files(eva_auto_t)
+
+# pfm
+pfm_rw_tmpfs_files(eva_auto_t)
 
 #libkiumd
 libkiumd_mmap_exec_lib_file(eva_auto_t)
 
+#libpm-client
+power_use_pm_register(eva_auto_t, eva_auto_power_t)
+
+#scm node
+dev_rw_scmnode_dev(eva_auto_t)
+dev_rw_scmnode_sec_dev(eva_auto_t)
+
+#compres
+compresmgr_rw_etc_files(eva_auto_t)
+
+# QLF
+files_manage_default_dirs(eva_auto_t)
+files_manage_var_dirs(eva_auto_t)
+files_manage_var_files(eva_auto_t)
+files_manage_var_symlinks(eva_auto_t)
+
 # ========== local ==========
 allow eva_auto_t self:unix_dgram_socket { create connect };
-allow eva_auto_t self:process { setrlimit setsched };
-allow eva_auto_t self:capability { sys_resource sys_nice net_admin dac_override sys_ptrace };
+allow eva_auto_t self:unix_stream_socket { listen };
+allow eva_auto_t self:process { setrlimit setsched getsched signal signull ptrace };
+allow eva_auto_t self:capability { sys_resource sys_nice net_admin dac_override sys_ptrace dac_read_search kill };
 
 files_tmp_file(eva_auto_tmp_t)
 files_tmp_filetrans(eva_auto_t, eva_auto_tmp_t, { dir fifo_file file lnk_file })
@@ -64,3 +114,6 @@ fs_tmpfs_filetrans(eva_auto_t, eva_auto_tmpfs_t, { dir file })
 create_files_pattern(eva_auto_t, eva_auto_tmpfs_t, eva_auto_tmpfs_t)
 manage_files_pattern(eva_auto_t, eva_auto_tmpfs_t, eva_auto_tmpfs_t)
 evauto_mmap_rw_tmpfs_files(eva_auto_t)
+
+# /var overlay
+kernel_read_unlabeled_state(eva_auto_t)

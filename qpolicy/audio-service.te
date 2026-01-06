@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(audio-service, 1.0)
@@ -9,10 +9,17 @@ type audio_service_tmp_t;
 type audio_service_tmpfs_t;
 type audio_etc_t;
 type audio_device_t;
+type audio_power_t;
 
 init_daemon_domain(audio_service_t, audio_service_exec_t)
 
+init_rw_script_stream_sockets(audio_service_t)
+init_signull_script(audio_service_t)
+init_read_script_tmp_files(audio_service_t)
+init_ptrace_script(audio_service_t)
+
 files_config_file(audio_etc_t)
+files_read_etc_files(audio_service_t)
 
 logging_send_syslog_msg(audio_service_t)
 
@@ -31,14 +38,17 @@ fs_manage_tmpfs_files(audio_service_t)
 userdom_rw_user_tmp_files(audio_service_t)
 userdom_map_tmp_files(audio_service_t)
 userdom_delete_user_tmp_files(audio_service_t)
+userdom_rw_user_tmpfs_files(audio_service_t)
+userdom_map_user_tmpfs_files(audio_service_t)
 
 dev_rw_dma_dev(audio_service_t)
 dev_rw_kiumd_dev(audio_service_t)
 dev_rw_vfio_dev(audio_service_t)
-dev_rw_gpio_dev(audio_service_t)
+dev_rw_gpiochip_dev(audio_service_t)
 dev_rw_hab_dev(audio_service_t)
 dev_rw_generic_usb_dev(audio_service_t)
 dev_rw_sysfs(audio_service_t)
+dev_rw_input_dev(audio_service_t)
 
 # /dev/ipc_shmem
 dev_node(audio_device_t)
@@ -57,6 +67,9 @@ term_use_unallocated_ttys(audio_service_t)
 firmware_search_dsp_dirs(audio_service_t)
 firmware_read_dsp_lnk_files(audio_service_t)
 firmware_write_dsp_dirs(audio_service_t)
+firmware_create_dsp_dirs(audio_service_t)
+firmware_create_dsp_lnk_files(audio_service_t)
+firmware_read_dsp_files(audio_service_t)
 
 fastrpc_rm_ptrace(audio_service_t)
 glinkserver_ptrace(audio_service_t)
@@ -64,29 +77,65 @@ glinkserver_ptrace(audio_service_t)
 unconfined_server_signull(audio_service_t)
 unconfined_signull(audio_service_t)
 
+# /dmabuf
+unconfined_use_fds(audio_service_t)
+
 ssrrm_rw_tmpfs_files(audio_service_t)
 glinkserver_rw_tmpfs_files(audio_service_t)
 fastrpc_rm_rw_tmpfs_files(audio_service_t)
 diagservice_rw_tmpfs_files(audio_service_t)
 pilrm_rw_tmpfs_files(audio_service_t)
 kernel_read_debugfs(audio_service_t)
+kernel_read_proc_files(audio_service_t)
 #early stage policy
 fs_manage_tmpfs_sockets(audio_service_t)
 
 # ========== local ==========
 dev_manage_generic_chr_files(audio_service_t)
 allow audio_service_t self:unix_dgram_socket { create connect getopt setopt };
-allow audio_service_t self:unix_stream_socket connectto;
-allow audio_service_t self:process { setrlimit setsched };
+allow audio_service_t self:unix_stream_socket { connectto listen accept };
+allow audio_service_t self:process { setrlimit setsched ptrace getsched signull signal };
 allow audio_service_t self:capability { sys_resource sys_nice net_admin sys_ptrace dac_override dac_read_search};
 allow audio_service_t self:tcp_socket {accept bind create listen setopt shutdown connect read write};
 
+# ========== Beginning of additional AudioReach rules support ==========
+# Allow audio_service_t to send D-Bus messages to other audio_service_t processes
+# If the service is registered on the system bus, allow acquiring the service
+audioservice_dbus_chat(audio_service_t)
+audioservice_ipc_sockets(audio_service_t)
+audioservice_process_control(audio_service_t)
+audioservice_tcp_comm(audio_service_t)
+
+glinkserver_use_fds(audio_service_t)
+
+# D-Bus and systemd access for suspend/resume and session handling
+dbus_system_bus_client(audio_service_t)
+systemd_dbus_chat_logind(audio_service_t)
+systemd_write_inhibit_pipes(audio_service_t)
+
+systemd_read_logind_sessions_files(audio_service_t)
+systemd_login_read_pid_files(audio_service_t)
+
+dbus_chat_session_bus(audio_service_t)
+dbus_write_pid_sock_files(audio_service_t)
+dbus_read_pid_files(audio_service_t)
+dbus_search_system_dbusd_runtime_dir(audio_service_t)
+dbus_write_system_dbusd_runtime_sock(audio_service_t)
+dbus_stream_connect_system_dbusd(audio_service_t)
+dbus_system_bus_unconfined(audio_service_t)
+
+# Audio-specific configs
+audioservice_read_etc_files(audio_service_t)
+kernel_read_proc_files(audio_service_t)
+
+# ========== End of additional AudioReach rules support ==========
 
 # /usr/bin/awe-start-pre.sh
 kernel_request_load_module(audio_service_t)
 
 # /tmp/awe_pkt_socket
 files_tmp_filetrans(audio_service_t, audio_service_tmp_t, sock_file, "awe_pkt_socket")
+files_tmp_filetrans(audio_service_t, audio_service_tmp_t, sock_file, "awe_alsa_socket")
 fs_associate_tmpfs(audio_service_tmp_t)
 manage_sock_files_pattern(audio_service_t, audio_service_tmp_t, audio_service_tmp_t)
 
@@ -96,9 +145,16 @@ dev_read_rand(audio_service_t)
 # /var/log/*
 logging_create_generic_logs(audio_service_t)
 
+# allow qlf to create dir for audio in /var/log/
+files_create_var_dirs(audio_service_t)
+
+# Allow qlf to check file status in /var/log/
+files_read_var_symlinks(audio_service_t)
+
 # port 15002
 corenet_tcp_bind_generic_port(audio_service_t)
 corenet_tcp_bind_generic_node(audio_service_t)
+corenet_tcp_bind_unreserved_ports(audio_service_t)
 
 # driver override when bind vfio node
 dev_create_sysfs_files(audio_service_t)
@@ -106,6 +162,8 @@ dev_create_sysfs_files(audio_service_t)
 # fastrpc_be thread
 files_manage_var_dirs(audio_service_t)
 
+# allow audio_service to set acdb tmp path at /var/
+files_manage_var_files(audio_service_t)
 
 # /tmp/lrmc_log_(pid).txt
 files_tmp_file(audio_service_tmp_t)
@@ -127,5 +185,23 @@ manage_files_pattern(audio_service_t, audio_etc_t, audio_etc_t)
 unconfined_server_ptrace(audio_service_t)
 unconfined_ptrace(audio_service_t)
 
-#libkiumd
+# libkiumd
 libkiumd_mmap_exec_lib_file(audio_service_t)
+
+# pm_register
+power_use_pm_register(audio_service_t, audio_power_t)
+
+# compresmgr_service
+compresmgr_rw_etc_files(audio_service_t)
+
+# fastrpc
+fastrpc_rm_use_fds(audio_service_t)
+files_exec_usr_files(audio_service_t)
+fs_rw_tracefs_files(audio_service_t)
+files_read_var_symlinks(audio_service_t)
+files_watch_var_dirs(audio_service_t)
+
+dev_rw_input_dev(audio_service_t)
+
+# /var overlay
+kernel_read_unlabeled_state(audio_service_t)

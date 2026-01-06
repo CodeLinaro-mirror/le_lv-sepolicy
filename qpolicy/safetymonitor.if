@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 ## <summary>Policy for SELinux policy and userland applications.</summary>
@@ -42,6 +42,24 @@ interface(`safetymonitor_rw_tmpfs_files',`
 
 ######################################
 ## <summary>
+##  Read safetymonitor tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`safetymonitor_read_tmpfs_files',`
+    gen_require(`
+        type safetymonitor_tmpfs_t;
+    ')
+
+    read_files_pattern($1, safetymonitor_tmpfs_t, safetymonitor_tmpfs_t)
+')
+
+######################################
+## <summary>
 ##  Send signull to safetymonitor_t.
 ## </summary>
 ## <param name="domain">
@@ -56,4 +74,78 @@ interface(`safetymonitor_signull',`
     ')
 
     allow $1 safetymonitor_t:process signull;
+')
+
+
+######################################
+## <summary>
+##  Allow execution of bins inside safetymonitor_t.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`safetymonitor_execute_bins',`
+    gen_require(`
+        type safetymonitor_t;
+    ')
+    corecmd_exec_bin(safetymonitor_t)
+
+    allow $1 safetymonitor_t:file execute_no_trans;
+')
+
+######################################
+## <summary>
+##  Read and write safetymonitor config files in /etc/sm_config.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`safetymonitor_rw_etc_files',`
+    gen_require(`
+        type etc_t;
+    ')
+
+    allow $1 etc_t:file {rw_file_perms};
+')
+
+######################################
+## <summary>
+##  Read and write safety-ddr devices.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`safetymonitor_rw_dev',`
+    gen_require(`
+        type device_t, safety_ddr_device_t;
+    ')
+
+    rw_chr_files_pattern($1, device_t, safety_ddr_device_t)
+')
+
+########################################
+## <summary>
+##      map safety-ddr device.
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+#
+interface(`safetymonitor_map_dev',`
+    gen_require(`
+        type safety_ddr_device_t;
+    ')
+
+    allow $1 safety_ddr_device_t:chr_file map;
 ')

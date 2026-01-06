@@ -1,6 +1,0 @@
-#Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries. 
-#SPDX-License-Identifier: BSD-3-Clause-Clear
-
-/usr/bin/softsku_daemon               --      gen_context(system_u:object_r:softsku_daemon_exec_t,s0)
-/usr/bin/sku_cli               --      gen_context(system_u:object_r:sku_cli_exec_t,s0)
-/etc/softskud.rc               --      gen_context(system_u:object_r:softsku_rc_t,s0)

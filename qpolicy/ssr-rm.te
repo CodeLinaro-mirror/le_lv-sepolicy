@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(ssr-rm, 1.0)
@@ -9,6 +9,9 @@ type ssr_rm_tmp_t;
 type ssr_rm_tmpfs_t;
 
 init_daemon_domain(ssr_rm_t, ssr_rm_exec_t)
+
+init_rw_script_stream_sockets(ssr_rm_t)
+init_signull_script(ssr_rm_t)
 
 logging_create_devlog_dev(ssr_rm_t)
 kernel_dgram_send(ssr_rm_t)
@@ -33,6 +36,7 @@ subsys_ramdump_rw_files(ssr_rm_t)
 
 audioservice_delete_tmpfs_files(ssr_rm_t)
 glinkserver_delete_tmpfs_files(ssr_rm_t)
+compresmgr_rw_etc_files(ssr_rm_t)
 
 # /tmp/lrms_log_*.txt
 files_tmp_file(ssr_rm_tmp_t)
@@ -55,7 +59,20 @@ libkiumd_mmap_exec_lib_file(ssr_rm_t)
 logging_dgram_send(ssr_rm_t)
 
 allow ssr_rm_t self:unix_dgram_socket create_socket_perms;
-allow ssr_rm_t self:process { setrlimit setsched };
+allow ssr_rm_t self:process { setrlimit setsched getsched };
 allow ssr_rm_t self:capability { sys_resource net_admin sys_nice };
 
 userdom_mmap_rw_inherited_user_tmp_files(ssr_rm_t)
+userdom_manage_user_tmp_files(ssr_rm_t)
+
+fs_rw_tmpfs_files(ssr_rm_t)
+fs_map_tmpfs_files(ssr_rm_t)
+pilrm_delete_tmpfs_files(ssr_rm_t)
+fs_manage_tmpfs_files(ssr_rm_t)
+
+fastrpc_write_user_tmpfs(ssr_rm_t)
+fastrpc_open_user_tmpfs(ssr_rm_t)
+fastrpc_map_user_tmpfs(ssr_rm_t)
+fastrpc_unlink_user_tmpfs(ssr_rm_t)
+fastrpc_read_user_tmpfs(ssr_rm_t)
+fastrpc_signull(ssr_rm_t)

@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 ## <summary>Policy for SELinux policy and userland applications.</summary>
@@ -74,4 +74,76 @@ interface(`hypvb_rw_tmpfs_files',`
     ')
 
     rw_files_pattern($1, hyp_video_tmpfs_t, hyp_video_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Delete hyp-video-be tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`hypvb_delete_tmpfs_files',`
+    gen_require(`
+        type hyp_video_tmpfs_t;
+    ')
+
+    allow $1 hyp_video_tmpfs_t:file_class_set delete_file_perms;
+')
+
+######################################
+## <summary>
+##  Getattri to hyp-video-be tmpfs fifo files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`hypvb_getattr_tmpfs_fifo_files',`
+    gen_require(`
+        type hyp_video_tmpfs_t;
+    ')
+
+    getattr_fifo_files_pattern($1, hyp_video_tmpfs_t, hyp_video_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  List to hyp-video-be tmpfs directories.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`hypvb_list_tmpfs_dirs',`
+    gen_require(`
+        type hyp_video_tmpfs_t;
+    ')
+
+    list_dirs_pattern($1, hyp_video_tmpfs_t, hyp_video_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Allow a domain to use file descriptors owned by hyp_video_t.
+## </summary>
+## <param name="domain">
+##  <summary>
+##   Domain that is allowed to use hyp_video_t FDs.
+##  </summary>
+## </param>
+#
+interface(`hyp_video_use_fds',`
+    gen_require(`
+        type hyp_video_t;
+    ')
+
+    allow $1 hyp_video_t:fd use;
 ')

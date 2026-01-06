@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 ## <summary>Policy for SELinux policy and userland applications.</summary>
@@ -20,6 +20,24 @@ interface(`eva_auto_read_pid',`
 
     files_search_pids($1)
     read_files_pattern($1, eva_auto_t, eva_auto_t)
+')
+
+########################################
+## <summary>
+##  Transition to vmm_t when NNP has been set.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  The type of the process performing this action.
+##  </summary>
+## </param>
+#
+interface(`eva_auto_nnp_trans',`
+    gen_require(`
+        type eva_auto_t;
+    ')
+
+    allow $1 eva_auto_t:process2 nnp_transition;
 ')
 
 ######################################
@@ -92,4 +110,44 @@ interface(`evauto_rw_scmi_dev',`
     ')
 
     rw_chr_files_pattern($1, device_t, eva_auto_dev_t)
+')
+
+######################################
+## <summary>
+##  Read and write eva_server config files in /etc/sv_config.xml.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`evauto_rw_etc_files',`
+    gen_require(`
+        type eva_auto_etc_t;
+        type etc_t;
+    ')
+
+    list_dirs_pattern($1, etc_t, eva_auto_etc_t)
+    rw_files_pattern($1, etc_t, eva_auto_etc_t)
+')
+
+##################################
+## <summary>
+##  Read stl config files in /etc/sv/stl.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`evauto_read_stl_files',`
+    gen_require(`
+        type etc_t;
+        type eva_auto_etc_t;
+    ')
+
+    files_search_etc($1)
+    read_files_pattern($1, eva_auto_etc_t, etc_t)
 ')

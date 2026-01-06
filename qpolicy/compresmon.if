@@ -1,0 +1,114 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary>Policy interface for SELinux policy and userland applications.</summary>
+
+######################################
+## <summary>
+##  Send signull to compresmon related process.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`compresmon_signull',`
+    gen_require(`
+        type compresmon_t;
+    ')
+
+    allow $1 compresmon_t:process signull;
+')
+
+######################################
+## <summary>
+##  Map, read and write compresmon tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`compresmon_mmap_rw_tmpfs_files',`
+    gen_require(`
+        type compresmon_tmpfs_t;
+    ')
+
+    mmap_rw_files_pattern($1, compresmon_tmpfs_t, compresmon_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Unlink compresmon tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`compresmon_unlink_tmpfs_files',`
+    gen_require(`
+        type compresmon_tmpfs_t;
+    ')
+
+    allow $1 compresmon_tmpfs_t:file unlink;
+')
+
+######################################
+## <summary>
+##  Read and write compresmon config files under /etc.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`compresmon_rw_etc_files',`
+    gen_require(`
+        type etc_t;
+        type compresmon_etc_t;
+    ')
+
+    list_dirs_pattern($1, etc_t, compresmon_etc_t)
+    rw_files_pattern($1, etc_t, compresmon_etc_t)
+')
+
+########################################
+## <summary>
+##  Transition to compresmon_t when NNP has been set.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  The type of the process performing this action.
+##  </summary>
+## </param>
+#
+interface(`compresmon_nnp_trans',`
+    gen_require(`
+        type compresmon_t;
+    ')
+
+    allow $1 compresmon_t:process2 nnp_transition;
+')
+
+########################################
+## <summary>
+##  Read and write nsp_sysmon device (/dev/nsp_sysmon).
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`compresmon_rw_nsp_sysmon_dev',`
+    gen_require(`
+        type device_t, nsp_sysmon_device_t;
+    ')
+
+    rw_chr_files_pattern($1, device_t, nsp_sysmon_device_t)
+')

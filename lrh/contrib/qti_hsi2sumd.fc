@@ -1,5 +1,0 @@
-# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
-# SPDX-License-Identifier: BSD-3-Clause-Clear
-
-/usr/bin/hsi2sumd		--	gen_context(system_u:object_r:hsi2sumd_exec_t,s0)
-/usr/bin/hsi2sumd_test		--	gen_context(system_u:object_r:hsi2sumd_exec_t,s0)

@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(qseecomd, 1.0)
@@ -10,18 +10,30 @@ type qseecomd_initscript_t;
 type qseecomd_initscript_exec_t;
 type qseecom_device_t;
 type qseecomd_persist_t;
+type qseecomd_power_t;
+type qseecomd_scmi_dev_t;
 
 init_daemon_domain(qseecomd_t, qseecomd_exec_t)
 init_script_file(qseecomd_initscript_exec_t)
+init_rw_script_stream_sockets(qseecomd_t)
 
 dev_associate(qseecom_device_t)
 
+dev_node(qseecomd_scmi_dev_t)
+qseecomd_rw_scmi_dev(qseecomd_t)
+
 logging_send_syslog_msg(qseecomd_t)
+
+# /sys/power/wake_lock
+dev_rw_sysfs(qseecomd_t)
 
 # /dev/qseecom
 dev_manage_qseecom(qseecomd_t)
 #dev_manage_generic_dirs(qseecomd_t)
 dev_read_generic_chr_files(qseecomd_t)
+
+# /sys/power/wake_lock
+dev_rw_sysfs(qseecomd_t)
 
 # /dev/vde, dosfs_t
 fs_list_dos(qseecomd_t)
@@ -36,7 +48,8 @@ files_list_mnt(qseecomd_t)
 # local
 allow qseecomd_t self:unix_dgram_socket { create connect };
 allow qseecomd_t self:capability { setgid setpcap setuid dac_override sys_rawio dac_read_search sys_resource };
-allow qseecomd_t self:process { setcap setrlimit };
+allow qseecomd_t self:process { setcap setrlimit signal };
+allow qseecomd_t self:capability2 { block_suspend };
 
 # search root directory
 files_list_default(qseecomd_t)
@@ -63,7 +76,7 @@ dev_rw_dma_dev(qseecomd_t)
 dev_rw_smcinvoke_dev(qseecomd_t)
 
 # search unlabeled_t type on /data
-files_mounton_isid_type_dirs(qseecomd_t)
+kernel_mounton_unlabeled_dirs(qseecomd_t)
 
 #libkiumd
 libkiumd_mmap_exec_lib_file(qseecomd_t)
@@ -74,3 +87,13 @@ dev_rw_kiumd_dev(qseecomd_t)
 ## tmp files
 fs_create_mmap_rw_tmpfs_files(qseecomd_t)
 fs_create_write_tmp_files(qseecomd_t)
+fs_rw_tmpfs_dirs(qseecomd_t)
+fs_manage_tmpfs_files(qseecomd_t)
+
+# openwfds
+owfds_map_lib_files(qseecomd_t)
+owfds_read_lib_files(qseecomd_t)
+owfds_create_tmpfs_files(qseecomd_t)
+owfds_rw_tmpfs_files(qseecomd_t)
+
+power_use_pm_register(qseecomd_t, qseecomd_power_t)

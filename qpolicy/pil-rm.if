@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 ## <summary>Policy for SELinux policy and userland applications.</summary>
@@ -77,6 +77,42 @@ interface(`pilrm_rw_tmpfs_files',`
 
 ######################################
 ## <summary>
+##  Read pil-rm tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`pilrm_read_tmpfs_files',`
+    gen_require(`
+        type pil_rm_tmpfs_t;
+    ')
+
+    read_files_pattern($1, pil_rm_tmpfs_t, pil_rm_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Delete pil-rm tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`pilrm_delete_tmpfs_files',`
+    gen_require(`
+        type pil_rm_tmpfs_t;
+    ')
+
+    delete_files_pattern($1, pil_rm_tmpfs_t, pil_rm_tmpfs_t)
+')
+
+######################################
+## <summary>
 ##  Read and write scmi devices.
 ## </summary>
 ## <param name="domain">
@@ -91,4 +127,70 @@ interface(`pilrm_rw_scmi_dev',`
     ')
 
     rw_chr_files_pattern($1, device_t, pil_rm_scmi_dev_t)
+')
+
+######################################
+## <summary>
+##  Create the /dev/pil-done file.
+##  Read and write umd pil devices.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`pilrm_create_pil_done_filetrans',`
+    gen_require(`
+        type device_t, pil_done_dev_t;
+    ')
+
+    allow $1 pil_done_dev_t:file {create write open };
+    allow pil_done_dev_t device_t:filesystem associate;
+    filetrans_pattern($1, device_t, pil_done_dev_t, file, $2)
+')
+
+######################################
+## <summary>
+##  Read the /dev/pil-done file.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`pilrm_read_pil_done',`
+    gen_require(`
+        type pil_done_dev_t;
+    ')
+
+    read_files_pattern($1, pil_done_dev_t, pil_done_dev_t)
+    list_dirs_pattern($1, pil_done_dev_t, pil_done_dev_t)
+')
+
+interface(`pilrm_rw_umd_dev',`
+    gen_require(`
+        type device_t, pil_rm_umd_dev_t;
+    ')
+
+    rw_chr_files_pattern($1, device_t, pil_rm_umd_dev_t)
+')
+
+########################################
+## <summary>
+##      map umd_pil device.
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+#
+interface(`pilrm_map_umd_dev',`
+    gen_require(`
+        type pil_rm_umd_dev_t;
+    ')
+
+    allow $1 pil_rm_umd_dev_t:chr_file map;
 ')

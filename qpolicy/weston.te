@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(weston, 1.0)
@@ -8,9 +8,12 @@ type weston_exec_t;
 type weston_lib_t;
 type weston_tmp_t;
 type weston_tmpfs_t;
+type weston_power_t;
 type weston_etc_t;
 
 init_daemon_domain(weston_t, weston_exec_t)
+
+init_rw_script_stream_sockets(weston_t)
 
 files_config_file(weston_etc_t)
 weston_read_config_files(weston_t)
@@ -22,7 +25,9 @@ fs_map_tmpfs_files(weston_t)
 fs_rw_tmpfs_files(weston_t)
 
 # Todo, unlabeled_t, could remove after setting selinxu context to /data mount
-files_mounton_isid_type_dirs(weston_t)
+kernel_mounton_unlabeled_dirs(weston_t)
+kernel_read_unlabeled_state(weston_t)
+kernel_manage_unlabeled_dirs(weston_t)
 files_list_default_dirs(weston_t)
 files_read_usr_files(weston_t)
 files_search_mnt(weston_t)
@@ -32,6 +37,7 @@ dbus_send_system_bus(weston_t)
 systemd_dbus_chat_logind(weston_t)
 
 init_signal(weston_t)
+init_signal_script(weston_t)
 init_read_state(weston_t)
 init_stream_connect_script(weston_t)
 
@@ -46,7 +52,10 @@ weston_map_lib_files(weston_t)
 # may be unconfined interface calling need to refine
 unconfined_server_ptrace(weston_t)
 unconfined_ptrace(weston_t)
+unconfined_use_fds(weston_t)
 adreno200_ptrace(weston_t)
+
+adreno200_use_fds(weston_t)
 
 # /run/systemd/seats/seat0
 systemd_read_logind_sessions_files(weston_t)
@@ -55,6 +64,9 @@ systemd_login_read_pid_files(weston_t)
 dbus_stream_connect_system_dbusd(weston_t)
 dbus_chat_session_bus(weston_t)
 dbus_write_pid_sock_files(weston_t)
+
+# pm_register
+power_use_pm_register(weston_t, weston_power_t)
 
 dev_read_sysfs(weston_t)
 
@@ -80,6 +92,7 @@ term_use_unallocated_ttys(weston_t)
 
 # port:22222
 corenet_tcp_connect_generic_port(weston_t)
+corenet_tcp_connect_unreserved_ports(weston_t)
 
 # libopenwfd.so
 owfds_map_lib_files(weston_t)
@@ -89,6 +102,9 @@ dev_rw_dma_dev(weston_t)
 
 # /dev/kiumd
 dev_rw_kiumd_dev(weston_t)
+
+# /dev/ksync
+dev_rw_ksync_dev(weston_t)
 
 # /dev/input/event0
 dev_rw_input_dev(weston_t)
@@ -106,7 +122,7 @@ dev_rw_dri(weston_t)
 sysnet_read_config(weston_t)
 
 # /data/misc
-qseecomd_search_data(weston_t)
+qseecomd_search_data_dirs(weston_t)
 
 # /run/user/0/wayland-0
 # userdom_manage_user_tmp_dirs(weston_t)
@@ -115,6 +131,9 @@ qseecomd_search_data(weston_t)
 # userdom_manage_tmp_sockets(weston_t)
 userdom_manage_user_tmp_files(weston_t)
 userdom_map_tmp_files(weston_t)
+
+userdom_manage_user_tmpfs_files(weston_t)
+userdom_map_user_tmpfs_files(weston_t)
 
 # /run/udev/data
 udev_read_pid_files(weston_t)
@@ -148,19 +167,55 @@ corecmd_check_exec_bin_files(weston_t)
 #libkiumd
 libkiumd_mmap_exec_lib_file(weston_t)
 
+#ptmx_t
+term_rw_ptmx_chr_files(weston_t)
+
+#devpts_t
+term_rw_devpts_chr_files(weston_t)
+
+#passwd_file_t, this type comes from fedora-selinux, not used in refpolicy
+#auth_rw_passwd_files(weston_t)
+
+#bin_t
+corecmd_mmap_bin_files(weston_t)
+corecmd_exec_bin_files(weston_t)
+
+#shell_exec_t
+corecmd_exec_shell_exec_files(weston_t)
+
+#var_run_t
+files_create_var_run_files(weston_t)
+files_manage_var_run_lnk_files(weston_t)
+files_rw_var_run_files(weston_t)
+files_manage_var_run_sock_files(weston_t)
+files_delete_var_run_files(weston_t)
+files_delete_var_run_sock_files(weston_t)
+files_mmap_var_run_files(weston_t)
+
+#default_t
+files_manage_default_files(weston_t)
+
+# This is a workround, rootcause is that early service start earlier than selinux initial to /dev for bootkpi, cause some devices
+# under /dev such as /dev/ksync run under uncorrect selinux context as device_t.
+dev_manage_generic_chr_files(weston_t)
 #etc_runtime_t
 files_mmap_etc_runtime_files(weston_t)
 
 userdom_user_runtime_filetrans(weston_t, weston_tmp_t, { dir file sock_file })
 userdom_mmap_rw_user_runtime_files(weston_t)
 
+compresmgr_rw_etc_files(weston_t)
+
 allow weston_t self:unix_dgram_socket { create connect };
-allow weston_t self:unix_stream_socket connectto;
+allow weston_t self:unix_stream_socket { connectto listen accept };
 allow weston_t self:tcp_socket create_socket_perms;
-allow weston_t self:process { setrlimit signull setsched siginh };
+allow weston_t self:process { setrlimit signull setsched siginh signal };
 allow weston_t self:capability { sys_resource sys_nice sys_admin setuid net_admin  dac_override sys_ptrace sys_tty_config };
 allow weston_t self:capability2 { bpf };
 allow weston_t self:netlink_kobject_uevent_socket create_socket_perms;
+allow weston_t self:unix_stream_socket { connectto };
+allow weston_t self:fifo_file { rw_fifo_file_perms };
+
 allow weston_t weston_exec_t:file execute_no_trans;
 allow weston_t weston_tmpfs_t:file delete_file_perms;
 allow weston_t weston_tmp_t:sock_file { create_file_perms delete_sock_file_perms write };

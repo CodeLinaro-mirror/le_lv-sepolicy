@@ -1,11 +1,8 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
+################### init_t #####################
 qseecomd_manage_data_dirs(init_t)
-qseecomd_manage_data_dirs(initrc_t)
-qseecomd_getattr_persist_dirs(initrc_t)
-qseecomd_setattr_persist_dirs(initrc_t)
-qseecomd_manage_data_files(initrc_t)
 qseecomd_rw_persist(init_t)
 
 fs_rw_tracefs_files(init_t)
@@ -25,15 +22,55 @@ auth_rw_shadow(init_t)
 
 fs_manage_dos_dirs(init_t)
 
+################### initrc_t #####################
 allow initrc_t self:binder { set_context_mgr call transfer };
+allow initrc_t self:process { execmem };
+
+unconfined_domain(initrc_t)
+qseecomd_manage_data_dirs(initrc_t)
+qseecomd_getattr_persist_dirs(initrc_t)
+qseecomd_setattr_persist_dirs(initrc_t)
+qseecomd_manage_data_files(initrc_t)
+qseecomd_rw_persist(initrc_t)
+qseecomd_manage_persist_files(initrc_t)
 
 audioservice_rw_etc_files(initrc_t)
 
+vmm_nnp_trans(initrc_t)
 pulseaudio_binder(initrc_t)
-
+sailmb_nnp_transition(initrc_t)
 fstools_nnp_trans(initrc_t)
 weston_nnp_trans(initrc_t)
 mount_nnp_trans(initrc_t)
 systemd_passwd_agent_nnp_trans(initrc_t)
+systemd_resolved_nnp_trans(initrc_t)
+systemd_logind_nnp_trans(initrc_t)
+systemd_networkd_nnp_trans(initrc_t)
+systemd_coredump_nnp_trans(initrc_t)
+systemd_userdbd_nnp_trans(initrc_t)
 
 weston_read_lib_files(initrc_t)
+
+fs_watch_memory_pressure(initrc_t)
+
+libkiumd_read_lib_files(initrc_t)
+libkiumd_mmap_exec_lib_file(initrc_t)
+
+logging_syslogd_nnp_trans(initrc_t)
+fs_cgroup_filetrans_memory_pressure(initrc_t, file, "memory.pressure")
+fs_mounton_memory_pressure(initrc_t)
+
+owfds_map_lib_files(initrc_t)
+modutils_kmod_nnp_trans(initrc_t)
+term_watch_reads_unallocated_ttys(initrc_t)
+
+compresmgr_nnp_trans(initrc_t)
+compresmon_nnp_trans(initrc_t)
+seutil_nnp_trans(initrc_t)
+netutils_ping_nnp_trans(initrc_t)
+syscache_rm_nnp_trans(initrc_t)
+
+allow_she_lib_files(initrc_t)
+
+files_read_safety_config_files(initrc_t)
+eva_auto_nnp_trans(initrc_t)

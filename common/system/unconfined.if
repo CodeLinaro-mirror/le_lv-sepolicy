@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 ########################################
@@ -89,6 +89,24 @@ interface(`unconfined_server_stream_connectto',`
 #    ')
 
 #    allow $1 unconfined_service_t:unix_stream_socket connectto;
+')
+
+########################################
+## <summary>
+##  Send a SIGINH signal to the unconfined domain.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`unconfined_siginh',`
+    gen_require(`
+        type unconfined_t;
+    ')
+
+    allow $1 unconfined_t:process { siginh noatsecure rlimitinh};
 ')
 
 ########################################

@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(adreno200-binaries, 1.0)
@@ -8,8 +8,11 @@ type adreno200_exec_t;
 type adreno200_tmp_t;
 type adreno200_tmpfs_t;
 type adreno200_dev_t;
+type adreno200_power_t;
 
 init_daemon_domain(adreno200_t, adreno200_exec_t)
+
+init_rw_script_stream_sockets(adreno200_t)
 
 dev_node(adreno200_dev_t)
 
@@ -23,7 +26,19 @@ dev_rw_dma_dev(adreno200_t)
 dev_rw_kiumd_dev(adreno200_t)
 dev_rw_vfio_dev(adreno200_t)
 dev_rw_hab_dev(adreno200_t)
+dev_rw_scmnode_dev(adreno200_t)
+dev_rw_scmnode_sec_dev(adreno200_t)
 dev_read_sysfs(adreno200_t)
+
+# /dev/ksync
+dev_rw_ksync_dev(adreno200_t)
+
+# /sys/kernel/debugfs/
+kernel_search_debugfs(adreno200_t)
+
+# This is a workround, rootcause is that early service start earlier than selinux initial to /dev for bootkpi, cause some devices
+# under /dev such as /dev/ksync run under uncorrect selinux context as device_t.
+dev_manage_generic_chr_files(adreno200_t)
 
 # /var/log/kgsl-(ip).log
 logging_create_generic_logs(adreno200_t)
@@ -33,8 +48,16 @@ logging_read_generic_logs(adreno200_t)
 files_create_var_files(adreno200_t)
 files_rw_var_files(adreno200_t)
 
+# Create dir under /var/
+files_create_var_dirs(adreno200_t)
+
+# Allow resolving symlink as /var/log -> /var/volatile/log
+allow adreno200_t var_t:lnk_file { read getattr };
+
 # port 22222
 corenet_tcp_connect_generic_port(adreno200_t)
+corenet_tcp_connect_unreserved_ports(adreno200_t)
+corenet_tcp_bind_unreserved_ports(adreno200_t)
 corenet_tcp_bind_generic_port(adreno200_t)
 corenet_tcp_bind_generic_node(adreno200_t)
 
@@ -43,13 +66,14 @@ sysnet_read_config(adreno200_t)
 
 weston_read_pid(adreno200_t)
 weston_ptrace(adreno200_t)
+weston_use_fds(adreno200_t)
 
 # unconfined process
 unconfined_server_read_files(adreno200_t)
 
 unconfined_server_ptrace(adreno200_t)
 unconfined_ptrace(adreno200_t)
-
+unconfined_use_fds(adreno200_t)
 files_tmp_file(adreno200_tmp_t)
 files_tmp_filetrans(adreno200_t, adreno200_tmp_t, { dir file })
 manage_files_pattern(adreno200_t, adreno200_tmp_t, adreno200_tmp_t)
@@ -59,30 +83,58 @@ fs_tmpfs_filetrans(adreno200_t, adreno200_tmpfs_t, { dir file })
 create_files_pattern(adreno200_t, adreno200_tmpfs_t, adreno200_tmpfs_t)
 adreno200_mmap_rw_tmpfs_files(adreno200_t)
 fs_rw_tmpfs_files(adreno200_t)
+fs_getattr_tmpfs(adreno200_t)
 
 #libkiumd
 libkiumd_ioctl_lib_file(adreno200_t)
 
+#ecc_err_handler
+ecc_err_handler_rw_tmpfs_files(adreno200_t)
+
 #syscache_rm
-syscacherm_rw_tmpfs_files(adreno200_t)
+syscache_rm_rw_tmpfs_files(adreno200_t)
 
 #safetymonitor
 safetymonitor_rw_tmpfs_files(adreno200_t)
 
-#system_dbusd
+#xml reading access /etc/safety_config
+files_read_safety_config_files(adreno200_t)
+
+# pfm
+pfm_rw_tmpfs_files(adreno200_t)
+
+#libpm-client
+power_use_pm_register(adreno200_t, adreno200_power_t)
+
+# compresmgr_service
+compresmgr_rw_etc_files(adreno200_t)
+
+systemd_write_inhibit_pipes(adreno200_t)
+systemd_dbus_chat_logind(adreno200_t)
 dbus_write_pid_sock_files(adreno200_t)
 dbus_stream_connect_system_dbusd(adreno200_t)
 dbus_send_system_bus(adreno200_t)
 
-systemd_write_inhibit_pipes(adreno200_t)
-systemd_dbus_chat_logind(adreno200_t)
-
 #cgroup_t
 fs_getattr_cgroup(adreno200_t)
+fs_search_cgroup_dirs(adreno200_t)
+
+files_rw_default_dirs(adreno200_t)
+files_read_etc_files(adreno200_t)
+
+init_read_state(adreno200_t)
+init_read_script_state(adreno200_t)
+init_ptrace_script(adreno200_t)
+init_dbus_chat(adreno200_t)
+init_start_generic_units(adreno200_t)
+
+# open/read/write chr_file
+dev_rw_input_dev(adreno200_t)
 
 # ========== local ==========
 allow adreno200_t self:unix_dgram_socket { create connect };
-allow adreno200_t self:tcp_socket { create connect setopt read write bind accept listen };
-allow adreno200_t self:process { signull ptrace setrlimit setsched };
-allow adreno200_t self:capability { sys_resource sys_nice sys_ptrace dac_override };
+allow adreno200_t self:unix_stream_socket { listen };
+allow adreno200_t self:tcp_socket { create connect setopt read write bind accept listen shutdown };
+allow adreno200_t self:process { signull ptrace setrlimit setsched getsched signal };
+allow adreno200_t self:capability { sys_resource sys_nice sys_ptrace dac_override net_admin };
 allow adreno200_t adreno200_tmpfs_t:file delete_file_perms;

@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 ## <summary>Policy for SELinux policy and userland applications.</summary>
@@ -123,7 +123,7 @@ interface(`qseecomd_manage_data_dirs',`
 
 ########################################
 ## <summary>
-##	Search qseecomd data.
+##	Search qseecomd data directory.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -131,7 +131,7 @@ interface(`qseecomd_manage_data_dirs',`
 ##	</summary>
 ## </param>
 #
-interface(`qseecomd_search_data',`
+interface(`qseecomd_search_data_dirs',`
     gen_require(`
         type qseecomd_data_t;
     ')
@@ -246,4 +246,40 @@ interface(`qseecomd_manage_persist_dirs',`
     ')
 
     manage_dirs_pattern($1, qseecomd_persist_t, qseecomd_persist_t)
+')
+
+######################################
+## <summary>
+##  Read and write scmi devices (/dev/scmi_mdss0_secure /dev/scmi_mdss1_secure).
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`qseecomd_rw_scmi_dev',`
+    gen_require(`
+        type qseecomd_scmi_dev_t;
+    ')
+
+    rw_chr_files_pattern($1, device_t, qseecomd_scmi_dev_t)
+')
+
+######################################
+## <summary>
+##  Send signull to qseecomd_t.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`qseecomd_signull',`
+    gen_require(`
+        type qseecomd_t;
+    ')
+
+    allow $1 qseecomd_t:process signull;
 ')

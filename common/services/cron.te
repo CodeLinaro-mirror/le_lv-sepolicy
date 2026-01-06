@@ -1,0 +1,9 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+init_rw_script_stream_sockets(crond_t)
+
+files_list_var_dirs(crond_t)
+
+kernel_dontaudit_search_unlabeled(crond_t)
+kernel_rw_unlabeled_dirs(crond_t)

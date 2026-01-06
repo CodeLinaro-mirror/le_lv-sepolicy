@@ -1,0 +1,60 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(apss-stl, 1.0)
+
+type apss_stl_t;
+type apss_stl_exec_t;
+type apss_stl_tmp_t;
+type apss_stl_tmpfs_t;
+type apss_stl_power_t;
+type apss_stl_config_etc_t;
+
+init_daemon_domain(apss_stl_t, apss_stl_exec_t)
+
+init_rw_script_stream_sockets(apss_stl_t)
+init_signull_script(apss_stl_t)
+init_rw_stream_sockets(apss_stl_t)
+
+logging_send_syslog_msg(apss_stl_t)
+
+dev_rw_kiumd_dev(apss_stl_t)
+dev_rw_vfio_dev(apss_stl_t)
+dev_read_sysfs(apss_stl_t)
+
+files_tmp_file(apss_stl_tmp_t)
+files_tmp_filetrans(apss_stl_t, apss_stl_tmp_t, { dir file })
+create_files_pattern(apss_stl_t, apss_stl_tmp_t, apss_stl_tmp_t)
+manage_files_pattern(apss_stl_t, apss_stl_tmp_t, apss_stl_tmp_t)
+
+fs_map_tmpfs_files(apss_stl_t)
+fs_manage_tmpfs_files(apss_stl_t)
+fs_getattr_tmpfs(apss_stl_t)
+fs_search_cgroup_dirs(apss_stl_t)
+
+files_tmpfs_file(apss_stl_tmpfs_t)
+manage_files_pattern(apss_stl_t, apss_stl_tmpfs_t, apss_stl_tmpfs_t)
+
+safetymonitor_rw_tmpfs_files(apss_stl_t)
+
+#libkiumd
+libkiumd_mmap_exec_lib_file(apss_stl_t)
+
+# pm_register
+power_use_pm_register(apss_stl_t, apss_stl_power_t)
+
+# read apss stl xml configuration file
+apss_stl_read_config_files(apss_stl_t)
+
+# xml reading access /etc/safety_config
+files_read_safety_config_files(apss_stl_t)
+
+# lrms
+userdom_manage_user_tmpfs_files(apss_stl_t)
+unconfined_signull(apss_stl_t)
+userdom_map_user_tmpfs_files(apss_stl_t)
+
+## ========== local ==========
+allow apss_stl_t self:unix_dgram_socket { create connect getopt setopt };
+allow apss_stl_t self:process { setrlimit setsched getsched signal execmem };
+allow apss_stl_t self:capability { sys_resource sys_nice };

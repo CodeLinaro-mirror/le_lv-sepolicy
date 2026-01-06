@@ -1,11 +1,14 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 /usr/bin/qseecomd               --      gen_context(system_u:object_r:qseecomd_exec_t,s0)
 /data/tzstorage(/.*)?                   gen_context(system_u:object_r:qseecomd_data_t,s0)
 /persist/data(/.*)?                     gen_context(system_u:object_r:qseecomd_persist_t,s0)
+/persist/run(/.*)?                      gen_context(system_u:object_r:var_t,s0)
 /etc/initscripts/qseecomd       --      gen_context(system_u:object_r:qseecomd_initscript_exec_t,s0)
 /dev/qseecom                    -c      gen_context(system_u:object_r:qseecom_device_t,s0)
 /data/misc(/.*)?                        gen_context(system_u:object_r:qseecomd_data_t,s0)
 # Below is temporary configuration, because current /data can't be labeled when build
 /data                           -d      gen_context(system_u:object_r:default_t,s0)
+/dev/scmi_mdss0_secure          -c      gen_context(system_u:object_r:qseecomd_scmi_dev_t,s0)
+/dev/scmi_mdss1_secure          -c      gen_context(system_u:object_r:qseecomd_scmi_dev_t,s0)

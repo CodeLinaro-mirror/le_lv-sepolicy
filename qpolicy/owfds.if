@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 ## <summary>Policy for SELinux policy and userland applications.</summary>
@@ -95,7 +95,7 @@ interface(`owfds_rw_tmpfs_files',`
 
 ######################################
 ## <summary>
-##  Read and write scmi devices (/dev/scmi_mdss0 /dev/scmi_mdss1).
+##  Read files under tmpfs filesystem for owfds.
 ## </summary>
 ## <param name="domain">
 ##  <summary>
@@ -103,10 +103,66 @@ interface(`owfds_rw_tmpfs_files',`
 ##  </summary>
 ## </param>
 #
-interface(`openwfd_server_rw_scmi_dev',`
+interface(`owfds_read_tmpfs_files',`
+    gen_require(`
+        type openwfd_tmpfs_t;
+    ')
+
+    read_files_pattern($1, openwfd_tmpfs_t, openwfd_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Map, read and write openwfd tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`openwfd_mmap_rw_tmpfs_files',`
+    gen_require(`
+        type openwfd_tmpfs_t;
+    ')
+
+    mmap_rw_files_pattern($1, openwfd_tmpfs_t, openwfd_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Send signull to openwfd_server_t.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`openwfd_server_signull',`
+    gen_require(`
+        type openwfd_server_t;
+    ')
+
+    allow $1 openwfd_server_t:process signull;
+')
+
+
+######################################
+## <summary>
+##  Read and write device nodes (/dev/scmi_mdss0 /dev/scmi_mdss1 /dev/hab-virq).
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`openwfd_server_rw_dev',`
     gen_require(`
         type device_t, openwfd_server_dev_t;
     ')
 
     rw_chr_files_pattern($1, device_t, openwfd_server_dev_t)
 ')
+

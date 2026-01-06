@@ -1,0 +1,80 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(qdss-service, 1.0)
+
+type qdss_service_t;
+type qdss_service_exec_t;
+type qdss_service_tmp_t;
+type qdss_service_tmpfs_t;
+type qdss_service_device_t;
+
+init_daemon_domain(qdss_service_t, qdss_service_exec_t)
+dev_node(qdss_service_device_t)
+
+init_rw_script_stream_sockets(qdss_service_t)
+
+logging_send_syslog_msg(qdss_service_t)
+fs_getattr_xattr_fs(qdss_service_t)
+# port 3500
+corenet_tcp_connect_unreserved_ports(qdss_service_t)
+corenet_tcp_bind_generic_node(qdss_service_t)
+
+unconfined_server_signull(qdss_service_t)
+
+# kernel
+kernel_signull(qdss_service_t)
+# qdssservice
+qdssservice_mmap_rw_tmpfs_files(qdss_service_t)
+
+# ========== local ==========
+allow qdss_service_t self:unix_dgram_socket { create connect getopt setopt };
+allow qdss_service_t self:tcp_socket { create connect getopt setopt bind read write };
+allow qdss_service_t self:process { setrlimit setsched getsched };
+allow qdss_service_t self:capability { sys_resource sys_nice net_admin sys_ptrace };
+
+# /tmp/lrms_log_(pid).txt
+files_tmp_file(qdss_service_tmp_t)
+files_tmp_filetrans(qdss_service_t, qdss_service_tmp_t, { dir fifo_file file lnk_file })
+manage_files_pattern(qdss_service_t, qdss_service_tmp_t, qdss_service_tmp_t)
+
+files_tmpfs_file(qdss_service_tmpfs_t)
+fs_tmpfs_filetrans(qdss_service_t, qdss_service_tmpfs_t, { dir file })
+create_files_pattern(qdss_service_t, qdss_service_tmpfs_t, qdss_service_tmpfs_t)
+mmap_rw_files_pattern(qdss_service_t, qdss_service_tmpfs_t, qdss_service_tmpfs_t)
+
+# Manage tmp files
+userdom_manage_user_tmp_files(qdss_service_t)
+userdom_map_tmp_files(qdss_service_t)
+
+#tmpfs_t
+fs_getattr_tmpfs(qdss_service_t)
+
+#var_t
+files_manage_var_dirs(qdss_service_t)
+files_manage_var_files(qdss_service_t)
+files_read_var_symlinks(qdss_service_t)
+
+# var-log
+logging_create_generic_logs(qdss_service_t)
+logging_manage_generic_logs(qdss_service_t)
+logging_manage_generic_dirs_logs(qdss_service_t)
+
+#libkiumd
+libkiumd_mmap_exec_lib_file(qdss_service_t)
+
+userdom_mmap_rw_inherited_user_tmp_files(qdss_service_t)
+
+dev_read_sysfs(qdss_service_t)
+qdssservice_rw_dev(qdss_service_t)
+files_read_etc_files(qdss_service_t)
+fs_delete_tmpfs_files(qdss_service_t)
+
+#lrms
+userdom_manage_user_tmpfs_files(qdss_service_t)
+unconfined_signull(qdss_service_t)
+mmap_rw_files_pattern(qdss_service_t,user_tmpfs_t,user_tmpfs_t)
+diagservice_rw_tmpfs_files(qdss_service_t)
+allow qdss_service_t qdss_service_tmpfs_t:file unlink;
+init_rw_script_tmp_files(qdss_service_t)
+qdssservice_map_dev(qdss_service_t)

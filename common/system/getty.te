@@ -1,16 +1,19 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 auth_read_shadow(getty_t)
 auth_rw_lastlog(getty_t)
 systemd_dbus_chat_logind(getty_t)
 systemd_write_inherited_logind_sessions_pipes(getty_t)
+sysadm_create_key(getty_t)
+sysadm_inherit_process_attributes(getty_t)
 
 seutil_read_login_config(getty_t)
 seutil_rw_default_contexts(getty_t)
 seutil_rw_config(getty_t)
 selinux_compute_relabel_context(getty_t)
 selinux_validate_context(getty_t)
+selinux_getattr_fs(getty_t)
 
 domain_obj_id_change_exemption(getty_t)
 domain_subj_id_change_exemption(getty_t)
@@ -19,12 +22,35 @@ domain_role_change_exemption(getty_t)
 userdom_write_user_tmp_dirs(getty_t)
 userdom_transition(getty_t)
 userdom_relabel_user_ttys(getty_t)
+userdom_search_user_runtime(getty_t)
 
 term_relabel_unallocated_ttys(getty_t)
 
 files_read_var_symlinks(getty_t)
+files_search_default(getty_t)
+files_manage_default_files(getty_t)
+files_read_default_symlinks(getty_t)
 
 fs_search_tmpfs(getty_t)
+
+init_rw_script_stream_sockets(getty_t)
+init_read_runtime_files(getty_t)
+init_telinit(getty_t)
+init_get_system_status(getty_t)
+
+kernel_getattr_proc(getty_t)
+kernel_read_unlabeled_state(getty_t)
+auth_domtrans_chk_passwd(getty_t)
+auth_signal_chkpwd_process(getty_t)
+
+#dbus_list_system_bus_runtime(getty_t)
+dbus_system_bus_client(getty_t)
+
+unconfined_create_keys(getty_t)
+unconfined_siginh(getty_t)
+
+# audit.log from serial port
+logging_manage_audit_log(getty_t)
 
 allow getty_t self:process { setsched setexec setkeycreate };
 allow getty_t self:capability { net_admin audit_write setuid };

@@ -1,7 +1,8 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 vhost_user_getattr_vhost_socket(systemd_tmpfiles_t)
+vhost_user_getattr_vhost_socket_vm3(systemd_tmpfiles_t)
 files_read_var_symlinks(systemd_tmpfiles_t)
 files_read_generic_tmp_symlinks(systemd_tmpfiles_t)
 files_relabel_var_lnk_files(systemd_tmpfiles_t)
@@ -12,6 +13,7 @@ weston_rw_tmpfs_files(systemd_tmpfiles_t)
 
 term_getattr_generic_ptys(systemd_logind_t)
 weston_delete_tmpfs_sock_files(systemd_logind_t)
+vmm_dbus_msg(systemd_logind_t)
 
 weston_map_lib_files(systemd_coredump_t)
 owfds_map_lib_files(systemd_coredump_t)
@@ -21,8 +23,12 @@ libkiumd_mmap_exec_lib_file(systemd_coredump_t)
 libkiumd_ioctl_lib_file(systemd_coredump_t)
 
 allow systemd_logind_t self:capability net_admin;
-allow systemd_tmpfiles_t self:capability net_admin;
+allow systemd_tmpfiles_t self:capability net_admin ;
+allow systemd_tmpfiles_t self:process setrlimit ;
 allow systemd_modules_load_t self:capability net_admin;
+allow systemd_sessions_t self:capability net_admin;
+allow systemd_user_runtime_dir_t self:capability net_admin;
+allow systemd_coredump_t self:capability { net_admin dac_read_search dac_override };
 
 logging_dgram_send(systemd_resolved_t)
 corenet_tcp_bind_generic_node(systemd_resolved_t)
@@ -36,3 +42,67 @@ init_read_runtime_files(systemd_userdbd_t)
 
 # systemd-logind read init proc info, /proc/<pid>/cgroup
 init_read_script_state(systemd_logind_t)
+getty_read_files(systemd_logind_t)
+getty_use_fds(systemd_logind_t)
+
+init_rw_script_stream_sockets(systemd_tmpfiles_t)
+init_rw_script_stream_sockets(systemd_resolved_t)
+init_rw_script_stream_sockets(systemd_logind_t)
+init_rw_script_stream_sockets(systemd_networkd_t)
+init_rw_script_stream_sockets(systemd_sessions_t)
+init_rw_script_stream_sockets(systemd_user_runtime_dir_t)
+init_rw_script_stream_sockets(systemd_userdbd_t)
+init_rw_script_stream_sockets(systemd_modules_load_t)
+init_rw_script_stream_sockets(systemd_sysctl_t)
+init_rw_script_stream_sockets(systemd_coredump_t)
+
+init_list_initrc_runtime_dirs(systemd_resolved_t)
+init_create_var_lib_dirs(systemd_tmpfiles_t)
+
+fs_watch_memory_pressure(systemd_userdbd_t)
+
+power_create_pm_dirs(systemd_tmpfiles_t)
+adreno200_read_tmpfs_files(systemd_tmpfiles_t)
+safetymonitor_read_tmpfs_files(systemd_tmpfiles_t)
+fs_read_tmpfs_files(systemd_tmpfiles_t)
+fs_read_tmpfs_sock_files(systemd_tmpfiles_t)
+fs_read_tmpfs_fifo_files(systemd_tmpfiles_t)
+sailmb_read_tmpfs_files(systemd_tmpfiles_t)
+owfds_read_tmpfs_files(systemd_tmpfiles_t)
+ssrrm_read_tmpfs_files(systemd_tmpfiles_t)
+glinkserver_read_tmpfs_files(systemd_tmpfiles_t)
+pilrm_read_tmpfs_files(systemd_tmpfiles_t)
+syscache_rm_rw_tmpfs_files(systemd_tmpfiles_t)
+videodriver_read_tmpfs_files(systemd_tmpfiles_t)
+videodriver_list_tmpfs_dirs(systemd_tmpfiles_t)
+sysstat_manage_log(systemd_tmpfiles_t)
+files_manage_default_files(systemd_tmpfiles_t)
+files_read_default_symlinks(systemd_tmpfiles_t)
+
+files_manage_default_dirs(systemd_update_done_t)
+files_relabel_default_dirs(systemd_tmpfiles_t)
+files_manage_generic_spool_dirs(systemd_tmpfiles_t)
+
+#systemd_logind access /var/lib/systemd/linger
+files_manage_default_files(systemd_logind_t)
+
+weston_read_pid(systemd_logind_t)
+
+audioservice_mmap_rw_tmpfs_files(systemd_tmpfiles_t)
+
+# /tmp/qcxserver.lock
+qcxserver_rw_tmpfs_files(systemd_tmpfiles_t)
+
+# /tmp/lrm_server_1178_soccp-drv.txt
+soccp_driver_read_tmpfs_files(systemd_tmpfiles_t)
+kernel_read_unlabeled_state(systemd_tmpfiles_t)
+fastrpc_rm_read_tmpfs_files(systemd_tmpfiles_t)
+nspdrv_read_tmpfs_files(systemd_tmpfiles_t)
+hypvb_getattr_tmpfs_fifo_files(systemd_tmpfiles_t)
+hypvb_list_tmpfs_dirs(systemd_tmpfiles_t)
+pfm_read_tmpfs_files(systemd_tmpfiles_t)
+
+# /var overlay
+kernel_relabelfrom_unlabeled_dirs(systemd_tmpfiles_t)
+kernel_relabelfrom_unlabeled_symlinks(systemd_tmpfiles_t)
+soccp_driver_read_tmpfs_files(systemd_tmpfiles_t)

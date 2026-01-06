@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 /usr/bin/vhost-user-qti               --      gen_context(system_u:object_r:vhost_user_qti_exec_t,s0)
@@ -11,3 +11,18 @@
 /dev/vhost-vnw                        -c      gen_context(system_u:object_r:vhost_user_device_t,s0)
 /dev/vhost-ext                        -c      gen_context(system_u:object_r:vhost_user_device_t,s0)
 /dev/vhost-gpce                       -c      gen_context(system_u:object_r:vhost_user_device_t,s0)
+/dev/vhost-dprx                       -c      gen_context(system_u:object_r:vhost_user_device_t,s0)
+/dev/vhost-eva                        -c      gen_context(system_u:object_r:vhost_user_device_t,s0)
+/dev/vhost-soccp                      -c      gen_context(system_u:object_r:vhost_user_device_t,s0)
+/dev/vhost-vm3-aud                        -c      gen_context(system_u:object_r:vhost_user_device_vm3_t,s0)
+/dev/vhost-vm3-cam                        -c      gen_context(system_u:object_r:vhost_user_device_vm3_t,s0)
+/dev/vhost-vm3-disp                       -c      gen_context(system_u:object_r:vhost_user_device_vm3_t,s0)
+/dev/vhost-vm3-ogles                      -c      gen_context(system_u:object_r:vhost_user_device_vm3_t,s0)
+/dev/vhost-vm3-misc                       -c      gen_context(system_u:object_r:vhost_user_device_vm3_t,s0)
+/dev/vhost-vm3-vid                        -c      gen_context(system_u:object_r:vhost_user_device_vm3_t,s0)
+/dev/vhost-vm3-vnw                        -c      gen_context(system_u:object_r:vhost_user_device_vm3_t,s0)
+/dev/vhost-vm3-ext                        -c      gen_context(system_u:object_r:vhost_user_device_vm3_t,s0)
+/dev/vhost-vm3-gpce                       -c      gen_context(system_u:object_r:vhost_user_device_vm3_t,s0)
+/dev/vhost-vm3-soccp                      -c      gen_context(system_u:object_r:vhost_user_device_vm3_t,s0)
+/dev/vhost-vm3-dprx                       -c      gen_context(system_u:object_r:vhost_user_device_vm3_t,s0)
+/dev/vhost-vm3-eva                        -c      gen_context(system_u:object_r:vhost_user_device_vm3_t,s0)

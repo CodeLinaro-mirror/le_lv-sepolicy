@@ -1,0 +1,37 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary>Policy for SELinux policy and userland applications.</summary>
+
+######################################
+## <summary>
+##  delete fastrpc-debug user_tmpfs_t files
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`fastrpc_unlink_user_tmpfs',`
+    # Use userdom interface instead of direct user_tmpfs_t reference
+    userdom_delete_user_tmpfs_files($1)
+')
+
+######################################
+## <summary>
+##  Send signull to fastrpc-debug related process.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`fastrpc_signull',`
+    gen_require(`
+        type fastrpc_t;
+    ')
+
+    allow $1 fastrpc_t:process signull;
+')

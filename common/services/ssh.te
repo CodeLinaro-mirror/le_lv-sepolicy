@@ -1,10 +1,22 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 files_rw_generic_pids(sshd_t)
+files_search_default(sshd_t)
 files_read_var_symlinks(ssh_keygen_t)
 
 # /run/ssh/ssh_host_rsa_key.tmp, when adb connect to machine with ip address
 init_list_initrc_runtime_dirs(ssh_keygen_t)
 init_create_initrc_runtime_files(ssh_keygen_t)
 init_rw_initrc_runtime_files(ssh_keygen_t)
+init_rw_script_stream_sockets(ssh_keygen_t)
+
+init_rw_script_stream_sockets(sshd_t)
+init_list_initrc_runtime_dirs(sshd_t)
+init_read_runtime_files(sshd_t)
+
+auth_signal_chkpwd_process(sshd_t)
+unconfined_shell_domtrans(sshd_t)
+unconfined_siginh(sshd_t)
+
+allow sshd_t self:capability net_admin;

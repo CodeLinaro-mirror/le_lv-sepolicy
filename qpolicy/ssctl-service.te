@@ -1,0 +1,53 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(ssctl-service, 1.0)
+
+type ssctl_service_t;
+type ssctl_service_exec_t;
+type ssctl_service_tmp_t;
+type ssctl_service_tmpfs_t;
+type ssctl_service_power_t;
+
+init_daemon_domain(ssctl_service_t, ssctl_service_exec_t)
+
+init_rw_script_stream_sockets(ssctl_service_t)
+
+logging_create_devlog_dev(ssctl_service_t)
+logging_send_syslog_msg(ssctl_service_t)
+kernel_dgram_send(ssctl_service_t)
+
+unconfined_server_signull(ssctl_service_t)
+unconfined_signull(ssctl_service_t)
+pilrm_rw_tmpfs_files(ssctl_service_t)
+pil_rm_signull(ssctl_service_t)
+pilrm_delete_tmpfs_files(ssctl_service_t)
+diagservice_rw_tmpfs_files(ssctl_service_t)
+
+# /tmp/lrms_log_*.txt
+files_tmp_file(ssctl_service_tmp_t)
+files_tmp_filetrans(ssctl_service_t, ssctl_service_tmp_t, { dir file })
+manage_files_pattern(ssctl_service_t, ssctl_service_tmp_t, ssctl_service_tmp_t)
+
+
+files_tmpfs_file(ssctl_service_tmpfs_t)
+fs_tmpfs_filetrans(ssctl_service_t, ssctl_service_tmpfs_t, { dir file })
+ssctl_service_create_tmpfs_files(ssctl_service_t)
+ssctl_service_mmap_rw_tmpfs_files(ssctl_service_t)
+ssctl_service_rw_tmpfs_files(ssctl_service_t)
+allow ssctl_service_t ssctl_service_tmpfs_t:file unlink;
+
+libkiumd_mmap_exec_lib_file(ssctl_service_t)
+
+power_use_pm_register(ssctl_service_t, ssctl_service_power_t)
+
+# /run/systemd/journal/dev-log
+logging_dgram_send(ssctl_service_t)
+
+dev_rw_kiumd_dev(ssctl_service_t)
+dev_read_sysfs(ssctl_service_t)
+dev_rw_vfio_dev(ssctl_service_t)
+
+allow ssctl_service_t self:unix_dgram_socket { connect create getopt setopt };
+allow ssctl_service_t self:capability { sys_resource net_admin };
+allow ssctl_service_t self:process { setrlimit };

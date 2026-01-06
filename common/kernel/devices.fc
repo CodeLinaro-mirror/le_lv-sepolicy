@@ -1,13 +1,16 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 /dev/smcinvoke               -c      gen_context(system_u:object_r:smcinvoke_device_t,s0)
 /dev/gunyah                  -c      gen_context(system_u:object_r:gunyah_device_t,s0)
 /dev/kiumd                   -c      gen_context(system_u:object_r:kiumd_device_t,s0)
 /dev/scmnode                 -c      gen_context(system_u:object_r:scmnode_device_t,s0)
+/dev/scmnode_sec             -c      gen_context(system_u:object_r:scmnode_sec_device_t,s0)
 /dev/hab                     -c      gen_context(system_u:object_r:hab_device_t,s0)
 /dev/profiler                -c      gen_context(system_u:object_r:profiler_device_t,s0)
 /dev/kgsl                    -c      gen_context(system_u:object_r:kgsl_device_t,s0)
 /dev/hgsl                    -c      gen_context(system_u:object_r:hgsl_device_t,s0)
 /dev/ashmem                  -c      gen_context(system_u:object_r:ashmem_device_t,s0)
 /dev/dma_heap/.+             -c      gen_context(system_u:object_r:dma_device_t,s0)
+/dev/ksync                   -c      gen_context(system_u:object_r:ksync_device_t,s0)
+/dev/qcom_l3_cache_config_device         -c      gen_context(system_u:object_r:l3cache_config_device_t,s0)

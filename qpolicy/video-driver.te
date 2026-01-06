@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(video-driver, 1.0)
@@ -8,8 +8,14 @@ type video_driver_exec_t;
 type video_driver_tmp_t;
 type video_driver_tmpfs_t;
 type video_driver_dev_t;
+type video_driver_power_t;
+type video_driver_etc_t;
 
 init_daemon_domain(video_driver_t, video_driver_exec_t)
+
+init_rw_script_stream_sockets(video_driver_t)
+init_ptrace_script(video_driver_t)
+init_read_script_state(video_driver_t)
 
 # Allow access to /dev/scmi_video
 dev_node(video_driver_dev_t)
@@ -30,6 +36,9 @@ kernel_read_unlabeled_state(video_driver_t)
 files_read_default_files(video_driver_t)
 files_manage_default_files(video_driver_t)
 files_manage_default_dirs(video_driver_t)
+files_read_etc_files(video_driver_t)
+files_type(video_driver_etc_t)
+manage_files_pattern(video_driver_t, video_driver_etc_t, video_driver_etc_t)
 
 # Todo, not clear which domain create tmpfs_t objects which safetymonitor access,
 # so file transition rules can't work, use below two interface for the moment
@@ -50,35 +59,53 @@ dbus_write_pid_sock_files(video_driver_t)
 
 dbus_read_pid_files(video_driver_t)
 
+# pm_register
+power_use_pm_register(video_driver_t, video_driver_power_t)
+
+#var_t
+files_manage_var_dirs(video_driver_t)
+files_manage_var_files(video_driver_t)
+files_manage_var_symlinks(video_driver_t)
+files_relabel_var_dirs(video_driver_t)
+files_append_var_files(video_driver_t)
+
 # Todo, unlabeled_t, could remove after setting selinxu context to /data mount
 # /data/mmosal_logmask.cfg
 files_rw_isid_type_dirs(video_driver_t)
-files_mounton_isid_type_dirs(video_driver_t)
+kernel_mounton_unlabeled_dirs(video_driver_t)
 files_manage_isid_type_files(video_driver_t)
 
 # /dev/shm/lrmc_rq_*
 pilrm_rw_tmpfs_files(video_driver_t)
 
 dev_rw_scmnode_dev(video_driver_t)
+dev_dontaudit_scmnode_sec_dev(video_driver_t)
 dev_rw_dma_dev(video_driver_t)
 dev_rw_kiumd_dev(video_driver_t)
 dev_rw_vfio_dev(video_driver_t)
 dev_read_sysfs(video_driver_t)
 
-qseecomd_search_data(video_driver_t)
+qseecomd_search_data_dirs(video_driver_t)
 
 hyp_video_read_pid(video_driver_t)
 
 hypvb_rw_tmpfs_files(video_driver_t)
+hypvb_delete_tmpfs_files(video_driver_t)
 videodriver_rw_tmpfs_files(video_driver_t)
 #libkiumd
 libkiumd_mmap_exec_lib_file(video_driver_t)
 
 hyp_video_ptrace(video_driver_t)
+hyp_video_use_fds(video_driver_t)
 # ========== local ==========
 allow video_driver_t self:unix_dgram_socket { create connect getopt setopt };
-allow video_driver_t self:process { setrlimit setsched };
-allow video_driver_t self:capability { sys_resource sys_ptrace net_admin sys_nice sys_ptrace dac_override };
+allow video_driver_t self:unix_stream_socket { listen };
+allow video_driver_t self:process { setrlimit setsched signal getsched };
+allow video_driver_t self:capability { sys_resource sys_ptrace net_admin sys_nice sys_ptrace dac_override kill fowner};
+allow video_driver_t video_driver_tmpfs_t:dir { create };
+allow video_driver_t video_driver_tmpfs_t:fifo_file { create read open };
+allow video_driver_t etc_t:dir { write };
+allow video_driver_t etc_t:file { write };
 
 files_tmp_file(video_driver_tmp_t)
 files_tmp_filetrans(video_driver_t, video_driver_tmp_t, { dir fifo_file file lnk_file })
@@ -92,6 +119,8 @@ create_files_pattern(video_driver_t, video_driver_tmpfs_t, video_driver_tmpfs_t)
 videodriver_mmap_rw_tmpfs_files(video_driver_t)
 videodriver_delete_tmpfs_files(video_driver_t)
 
+dev_map_kiumd_dev(video_driver_t)
+
 # ========== Todo ==========
 # video-driver related process access the unknown process with unconfined_service_t domain, including
 # its process information in /proc/(pid), not sure which process it is, so allow video_driver_t domain
@@ -99,9 +128,27 @@ videodriver_delete_tmpfs_files(video_driver_t)
 unconfined_server_ptrace(video_driver_t)
 unconfined_server_read_files(video_driver_t)
 unconfined_ptrace(video_driver_t)
+unconfined_use_fds(video_driver_t)
+unconfined_server_stream_connectto(video_driver_t)
+unconfined_server_signull(video_driver_t)
+unconfined_signull(video_driver_t)
 
 # /usr/lib/libkiumd,liblrms,liblrmc
 libkiumd_mmap_exec_lib_file(video_driver_t)
 libkiumd_ioctl_lib_file(video_driver_t)
 libkiumd_relabel_lib_files(video_driver_t)
 libkiumd_manage_lib_files(video_driver_t)
+
+compresmgr_rw_etc_files(video_driver_t)
+
+userdom_relabel_user_tmpfs_dirs(video_driver_t)
+userdom_relabel_user_tmpfs_files(video_driver_t)
+userdom_user_tmpfs_file(video_driver_t)
+userdom_map_user_tmpfs_files(video_driver_t)
+userdom_read_user_tmpfs_files(video_driver_t)
+userdom_dontaudit_read_user_tmpfs_files(video_driver_t)
+userdom_rw_user_tmpfs_files(video_driver_t)
+userdom_delete_user_tmpfs_files(video_driver_t)
+userdom_manage_user_tmpfs_files(video_driver_t)
+
+mmap_rw_files_pattern(video_driver_t,user_tmpfs_t,user_tmpfs_t)

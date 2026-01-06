@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(sail-mailbox, 1.0)
@@ -8,14 +8,21 @@ type sail_mailbox_exec_t;
 type sail_mailbox_tmp_t;
 type sail_mailbox_log_t;
 type sail_mailbox_tmpfs_t;
+type sail_mailbox_power_t;
+type sail_mailbox_device_t;
+type sail_mailbox_ota_device_t;
 
 init_daemon_domain(sail_mailbox_t, sail_mailbox_exec_t)
+dev_node(sail_mailbox_device_t)
+dev_node(sail_mailbox_ota_device_t)
+
 init_rw_script_stream_sockets(sail_mailbox_t)
 init_signull_script(sail_mailbox_t)
 
 logging_send_syslog_msg(sail_mailbox_t)
 
 unconfined_server_signull(sail_mailbox_t)
+unconfined_signull(sail_mailbox_t)
 
 #libkiumd
 libkiumd_mmap_exec_lib_file(sail_mailbox_t)
@@ -23,6 +30,10 @@ libkiumd_mmap_exec_lib_file(sail_mailbox_t)
 dev_rw_kiumd_dev(sail_mailbox_t)
 dev_rw_vfio_dev(sail_mailbox_t)
 dev_read_sysfs(sail_mailbox_t)
+sailmb_rw_umd_dev(sail_mailbox_t)
+sailmb_rw_umd_ota_dev(sail_mailbox_t)
+sailmb_map_umd_dev(sail_mailbox_t)
+sailmb_map_umd_ota_dev(sail_mailbox_t)
 
 files_tmp_file(sail_mailbox_tmp_t)
 files_tmp_filetrans(sail_mailbox_t, sail_mailbox_tmp_t, { dir fifo_file file lnk_file sock_file })

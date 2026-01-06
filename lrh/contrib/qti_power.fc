@@ -1,5 +1,0 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
-# SPDX-License-Identifier: BSD-3-Clause-Clear
-
-/usr/bin/pm-notify      --      gen_context(system_u:object_r:power_pm_notify_exec_t,s0)
-/var/run/qcom_pm        -d      gen_context(system_u:object_r:power_qcom_pm_t,s0)

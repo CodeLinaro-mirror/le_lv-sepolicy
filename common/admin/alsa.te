@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 #/var/lib/alsa/asound.state
@@ -8,4 +8,4 @@ files_read_var_files(alsa_t)
 files_list_default_dirs(alsa_t)
 
 #unlabeled
-files_mounton_isid_type_dirs(alsa_t)
+kernel_mounton_unlabeled_dirs(alsa_t)

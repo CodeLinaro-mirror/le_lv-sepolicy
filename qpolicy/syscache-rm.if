@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 ## <summary>Policy for SELinux policy and userland applications.</summary>
@@ -24,6 +24,23 @@ interface(`syscache_rm_read_pid',`
 
 ######################################
 ## <summary>
+##  create files under tmpfs filesystem for syscache_rm.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`syscache_rm_create_tmpfs_files',`
+    gen_require(`
+        type syscache_rm_tmpfs_t;
+    ')
+
+    create_files_pattern($1, syscache_rm_tmpfs_t, syscache_rm_tmpfs_t)
+')
+######################################
+## <summary>
 ##  Send signull to syscache-rm related process.
 ## </summary>
 ## <param name="domain">
@@ -42,24 +59,6 @@ interface(`syscache_rm_signull',`
 
 ######################################
 ## <summary>
-##  Map, read and write syscache-rm tmpfs files.
-## </summary>
-## <param name="domain">
-##  <summary>
-##  Domain allowed.
-##  </summary>
-## </param>
-#
-interface(`syscacherm_mmap_rw_tmpfs_files',`
-    gen_require(`
-        type syscache_rm_tmpfs_t;
-    ')
-
-    mmap_rw_files_pattern($1, syscache_rm_tmpfs_t, syscache_rm_tmpfs_t)
-')
-
-######################################
-## <summary>
 ##  Delete syscache-rm tmpfs files.
 ## </summary>
 ## <param name="domain">
@@ -68,7 +67,7 @@ interface(`syscacherm_mmap_rw_tmpfs_files',`
 ##  </summary>
 ## </param>
 #
-interface(`syscacherm_delete_tmpfs_files',`
+interface(`syscache_rm_delete_tmpfs_files',`
     gen_require(`
         type syscache_rm_tmpfs_t;
     ')
@@ -86,10 +85,100 @@ interface(`syscacherm_delete_tmpfs_files',`
 ##  </summary>
 ## </param>
 #
-interface(`syscacherm_rw_tmpfs_files',`
+interface(`syscache_rm_rw_tmpfs_files',`
     gen_require(`
         type syscache_rm_tmpfs_t;
     ')
 
     rw_files_pattern($1, syscache_rm_tmpfs_t, syscache_rm_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Map, read and write syscache_rm tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`syscache_rm_mmap_rw_tmpfs_files',`
+    gen_require(`
+        type syscache_rm_tmpfs_t;
+    ')
+
+    mmap_rw_files_pattern($1, syscache_rm_tmpfs_t, syscache_rm_tmpfs_t)
+')
+
+########################################
+## <summary>
+##  Map syscache_rm_tmpfs_t library files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`syscache_rm_tmpfs_map_files',`
+    gen_require(`
+        type syscache_rm_tmpfs_t;
+    ')
+
+    allow $1 syscache_rm_tmpfs_t:file mmap_exec_file_perms;
+')
+
+#######################################
+## <summary>
+##  Transition to syscache_rm_t when NNP has been set.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  The type of the process performing this action.
+##  </summary>
+## </param>
+#
+interface(`syscache_rm_nnp_trans',`
+    gen_require(`
+        type syscache_rm_t;
+    ')
+
+    allow $1 syscache_rm_t:process2 nnp_transition;
+')
+
+######################################
+## <summary>
+##  Read and write umd syscache devices.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`syscache_rm_rw_umd_dev',`
+    gen_require(`
+        type device_t, syscache_rm_umd_dev_t;
+    ')
+
+    rw_chr_files_pattern($1, device_t, syscache_rm_umd_dev_t)
+')
+
+########################################
+## <summary>
+##      map umd_llcc device.
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+#
+interface(`syscache_rm_map_umd_dev',`
+    gen_require(`
+        type syscache_rm_umd_dev_t;
+    ')
+
+    allow $1 syscache_rm_umd_dev_t:chr_file map;
 ')

@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(hyp-video-be, 1.0)
@@ -7,22 +7,30 @@ type hyp_video_t;
 type hyp_video_exec_t;
 type hyp_video_tmp_t;
 type hyp_video_tmpfs_t;
+type hyp_video_etc_t;
 
 init_daemon_domain(hyp_video_t, hyp_video_exec_t)
+
+init_rw_script_stream_sockets(hyp_video_t)
 
 logging_send_syslog_msg(hyp_video_t)
 
 # mmosal_logmask.cfg
 kernel_read_unlabeled_state(hyp_video_t)
 files_read_default_files(hyp_video_t)
+files_read_etc_files(hyp_video_t)
+files_type(hyp_video_etc_t)
+manage_files_pattern(hyp_video_t, hyp_video_etc_t, hyp_video_etc_t)
 
 # Todo, unlabeled_t, could remove after setting selinxu context to /data mount
-files_mounton_isid_type_dirs(hyp_video_t)
+kernel_mounton_unlabeled_dirs(hyp_video_t)
 files_manage_isid_type_files(hyp_video_t)
+
+files_search_default(hyp_video_t)
 
 dev_rw_hab_dev(hyp_video_t)
 
-qseecomd_search_data(hyp_video_t)
+qseecomd_search_data_dirs(hyp_video_t)
 
 videodriver_rw_tmpfs_files(hyp_video_t)
 
@@ -30,6 +38,12 @@ videodriver_rw_tmpfs_files(hyp_video_t)
 allow hyp_video_t self:unix_dgram_socket { create connect getopt setopt };
 allow hyp_video_t self:process { setsched };
 allow hyp_video_t self:capability { sys_resource sys_nice net_admin kill dac_override};
+allow hyp_video_t etc_t:dir { write };
+allow hyp_video_t etc_t:file { write };
+allow hyp_video_t hyp_video_tmpfs_t:dir create;
+allow hyp_video_t hyp_video_tmpfs_t:fifo_file read;
+
+create_fifo_files_pattern(hyp_video_t, hyp_video_tmpfs_t, hyp_video_tmpfs_t)
 
 files_tmp_file(hyp_video_tmp_t)
 files_tmp_filetrans(hyp_video_t, hyp_video_tmp_t, { dir fifo_file file lnk_file })
@@ -46,3 +60,5 @@ libkiumd_mmap_exec_lib_file(hyp_video_t)
 libkiumd_ioctl_lib_file(hyp_video_t)
 libkiumd_relabel_lib_files(hyp_video_t)
 libkiumd_manage_lib_files(hyp_video_t)
+
+compresmgr_rw_etc_files(hyp_video_t)
