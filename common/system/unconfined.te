@@ -6,10 +6,15 @@ qseecomd_setattr_data(unconfined_t)
 qseecomd_setattr_persist_dirs(unconfined_t)
 qseecomd_rw_persist(unconfined_t)
 
+minkdescriptor_mmap_lib_files(unconfined_t)
+
 vhost_user_manage_tmp_files(unconfined_t)
 
 owfds_map_lib_files(unconfined_t)
 owfds_manage_lib_files(unconfined_t)
+
+#allow unconfined_service_t access keymaster_lib_t
+keymaster_mmap_lib_files(unconfined_t)
 
 #below lines added for libkiumd interface
 libkiumd_mmap_exec_lib_file(unconfined_t)
@@ -28,5 +33,9 @@ fs_watch_memory_pressure(unconfined_t)
 
 mount_watch_reads_runtime_files(unconfined_t)
 corenet_icmp_bind_generic_node(unconfined_t)
+
+allow_she_lib_files(unconfined_t)
+
+gptee_mmap_lib_files(unconfined_t)
 
 init_binder(unconfined_t)
