@@ -7,3 +7,5 @@ init_rw_raw_sock(kmod_t)
 # unlabeled because of early boot
 kernel_read_unlabeled_files(kmod_t)
 allow kmod_t self:capability net_admin;
+fs_rw_tmpfs_files(kmod_t)
+files_rw_root_chr_files(kmod_t)
