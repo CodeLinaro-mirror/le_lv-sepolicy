@@ -26,3 +26,5 @@ files_rw_root_chr_files(setfiles_t)
 
 # /boot/early-ramdisk/early_ramdisk_init.log
 fs_rw_tmpfs_files(setfiles_t)
+
+files_search_default(semanage_t)
