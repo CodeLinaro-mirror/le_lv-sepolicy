@@ -112,7 +112,6 @@ interface(`qdssservice_rw_tmpfs_files',`
     rw_files_pattern($1, qdss_service_tmpfs_t, qdss_service_tmpfs_t)
 ')
 
-
 ########################################
 ## <summary>
 ##  Read and write qdss-service device (/dev/qdss-service).
@@ -148,4 +147,21 @@ interface(`qdssservice_map_dev',`
     ')
 
     allow $1 qdss_service_device_t:chr_file map;
+')
+######################################
+## <summary>
+##  Delete qdss-service tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`qdssservice_delete_tmpfs_files',`
+    gen_require(`
+        type qdss_service_tmpfs_t;
+    ')
+
+    delete_files_pattern($1, qdss_service_tmpfs_t, qdss_service_tmpfs_t)
 ')
