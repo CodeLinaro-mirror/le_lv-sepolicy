@@ -102,3 +102,5 @@ qdssservice_rw_tmpfs_files(diag_service_t)
 
 # pm_register
 power_use_pm_register(diag_service_t, diag_service_power_t)
+
+diagservice_rw_tmpfs_files(diag_service_t)
