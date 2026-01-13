@@ -104,3 +104,5 @@ qdssservice_rw_tmpfs_files(diag_service_t)
 power_use_pm_register(diag_service_t, diag_service_power_t)
 
 diagservice_rw_tmpfs_files(diag_service_t)
+
+allow diag_service_t self:process signal;

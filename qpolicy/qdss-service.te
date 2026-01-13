@@ -130,3 +130,16 @@ diagservice_rw_tmpfs_files(qdss_service_t)
 allow qdss_service_t qdss_service_tmpfs_t:file unlink;
 init_rw_script_tmp_files(qdss_service_t)
 qdssservice_map_dev(qdss_service_t)
+
+
+#character files
+dev_rw_dma_dev(qdss_service_t)
+allow qdss_service_t device_t:chr_file { read write };
+allow qdss_service_t device_t:chr_file { ioctl open };
+allow qdss_service_t self:process signal;
+diag_service_signull(qdss_service_t)
+files_create_default_files(qdss_service_t)
+files_mmap_default_files(qdss_service_t)
+files_append_default_files(qdss_service_t)
+files_create_default_dirs(qdss_service_t)
+
