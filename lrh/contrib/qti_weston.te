@@ -134,6 +134,9 @@ qseecomd_search_data(weston_t)
 userdom_manage_user_tmp_files(weston_t)
 userdom_map_tmp_files(weston_t)
 
+fs_manage_tmpfs_sockets(weston_t)
+adreno200_sock(weston_t)
+
 # /run/udev/data
 udev_read_pid_files(weston_t)
 
