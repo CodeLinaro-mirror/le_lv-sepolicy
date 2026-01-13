@@ -148,6 +148,24 @@ interface(`files_mmap_default_files',`
     mmap_exec_files_pattern($1, default_t, default_t)
 ')
 
+##################################
+## <summary>
+##  Execute files under default type.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_exec_default_files',`
+    gen_require(`
+        type default_t;
+    ')
+
+    exec_files_pattern($1, default_t, default_t)
+')
+
 ########################################
 ## <summary>
 ##  Search the contents of runtime process
