@@ -1,0 +1,58 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary>Policy interface for SELinux policy and userland applications.</summary>
+
+######################################
+## <summary>
+##  Send signull to compresmgr related process.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`compresmgr_signull',`
+    gen_require(`
+        type compresmgr_t;
+    ')
+
+    allow $1 compresmgr_t:process signull;
+')
+
+######################################
+## <summary>
+##  Map, read and write compresmgr tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`compresmgr_mmap_rw_tmpfs_files',`
+    gen_require(`
+        type compresmgr_tmpfs_t;
+    ')
+
+    mmap_rw_files_pattern($1, compresmgr_tmpfs_t, compresmgr_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Unlink compresmgr tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`compresmgr_unlink_tmpfs_files',`
+    gen_require(`
+        type compresmgr_tmpfs_t;
+    ')
+
+    allow $1 compresmgr_tmpfs_t:file unlink;
+')
