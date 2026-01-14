@@ -83,7 +83,7 @@ files_manage_default_files(qcx_server_t)
 # Todo, unlabeled_t, could remove after setting selinxu context to /data mount
 kernel_mounton_unlabeled_dirs(qcx_server_t)
 files_manage_isid_type_dirs(qcx_server_t)
-files_manage_isid_type_files(qcx_server_t)
+kernel_manage_unlabeled_files(qcx_server_t)
 
 # pm_register
 power_use_pm_register(qcx_server_t, qcx_server_power_t)
