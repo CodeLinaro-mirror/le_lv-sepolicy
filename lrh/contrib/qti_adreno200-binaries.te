@@ -50,6 +50,8 @@ corenet_tcp_connect_generic_port(adreno200_t)
 corenet_tcp_bind_generic_port(adreno200_t)
 corenet_tcp_bind_generic_node(adreno200_t)
 
+fs_manage_tmpfs_sockets(adreno200_t)
+
 # /etc/hosts
 sysnet_read_config(adreno200_t)
 
