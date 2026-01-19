@@ -12,6 +12,7 @@ init_daemon_domain(qcrosvm_t, qcrosvm_exec_t)
 init_rw_script_stream_sockets(qcrosvm_t)
 init_stream_connect_script(qcrosvm_t)
 init_read_script_tmp_files(qcrosvm_t)
+init_rw_script_tmp_files(qcrosvm_t)
 
 virt_image(qcrosvm_boot_t)
 fs_type(qcrosvm_boot_t)
@@ -35,6 +36,7 @@ dev_read_sysfs(qcrosvm_t)
 
 fs_rw_tracefs_files(qcrosvm_t)
 fs_list_dos(qcrosvm_t)
+fs_getattr_tmpfs(qcrosvm_t)
 
 unconfined_server_stream_connectto(qcrosvm_t)
 

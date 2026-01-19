@@ -902,3 +902,21 @@ interface(`files_read_safety_config_files',`
 
     allow $1 safety_config_etc_t:file { read open getattr };
 ')
+
+##################################
+## <summary>
+##  Execute files under default type.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_exec_default_files',`
+    gen_require(`
+        type default_t;
+    ')
+
+    exec_files_pattern($1, default_t, default_t)
+')

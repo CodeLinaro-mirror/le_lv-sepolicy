@@ -313,3 +313,22 @@ interface(`fs_read_tmpfs_sock_files',`
     allow $1 tmpfs_t:dir list_dir_perms;
     read_sock_files_pattern($1, tmpfs_t, tmpfs_t)
 ')
+
+########################################
+## <summary>
+##  Read and write cgroup directories.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`fs_rw_cgroup_dirs',`
+    gen_require(`
+        attribute cgroup_types;
+    ')
+
+    rw_dirs_pattern($1, cgroup_types, cgroup_types)
+    dev_search_sysfs($1)
+')

@@ -2,6 +2,9 @@
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 ################### init_t #####################
+allow init_t self:netlink_netfilter_socket { create getopt setopt bind getattr };
+allow init_t self:capability { audit_control };
+
 qseecomd_manage_data_dirs(init_t)
 qseecomd_rw_persist(init_t)
 
@@ -15,6 +18,7 @@ files_manage_var_files(init_t)
 files_manage_var_dirs(init_t)
 
 files_rw_etc_files(init_t)
+files_exec_default_files(init_t)
 
 kernel_read_debugfs(init_t)
 
