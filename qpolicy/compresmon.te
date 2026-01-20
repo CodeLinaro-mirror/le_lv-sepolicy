@@ -16,6 +16,7 @@ init_signull_script(compresmon_t)
 
 dev_node(nsp_sysmon_device_t)
 compresmon_rw_nsp_sysmon_dev(compresmon_t)
+compresmon_map_nsp_sysmon_dev(compresmon_t)
 
 #/etc/compresmgr_cpu_config.xml
 compresmgr_rw_etc_files(compresmon_t)
