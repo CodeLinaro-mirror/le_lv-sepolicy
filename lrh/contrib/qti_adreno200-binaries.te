@@ -118,6 +118,7 @@ dev_rw_input_dev(adreno200_t)
 
 # ========== local ==========
 allow adreno200_t self:unix_dgram_socket { create connect };
+allow adreno200_t self:unix_stream_socket connectto;
 allow adreno200_t self:tcp_socket { create connect setopt read write bind accept listen shutdown };
 allow adreno200_t self:process { signull ptrace setrlimit setsched };
 allow adreno200_t self:capability { sys_resource sys_nice sys_ptrace dac_override };
