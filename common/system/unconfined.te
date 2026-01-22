@@ -28,3 +28,5 @@ fs_watch_memory_pressure(unconfined_t)
 
 mount_watch_reads_runtime_files(unconfined_t)
 corenet_icmp_bind_generic_node(unconfined_t)
+
+init_binder(unconfined_t)

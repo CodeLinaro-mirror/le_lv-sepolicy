@@ -42,11 +42,15 @@ init_signal_script(weston_t)
 init_read_state(weston_t)
 init_stream_connect_script(weston_t)
 
+# use fd of the kernel library file
+kernel_use_fds(weston_t)
+
 kernel_read_proc_files(weston_t)
 kernel_search_debugfs(weston_t)
 
 files_manage_var_files(weston_t)
 files_map_var_files(weston_t)
+files_mmap_unlabeled_files(weston_t)
 
 weston_map_lib_files(weston_t)
 

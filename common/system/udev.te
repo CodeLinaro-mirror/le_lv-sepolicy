@@ -1,6 +1,8 @@
 # Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
+files_search_default(udev_t)
+
 init_read_runtime_files(udev_t)
 init_rw_script_stream_sockets(udev_t)
 

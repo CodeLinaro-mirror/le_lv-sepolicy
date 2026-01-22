@@ -79,6 +79,12 @@ sysstat_manage_log(systemd_tmpfiles_t)
 files_manage_default_files(systemd_tmpfiles_t)
 files_read_default_symlinks(systemd_tmpfiles_t)
 
+files_search_default(systemd_networkd_t)
+files_search_default(systemd_passwd_agent_t)
+files_search_default(systemd_resolved_t)
+files_search_default(systemd_sessions_t)
+files_search_default(systemd_userdbd_t)
+files_search_default(systemd_user_runtime_dir_t)
 files_manage_default_dirs(systemd_update_done_t)
 files_relabel_default_dirs(systemd_tmpfiles_t)
 files_manage_generic_spool_dirs(systemd_tmpfiles_t)
@@ -87,6 +93,15 @@ files_manage_generic_spool_dirs(systemd_tmpfiles_t)
 files_manage_default_files(systemd_logind_t)
 
 weston_read_pid(systemd_logind_t)
+
+# use fd of the kernel library file
+kernel_use_fds(systemd_logind_t)
+kernel_use_fds(systemd_networkd_t)
+kernel_use_fds(systemd_passwd_agent_t)
+kernel_use_fds(systemd_sessions_t)
+kernel_use_fds(systemd_tmpfiles_t)
+kernel_use_fds(systemd_userdbd_t)
+kernel_use_fds(systemd_user_runtime_dir_t)
 
 audioservice_mmap_rw_tmpfs_files(systemd_tmpfiles_t)
 

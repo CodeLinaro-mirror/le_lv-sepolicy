@@ -69,6 +69,9 @@ qseecomd_manage_persist_dirs(qseecomd_t)
 # read cmdline in /proc
 kernel_read_proc_files(qseecomd_t)
 
+# use fd of the kernel library file
+kernel_use_fds(qseecomd_t)
+
 # rw /dev/dma_heap/linux,cma
 dev_rw_dma_dev(qseecomd_t)
 
@@ -77,6 +80,7 @@ dev_rw_smcinvoke_dev(qseecomd_t)
 
 # search unlabeled_t type on /data
 kernel_mounton_unlabeled_dirs(qseecomd_t)
+kernel_list_unlabeled(qseecomd_t)
 
 #libkiumd
 libkiumd_mmap_exec_lib_file(qseecomd_t)

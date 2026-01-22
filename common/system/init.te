@@ -76,3 +76,6 @@ allow_she_lib_files(initrc_t)
 
 files_read_safety_config_files(initrc_t)
 eva_auto_nnp_trans(initrc_t)
+qseecomd_auto_nnp_trans(initrc_t)
+
+unconfined_binder(initrc_t)
