@@ -51,6 +51,9 @@ files_tmp_file(qcx_server_tmp_t)
 files_tmp_filetrans(qcx_server_t, qcx_server_tmp_t, { dir file })
 manage_files_pattern(qcx_server_t, qcx_server_tmp_t, qcx_server_tmp_t)
 
+qcxserver_init_manage_runtime_files(qcx_server_t)
+qcxserver_init_write_runtime_dirs(qcx_server_t)
+
 # /usr/bin/camera/camxoverridesettings.txt
 qcxserver_read_config_files(qcx_server_t)
 
@@ -162,3 +165,11 @@ compresmgr_rw_etc_files(qcx_be_server_t);
 
 allow qcx_be_server_t self:process { setsched };
 allow qcx_be_server_t self:capability { sys_resource sys_nice dac_override net_admin};
+
+kernel_read_unlabeled_state(qcx_be_server_t)
+
+qcxserver_init_manage_runtime_files(qcx_be_server_t)
+qcxserver_init_write_runtime_dirs(qcx_be_server_t)
+allow qcx_be_server_t scmnode_sec_device_t:chr_file { open read write };
+allow qcx_be_server_t tmp_t:dir search;
+
