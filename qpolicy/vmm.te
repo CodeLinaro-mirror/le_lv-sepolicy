@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(vmm, 1.0)
@@ -10,11 +10,18 @@ type vmm_tmpfs_t;
 
 init_daemon_domain(vmm_t, vmm_exec_t)
 
+init_rw_script_stream_sockets(vmm_t)
+init_stream_connect_script(vmm_t)
+init_get_generic_units_status(vmm_t)
+init_start_generic_units(vmm_t)
+init_stop_generic_units(vmm_t)
+
 #============= vmm_t ============
 logging_send_syslog_msg(vmm_t)
 dbus_system_bus_client(vmm_t)
 init_dbus_chat(vmm_t)
 
+init_get_system_status(vmm_t)
 # check status and start of service from init_t domain
 #init_status(vmm_t)
 #init_start(vmm_t)
@@ -54,8 +61,9 @@ userdom_map_tmp_files(vmm_t)
 
 # for udev monitor thread of vmm_service
 allow vmm_t self:capability2 bpf;
-allow vmm_t self:netlink_kobject_uevent_socket { bind create getattr setopt read };
+allow vmm_t self:netlink_kobject_uevent_socket { bind create getattr setopt getopt read };
 dev_getattr_sysfs_dirs(vmm_t);
+dev_getattr_sysfs(vmm_t)
 dev_read_sysfs(vmm_t);
 udev_read_pid_files(vmm_t);
 
@@ -65,6 +73,40 @@ files_create_default_dirs(vmm_t);
 files_manage_default_files(vmm_t);
 
 allow vmm_t self:unix_dgram_socket { create connect };
-allow vmm_t self:capability { sys_resource sys_nice net_admin };
-allow vmm_t self:process { setrlimit setsched };
+allow vmm_t self:capability { sys_resource sys_nice net_admin dac_override sys_admin };
+allow vmm_t self:process { setrlimit setsched signal };
 allow vmm_t vmm_tmpfs_t:file delete_file_perms;
+
+# for running vmm_test app in adb shell
+unconfined_server_signull(vmm_t);
+fs_map_tmpfs_files(vmm_t);
+fs_rw_tmpfs_files(vmm_t);
+fs_manage_tmpfs_sockets(vmm_t)
+
+# for vmm server communication with vmm client
+allow vmm_t self:unix_stream_socket { connectto listen accept };
+files_create_tmp_sock_files(vmm_t)
+files_delete_tmp_sockets(vmm_t)
+files_rw_generic_tmp_sockets(vmm_t)
+unconfined_server_stream_connectto(vmm_t)
+
+#for vmm_test in serial console
+userdom_manage_tmp_sockets(vmm_t)
+unconfined_stream_connect(vmm_t)
+unconfined_stream_socket_rw(vmm_t)
+unconfined_use_fds(vmm_t)
+
+#/etc/vm_config.xml
+files_read_etc_files(vmm_t)
+
+#for read /proc/cmdline
+kernel_read_proc_files(vmm_t)
+
+#for read la_misc/lv_misc
+storage_raw_rw_fixed_disk(vmm_t)
+
+#early stage policy
+fs_manage_tmpfs_sockets(vmm_t)
+
+#recieve PrepareForShutdown signal form org.freedesktop.login1.Manager
+systemd_dbus_chat_logind(vmm_t)

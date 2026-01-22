@@ -94,8 +94,8 @@ files_create_default_dir(vmm_t);
 files_manage_default_files(vmm_t);
 
 allow vmm_t self:unix_dgram_socket { create connect };
-allow vmm_t self:capability { sys_resource sys_nice net_admin dac_override };
-allow vmm_t self:process { setrlimit setsched };
+allow vmm_t self:capability { sys_resource sys_nice net_admin dac_override sys_admin };
+allow vmm_t self:process { setrlimit setsched signal };
 allow vmm_t vmm_tmpfs_t:file delete_file_perms;
 
 # for running vmm_test app in adb shell
@@ -109,10 +109,12 @@ files_create_tmp_sock_files(vmm_t)
 files_delete_tmp_sockets(vmm_t)
 files_rw_generic_tmp_sockets(vmm_t)
 unconfined_server_stream_connectto(vmm_t)
+unconfined_server_create_unix_sockets(vmm_t)
 
 #for vmm_test in serial console
 userdom_manage_tmp_sockets(vmm_t)
 unconfined_stream_connect(vmm_t)
+unconfined_stream_socket_rw(vmm_t)
 
 #for read /proc/cmdline
 kernel_read_proc_files(vmm_t)
@@ -126,4 +128,3 @@ fs_manage_tmpfs_sockets(vmm_t)
 #recieve PrepareForShutdown signal form org.freedesktop.login1.Manager
 systemd_dbus_chat_logind(vmm_t)
 
-fs_manage_tmpfs_sockets(vmm_t)

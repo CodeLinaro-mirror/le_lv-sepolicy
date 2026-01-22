@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 ## <summary>Policy for SELinux policy and userland applications.</summary>
@@ -37,4 +37,65 @@ interface(`vmm_mmap_rw_tmpfs_files',`
     ')
 
     mmap_rw_files_pattern($1, vmm_tmpfs_t, vmm_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  vmm server client connectto create unlink write.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`vmm_client_connect_server',`
+    gen_require(`
+        type vmm_t;
+    ')
+
+    allow $1 vmm_t:unix_stream_socket connectto;
+    allow $1 tmp_t:sock_file { create unlink write };
+    allow $1 tmpfs_t:sock_file { create unlink write };
+    allow vmm_t $1:unix_stream_socket { connectto read write };
+    allow vmm_t $1:fd use;
+')
+
+########################################
+## <summary>
+##   Send and receive messages from
+##   vmm over dbus.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`vmm_dbus_msg',`
+    gen_require(`
+        type vmm_t;
+        class dbus send_msg;
+    ')
+
+    allow $1 vmm_t:dbus send_msg;
+    allow vmm_t $1:dbus send_msg;
+')
+
+########################################
+## <summary>
+##  Transition to vmm_t when NNP has been set.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  The type of the process performing this action.
+##  </summary>
+## </param>
+#
+interface(`vmm_nnp_trans',`
+    gen_require(`
+        type vmm_t;
+    ')
+
+    allow $1 vmm_t:process2 nnp_transition;
 ')
