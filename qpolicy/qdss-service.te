@@ -8,44 +8,83 @@ type qdss_service_exec_t;
 type qdss_service_tmp_t;
 type qdss_service_tmpfs_t;
 type qdss_service_device_t;
+type qdss_service_power_t;
+type qdss_service_var_t;
 
 init_daemon_domain(qdss_service_t, qdss_service_exec_t)
 dev_node(qdss_service_device_t)
 
 init_rw_script_stream_sockets(qdss_service_t)
+init_signull_script(qdss_service_t)
 
 logging_send_syslog_msg(qdss_service_t)
 fs_getattr_xattr_fs(qdss_service_t)
+
+#for fs check
+fs_associate(qdss_service_var_t)
+
+dev_map_kiumd_dev(qdss_service_t)
+dev_rw_kiumd_dev(qdss_service_t)
+dev_read_sysfs(qdss_service_t)
+dev_rw_vfio_dev(qdss_service_t)
+dev_read_sysfs(qdss_service_t)
+
+fs_delete_tmpfs_files(qdss_service_t)
+fs_create_mmap_rw_tmpfs_files(qdss_service_t)
+
 # port 3500
 corenet_tcp_connect_unreserved_ports(qdss_service_t)
 corenet_tcp_bind_generic_node(qdss_service_t)
 
 unconfined_server_signull(qdss_service_t)
 
+#qmp message access
+pilrm_rw_tmpfs_files(qdss_service_t)
+pilrm_mmap_rw_tmpfs_files(qdss_service_t)
+pil_rm_signull(qdss_service_t)
+pilrm_rw_scmi_dev(qdss_service_t)
+pilrm_mmap_rw_tmpfs_files(qdss_service_t)
+
+#diag_access
+diagservice_mmap_rw_tmpfs_files(qdss_service_t)
+diagservice_create_tmpfs_files(qdss_service_t)
+diagservice_delete_tmpfs_files(qdss_service_t)
+
 # kernel
 kernel_signull(qdss_service_t)
+
 # qdssservice
 qdssservice_mmap_rw_tmpfs_files(qdss_service_t)
+qdssservice_create_tmpfs_files(qdss_service_t)
+qdssservice_delete_tmpfs_files(qdss_service_t)
+qdssservice_rw_tmpfs_files(qdss_service_t)
 
 # ========== local ==========
 allow qdss_service_t self:unix_dgram_socket { create connect getopt setopt };
 allow qdss_service_t self:tcp_socket { create connect getopt setopt bind read write };
 allow qdss_service_t self:process { setrlimit setsched getsched };
 allow qdss_service_t self:capability { sys_resource sys_nice net_admin sys_ptrace };
+allow qdss_service_t qdss_service_tmpfs_t:file unlink;
+allow qdss_service_t qdss_service_tmp_t:dir { create };
 
 # /tmp/lrms_log_(pid).txt
 files_tmp_file(qdss_service_tmp_t)
 files_tmp_filetrans(qdss_service_t, qdss_service_tmp_t, { dir fifo_file file lnk_file })
 manage_files_pattern(qdss_service_t, qdss_service_tmp_t, qdss_service_tmp_t)
+create_files_pattern(qdss_service_t, qdss_service_tmp_t, qdss_service_tmp_t)
 
 files_tmpfs_file(qdss_service_tmpfs_t)
 fs_tmpfs_filetrans(qdss_service_t, qdss_service_tmpfs_t, { dir file })
+rw_files_pattern(qdss_service_t, qdss_service_tmp_t, qdss_service_tmp_t)
 create_files_pattern(qdss_service_t, qdss_service_tmpfs_t, qdss_service_tmpfs_t)
 mmap_rw_files_pattern(qdss_service_t, qdss_service_tmpfs_t, qdss_service_tmpfs_t)
 
 # Manage tmp files
+userdom_mmap_rw_inherited_user_tmp_files(qdss_service_t, qdss_service_tmp_t)
 userdom_manage_user_tmp_files(qdss_service_t)
 userdom_map_tmp_files(qdss_service_t)
+userdom_manage_user_tmpfs_files(qdss_service_t)
+mmap_rw_files_pattern(qdss_service_t,user_tmpfs_t,user_tmpfs_t)
 
 #tmpfs_t
 fs_getattr_tmpfs(qdss_service_t)
@@ -54,6 +93,9 @@ fs_getattr_tmpfs(qdss_service_t)
 files_manage_var_dirs(qdss_service_t)
 files_manage_var_files(qdss_service_t)
 files_read_var_symlinks(qdss_service_t)
+files_var_filetrans(qdss_service_t, qdss_service_var_t, dir)
+manage_dirs_pattern(qdss_service_t, qdss_service_var_t, qdss_service_var_t)
+files_poly(qdss_service_t)
 
 # var-log
 logging_create_generic_logs(qdss_service_t)
@@ -70,6 +112,16 @@ qdssservice_rw_dev(qdss_service_t)
 files_read_etc_files(qdss_service_t)
 fs_delete_tmpfs_files(qdss_service_t)
 
+# pm_register
+power_use_pm_register(qdss_service_t, qdss_service_power_t)
+
+#/dev/shm/lrmc_rq_(pid)
+files_tmpfs_file(qdss_service_tmpfs_t)
+fs_tmpfs_filetrans(qdss_service_t, qdss_service_tmpfs_t, { dir file })
+
+qdssservice_create_tmpfs_files(qdss_service_t)
+qdssservice_delete_tmpfs_files(qdss_service_t)
+
 #lrms
 userdom_manage_user_tmpfs_files(qdss_service_t)
 unconfined_signull(qdss_service_t)
@@ -78,3 +130,16 @@ diagservice_rw_tmpfs_files(qdss_service_t)
 allow qdss_service_t qdss_service_tmpfs_t:file unlink;
 init_rw_script_tmp_files(qdss_service_t)
 qdssservice_map_dev(qdss_service_t)
+
+
+#character files
+dev_rw_dma_dev(qdss_service_t)
+allow qdss_service_t device_t:chr_file { read write };
+allow qdss_service_t device_t:chr_file { ioctl open };
+allow qdss_service_t self:process signal;
+diag_service_signull(qdss_service_t)
+files_create_default_files(qdss_service_t)
+files_mmap_default_files(qdss_service_t)
+files_append_default_files(qdss_service_t)
+files_create_default_dirs(qdss_service_t)
+
