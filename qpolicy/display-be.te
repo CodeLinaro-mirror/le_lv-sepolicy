@@ -48,3 +48,5 @@ audioservice_read_etc_files(display_be_t)
 corecmd_read_bin_files(display_be_t)
 
 compresmgr_rw_etc_files(display_be_t)
+dev_read_sysfs(display_be_t)
+files_read_etc_files(display_be_t)

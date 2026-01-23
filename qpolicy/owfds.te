@@ -43,6 +43,8 @@ allow bridgeship_server_t self:unix_dgram_socket { create connect write getopt s
 allow bridgeship_server_t self:process { setrlimit setsched getsched };
 allow bridgeship_server_t self:capability { sys_resource sys_nice net_admin sys_ptrace };
 
+# /sys/bus/nvmem/devices/*/nvmem
+dev_read_sysfs(bridgeship_server_t)
 #============ openwfd_server_t ===========
 logging_send_syslog_msg(openwfd_server_t)
 
