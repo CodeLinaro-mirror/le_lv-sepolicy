@@ -141,5 +141,8 @@ diag_service_signull(qdss_service_t)
 files_create_default_files(qdss_service_t)
 files_mmap_default_files(qdss_service_t)
 files_append_default_files(qdss_service_t)
+files_delete_default_files(qdss_service_t)
 files_create_default_dirs(qdss_service_t)
+files_rw_default_dirs(qdss_service_t)
+files_list_default_dirs(qdss_service_t)
 

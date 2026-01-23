@@ -132,6 +132,25 @@ interface(`files_create_default_files',`
 
 ##################################
 ## <summary>
+##  Delete files under default type.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_delete_default_files',`
+    gen_require(`
+        type default_t;
+    ')
+
+    delete_files_pattern($1, default_t, default_t)
+')
+
+
+##################################
+## <summary>
 ##  Map files under default type.
 ## </summary>
 ## <param name="domain">
