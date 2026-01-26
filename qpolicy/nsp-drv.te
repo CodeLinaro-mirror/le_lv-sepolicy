@@ -8,8 +8,10 @@ type nsp_drv_exec_t;
 type nsp_drv_tmp_t;
 type nsp_drv_tmpfs_t;
 type nsp_drv_conf_t;
+type umd_nsp_drv_device_t;
 
 init_daemon_domain(nsp_drv_t, nsp_drv_exec_t)
+dev_node(umd_nsp_drv_device_t)
 
 init_rw_script_stream_sockets(nsp_drv_t)
 init_signull_script(nsp_drv_t)
@@ -28,6 +30,7 @@ pilrm_rw_tmpfs_files(nsp_drv_t)
 
 dev_rw_kiumd_dev(nsp_drv_t)
 dev_rw_vfio_dev(nsp_drv_t)
+nsp_drv_rm_rw_umd_dev(nsp_drv_t)
 dev_read_sysfs(nsp_drv_t)
 
 files_tmp_file(nsp_drv_tmp_t)
@@ -53,6 +56,7 @@ nspconfig_rw_tmpfs_files(nsp_drv_t)
 
 #libkiumd
 libkiumd_mmap_exec_lib_file(nsp_drv_t)
+nsp_drv_rm_map_umd_dev(nsp_drv_t)
 
 # pfm
 pfm_rw_tmpfs_files(nsp_drv_t)

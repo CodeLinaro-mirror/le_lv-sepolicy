@@ -8,8 +8,10 @@ type safetymonitor_exec_t;
 type safetymonitor_tmp_t;
 type safetymonitor_tmpfs_t;
 type safetymonitor_power_t;
+type safety_ddr_device_t;
 
 init_daemon_domain(safetymonitor_t, safetymonitor_exec_t)
+dev_node(safety_ddr_device_t)
 
 init_rw_script_stream_sockets(safetymonitor_t)
 init_signull_script(safetymonitor_t)
@@ -29,6 +31,7 @@ fs_manage_tmpfs_files(safetymonitor_t)
 
 dev_rw_kiumd_dev(safetymonitor_t)
 dev_rw_vfio_dev(safetymonitor_t)
+safetymonitor_rw_dev(safetymonitor_t)
 dev_read_sysfs(safetymonitor_t)
 
 syscache_rm_signull(safetymonitor_t)
@@ -71,6 +74,7 @@ adreno200_mmap_rw_tmpfs_files(safetymonitor_t)
 
 #nsp
 nspdrv_mmap_rw_tmpfs_files(safetymonitor_t)
+safetymonitor_map_dev(safetymonitor_t)
 
 #libkiumd
 libkiumd_mmap_exec_lib_file(safetymonitor_t)

@@ -132,6 +132,7 @@ interface(`pilrm_rw_scmi_dev',`
 ######################################
 ## <summary>
 ##  Create the /dev/pil-done file.
+##  Read and write umd pil devices.
 ## </summary>
 ## <param name="domain">
 ##  <summary>
@@ -166,4 +167,30 @@ interface(`pilrm_read_pil_done',`
 
     read_files_pattern($1, pil_done_dev_t, pil_done_dev_t)
     list_dirs_pattern($1, pil_done_dev_t, pil_done_dev_t)
+')
+
+interface(`pilrm_rw_umd_dev',`
+    gen_require(`
+        type device_t, pil_rm_umd_dev_t;
+    ')
+
+    rw_chr_files_pattern($1, device_t, pil_rm_umd_dev_t)
+')
+
+########################################
+## <summary>
+##      map umd_pil device.
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+#
+interface(`pilrm_map_umd_dev',`
+    gen_require(`
+        type pil_rm_umd_dev_t;
+    ')
+
+    allow $1 pil_rm_umd_dev_t:chr_file map;
 ')

@@ -146,3 +146,39 @@ interface(`syscache_rm_nnp_trans',`
 
     allow $1 syscache_rm_t:process2 nnp_transition;
 ')
+
+######################################
+## <summary>
+##  Read and write umd syscache devices.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`syscache_rm_rw_umd_dev',`
+    gen_require(`
+        type device_t, syscache_rm_umd_dev_t;
+    ')
+
+    rw_chr_files_pattern($1, device_t, syscache_rm_umd_dev_t)
+')
+
+########################################
+## <summary>
+##      map umd_llcc device.
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+#
+interface(`syscache_rm_map_umd_dev',`
+    gen_require(`
+        type syscache_rm_umd_dev_t;
+    ')
+
+    allow $1 syscache_rm_umd_dev_t:chr_file map;
+')

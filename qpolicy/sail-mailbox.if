@@ -58,3 +58,74 @@ interface(`sailmb_nnp_transition',`
     allow $1 sail_mailbox_t:process2 nnp_transition;
 ')
 
+########################################
+## <summary>
+##  Read and write sail-mailbox device (/dev/sail-mailbox).
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`sailmb_rw_umd_dev',`
+    gen_require(`
+        type device_t, sail_mailbox_device_t;
+    ')
+
+    rw_chr_files_pattern($1, device_t, sail_mailbox_device_t)
+')
+
+########################################
+## <summary>
+##      map ail_mailboxdevice.
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+#
+interface(`sailmb_map_umd_dev',`
+    gen_require(`
+        type sail_mailbox_device_t;
+    ')
+
+    allow $1 sail_mailbox_device_t:chr_file map;
+')
+
+########################################
+## <summary>
+##  Read and write sail-mailbox-ota device (/dev/sail-mailbox-ota).
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`sailmb_rw_umd_ota_dev',`
+    gen_require(`
+        type device_t, sail_mailbox_ota_device_t;
+    ')
+
+    rw_chr_files_pattern($1, device_t, sail_mailbox_ota_device_t)
+')
+
+########################################
+## <summary>
+##      map umd_sail_mailbox_ota device.
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+#
+interface(`sailmb_map_umd_ota_dev',`
+    gen_require(`
+        type sail_mailbox_ota_device_t;
+    ')
+
+    allow $1 sail_mailbox_ota_device_t:chr_file map;
+')

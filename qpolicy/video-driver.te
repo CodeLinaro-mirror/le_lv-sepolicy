@@ -73,7 +73,7 @@ files_append_var_files(video_driver_t)
 # /data/mmosal_logmask.cfg
 files_rw_isid_type_dirs(video_driver_t)
 kernel_mounton_unlabeled_dirs(video_driver_t)
-files_manage_isid_type_files(video_driver_t)
+kernel_manage_unlabeled_files(video_driver_t)
 
 # /dev/shm/lrmc_rq_*
 pilrm_rw_tmpfs_files(video_driver_t)
@@ -96,6 +96,7 @@ videodriver_rw_tmpfs_files(video_driver_t)
 libkiumd_mmap_exec_lib_file(video_driver_t)
 
 hyp_video_ptrace(video_driver_t)
+hyp_video_use_fds(video_driver_t)
 # ========== local ==========
 allow video_driver_t self:unix_dgram_socket { create connect getopt setopt };
 allow video_driver_t self:unix_stream_socket { listen };
