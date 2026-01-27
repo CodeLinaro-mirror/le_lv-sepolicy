@@ -1,0 +1,61 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary>
+## Interface for acdb_loader_service policy.
+## </summary>
+
+########################################
+## <summary>
+##      Allow domain to search var_lib_t directories.
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+#
+interface(`acdb_loader_search_var_lib',`
+    gen_require(`
+        type var_lib_t;
+    ')
+
+    allow $1 var_lib_t:dir search;
+')
+
+########################################
+## <summary>
+##      Allow domain to create sock_file in var_lib_t.
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+#
+interface(`acdb_loader_create_sockfile',`
+    gen_require(`
+        type var_lib_t;
+    ')
+
+    allow $1 var_lib_t:sock_file { create setattr write };
+')
+
+########################################
+## <summary>
+##      Allow domain to manage acdb loader data.
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+#
+interface(`acdb_loader_manage_data',`
+    gen_require(`
+        type acdb_loader_data_t;
+    ')
+
+    allow $1 acdb_loader_data_t:dir manage_dir_perms;
+    allow $1 acdb_loader_data_t:file manage_file_perms;
+')

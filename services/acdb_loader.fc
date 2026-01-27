@@ -1,0 +1,6 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+# Used to generate file contexts for acdb_loader_service
+
+/var/lib/shared(/.*)?           --    gen_context(system_u:object_r:acdb_loader_data_t,s0)
+/var/lib/shared/acdb(/.*)?      --    gen_context(system_u:object_r:acdb_loader_data_t,s0)

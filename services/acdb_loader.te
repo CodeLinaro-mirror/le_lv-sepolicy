@@ -1,0 +1,48 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(acdb_loader, 1.0)
+
+type acdb_loader_data_t;
+files_type(acdb_loader_data_t)
+
+require {
+    type audio_vendor_t;
+    type var_lib_t;
+    type initrc_t;
+    type sysadm_t;
+    type tmpfs_t;
+    type user_tmpfs_t;
+
+    class capability dac_override;
+    class sock_file { create setattr write unlink };
+    class unix_dgram_socket { bind read sendto };
+    class unix_stream_socket { read write connectto };
+    class dir { manage_dir_perms };
+    class file { manage_file_perms };
+}
+
+allow audio_vendor_t acdb_loader_data_t:dir manage_dir_perms;
+allow audio_vendor_t acdb_loader_data_t:file manage_file_perms;
+allow audio_vendor_t acdb_loader_data_t:sock_file manage_sock_file_perms;
+
+allow audio_vendor_t var_lib_t:dir search;
+allow audio_vendor_t var_lib_t:lnk_file read;
+
+filetrans_pattern(audio_vendor_t, var_lib_t, acdb_loader_data_t, { dir file sock_file })
+
+allow audio_vendor_t self:capability dac_override;
+allow audio_vendor_t self:unix_dgram_socket { bind read };
+
+allow audio_vendor_t tmpfs_t:dir { search create write add_name remove_name setattr };
+allow audio_vendor_t tmpfs_t:sock_file { create write setattr unlink };
+
+allow audio_vendor_t initrc_t:unix_stream_socket { read write };
+allow audio_vendor_t initrc_t:unix_dgram_socket sendto;
+allow audio_vendor_t sysadm_t:unix_dgram_socket sendto;
+
+allow sysadm_t audio_vendor_t:unix_dgram_socket sendto;
+
+allow audio_vendor_t user_tmpfs_t:sock_file write;
+allow audio_vendor_t self:process signal;
+
