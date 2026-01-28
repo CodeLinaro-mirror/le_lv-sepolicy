@@ -55,6 +55,8 @@ files_rw_default_dirs(init_t)
 
 files_rw_default_dirs(init_t)
 
+dev_rw_kiumd_dev(init_t)
+
 kernel_read_debugfs(init_t)
 
 auth_rw_shadow(init_t)
