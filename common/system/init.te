@@ -18,6 +18,8 @@ files_rw_etc_files(init_t)
 
 files_exec_default_files(init_t)
 
+dev_rw_kiumd_dev(init_t)
+
 kernel_read_debugfs(init_t)
 
 auth_rw_shadow(init_t)
