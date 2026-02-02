@@ -283,3 +283,21 @@ interface(`qseecomd_signull',`
 
     allow $1 qseecomd_t:process signull;
 ')
+
+########################################
+## <summary>
+##    Transition to qseecom_t when NNP has been set.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`qseecomd_auto_nnp_trans',`
+    gen_require(`
+        type qseecomd_t;
+    ')
+
+    allow $1 qseecomd_t:process2 nnp_transition;
+')
