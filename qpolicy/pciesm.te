@@ -1,0 +1,45 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries. 
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(pciesm, 1.0)
+
+type pciesm_t;
+type pciesm_exec_t;
+type pciesm_tmpfs_t;
+type pciesm_power_t;
+
+init_daemon_domain(pciesm_t, pciesm_exec_t)
+init_search_runtime(pciesm_t)
+init_stream_connect_script(pciesm_t)
+init_rw_script_stream_sockets(pciesm_t)
+
+fs_tmpfs_filetrans(pciesm_t, pciesm_tmpfs_t, { dir file })
+files_tmpfs_file(pciesm_tmpfs_t)
+fs_manage_tmpfs_files(pciesm_t)
+fs_rw_tmpfs_dirs(pciesm_t)
+fs_manage_tmpfs_dirs(pciesm_t)
+
+create_dirs_pattern(pciesm_t, pciesm_tmpfs_t, pciesm_tmpfs_t)
+manage_dirs_pattern(pciesm_t, pciesm_tmpfs_t, pciesm_tmpfs_t)
+create_files_pattern(pciesm_t, pciesm_tmpfs_t, pciesm_tmpfs_t)
+manage_files_pattern(pciesm_t, pciesm_tmpfs_t, pciesm_tmpfs_t)
+
+logging_create_devlog_dev(pciesm_t)
+logging_send_syslog_msg(pciesm_t)
+logging_watch_runtime_dirs(pciesm_t)
+
+libkiumd_mmap_exec_lib_file(pciesm_t)
+libkiumd_read_lib_files(pciesm_t)
+
+dev_read_sysfs(pciesm_t)
+
+safetymonitor_rw_tmpfs_files(pciesm_t)
+
+files_read_safety_config_files(pciesm_t)
+
+allow pciesm_t pciesm_tmpfs_t:file { map };
+allow pciesm_t self:unix_dgram_socket { getopt setopt create connect sendto write };
+allow pciesm_t self:unix_stream_socket { read write listen };
+allow pciesm_t self:capability { sys_admin sys_resource };
+
+power_use_pm_register(pciesm_t, pciesm_power_t)
