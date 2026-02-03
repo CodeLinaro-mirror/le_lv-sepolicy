@@ -9,12 +9,13 @@ type apss_stl_tmp_t;
 type apss_stl_tmpfs_t;
 type apss_stl_power_t;
 type apss_stl_config_etc_t;
+type apss_stl_dev_t;
 
 init_daemon_domain(apss_stl_t, apss_stl_exec_t)
-
 init_rw_script_stream_sockets(apss_stl_t)
 init_signull_script(apss_stl_t)
 init_rw_stream_sockets(apss_stl_t)
+dev_node(apss_stl_dev_t)
 
 logging_send_syslog_msg(apss_stl_t)
 
@@ -53,6 +54,12 @@ files_read_safety_config_files(apss_stl_t)
 userdom_manage_user_tmpfs_files(apss_stl_t)
 unconfined_signull(apss_stl_t)
 userdom_map_user_tmpfs_files(apss_stl_t)
+
+# vfio
+apss_stl_dev_map(apss_stl_t)
+apss_stl_rm_rw_dev(apss_stl_t)
+dev_rw_vfio_dev(apss_stl_t)
+dev_read_sysfs(apss_stl_t)
 
 ## ========== local ==========
 allow apss_stl_t self:unix_dgram_socket { create connect getopt setopt };

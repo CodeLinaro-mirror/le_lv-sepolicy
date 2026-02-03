@@ -93,3 +93,39 @@ interface(`apss_stl_read_config_files',`
 
     allow $1 apss_stl_config_etc_t:file { read open getattr };
 ')
+
+########################################
+## <summary>
+##      map apss_stl device.
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+#
+interface(`apss_stl_dev_map',`
+    gen_require(`
+        type apss_stl_dev_t;
+    ')
+    allow $1 apss_stl_dev_t:chr_file map;
+')
+
+
+######################################
+## <summary>
+##  Read and write umd apss_stl devices.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`apss_stl_rm_rw_dev',`
+    gen_require(`
+        type device_t, apss_stl_dev_t;
+    ')
+
+    rw_chr_files_pattern($1, device_t, apss_stl_dev_t)
+')
