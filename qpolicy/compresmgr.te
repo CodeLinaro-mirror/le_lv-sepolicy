@@ -73,3 +73,5 @@ fs_create_configfs_dirs(compresmgr_t)
 fs_rw_configfs_files(compresmgr_t)
 fs_create_configfs_files(compresmgr_t)
 
+#xml reading access /etc/safety_config
+files_read_safety_config_files(compresmgr_t)
