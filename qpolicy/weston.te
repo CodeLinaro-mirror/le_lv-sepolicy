@@ -88,6 +88,7 @@ logging_read_generic_logs(weston_t)
 
 # Create weston-(pid).log under /var/volatile/log/
 files_create_var_files(weston_t)
+files_manage_var_dirs(weston_t)
 files_rw_var_files(weston_t)
 fs_getattr_tmpfs(weston_t)
 fs_search_cgroup_dirs(weston_t)
@@ -224,3 +225,4 @@ allow weston_t self:fifo_file { rw_fifo_file_perms };
 allow weston_t weston_exec_t:file execute_no_trans;
 allow weston_t weston_tmpfs_t:file delete_file_perms;
 allow weston_t weston_tmp_t:sock_file { create_file_perms delete_sock_file_perms write };
+allow kernel_t weston_lib_t:file { getattr open read };

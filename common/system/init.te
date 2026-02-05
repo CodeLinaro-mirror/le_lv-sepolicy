@@ -79,3 +79,4 @@ eva_auto_nnp_trans(initrc_t)
 qseecomd_auto_nnp_trans(initrc_t)
 
 unconfined_binder(initrc_t)
+unconfined_system_stop(initrc_t)
