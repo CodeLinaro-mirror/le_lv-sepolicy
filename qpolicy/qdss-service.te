@@ -146,3 +146,5 @@ files_create_default_dirs(qdss_service_t)
 files_rw_default_dirs(qdss_service_t)
 files_list_default_dirs(qdss_service_t)
 
+#for connecting to quts port 3500
+allow qdss_service_t unreserved_port_t:tcp_socket name_bind;
