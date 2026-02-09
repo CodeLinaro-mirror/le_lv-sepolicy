@@ -29,6 +29,7 @@ allow systemd_modules_load_t self:capability net_admin;
 allow systemd_sessions_t self:capability net_admin;
 allow systemd_user_runtime_dir_t self:capability net_admin;
 allow systemd_coredump_t self:capability { net_admin dac_read_search dac_override };
+allow systemd_userdbd_t self:capability { sys_resource };
 
 logging_dgram_send(systemd_resolved_t)
 corenet_tcp_bind_generic_node(systemd_resolved_t)
@@ -106,3 +107,5 @@ pfm_read_tmpfs_files(systemd_tmpfiles_t)
 kernel_relabelfrom_unlabeled_dirs(systemd_tmpfiles_t)
 kernel_relabelfrom_unlabeled_symlinks(systemd_tmpfiles_t)
 soccp_driver_read_tmpfs_files(systemd_tmpfiles_t)
+
+fs_write_cgroup_files(systemd_networkd_t)

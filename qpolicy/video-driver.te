@@ -80,6 +80,7 @@ pilrm_rw_tmpfs_files(video_driver_t)
 
 dev_rw_scmnode_dev(video_driver_t)
 dev_dontaudit_scmnode_sec_dev(video_driver_t)
+dev_rw_scmnode_sec_dev(video_driver_t)
 dev_rw_dma_dev(video_driver_t)
 dev_rw_kiumd_dev(video_driver_t)
 dev_rw_vfio_dev(video_driver_t)

@@ -7,6 +7,8 @@ files_mmap_default_files(syslogd_t)
 files_read_var_symlinks(syslogd_t)
 files_read_default_symlinks(syslogd_t)
 fs_search_tmpfs(syslogd_t)
+fs_rw_cgroup_dirs(syslogd_t)
+fs_write_cgroup_files(syslogd_t)
 
 files_read_var_symlinks(auditd_t)
 files_list_var_dirs(auditd_t)
