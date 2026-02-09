@@ -165,3 +165,40 @@ interface(`adreno200_use_fds',`
 
     allow $1 adreno200_t:fd use;
 ')
+
+######################################
+## <summary>
+##  Use unix socket to connect kgsl.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`adreno200_connect_sock',`
+    gen_require(`
+        type adreno200_t;
+    ')
+
+    allow $1 adreno200_t:unix_stream_socket connectto;
+    allow adreno200_t $1:unix_stream_socket connectto;
+')
+
+######################################
+## <summary>
+##  Allow domain to manage adreno200 power sock files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`adreno200_power_manage_sock',`
+    gen_require(`
+        type adreno200_power_t;
+    ')
+
+    manage_sock_files_pattern($1, adreno200_power_t, adreno200_power_t)
+')

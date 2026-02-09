@@ -136,6 +136,10 @@ userdom_map_tmp_files(weston_t)
 userdom_manage_user_tmpfs_files(weston_t)
 userdom_map_user_tmpfs_files(weston_t)
 
+fs_manage_tmpfs_sockets(weston_t)
+adreno200_connect_sock(weston_t)
+adreno200_power_manage_sock(weston_t)
+
 # /run/udev/data
 udev_read_pid_files(weston_t)
 
