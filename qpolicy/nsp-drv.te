@@ -81,6 +81,7 @@ firmware_read_dsp_files(nsp_drv_t)
 files_create_var_dirs(nsp_drv_t)
 files_watch_var_dirs(nsp_drv_t)
 files_list_var_dirs(nsp_drv_t)
+files_read_var_symlinks(nsp_drv_t)
 
 # /var overlay
 kernel_read_unlabeled_state(nsp_drv_t)
