@@ -1,0 +1,64 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(ipp, 1.0)
+
+type ipp_t;
+type ipp_exec_t;
+type ipp_lib_t;
+type ipp_tmpfs_t;
+type ipp_tmp_t;
+type ipp_power_t;
+
+init_daemon_domain(ipp_t,ipp_exec_t)
+
+# dosfs_t
+fs_manage_dos_dirs(ipp_t)
+fs_list_dos(ipp_t)
+fs_read_dos_files(ipp_t)
+
+# tmp_t adn tmpfs_t
+files_list_var(ipp_t)
+files_tmp_file(ipp_t)
+files_tmpfs_file(ipp_t)
+fs_create_mmap_rw_tmpfs_files(ipp_t)
+fs_create_write_tmp_files(ipp_t)
+fs_delete_tmpfs_files(ipp_t)
+fs_rw_tmpfs_dirs(ipp_t)
+
+# sysfs_t
+dev_read_sysfs(ipp_t)
+
+ipp_manage_ipp_exec_files(ipp_t)
+
+# smcinvoke
+dev_rw_smcinvoke_dev(ipp_t)
+minkdescriptor_mmap_lib_files(ipp_t)
+smcinvoke_server_stream_connectto(ipp_t)
+
+# rw /dev/dma_heap/linux,cma
+dev_rw_dma_dev(ipp_t)
+
+# unconfined_server_t
+unconfined_server_signull(ipp_t)
+unconfined_server_ptrace(ipp_t)
+unconfined_server_stream_connectto(ipp_t)
+
+# /usr/lib/libkiumd,liblrms,liblrmc
+dev_rw_kiumd_dev(ipp_t)
+libkiumd_mmap_exec_lib_file(ipp_t)
+
+#=============gpce_be_t==================
+gpce_be_rw_tmpfs_files(ipp_t)
+
+#===========logging===============
+logging_create_devlog_dev(ipp_t)
+logging_read_syslog_pid(ipp_t)
+logging_dgram_send(ipp_t)
+
+# local
+allow ipp_t self:process { setrlimit setsched };
+allow ipp_t self:capability { sys_resource };
+allow ipp_t self:unix_dgram_socket { create connect write };
+
+power_use_pm_register(ipp_t, ipp_power_t)

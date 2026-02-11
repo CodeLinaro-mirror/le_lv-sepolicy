@@ -37,6 +37,9 @@ qseecomd_setattr_persist_dirs(initrc_t)
 qseecomd_manage_data_files(initrc_t)
 qseecomd_rw_persist(initrc_t)
 qseecomd_manage_persist_files(initrc_t)
+minkdescriptor_mmap_lib_files(initrc_t)
+keymaster_mmap_lib_files(initrc_t)
+gptee_mmap_lib_files(initrc_t)
 
 audioservice_rw_etc_files(initrc_t)
 

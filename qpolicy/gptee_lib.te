@@ -1,0 +1,35 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(gptee_lib, 1.0)
+
+type gptee_lib_t;
+type gptee_client_t;
+type gptee_client_exec_t;
+
+init_system_domain(gptee_client_t, gptee_client_exec_t)
+fs_associate(gptee_lib_t)
+gptee_mmap_lib_files(gptee_client_t)
+
+# self
+allow gptee_client_t self:unix_dgram_socket { create connect write getopt setopt };
+allow gptee_client_t self:process { setrlimit setsched };
+allow gptee_client_t self:capability { sys_resource kill net_admin sys_ptrace };
+
+# syslog
+logging_create_devlog_dev(gptee_client_t)
+logging_dgram_send(gptee_client_t)
+
+# rw /dev/dma_heap/*
+dev_rw_dma_dev(gptee_client_t)
+
+# tmpfs
+fs_manage_tmpfs_files(gptee_client_t)
+fs_map_tmpfs_files(gptee_client_t)
+fs_rw_tmpfs_dirs(gptee_client_t)
+
+# Unconfined
+unconfined_server_signull(gptee_client_t)
+unconfined_signull(gptee_client_t)
+unconfined_server_ptrace(gptee_client_t)
+unconfined_ptrace(gptee_client_t)
