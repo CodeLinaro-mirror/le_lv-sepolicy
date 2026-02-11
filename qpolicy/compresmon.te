@@ -32,7 +32,7 @@ unconfined_server_ptrace(compresmon_t)
 
 files_manage_var_files(compresmon_t)
 
-allow compresmon_t self:process { setrlimit setsched getsched signull ptrace };
+allow compresmon_t self:process { setrlimit setsched getsched signull ptrace signal };
 allow compresmon_t self:capability { sys_resource sys_nice sys_ptrace net_admin };
 allow compresmon_t self:unix_dgram_socket { create connect };
 allow compresmon_t self:tcp_socket { read write create connect getopt setopt };
@@ -97,4 +97,9 @@ dev_rw_dma_dev(compresmon_t)
 
 #power manager power_use_pm_register
 power_use_pm_register(compresmon_t, compresmon_power_t)
+
+# allow qlf to create dir for audio in /var/log/
+files_create_var_dirs(compresmon_t)
+# Allow qlf to check file status in /var/log/
+files_read_var_symlinks(compresmon_t)
 
