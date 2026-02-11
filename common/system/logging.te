@@ -22,3 +22,7 @@ init_rw_script_stream_sockets(auditd_t)
 # /var overlay
 kernel_read_unlabeled_state(syslogd_t)
 kernel_read_unlabeled_state(auditd_t)
+
+# use fd of the kernel library file
+kernel_use_fds(auditctl_t)
+kernel_use_fds(auditd_t)

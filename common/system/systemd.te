@@ -65,6 +65,7 @@ fs_watch_memory_pressure(systemd_userdbd_t)
 
 power_create_pm_dirs(systemd_tmpfiles_t)
 adreno200_read_tmpfs_files(systemd_tmpfiles_t)
+create_audit_log_dir(systemd_tmpfiles_t)
 safetymonitor_read_tmpfs_files(systemd_tmpfiles_t)
 fs_read_tmpfs_files(systemd_tmpfiles_t)
 fs_read_tmpfs_sock_files(systemd_tmpfiles_t)
@@ -81,10 +82,12 @@ sysstat_manage_log(systemd_tmpfiles_t)
 files_manage_default_files(systemd_tmpfiles_t)
 files_read_default_symlinks(systemd_tmpfiles_t)
 
+files_search_default(systemd_modules_load_t)
 files_search_default(systemd_networkd_t)
 files_search_default(systemd_passwd_agent_t)
 files_search_default(systemd_resolved_t)
 files_search_default(systemd_sessions_t)
+files_search_default(systemd_sysctl_t)
 files_search_default(systemd_userdbd_t)
 files_search_default(systemd_user_runtime_dir_t)
 files_manage_default_dirs(systemd_update_done_t)
@@ -93,15 +96,21 @@ files_manage_generic_spool_dirs(systemd_tmpfiles_t)
 
 #systemd_logind access /var/lib/systemd/linger
 files_manage_default_files(systemd_logind_t)
+files_manage_default_files(systemd_modules_load_t)
+files_manage_default_files(systemd_generator_t)
 
 weston_read_pid(systemd_logind_t)
 
 # use fd of the kernel library file
 kernel_use_fds(systemd_logind_t)
+kernel_use_fds(systemd_modules_load_t)
 kernel_use_fds(systemd_networkd_t)
 kernel_use_fds(systemd_passwd_agent_t)
+kernel_use_fds(systemd_resolved_t)
 kernel_use_fds(systemd_sessions_t)
+kernel_use_fds(systemd_sysctl_t)
 kernel_use_fds(systemd_tmpfiles_t)
+kernel_use_fds(systemd_update_done_t)
 kernel_use_fds(systemd_userdbd_t)
 kernel_use_fds(systemd_user_runtime_dir_t)
 
