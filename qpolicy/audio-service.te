@@ -128,6 +128,9 @@ dbus_system_bus_unconfined(audio_service_t)
 audioservice_read_etc_files(audio_service_t)
 kernel_read_proc_files(audio_service_t)
 
+# Audio test files access
+audioservice_rw_chime_etc_files(audio_service_t)
+
 # ========== End of additional AudioReach rules support ==========
 
 # /usr/bin/awe-start-pre.sh
