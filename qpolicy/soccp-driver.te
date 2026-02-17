@@ -34,6 +34,10 @@ dev_rw_hab_dev(soccp_driver_t)
 pilrm_rw_tmpfs_files(soccp_driver_t)
 compresmgr_rw_etc_files(soccp_driver_t)
 
+## hw-fence library support for clients
+openwfd_server_signull(soccp_driver_t)
+openwfd_mmap_rw_tmpfs_files(soccp_driver_t)
+
 ## ========== local ==========
 # Use interfaces for common operations where possible
 domain_use_interactive_fds(soccp_driver_t)
@@ -57,9 +61,9 @@ init_signull_script(soccp_driver_t)
 
 # For operations without existing interfaces
 allow soccp_driver_t self:unix_dgram_socket { create connect getopt setopt };
-allow soccp_driver_t self:unix_stream_socket { listen };
-allow soccp_driver_t self:process { setrlimit setsched };
-allow soccp_driver_t self:capability { sys_resource net_admin sys_nice };
+allow soccp_driver_t self:unix_stream_socket listen;
+allow soccp_driver_t self:process { setrlimit setsched signal };
+allow soccp_driver_t self:capability { sys_resource net_admin sys_nice kill };
 allow soccp_driver_t self:capability dac_override;
 allow soccp_driver_t self:process getsched;
 
