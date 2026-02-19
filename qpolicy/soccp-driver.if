@@ -130,3 +130,39 @@ interface(`soccp_driver_rw_scmi_dev',`
 
     rw_chr_files_pattern($1, device_t, soccp_driver_scmi_dev_t)
 ')
+
+######################################
+## <summary>
+##  Use soccp driver file descriptors.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`soccp_driver_use_fds',`
+    gen_require(`
+        type soccp_driver_t;
+    ')
+
+    allow $1 soccp_driver_t:fd use;
+')
+
+######################################
+## <summary>
+##  ptrace to soccp-driver related process.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`soccp_driver_ptrace',`
+    gen_require(`
+        type soccp_driver_t;
+    ')
+
+    allow $1 soccp_driver_t:process ptrace;
+')

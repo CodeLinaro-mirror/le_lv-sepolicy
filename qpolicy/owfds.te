@@ -162,6 +162,11 @@ kernel_search_debugfs(openwfd_server_t)
 kernel_read_unlabeled_state(openwfd_server_t)
 fs_rw_tracefs_files(openwfd_server_t)
 
+#soccp
+soccp_driver_rw_tmpfs_files(openwfd_server_t)
+soccp_driver_use_fds(openwfd_server_t)
+soccp_driver_ptrace(openwfd_server_t)
+
 #============= openwfd_server_t ==============
 allow openwfd_server_t openwfd_tmp_t:file { watch watch_reads };
 allow openwfd_server_t openwfd_tmpfs_t:file map;
