@@ -72,6 +72,7 @@ modutils_kmod_nnp_trans(initrc_t)
 term_watch_reads_unallocated_ttys(initrc_t)
 
 compresmgr_nnp_trans(initrc_t)
+compressch_nnp_transition(initrc_t)
 compresmon_nnp_trans(initrc_t)
 seutil_nnp_trans(initrc_t)
 netutils_ping_nnp_trans(initrc_t)
