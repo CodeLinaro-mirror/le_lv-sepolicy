@@ -3,3 +3,4 @@
 
 /usr/sbin/safetymonitor     --      gen_context(system_u:object_r:safetymonitor_exec_t,s0)
 /usr/sbin/sm_testapp     --      gen_context(system_u:object_r:safetymonitor_exec_t,s0)
+/dev/safety-ddr             -c      gen_context(system_u:object_r:safety_ddr_device_t,s0)

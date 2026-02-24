@@ -1,0 +1,131 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary>Policy for SELinux policy and userland applications.</summary>
+
+######################################
+## <summary>
+##  Send signull to apss_stl_t.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`apss_stl_signull',`
+    gen_require(`
+        type apss_stl_t;
+    ')
+
+    allow $1 apss_stl_t:process signull;
+')
+
+######################################
+## <summary>
+##  Read apss_stl proc infomation, such as ps tool.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`apss_stl_read_pid',`
+    gen_require(`
+        type apss_stl_t;
+    ')
+
+    files_search_pids($1)
+    read_files_pattern($1, apss_stl_t, apss_stl_t)
+')
+
+######################################
+## <summary>
+##  Map, read and write apss-stl tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`apss_stl_mmap_rw_tmpfs_files',`
+    gen_require(`
+        type apss_stl_tmpfs_t;
+    ')
+
+    mmap_rw_files_pattern($1, apss_stl_tmpfs_t, apss_stl_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Delete apss-stl tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`apss_stl_delete_tmpfs_files',`
+    gen_require(`
+        type apss_stl_tmpfs_t;
+    ')
+
+    delete_files_pattern($1, apss_stl_tmpfs_t, apss_stl_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Read APSS STL configuration in /etc/apss_stl_config.xml.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`apss_stl_read_config_files',`
+    gen_require(`
+        type apss_stl_config_etc_t;
+    ')
+
+    allow $1 apss_stl_config_etc_t:file { read open getattr };
+')
+
+########################################
+## <summary>
+##      map apss_stl device.
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+#
+interface(`apss_stl_dev_map',`
+    gen_require(`
+        type apss_stl_dev_t;
+    ')
+    allow $1 apss_stl_dev_t:chr_file map;
+')
+
+
+######################################
+## <summary>
+##  Read and write umd apss_stl devices.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`apss_stl_rm_rw_dev',`
+    gen_require(`
+        type device_t, apss_stl_dev_t;
+    ')
+
+    rw_chr_files_pattern($1, device_t, apss_stl_dev_t)
+')

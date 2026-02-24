@@ -35,6 +35,7 @@ dev_rw_ksync_dev(adreno200_t)
 
 # /sys/kernel/debugfs/
 kernel_search_debugfs(adreno200_t)
+kernel_read_unlabeled_state(adreno200_t)
 
 # This is a workround, rootcause is that early service start earlier than selinux initial to /dev for bootkpi, cause some devices
 # under /dev such as /dev/ksync run under uncorrect selinux context as device_t.
@@ -47,6 +48,8 @@ logging_read_generic_logs(adreno200_t)
 # Create gsl_hab_server-(pid).log under /var/volatile/log/
 files_create_var_files(adreno200_t)
 files_rw_var_files(adreno200_t)
+
+fs_manage_tmpfs_sockets(adreno200_t)
 
 # Create dir under /var/
 files_create_var_dirs(adreno200_t)
@@ -133,7 +136,7 @@ dev_rw_input_dev(adreno200_t)
 
 # ========== local ==========
 allow adreno200_t self:unix_dgram_socket { create connect };
-allow adreno200_t self:unix_stream_socket { listen };
+allow adreno200_t self:unix_stream_socket { connectto listen accept };
 allow adreno200_t self:tcp_socket { create connect setopt read write bind accept listen shutdown };
 allow adreno200_t self:process { signull ptrace setrlimit setsched getsched signal };
 allow adreno200_t self:capability { sys_resource sys_nice sys_ptrace dac_override net_admin };

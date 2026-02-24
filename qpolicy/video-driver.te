@@ -9,6 +9,7 @@ type video_driver_tmp_t;
 type video_driver_tmpfs_t;
 type video_driver_dev_t;
 type video_driver_power_t;
+type video_driver_etc_t;
 
 init_daemon_domain(video_driver_t, video_driver_exec_t)
 
@@ -36,6 +37,8 @@ files_read_default_files(video_driver_t)
 files_manage_default_files(video_driver_t)
 files_manage_default_dirs(video_driver_t)
 files_read_etc_files(video_driver_t)
+files_type(video_driver_etc_t)
+manage_files_pattern(video_driver_t, video_driver_etc_t, video_driver_etc_t)
 
 # Todo, not clear which domain create tmpfs_t objects which safetymonitor access,
 # so file transition rules can't work, use below two interface for the moment
@@ -70,7 +73,7 @@ files_append_var_files(video_driver_t)
 # /data/mmosal_logmask.cfg
 files_rw_isid_type_dirs(video_driver_t)
 kernel_mounton_unlabeled_dirs(video_driver_t)
-files_manage_isid_type_files(video_driver_t)
+kernel_manage_unlabeled_files(video_driver_t)
 
 # /dev/shm/lrmc_rq_*
 pilrm_rw_tmpfs_files(video_driver_t)
@@ -93,6 +96,7 @@ videodriver_rw_tmpfs_files(video_driver_t)
 libkiumd_mmap_exec_lib_file(video_driver_t)
 
 hyp_video_ptrace(video_driver_t)
+hyp_video_use_fds(video_driver_t)
 # ========== local ==========
 allow video_driver_t self:unix_dgram_socket { create connect getopt setopt };
 allow video_driver_t self:unix_stream_socket { listen };
@@ -100,6 +104,8 @@ allow video_driver_t self:process { setrlimit setsched signal getsched };
 allow video_driver_t self:capability { sys_resource sys_ptrace net_admin sys_nice sys_ptrace dac_override kill fowner};
 allow video_driver_t video_driver_tmpfs_t:dir { create };
 allow video_driver_t video_driver_tmpfs_t:fifo_file { create read open };
+allow video_driver_t etc_t:dir { write };
+allow video_driver_t etc_t:file { write };
 
 files_tmp_file(video_driver_tmp_t)
 files_tmp_filetrans(video_driver_t, video_driver_tmp_t, { dir fifo_file file lnk_file })

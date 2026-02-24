@@ -7,8 +7,10 @@ type glinkserver_t;
 type glinkserver_exec_t;
 type glinkserver_tmp_t;
 type glinkserver_tmpfs_t;
+type umd_glink_device_t;
 
 init_daemon_domain(glinkserver_t, glinkserver_exec_t)
+dev_node(umd_glink_device_t)
 
 init_rw_script_stream_sockets(glinkserver_t)
 init_signull_script(glinkserver_t)
@@ -32,11 +34,16 @@ diagservice_unlink_tmpfs_files(glinkserver_t)
 audioservice_mmap_rw_tmpfs_files(glinkserver_t)
 audioservice_delete_tmpfs_files(glinkserver_t)
 
+# /dev/umd_glink
+glinkserver_rw_umd_glink_dev(glinkserver_t)
+
 # /dev/dma_heap/system
 dev_rw_dma_dev(glinkserver_t)
 
 # /dev/kiumd
 dev_rw_kiumd_dev(glinkserver_t)
+
+glinkserver_map_umd_glink_dev(glinkserver_t)
 
 #libkiumd
 libkiumd_mmap_exec_lib_file(glinkserver_t)
@@ -62,3 +69,8 @@ allow glinkserver_t self:capability { net_admin sys_nice sys_resource dac_overri
 userdom_manage_user_tmp_files(glinkserver_t)
 userdom_map_tmp_files(glinkserver_t)
 fs_manage_tmpfs_files(glinkserver_t)
+
+pilrm_rw_tmpfs_files(glinkserver_t)
+pilrm_mmap_rw_tmpfs_files(glinkserver_t)
+pilrm_delete_tmpfs_files(glinkserver_t)
+pilrm_create_tmpfs_files(glinkserver_t)

@@ -10,12 +10,13 @@ type nsp_rsm_exec_t;
 init_daemon_domain(nsp_rsm_t, nsp_rsm_exec_t)
 
 init_rw_script_stream_sockets(nsp_rsm_t)
+init_signull_script(nsp_rsm_t)
 
 libkiumd_mmap_exec_lib_file(nsp_rsm_t)
 dev_rw_kiumd_dev(nsp_rsm_t)
 dev_read_sysfs(nsp_rsm_t)
 
-allow nsp_rsm_t self:process { setrlimit setsched getsched };
+allow nsp_rsm_t self:process { setrlimit setsched getsched signull signal };
 allow nsp_rsm_t self:unix_dgram_socket { create connect };
 allow nsp_rsm_t self:capability { sys_resource sys_nice };
 userdom_map_tmp_files(nsp_rsm_t)
@@ -35,6 +36,9 @@ pfm_rw_tmpfs_files(nsp_rsm_t)
 
 fs_manage_tmpfs_files(nsp_rsm_t)
 fs_map_tmpfs_files(nsp_rsm_t)
+userdom_rw_user_tmpfs_files(nsp_rsm_t)
+userdom_map_user_tmpfs_files(nsp_rsm_t)
+unconfined_signull(nsp_rsm_t)
 userdom_manage_tmp_files(nsp_rsm_t)
 files_manage_var_files(nsp_rsm_t)
 
@@ -44,3 +48,11 @@ unconfined_server_signull(nsp_rsm_t)
 
 # /etc/compresmgr_cpu_config.xml 
 compresmgr_rw_etc_files(nsp_rsm_t)
+
+#Commenting for now, since OSAL is not hetting used for this component
+#Once OSAL is enabled please uncomment it
+# allow qlf to create dir for audio in /var/log/
+#files_create_var_dirs(nsp_rsm_t)
+# Allow qlf to check file status in /var/log/
+#files_read_var_symlinks(nsp_rsm_t)
+

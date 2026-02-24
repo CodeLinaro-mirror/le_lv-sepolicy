@@ -283,3 +283,57 @@ interface(`qseecomd_signull',`
 
     allow $1 qseecomd_t:process signull;
 ')
+
+######################################
+## <summary>
+##  ptrace to qseecomd related process.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`qseecomd_ptrace',`
+    gen_require(`
+        type qseecomd_t;
+    ')
+
+    allow $1 qseecomd_t:process ptrace;
+')
+
+######################################
+## <summary>
+##  Allow a domain to use file descriptors owned by qseecomd_t.
+## </summary>
+## <param name="domain">
+##  <summary>
+##   Domain that is allowed to use qseecomd_t FDs.
+##  </summary>
+## </param>
+#
+interface(`qseecomd_use_fds',`
+    gen_require(`
+        type qseecomd_t;
+    ')
+
+    allow $1 qseecomd_t:fd use;
+')
+
+########################################
+## <summary>
+##    Transition to qseecom_t when NNP has been set.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`qseecomd_auto_nnp_trans',`
+    gen_require(`
+        type qseecomd_t;
+    ')
+
+    allow $1 qseecomd_t:process2 nnp_transition;
+')

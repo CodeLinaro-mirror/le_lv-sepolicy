@@ -7,10 +7,17 @@ type syscache_rm_t;
 type syscache_rm_exec_t;
 type syscache_rm_tmp_t;
 type syscache_rm_tmpfs_t;
+type syscache_rm_umd_dev_t;
 
 init_daemon_domain(syscache_rm_t, syscache_rm_exec_t)
 
+dev_node(syscache_rm_umd_dev_t)
+syscache_rm_rw_umd_dev(syscache_rm_t)
+syscache_rm_map_umd_dev(syscache_rm_t)
+
 init_rw_script_stream_sockets(syscache_rm_t)
+
+init_signull_script(syscache_rm_t);
 
 logging_send_syslog_msg(syscache_rm_t)
 

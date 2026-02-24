@@ -132,6 +132,25 @@ interface(`files_create_default_files',`
 
 ##################################
 ## <summary>
+##  Delete files under default type.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_delete_default_files',`
+    gen_require(`
+        type default_t;
+    ')
+
+    delete_files_pattern($1, default_t, default_t)
+')
+
+
+##################################
+## <summary>
 ##  Map files under default type.
 ## </summary>
 ## <param name="domain">
@@ -146,6 +165,24 @@ interface(`files_mmap_default_files',`
     ')
 
     mmap_exec_files_pattern($1, default_t, default_t)
+')
+
+##################################
+## <summary>
+##  Execute files under default type.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_exec_default_files',`
+    gen_require(`
+        type default_t;
+    ')
+
+    exec_files_pattern($1, default_t, default_t)
 ')
 
 ########################################
@@ -171,8 +208,7 @@ interface(`files_search_pids',`
 
 ########################################
 ## <summary>
-## Create, read, write, and delete files
-## on new filesystems that have not yet been labeled.
+## getattr, read, map, and open unlabeled files.
 ## </summary>
 ## <param name="domain">
 ## <summary>
@@ -180,12 +216,12 @@ interface(`files_search_pids',`
 ## </summary>
 ## </param>
 #
-interface(`files_manage_isid_type_files',`
+interface(`files_mmap_unlabeled_files',`
     gen_require(`
         type unlabeled_t;
     ')
 
-    allow $1 unlabeled_t:file manage_file_perms;
+    allow $1 unlabeled_t:file mmap_read_file_perms;
 ')
 
 ########################################

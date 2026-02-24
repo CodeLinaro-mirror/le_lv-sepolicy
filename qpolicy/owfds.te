@@ -124,6 +124,7 @@ libkiumd_mmap_exec_lib_file(bridgeship_server_t)
 
 #smcinvoke_device_t
 dev_rw_smcinvoke_dev(openwfd_server_t)
+minkdescriptor_mmap_lib_files(openwfd_server_t)
 
 #dma_device_t
 dev_rw_dma_dev(openwfd_server_t)
@@ -160,3 +161,11 @@ compresmgr_rw_etc_files(bridgeship_server_t)
 kernel_search_debugfs(openwfd_server_t)
 kernel_read_unlabeled_state(openwfd_server_t)
 fs_rw_tracefs_files(openwfd_server_t)
+
+#============= openwfd_server_t ==============
+allow openwfd_server_t openwfd_tmp_t:file { watch watch_reads };
+allow openwfd_server_t openwfd_tmpfs_t:file map;
+allow openwfd_server_t self:process signull;
+
+compresmgr_rw_etc_files(openwfd_server_t)
+safetymonitor_rw_tmpfs_files(openwfd_server_t)

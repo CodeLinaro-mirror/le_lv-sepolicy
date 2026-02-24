@@ -16,6 +16,10 @@ files_manage_var_dirs(init_t)
 
 files_rw_etc_files(init_t)
 
+files_exec_default_files(init_t)
+
+dev_rw_kiumd_dev(init_t)
+
 kernel_read_debugfs(init_t)
 
 auth_rw_shadow(init_t)
@@ -33,6 +37,9 @@ qseecomd_setattr_persist_dirs(initrc_t)
 qseecomd_manage_data_files(initrc_t)
 qseecomd_rw_persist(initrc_t)
 qseecomd_manage_persist_files(initrc_t)
+minkdescriptor_mmap_lib_files(initrc_t)
+keymaster_mmap_lib_files(initrc_t)
+gptee_mmap_lib_files(initrc_t)
 
 audioservice_rw_etc_files(initrc_t)
 
@@ -73,3 +80,8 @@ syscache_rm_nnp_trans(initrc_t)
 allow_she_lib_files(initrc_t)
 
 files_read_safety_config_files(initrc_t)
+eva_auto_nnp_trans(initrc_t)
+qseecomd_auto_nnp_trans(initrc_t)
+
+unconfined_binder(initrc_t)
+unconfined_system_stop(initrc_t)

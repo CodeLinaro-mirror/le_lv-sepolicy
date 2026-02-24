@@ -7,11 +7,17 @@ type compresmon_t;
 type compresmon_exec_t;
 type compresmon_tmp_t;
 type compresmon_tmpfs_t;
+type nsp_sysmon_device_t;
+type compresmon_power_t;
 
 init_daemon_domain(compresmon_t, compresmon_exec_t)
 
 init_rw_script_stream_sockets(compresmon_t)
 init_signull_script(compresmon_t)
+
+dev_node(nsp_sysmon_device_t)
+compresmon_rw_nsp_sysmon_dev(compresmon_t)
+compresmon_map_nsp_sysmon_dev(compresmon_t)
 
 #/etc/compresmgr_cpu_config.xml
 compresmgr_rw_etc_files(compresmon_t)
@@ -26,7 +32,7 @@ unconfined_server_ptrace(compresmon_t)
 
 files_manage_var_files(compresmon_t)
 
-allow compresmon_t self:process { setrlimit setsched getsched signull ptrace };
+allow compresmon_t self:process { setrlimit setsched getsched signull ptrace signal };
 allow compresmon_t self:capability { sys_resource sys_nice sys_ptrace net_admin };
 allow compresmon_t self:unix_dgram_socket { create connect };
 allow compresmon_t self:tcp_socket { read write create connect getopt setopt };
@@ -88,3 +94,12 @@ systemd_read_resolved_runtime(compresmon_t)
 
 init_ptrace_script(compresmon_t)
 dev_rw_dma_dev(compresmon_t)
+
+#power manager power_use_pm_register
+power_use_pm_register(compresmon_t, compresmon_power_t)
+
+# allow qlf to create dir for audio in /var/log/
+files_create_var_dirs(compresmon_t)
+# Allow qlf to check file status in /var/log/
+files_read_var_symlinks(compresmon_t)
+

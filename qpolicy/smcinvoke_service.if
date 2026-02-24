@@ -1,0 +1,58 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary>Policy for SELinux policy and userland applications.</summary>
+
+########################################
+## <summary>
+##  mmap to minkdescriptor library files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`minkdescriptor_mmap_lib_files',`
+    gen_require(`
+        type minkdescriptor_lib_t;
+    ')
+
+    allow $1 minkdescriptor_lib_t:file mmap_exec_file_perms;
+')
+
+########################################
+## <summary>
+## Connect to smcinvoke_service_t with a unix socket.
+## </summary>
+## <param name="domain">
+## <summary>
+## Domain allowed access.
+## </summary>
+## </param>
+#
+interface(`smcinvoke_server_stream_connectto',`
+   gen_require(`
+       type smcinvoke_service_t;
+   ')
+
+   allow $1 smcinvoke_service_t:unix_stream_socket connectto;
+')
+
+######################################
+## <summary>
+##  Send signull to smcinvoke_service related process.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`smcinvoke_service_signull',`
+    gen_require(`
+        type smcinvoke_service_t;
+    ')
+
+    allow $1 smcinvoke_service_t:process signull;
+')

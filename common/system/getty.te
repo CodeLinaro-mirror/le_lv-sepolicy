@@ -38,6 +38,9 @@ init_read_runtime_files(getty_t)
 init_telinit(getty_t)
 init_get_system_status(getty_t)
 
+# use fd of the kernel library file
+kernel_use_fds(getty_t)
+
 kernel_getattr_proc(getty_t)
 kernel_read_unlabeled_state(getty_t)
 auth_domtrans_chk_passwd(getty_t)

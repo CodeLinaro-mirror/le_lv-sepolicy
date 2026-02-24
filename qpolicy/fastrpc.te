@@ -1,0 +1,40 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(fastrpc, 1.0)
+
+type fastrpc_t;
+type fastrpc_exec_t;
+type fastrpc_tmp_t;
+type fastrpc_tmpfs_t;
+
+init_daemon_domain(fastrpc_t, fastrpc_exec_t)
+
+init_rw_script_stream_sockets(fastrpc_t)
+init_signull_script(fastrpc_t)
+init_ptrace_script(fastrpc_t)
+
+logging_send_syslog_msg(fastrpc_t)
+
+userdom_rw_user_tmp_files(fastrpc_t)
+userdom_map_tmp_files(fastrpc_t)
+userdom_delete_user_tmp_files(fastrpc_t)
+fastrpc_rm_interact(fastrpc_t)
+files_manage_var_dirs(fastrpc_t)
+files_manage_var_files(fastrpc_t)
+files_manage_etc_files(fastrpc_t)
+files_watch_var_dirs(fastrpc_t)
+ssrrm_rw_tmpfs_files(fastrpc_t)
+dev_rw_generic_files(fastrpc_t)
+dev_delete_generic_files(fastrpc_t)
+dev_manage_generic_sockets(fastrpc_t)
+dev_manage_generic_dirs(fastrpc_t)
+dev_manage_generic_files(fastrpc_t)
+fs_manage_tmpfs_files(fastrpc_t)
+fs_manage_tmpfs_dirs(fastrpc_t)
+fs_map_tmpfs_files(fastrpc_t)
+files_read_var_symlinks(fastrpc_t)
+libkiumd_manage_lib_files(fastrpc_t)
+libkiumd_mmap_exec_lib_file(fastrpc_t)
+allow fastrpc_t self:capability { sys_resource };
+allow fastrpc_t self:process signal;

@@ -7,6 +7,7 @@ type hyp_video_t;
 type hyp_video_exec_t;
 type hyp_video_tmp_t;
 type hyp_video_tmpfs_t;
+type hyp_video_etc_t;
 
 init_daemon_domain(hyp_video_t, hyp_video_exec_t)
 
@@ -17,10 +18,13 @@ logging_send_syslog_msg(hyp_video_t)
 # mmosal_logmask.cfg
 kernel_read_unlabeled_state(hyp_video_t)
 files_read_default_files(hyp_video_t)
+files_read_etc_files(hyp_video_t)
+files_type(hyp_video_etc_t)
+manage_files_pattern(hyp_video_t, hyp_video_etc_t, hyp_video_etc_t)
 
 # Todo, unlabeled_t, could remove after setting selinxu context to /data mount
 kernel_mounton_unlabeled_dirs(hyp_video_t)
-files_manage_isid_type_files(hyp_video_t)
+kernel_manage_unlabeled_files(hyp_video_t)
 
 files_search_default(hyp_video_t)
 
@@ -34,6 +38,8 @@ videodriver_rw_tmpfs_files(hyp_video_t)
 allow hyp_video_t self:unix_dgram_socket { create connect getopt setopt };
 allow hyp_video_t self:process { setsched };
 allow hyp_video_t self:capability { sys_resource sys_nice net_admin kill dac_override};
+allow hyp_video_t etc_t:dir { write };
+allow hyp_video_t etc_t:file { write };
 allow hyp_video_t hyp_video_tmpfs_t:dir create;
 allow hyp_video_t hyp_video_tmpfs_t:fifo_file read;
 
@@ -56,3 +62,5 @@ libkiumd_relabel_lib_files(hyp_video_t)
 libkiumd_manage_lib_files(hyp_video_t)
 
 compresmgr_rw_etc_files(hyp_video_t)
+dev_read_sysfs(hyp_video_t)
+files_read_etc_files(hyp_video_t)

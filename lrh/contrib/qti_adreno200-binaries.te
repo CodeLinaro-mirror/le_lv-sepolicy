@@ -50,6 +50,8 @@ corenet_tcp_connect_generic_port(adreno200_t)
 corenet_tcp_bind_generic_port(adreno200_t)
 corenet_tcp_bind_generic_node(adreno200_t)
 
+fs_manage_tmpfs_sockets(adreno200_t)
+
 # /etc/hosts
 sysnet_read_config(adreno200_t)
 
@@ -116,6 +118,7 @@ dev_rw_input_dev(adreno200_t)
 
 # ========== local ==========
 allow adreno200_t self:unix_dgram_socket { create connect };
+allow adreno200_t self:unix_stream_socket connectto;
 allow adreno200_t self:tcp_socket { create connect setopt read write bind accept listen shutdown };
 allow adreno200_t self:process { signull ptrace setrlimit setsched };
 allow adreno200_t self:capability { sys_resource sys_nice sys_ptrace dac_override };

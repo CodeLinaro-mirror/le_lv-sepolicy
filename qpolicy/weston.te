@@ -26,6 +26,9 @@ fs_rw_tmpfs_files(weston_t)
 
 # Todo, unlabeled_t, could remove after setting selinxu context to /data mount
 kernel_mounton_unlabeled_dirs(weston_t)
+kernel_read_unlabeled_state(weston_t)
+kernel_manage_unlabeled_dirs(weston_t)
+kernel_manage_unlabeled_files(weston_t)
 files_list_default_dirs(weston_t)
 files_read_usr_files(weston_t)
 files_search_mnt(weston_t)
@@ -39,11 +42,15 @@ init_signal_script(weston_t)
 init_read_state(weston_t)
 init_stream_connect_script(weston_t)
 
+# use fd of the kernel library file
+kernel_use_fds(weston_t)
+
 kernel_read_proc_files(weston_t)
 kernel_search_debugfs(weston_t)
 
 files_manage_var_files(weston_t)
 files_map_var_files(weston_t)
+files_mmap_unlabeled_files(weston_t)
 
 weston_map_lib_files(weston_t)
 
@@ -81,6 +88,7 @@ logging_read_generic_logs(weston_t)
 
 # Create weston-(pid).log under /var/volatile/log/
 files_create_var_files(weston_t)
+files_manage_var_dirs(weston_t)
 files_rw_var_files(weston_t)
 fs_getattr_tmpfs(weston_t)
 fs_search_cgroup_dirs(weston_t)
@@ -132,6 +140,10 @@ userdom_map_tmp_files(weston_t)
 
 userdom_manage_user_tmpfs_files(weston_t)
 userdom_map_user_tmpfs_files(weston_t)
+
+fs_manage_tmpfs_sockets(weston_t)
+adreno200_connect_sock(weston_t)
+adreno200_power_manage_sock(weston_t)
 
 # /run/udev/data
 udev_read_pid_files(weston_t)
@@ -207,7 +219,7 @@ compresmgr_rw_etc_files(weston_t)
 allow weston_t self:unix_dgram_socket { create connect };
 allow weston_t self:unix_stream_socket { connectto listen accept };
 allow weston_t self:tcp_socket create_socket_perms;
-allow weston_t self:process { setrlimit signull setsched siginh signal };
+allow weston_t self:process { setrlimit signull getsched setsched siginh signal };
 allow weston_t self:capability { sys_resource sys_nice sys_admin setuid net_admin  dac_override sys_ptrace sys_tty_config };
 allow weston_t self:capability2 { bpf };
 allow weston_t self:netlink_kobject_uevent_socket create_socket_perms;
@@ -217,3 +229,4 @@ allow weston_t self:fifo_file { rw_fifo_file_perms };
 allow weston_t weston_exec_t:file execute_no_trans;
 allow weston_t weston_tmpfs_t:file delete_file_perms;
 allow weston_t weston_tmp_t:sock_file { create_file_perms delete_sock_file_perms write };
+allow kernel_t weston_lib_t:file { getattr open read };

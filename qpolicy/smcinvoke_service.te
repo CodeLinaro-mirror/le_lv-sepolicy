@@ -1,0 +1,88 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(smcinvoke_service, 1.0)
+
+type smcinvoke_service_t;
+type smcinvoke_service_exec_t;
+
+init_daemon_domain(smcinvoke_service_t, smcinvoke_service_exec_t)
+
+# minkdescriptor
+type minkdescriptor_lib_t;
+fs_associate(minkdescriptor_lib_t)
+minkdescriptor_mmap_lib_files(smcinvoke_service_t)
+
+# self
+allow smcinvoke_service_t self:unix_dgram_socket { create connect write getopt setopt };
+allow smcinvoke_service_t self:process { setrlimit setsched getsched signal signull };
+allow smcinvoke_service_t self:capability { sys_resource kill net_admin sys_ptrace };
+
+# libkiumd, liblrms, liblrmc
+libkiumd_mmap_exec_lib_file(smcinvoke_service_t)
+userdom_manage_user_tmpfs_files(smcinvoke_service_t)
+userdom_map_user_tmpfs_files(smcinvoke_service_t)
+# kiumd
+dev_rw_kiumd_dev(smcinvoke_service_t)
+
+# scmnode, scmnode_sec dev
+dev_rw_scmnode_dev(smcinvoke_service_t)
+dev_rw_scmnode_sec_dev(smcinvoke_service_t)
+
+# rw /dev/dma_heap/*
+dev_rw_dma_dev(smcinvoke_service_t)
+
+# syslog
+logging_create_devlog_dev(smcinvoke_service_t)
+logging_dgram_send(smcinvoke_service_t)
+
+# sysfs
+dev_read_sysfs(smcinvoke_service_t)
+
+# tmp
+fs_rw_tmp_dirs(smcinvoke_service_t)
+fs_create_write_tmp_files(smcinvoke_service_t)
+
+# tmpfs
+fs_manage_tmpfs_files(smcinvoke_service_t)
+fs_map_tmpfs_files(smcinvoke_service_t)
+fs_rw_tmpfs_dirs(smcinvoke_service_t)
+
+# Unconfined
+unconfined_server_signull(smcinvoke_service_t)
+unconfined_signull(smcinvoke_service_t)
+unconfined_server_ptrace(smcinvoke_service_t)
+unconfined_ptrace(smcinvoke_service_t)
+unconfined_use_fds(smcinvoke_service_t)
+
+# qseecomd
+qseecomd_signull(smcinvoke_service_t)
+qseecomd_ptrace(smcinvoke_service_t)
+qseecomd_use_fds(smcinvoke_service_t)
+
+# ippc
+ipp_gpce_be_process(smcinvoke_service_t)
+
+# ssgtz_daemon
+ssgtz_daemon_signull(smcinvoke_service_t)
+ssgtz_daemon_ptrace(smcinvoke_service_t)
+ssgtz_daemon_use_fds(smcinvoke_service_t)
+
+# init
+init_rw_script_stream_sockets(smcinvoke_service_t)
+init_signull_script(smcinvoke_service_t)
+init_ptrace_script(smcinvoke_service_t)
+
+# for smcinvoke_vendor_client registering with smcinvoke_service (smcinvoke_service_t)
+userdom_manage_tmp_files(smcinvoke_service_t)
+
+# openwfd
+openwfd_server_signull(smcinvoke_service_t)
+openwfd_server_ptrace(smcinvoke_service_t)
+
+owfds_rw_tmpfs_files(smcinvoke_service_t)
+openwfd_mmap_rw_tmpfs_files(smcinvoke_service_t)
+fs_search_tracefs_dirs(smcinvoke_service_t)
+fs_rw_tracefs_files(smcinvoke_service_t)
+
+

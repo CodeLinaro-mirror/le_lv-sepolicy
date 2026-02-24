@@ -109,3 +109,8 @@ compresmon_unlink_tmpfs_files(safetymonitor_t)
 compresmgr_signull(safetymonitor_t)
 compresmgr_mmap_rw_tmpfs_files(safetymonitor_t)
 compresmgr_unlink_tmpfs_files(safetymonitor_t)
+
+pciesm_signull(safetymonitor_t)
+pciesm_mmap_rw_tmpfs_files(safetymonitor_t)
+pciesm_unlink_tmpfs_files(safetymonitor_t)
+
