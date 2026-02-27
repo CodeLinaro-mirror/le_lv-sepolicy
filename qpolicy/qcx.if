@@ -185,3 +185,21 @@ interface(`qcxserver_init_write_runtime_dirs',`
 
     allow $1 initrc_runtime_t:dir { search getattr write add_name remove_name create };
 ')
+
+######################################
+## <summary>
+##  qcxserver_rw_map_tmpfs_files
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`qcxserver_rw_map_tmpfs_files',`
+    gen_require(`
+        type qcx_server_tmpfs_t;
+    ')
+    allow $1 qcx_server_tmpfs_t:dir search;
+    allow $1 qcx_server_tmpfs_t:file { open read write map getattr };
+')

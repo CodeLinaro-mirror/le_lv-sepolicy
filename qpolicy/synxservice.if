@@ -92,3 +92,55 @@ interface(`synxservice_mmap_ipclite_dev',`
 
     allow $1 synxservice_dev_t:chr_file map;
 ')
+
+######################################
+## <summary>
+##  synxservice_ptrace rule
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`synxservice_ptrace',`
+    gen_require(`
+        type synxservice_t;
+    ')
+    allow $1 synxservice_t:process ptrace;
+')
+
+######################################
+## <summary>
+##  synxservice_dmafd rule
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`synxservice_use_fds',`
+    gen_require(`
+        type synxservice_t;
+    ')
+    allow $1 synxservice_t:fd use;
+')
+
+######################################
+## <summary>
+##  synxservice_rw rule
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`synxservice_rw_tmpfs_files',`
+    gen_require(`
+        type synxservice_tmpfs_t;
+    ')
+    allow $1 synxservice_tmpfs_t:dir search;
+    allow $1 synxservice_tmpfs_t:file { open read write getattr };
+')
