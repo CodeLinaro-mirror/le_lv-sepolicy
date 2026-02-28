@@ -7,5 +7,10 @@ files_read_var_files(alsa_t)
 
 files_list_default_dirs(alsa_t)
 
+init_rw_script_stream_sockets(alsa_t)
+
 #unlabeled
 kernel_mounton_unlabeled_dirs(alsa_t)
+
+# use fd of the kernel library file
+kernel_use_fds(alsa_t)

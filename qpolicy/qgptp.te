@@ -1,0 +1,118 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(qgptp, 1.0)
+
+type qgptp_t;
+
+# Executable file type (do NOT use exec_type to avoid undeclared attribute)
+type qgptp_exec_t;
+files_type(qgptp_exec_t)
+
+# Device nodes: /dev/ptp0 and /dev/gptp (char devices)
+type qgptp_device_t;
+type gptp_device_t;
+dev_node(qgptp_device_t)
+dev_node(gptp_device_t)
+
+# UNIX socket dir/files under /dev/socket/gptp
+type gptp_socket_t;
+files_type(gptp_socket_t)
+
+# tmpfs runtime files under /dev/shm/{ptp,sct_ptp}
+type gptp_tmpfs_t;
+files_tmpfs_file(gptp_tmpfs_t)
+
+# Config file: /etc/gptp_cfg.ini
+type gptp_etc_t;
+files_config_file(gptp_etc_t)
+
+###############################################
+# We will reference base types provided by refpolicy
+###############################################
+
+###############################################
+# Domain creation and transition from init
+###############################################
+# Make qgptp_t a domain and bind its entry file
+init_daemon_domain(qgptp_t, qgptp_exec_t)
+
+# Allow init to read/execute the binary and perform the transition + fd use
+init_use_fds(qgptp_t)
+
+###############################################
+# Basic access aligned to your .fc
+###############################################
+# Read specific config file type
+allow qgptp_t gptp_etc_t:file read_file_perms;
+
+files_read_etc_files(qgptp_t)
+
+###############################################
+# tmpfs runtime under /dev/shm
+###############################################
+# Make sure qgptp_t can navigate tmpfs and manage files labeled gptp_tmpfs_t
+allow qgptp_t gptp_tmpfs_t:filesystem getattr;
+allow qgptp_t gptp_tmpfs_t:dir rw_dir_perms;
+allow qgptp_t gptp_tmpfs_t:file manage_file_perms;
+allow qgptp_t gptp_tmpfs_t:fifo_file rw_fifo_file_perms;
+
+# If the daemon creates new files/dirs under tmpfs locations with type gptp_tmpfs_t
+fs_tmpfs_filetrans(qgptp_t, gptp_tmpfs_t, { dir file })
+
+###############################################
+# UNIX sockets under /dev/socket/gptp
+###############################################
+# Parent /dev/socket directory search (provided as socket_device_t)
+# allow qgptp_t socket_device_t:dir search;
+
+# Allow managing sock files in gptp_socket_t
+allow qgptp_t gptp_socket_t:dir rw_dir_perms;
+allow qgptp_t gptp_socket_t:sock_file { create unlink };
+
+###############################################
+# Devices: /dev/ptp0 and /dev/gptp (char devices)
+###############################################
+allow qgptp_t qgptp_device_t:chr_file { ioctl read write open getattr };
+allow qgptp_t gptp_device_t:chr_file { ioctl read write open getattr };
+
+###############################################
+# Process and capabilities (trim as needed)
+###############################################
+# gPTP/PHC usually needs net_admin/net_raw and sys_time; adjust based on AVCs
+allow qgptp_t self:process { signal setrlimit setsched getsched };
+allow qgptp_t self:capability { net_admin net_raw sys_time chown sys_resource };
+
+###############################################
+# Networking (typical for gPTP / control plane)
+###############################################
+# Netlink route for interface operations
+allow qgptp_t self:netlink_route_socket { create bind read getattr };
+
+# Packet sockets (raw ethernet for timestamps/802.1AS)
+allow qgptp_t self:packet_socket create_socket_perms;
+
+# TCP/UDP if used (keep minimal; remove if not needed)
+allow qgptp_t self:udp_socket { create bind setopt getattr read write };
+allow qgptp_t self:tcp_socket { create connect bind setopt getattr read write };
+
+# Local UNIX stream sockets
+allow qgptp_t self:unix_stream_socket { create connectto listen accept getattr read write };
+
+###############################################
+# Misc (ptmx if used)
+###############################################
+dev_read_sysfs(qgptp_t)
+term_use_ptmx(qgptp_t)
+
+###############################################
+# Logging
+###############################################
+logging_send_syslog_msg(qgptp_t)
+
+# power manegement 
+type qgptp_power_t;
+power_use_pm_register(qgptp_t, qgptp_power_t)

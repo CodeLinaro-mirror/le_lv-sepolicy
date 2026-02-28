@@ -4,3 +4,8 @@
 allow system_dbusd_t self:capability net_admin;
 
 init_rw_script_stream_sockets(system_dbusd_t)
+
+files_search_default(system_dbusd_t)
+
+# use fd of the kernel library file
+kernel_use_fds(system_dbusd_t)

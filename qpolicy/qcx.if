@@ -149,3 +149,39 @@ interface(`qcxserver_read_config_files',`
 
     read_files_pattern($1, bin_t, qcx_server_config_t)
 ')
+
+######################################
+## <summary>
+##  create,read,write files runtime init filesystem for qcxserver.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`qcxserver_init_manage_runtime_files',`
+    gen_require(`
+        type initrc_runtime_t;
+    ')
+
+    allow $1 initrc_runtime_t:file { create write read getattr open unlink };
+')
+
+######################################
+## <summary>
+##  search ,write files runtime init filesystem for qcxserver.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`qcxserver_init_write_runtime_dirs',`
+    gen_require(`
+        type initrc_runtime_t;
+    ')
+
+    allow $1 initrc_runtime_t:dir { search getattr write add_name remove_name create };
+')

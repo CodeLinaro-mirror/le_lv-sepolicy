@@ -1,0 +1,4 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+/usr/bin/ssgtzd               --      gen_context(system_u:object_r:ssgtz_daemon_exec_t,s0)

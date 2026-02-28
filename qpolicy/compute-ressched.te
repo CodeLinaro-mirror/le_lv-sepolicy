@@ -1,0 +1,60 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(compute-ressched, 1.0)
+
+type compressch_t;
+type compressch_exec_t;
+
+init_daemon_domain(compressch_t, compressch_exec_t)
+
+init_rw_script_stream_sockets(compressch_t)
+init_signull_script(compressch_t)
+
+#LRMC/LRMS
+libkiumd_ioctl_lib_file(compressch_t)
+libkiumd_mmap_exec_lib_file(compressch_t)
+dev_rw_kiumd_dev(compressch_t)
+dev_read_sysfs(compressch_t)
+
+allow compressch_t self:process { setrlimit setsched getsched signull signal };
+allow compressch_t self:unix_dgram_socket { create connect };
+allow compressch_t self:capability { sys_resource sys_nice chown };
+userdom_map_tmp_files(compressch_t)
+
+logging_create_devlog_dev(compressch_t)
+
+files_manage_generic_tmp_dirs(compressch_t)
+files_manage_generic_tmp_files(compressch_t)
+
+logging_read_syslog_pid(compressch_t)
+logging_send_syslog_msg(compressch_t)
+
+safetymonitor_rw_tmpfs_files(compressch_t)
+
+#For getting domain IDs
+fastrpc_rm_rw_tmpfs_files(compressch_t)
+
+# pfm
+pfm_rw_tmpfs_files(compressch_t)
+
+fs_manage_tmpfs_files(compressch_t)
+fs_map_tmpfs_files(compressch_t)
+userdom_rw_user_tmpfs_files(compressch_t)
+userdom_map_user_tmpfs_files(compressch_t)
+unconfined_signull(compressch_t)
+userdom_manage_tmp_files(compressch_t)
+files_manage_var_files(compressch_t)
+
+kernel_read_proc_files(compressch_t)
+#for executing through adb shell
+unconfined_server_signull(compressch_t)
+
+# /etc/compresmgr_cpu_config.xml 
+compresmgr_rw_etc_files(compressch_t)
+
+# allow qlf to create dir for audio in /var/log/
+files_create_var_dirs(compressch_t)
+# Allow qlf to check file status in /var/log/
+files_read_var_symlinks(compressch_t)
+

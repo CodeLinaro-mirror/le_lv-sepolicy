@@ -112,3 +112,21 @@ interface(`compresmon_rw_nsp_sysmon_dev',`
 
     rw_chr_files_pattern($1, device_t, nsp_sysmon_device_t)
 ')
+
+########################################
+## <summary>
+##      map nsp_sysmon device.
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+#
+interface(`compresmon_map_nsp_sysmon_dev',`
+    gen_require(`
+        type nsp_sysmon_device_t;
+    ')
+
+    allow $1 nsp_sysmon_device_t:chr_file map;
+')

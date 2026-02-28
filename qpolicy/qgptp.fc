@@ -1,0 +1,11 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+//usr/bin/qgptp           --      gen_context(system_u:object_r:qgptp_exec_t,s0)
+/dev/ptp0                -c      gen_context(system_u:object_r:qgptp_device_t,s0)
+/dev/ptp1                -c      gen_context(system_u:object_r:qgptp_device_t,s0)
+/dev/gptp                -c      gen_context(system_u:object_r:gptp_device_t,s0)
+/dev/socket/gptp(/.*)?           gen_context(system_u:object_r:gptp_socket_t,s0)
+/dev/shm/ptp             --      gen_context(system_u:object_r:gptp_tmpfs_t,s0)
+/dev/shm/sct_ptp         --      gen_context(system_u:object_r:gptp_tmpfs_t,s0)
+/etc/gptp_cfg.ini     --      gen_context(system_u:object_r:gptp_etc_t,s0)

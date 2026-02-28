@@ -8,6 +8,7 @@ type compresmgr_exec_t;
 type compresmgr_tmpfs_t;
 type compresmgr_etc_t;
 type compresmgr_power_t;
+type hscnoc_device_t;
 
 #============= compresmgr_t ==============
 init_daemon_domain(compresmgr_t, compresmgr_exec_t)
@@ -72,4 +73,16 @@ pilrm_rw_tmpfs_files(compresmgr_t)
 fs_create_configfs_dirs(compresmgr_t)
 fs_rw_configfs_files(compresmgr_t)
 fs_create_configfs_files(compresmgr_t)
+
+#xml reading access /etc/safety_config
+files_read_safety_config_files(compresmgr_t)
+# allow qlf to create dir for audio in /var/log/
+files_create_var_dirs(compresmgr_t)
+# Allow qlf to check file status in /var/log/
+files_read_var_symlinks(compresmgr_t)
+
+#Allow access to vfio /dev/hscnoc node
+dev_node(hscnoc_device_t)
+compresmgr_rw_hscnoc_dev(compresmgr_t)
+compresmgr_map_hscnoc_dev(compresmgr_t)
 

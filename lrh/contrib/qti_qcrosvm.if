@@ -68,3 +68,21 @@ interface(`qcrosvm_signull',`
 
     allow $1 qcrosvm_t:process signull;
 ')
+
+########################################
+## <summary>
+##  Search and Read symbolic links on a qcrosvm_boot filesystem.
+## </summary>
+## <param name="domain">
+## <summary>
+##  Domain allowed access.
+## </summary>
+## </param>
+#
+interface(`fs_read_qcrosvm_boot_symlinks',`
+    gen_require(`
+	type qcrosvm_boot_t;
+    ')
+
+    read_lnk_files_pattern($1, qcrosvm_boot_t, qcrosvm_boot_t)
+')

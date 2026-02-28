@@ -139,6 +139,25 @@ interface(`logging_dgram_send',`
 
 ########################################
 ## <summary>
+##  systemd tmpfile create audit dir.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+## <rolecap/>
+#
+interface(`create_audit_log_dir',`
+    gen_require(`
+        type auditd_log_t;
+    ')
+
+    allow $1 auditd_log_t:dir create_dir_perms;
+')
+
+########################################
+## <summary>
 ##  Relabel the audit directory of the audit log.
 ## </summary>
 ## <param name="domain">

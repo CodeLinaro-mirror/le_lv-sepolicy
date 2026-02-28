@@ -80,6 +80,7 @@ safetymonitor_map_dev(safetymonitor_t)
 libkiumd_mmap_exec_lib_file(safetymonitor_t)
 
 nsp_rsm_signull(safetymonitor_t)
+compressch_signull(safetymonitor_t)
 nsp_drv_signull(safetymonitor_t)
 
 #allow bin execute

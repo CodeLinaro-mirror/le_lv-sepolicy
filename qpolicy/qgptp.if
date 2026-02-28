@@ -1,0 +1,40 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary>gptp daemon</summary>
+
+################g######################
+## <summary>
+##  Map, read and write gptp tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`gptp_mmap_rw_tmpfs_files',`
+    gen_require(`
+        type qgptp_tmpfs_t;
+    ')
+
+    mmap_rw_files_pattern($1, qgptp_tmpfs_t, qgptp_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Send signull to gptp related process.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`gptp_signull',`
+    gen_require(`
+        type qgptp_t;
+    ')
+
+    allow $1 qgptp_t:process signull;
+')

@@ -4,3 +4,4 @@
 /usr/sbin/apss_stl       --      gen_context(system_u:object_r:apss_stl_exec_t,s0)
 /etc/apss_stl_config.xml     --     gen_context(system_u:object_r:apss_stl_config_etc_t,s0)
 /usr/sbin/apss_stl_testapp       --      gen_context(system_u:object_r:apss_stl_exec_t,s0)
+/dev/apss-stl       -c      gen_context(system_u:object_r:apss_stl_dev_t,s0)
