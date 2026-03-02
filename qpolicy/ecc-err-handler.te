@@ -24,6 +24,8 @@ userdom_map_tmp_files(ecc_err_handler_t)
 safetymonitor_rw_tmpfs_files(ecc_err_handler_t)
 kernel_read_debugfs(ecc_err_handler_t)
 
+compresmgr_rw_etc_files(ecc_err_handler_t)
+
 #libkiumd
 libkiumd_mmap_exec_lib_file(ecc_err_handler_t)
 
