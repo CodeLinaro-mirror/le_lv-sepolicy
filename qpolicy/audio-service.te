@@ -124,6 +124,9 @@ dbus_write_system_dbusd_runtime_sock(audio_service_t)
 dbus_stream_connect_system_dbusd(audio_service_t)
 dbus_system_bus_unconfined(audio_service_t)
 
+# Allow D-Bus communication with init scripts
+init_dbus_chat_script(audio_service_t)
+
 # Audio-specific configs
 audioservice_read_etc_files(audio_service_t)
 kernel_read_proc_files(audio_service_t)
