@@ -17,6 +17,7 @@ require {
     type tmpfs_t;
     type user_devpts_t;
     type loc_socket_t;
+    type initrc_t;
  
     class cap_userns { chown dac_read_search sys_boot fowner setpcap sys_chroot };
     class capability { sys_ptrace sys_admin dac_read_search dac_override net_admin };
@@ -29,6 +30,7 @@ require {
     class lnk_file { read };
     class chr_file { read write open getattr setattr ioctl };
     class filesystem { associate };
+    class cap_userns { kill };
 }
  
 # initrc_t: systemd init in user namespace needs cap_userns
@@ -74,3 +76,6 @@ dontaudit getty_t tmpfs_t:dir { write add_name };
 dontaudit getty_t tmpfs_t:file { create read open };
 dontaudit getty_t initrc_t:unix_stream_socket { read write };
 dontaudit getty_t user_devpts_t:chr_file { read write open getattr setattr ioctl };
+
+#lxc-attach unprivileged
+allow initrc_t self:cap_userns { kill };
