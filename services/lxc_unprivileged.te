@@ -1,0 +1,76 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+ 
+# SELinux policy module for LXC unprivileged container support.
+# Allows systemd-based services to run inside user namespace containers.
+ 
+module lxc_unprivileged 1.0;
+ 
+require {
+    type initrc_t;
+    type systemd_tmpfiles_t;
+    type systemd_gpt_generator_t;
+    type getty_t;
+    type syslogd_t;
+    type mount_t;
+    type udev_t;
+    type tmpfs_t;
+    type user_devpts_t;
+    type loc_socket_t;
+ 
+    class cap_userns { chown dac_read_search sys_boot fowner setpcap sys_chroot };
+    class capability { sys_ptrace sys_admin dac_read_search dac_override net_admin };
+    class process2 { nnp_transition };
+    class unix_stream_socket { read write ioctl getattr getopt setopt accept shutdown };
+    class unix_dgram_socket { read write getattr getopt setopt sendto };
+    class dir { search write add_name create read open getattr };
+    class file { read write open getattr ioctl create setattr rename unlink map };
+    class sock_file { write create };
+    class lnk_file { read };
+    class chr_file { read write open getattr setattr ioctl };
+    class filesystem { associate };
+}
+ 
+# initrc_t: systemd init in user namespace needs cap_userns
+allow initrc_t self:cap_userns { chown dac_read_search sys_boot fowner setpcap sys_chroot };
+ 
+# initrc_t -> syslogd_t: nnp_transition for journald under NNP
+allow initrc_t syslogd_t:process2 nnp_transition;
+ 
+# syslogd_t (journald): capabilities + tmpfs access
+allow syslogd_t self:capability { sys_ptrace sys_admin };
+allow syslogd_t tmpfs_t:dir { search write add_name create read open getattr };
+allow syslogd_t tmpfs_t:file { read write open getattr ioctl create setattr rename unlink map };
+allow syslogd_t tmpfs_t:sock_file { write create };
+allow syslogd_t tmpfs_t:lnk_file { read };
+allow syslogd_t initrc_t:unix_dgram_socket { read write getattr getopt setopt sendto };
+allow syslogd_t initrc_t:unix_stream_socket { read write getattr getopt setopt accept shutdown };
+ 
+# systemd_gpt_generator_t: reads container/proc info
+allow systemd_gpt_generator_t tmpfs_t:dir { search read open getattr };
+allow systemd_gpt_generator_t tmpfs_t:file { read open getattr ioctl };
+allow systemd_gpt_generator_t initrc_t:dir { search };
+allow systemd_gpt_generator_t initrc_t:file { read open getattr };
+ 
+# systemd_tmpfiles_t: manages /run/systemd dirs
+allow systemd_tmpfiles_t initrc_t:file { read open getattr };
+allow systemd_tmpfiles_t initrc_t:unix_stream_socket { read write ioctl };
+allow systemd_tmpfiles_t initrc_t:unix_dgram_socket { sendto };
+allow systemd_tmpfiles_t tmpfs_t:dir { search write add_name create read open getattr };
+allow systemd_tmpfiles_t tmpfs_t:sock_file { write create };
+allow systemd_tmpfiles_t loc_socket_t:dir { read open getattr };
+allow loc_socket_t tmpfs_t:filesystem { associate };
+ 
+# mount_t: bind mounts inside container
+allow mount_t initrc_t:unix_stream_socket { read write };
+allow mount_t tmpfs_t:dir { search write add_name create read open getattr };
+ 
+# udev_t: user namespace capability support
+allow udev_t self:cap_userns { dac_read_search };
+allow udev_t self:capability { dac_read_search dac_override net_admin };
+ 
+# getty_t: suppress non-fatal noise
+dontaudit getty_t tmpfs_t:dir { write add_name };
+dontaudit getty_t tmpfs_t:file { create read open };
+dontaudit getty_t initrc_t:unix_stream_socket { read write };
+dontaudit getty_t user_devpts_t:chr_file { read write open getattr setattr ioctl };
