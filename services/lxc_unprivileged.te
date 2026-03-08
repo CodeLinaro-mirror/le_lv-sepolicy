@@ -24,6 +24,8 @@ require {
     type weston_t;
     type systemd_logind_t;
     type initrc_devpts_t;
+    type gstreamer_t;
+    type device_t;
  
     class cap_userns { chown dac_read_search sys_boot fowner setpcap sys_chroot kill sys_admin setuid setgid sys_ptrace fsetid dac_read_search dac_override };
     class capability { sys_ptrace sys_admin dac_read_search dac_override net_admin };
@@ -130,3 +132,8 @@ allow systemd_logind_t tmpfs_t:fifo_file { create read open write unlink };
 allow getty_t self:cap_userns { fsetid };
 allow getty_t initrc_devpts_t:chr_file { read write open setattr getattr ioctl };
 
+# video:
+allow gstreamer_t tmpfs_t:dir { search };
+allow gstreamer_t self:cap_userns { dac_override };
+allow gstreamer_t device_t:dir { write add_name remove_name };
+allow gstreamer_t device_t:file { create read write open map unlink };
