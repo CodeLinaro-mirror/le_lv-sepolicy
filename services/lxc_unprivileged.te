@@ -18,19 +18,25 @@ require {
     type user_devpts_t;
     type loc_socket_t;
     type initrc_t;
+    type system_dbusd_t;
+    type kmod_t;
+    type audio_vendor_t;
+    type weston_t;
+    type systemd_logind_t;
+    type initrc_devpts_t;
  
-    class cap_userns { chown dac_read_search sys_boot fowner setpcap sys_chroot };
+    class cap_userns { chown dac_read_search sys_boot fowner setpcap sys_chroot kill sys_admin setuid setgid sys_ptrace fsetid dac_read_search dac_override };
     class capability { sys_ptrace sys_admin dac_read_search dac_override net_admin };
     class process2 { nnp_transition };
-    class unix_stream_socket { read write ioctl getattr getopt setopt accept shutdown };
+    class unix_stream_socket { read write ioctl getattr getopt setopt accept shutdown connectto };
     class unix_dgram_socket { read write getattr getopt setopt sendto };
-    class dir { search write add_name create read open getattr };
+    class dir { search write add_name create read open getattr remove_name };
     class file { read write open getattr ioctl create setattr rename unlink map };
     class sock_file { write create };
     class lnk_file { read };
     class chr_file { read write open getattr setattr ioctl };
     class filesystem { associate };
-    class cap_userns { kill };
+    class fifo_file { create read open write unlink };
 }
  
 # initrc_t: systemd init in user namespace needs cap_userns
@@ -79,3 +85,48 @@ dontaudit getty_t user_devpts_t:chr_file { read write open getattr setattr ioctl
 
 #lxc-attach unprivileged
 allow initrc_t self:cap_userns { kill };
+
+
+# -------------------------------------------------------
+# New rules derived from AVC denied logs (permissive=1)
+# Sep 20 boot sequence in unprivileged LXC container
+# -------------------------------------------------------
+
+# syslogd_t (systemd-journal):
+allow syslogd_t self:cap_userns { sys_admin setuid setgid sys_ptrace };
+allow syslogd_t tmpfs_t:dir { remove_name };
+
+# system_dbusd_t (dbus-daemon):
+allow system_dbusd_t self:cap_userns { setuid setgid };
+allow system_dbusd_t initrc_t:unix_stream_socket { read write getattr getopt accept };
+allow system_dbusd_t tmpfs_t:dir { search };
+allow system_dbusd_t tmpfs_t:file { read open getattr };
+allow system_dbusd_t tmpfs_t:fifo_file { write };
+
+# initrc_t:
+allow initrc_t kmod_t:process2 { nnp_transition };
+allow initrc_t systemd_logind_t:process2 { nnp_transition };
+
+# kmod_t (modprobe):
+allow kmod_t self:cap_userns { dac_read_search };
+allow kmod_t initrc_t:unix_stream_socket { read write };
+
+# audio_vendor_t (acdb_loader_ser):
+allow audio_vendor_t self:cap_userns { dac_override };
+allow audio_vendor_t initrc_t:unix_stream_socket { read write };
+allow audio_vendor_t tmpfs_t:dir { search };
+
+# weston_t (weston-launch):
+allow weston_t initrc_t:unix_stream_socket { read write };
+
+# systemd_logind_t:
+allow systemd_logind_t initrc_t:unix_stream_socket { read write ioctl connectto };
+allow systemd_logind_t initrc_t:unix_dgram_socket { sendto };
+allow systemd_logind_t tmpfs_t:file { read open getattr ioctl create write setattr rename unlink };
+allow systemd_logind_t tmpfs_t:sock_file { write };
+allow systemd_logind_t tmpfs_t:fifo_file { create read open write unlink };
+
+# getty_t (agetty):
+allow getty_t self:cap_userns { fsetid };
+allow getty_t initrc_devpts_t:chr_file { read write open setattr getattr ioctl };
+
