@@ -71,3 +71,4 @@ manage_files_pattern(gpce_be_t, gpce_be_tmp_t, gpce_be_tmp_t)
 #================local===================
 allow gpce_be_t self:process { setrlimit setsched getsched };
 allow gpce_be_t self:capability { sys_resource sys_nice dac_override};
+allow gpce_be_t tmpfs_t:file { read write open getattr };
