@@ -51,6 +51,7 @@ vhost_user_create_vhost_socket(vhost_user_qti_t, vhost_user_tmp_t, "linux-vm2-ex
 vhost_user_create_vhost_socket(vhost_user_qti_t, vhost_user_tmp_t, "linux-vm2-soccp-skt")
 vhost_user_create_vhost_socket(vhost_user_qti_t, vhost_user_tmp_t, "linux-vm2-dprx-skt")
 vhost_user_create_vhost_socket(vhost_user_qti_t, vhost_user_tmp_t, "linux-vm2-eva-skt")
+vhost_user_create_vhost_socket(vhost_user_qti_t, vhost_user_tmp_t, "linux-vm2-hsi2s-skt")
 
 vhost_user_create_vhost_socket(vhost_user_qti_vm3_t, vhost_user_tmp_vm3_t, "linux-vm3-aud-skt")
 vhost_user_create_vhost_socket(vhost_user_qti_vm3_t, vhost_user_tmp_vm3_t, "linux-vm3-cam-skt")
@@ -64,6 +65,7 @@ vhost_user_create_vhost_socket(vhost_user_qti_vm3_t, vhost_user_tmp_vm3_t, "linu
 vhost_user_create_vhost_socket(vhost_user_qti_vm3_t, vhost_user_tmp_vm3_t, "linux-vm3-soccp-skt")
 vhost_user_create_vhost_socket(vhost_user_qti_vm3_t, vhost_user_tmp_vm3_t, "linux-vm3-dprx-skt")
 vhost_user_create_vhost_socket(vhost_user_qti_vm3_t, vhost_user_tmp_vm3_t, "linux-vm3-eva-skt")
+vhost_user_create_vhost_socket(vhost_user_qti_vm3_t, vhost_user_tmp_vm3_t, "linux-vm3-hsi2s-skt")
 
 allow vhost_user_qti_t vhost_user_tmp_t:sock_file unlink;
 allow vhost_user_qti_vm3_t vhost_user_tmp_vm3_t:sock_file unlink;
