@@ -75,6 +75,7 @@ interface(`compresmgr_rw_etc_files',`
 
     list_dirs_pattern($1, etc_t, compresmgr_etc_t)
     rw_files_pattern($1, etc_t, compresmgr_etc_t)
+	allow $1 compresmgr_etc_t:file { getattr open read };
 ')
 
 ########################################
