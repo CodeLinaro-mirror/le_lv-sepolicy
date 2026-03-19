@@ -14,6 +14,7 @@ init_daemon_domain(subsys_ramdump_util_t, subsys_ramdump_util_exec_t)
 dev_node(subsystem_ramdump_util_device_t)
 
 init_rw_script_stream_sockets(subsys_ramdump_util_t)
+init_signull_script(subsys_ramdump_util_t)
 
 logging_send_syslog_msg(subsys_ramdump_util_t)
 
