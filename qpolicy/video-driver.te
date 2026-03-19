@@ -36,6 +36,7 @@ kernel_read_unlabeled_state(video_driver_t)
 files_read_default_files(video_driver_t)
 files_manage_default_files(video_driver_t)
 files_manage_default_dirs(video_driver_t)
+files_manage_etc_dirs(video_driver_t)
 files_read_etc_files(video_driver_t)
 files_type(video_driver_etc_t)
 manage_files_pattern(video_driver_t, video_driver_etc_t, video_driver_etc_t)
@@ -74,6 +75,11 @@ files_append_var_files(video_driver_t)
 files_rw_isid_type_dirs(video_driver_t)
 kernel_mounton_unlabeled_dirs(video_driver_t)
 kernel_manage_unlabeled_files(video_driver_t)
+
+#sysctl_vm_t
+kernel_search_vm_sysctl(video_driver_t)
+kernel_read_vm_sysctls(video_driver_t)
+kernel_rw_vm_sysctls(video_driver_t)
 
 # /dev/shm/lrmc_rq_*
 pilrm_rw_tmpfs_files(video_driver_t)
