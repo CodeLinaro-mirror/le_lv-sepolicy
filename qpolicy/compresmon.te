@@ -107,4 +107,4 @@ files_read_var_symlinks(compresmon_t)
 domain_search_all_domains_state(compresmon_t)
 kernel_read_system_state(compresmon_t)
 domain_read_all_domains_state(compresmon_t)
-
+files_read_safety_config_files(compresmon_t)
