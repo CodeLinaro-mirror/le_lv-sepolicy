@@ -1,6 +1,7 @@
 # Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
+files_search_default(sshd_t)
 files_rw_generic_pids(sshd_t)
 files_read_var_symlinks(ssh_keygen_t)
 
@@ -8,3 +9,6 @@ files_read_var_symlinks(ssh_keygen_t)
 init_list_initrc_runtime_dirs(ssh_keygen_t)
 init_create_initrc_runtime_files(ssh_keygen_t)
 init_rw_initrc_runtime_files(ssh_keygen_t)
+
+init_list_initrc_runtime_dirs(sshd_t)
+init_read_runtime_files(sshd_t)
