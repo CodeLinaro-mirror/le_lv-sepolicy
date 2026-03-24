@@ -8,3 +8,6 @@ corecmd_exec_bin(ping_t)
 
 # save the output into /data with ping -c +ip
 files_manage_default_files(ping_t)
+
+# use fd of the kernel library file
+kernel_use_fds(ping_t)
