@@ -39,3 +39,21 @@ interface(`compressch_nnp_transition',`
 
     allow $1 compressch_t:process2 nnp_transition;
 ')
+
+######################################
+## <summary>
+##  Map, read and write compute-ressched tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`compressch_mmap_rw_tmpfs_files',`
+    gen_require(`
+        type compressch_tmpfs_t;
+    ')
+
+    mmap_rw_files_pattern($1, compressch_tmpfs_t, compressch_tmpfs_t)
+')

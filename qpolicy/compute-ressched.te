@@ -5,6 +5,10 @@ policy_module(compute-ressched, 1.0)
 
 type compressch_t;
 type compressch_exec_t;
+type compressch_tmpfs_t;
+
+files_tmpfs_file(compressch_tmpfs_t)
+fs_tmpfs_filetrans(compressch_t, compressch_tmpfs_t, { dir file })
 
 init_daemon_domain(compressch_t, compressch_exec_t)
 
@@ -45,6 +49,7 @@ userdom_map_user_tmpfs_files(compressch_t)
 unconfined_signull(compressch_t)
 userdom_manage_tmp_files(compressch_t)
 files_manage_var_files(compressch_t)
+compressch_mmap_rw_tmpfs_files(compressch_t)
 
 kernel_read_proc_files(compressch_t)
 #for executing through adb shell
@@ -58,3 +63,5 @@ files_create_var_dirs(compressch_t)
 # Allow qlf to check file status in /var/log/
 files_read_var_symlinks(compressch_t)
 
+#allow ssr
+ssrrm_rw_tmpfs_files(compressch_t)
