@@ -14,6 +14,7 @@ type ashmem_device_t;
 type dma_device_t;
 type ksync_device_t;
 type l3cache_config_device_t;
+type qcom_vm_cpufreq_device_t;
 
 dev_node(smcinvoke_device_t)
 dev_node(gunyah_device_t)
@@ -28,6 +29,7 @@ dev_node(ashmem_device_t)
 dev_node(dma_device_t)
 dev_node(ksync_device_t)
 dev_node(l3cache_config_device_t)
+dev_node(qcom_vm_cpufreq_device_t)
 
 genfscon functionfs / gen_context(system_u:object_r:usbfs_t,s0)
 
