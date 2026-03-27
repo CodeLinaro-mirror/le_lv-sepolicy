@@ -1,0 +1,6 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+corecmd_mmap_bin_files(ping_t)
+selinux_getattr_fs(ping_t)
+seutil_search_default_contexts(ping_t)
