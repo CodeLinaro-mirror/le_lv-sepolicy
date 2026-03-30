@@ -70,6 +70,8 @@ fastrpc_rw_rm_tmpfs_files(fastrpc_t)
 #libkiumd
 libkiumd_mmap_exec_lib_file(fastrpc_rm_t)
 
+#Compute Resource Scheduler
+compressch_signull(fastrpc_rm_t)
 compresmon_signull(fastrpc_rm_t)
 compresmon_mmap_rw_tmpfs_files(fastrpc_rm_t)
 compresmon_unlink_tmpfs_files(fastrpc_rm_t)

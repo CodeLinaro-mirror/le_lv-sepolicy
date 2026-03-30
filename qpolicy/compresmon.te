@@ -103,3 +103,8 @@ files_create_var_dirs(compresmon_t)
 # Allow qlf to check file status in /var/log/
 files_read_var_symlinks(compresmon_t)
 
+#DDR Profiler related policy
+domain_search_all_domains_state(compresmon_t)
+kernel_read_system_state(compresmon_t)
+domain_read_all_domains_state(compresmon_t)
+

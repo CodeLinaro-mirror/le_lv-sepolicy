@@ -79,6 +79,24 @@ interface(`display_be_mmap_rw_tmpfs_files',`
 
 ######################################
 ## <summary>
+##  getattr display-be tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`display_be_getattr_tmpfs_files',`
+    gen_require(`
+        type display_be_tmpfs_t;
+    ')
+
+    allow $1 display_be_tmpfs_t:file getattr_file_perms;
+')
+
+######################################
+## <summary>
 ##  Delete display-be tmpfs files.
 ## </summary>
 ## <param name="domain">

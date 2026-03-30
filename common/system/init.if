@@ -128,6 +128,24 @@ interface(`init_rw_initrc_runtime_files',`
     rw_files_pattern($1, initrc_runtime_t, initrc_runtime_t)
 ')
 
+#######################################
+## <summary>
+## Create socket files under initrc_runtime_t directories
+## </summary>
+## <param name="domain">
+## <summary>
+## Domain allowed access.
+## </summary>
+## </param>
+#
+interface(`init_create_initrc_runtime_sock_files',`
+    gen_require(`
+        type initrc_runtime_t;
+    ')
+
+    create_sock_files_pattern($1, initrc_runtime_t, initrc_runtime_t)
+')
+
 ########################################
 ## <summary>
 ## init binder

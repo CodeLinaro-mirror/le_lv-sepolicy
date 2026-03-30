@@ -80,6 +80,7 @@ safetymonitor_map_dev(safetymonitor_t)
 libkiumd_mmap_exec_lib_file(safetymonitor_t)
 
 nsp_rsm_signull(safetymonitor_t)
+compressch_signull(safetymonitor_t)
 nsp_drv_signull(safetymonitor_t)
 
 #allow bin execute
@@ -128,3 +129,6 @@ owfds_rw_tmpfs_files(safetymonitor_t)
 openwfd_mmap_rw_tmpfs_files(safetymonitor_t)
 openwfd_server_signull(safetymonitor_t)
 allow safetymonitor_t self:capability kill;
+
+pciesm_signull(safetymonitor_t)
+pciesm_mmap_rw_tmpfs_files(safetymonitor_t)

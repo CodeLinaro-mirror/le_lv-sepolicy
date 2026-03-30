@@ -94,3 +94,4 @@ power_use_pm_register(gpce_be_t, gpce_be_power_t)
 #================local===================
 allow gpce_be_t self:process { setrlimit setsched };
 allow gpce_be_t self:capability { sys_resource sys_nice dac_override};
+allow gpce_be_t tmpfs_t:file { read write open getattr };
