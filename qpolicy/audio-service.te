@@ -211,3 +211,5 @@ dev_rw_input_dev(audio_service_t)
 
 # /var overlay
 kernel_read_unlabeled_state(audio_service_t)
+
+audioservice_map_kiumd_dev(audio_service_t)
