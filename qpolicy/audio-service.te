@@ -98,6 +98,7 @@ allow audio_service_t self:unix_stream_socket { connectto listen accept };
 allow audio_service_t self:process { setrlimit setsched ptrace getsched signull signal };
 allow audio_service_t self:capability { sys_resource sys_nice net_admin sys_ptrace dac_override dac_read_search};
 allow audio_service_t self:tcp_socket {accept bind create listen setopt shutdown connect read write};
+allow audio_service_t initrc_t:unix_stream_socket connectto;
 
 # ========== Beginning of additional AudioReach rules support ==========
 # Allow audio_service_t to send D-Bus messages to other audio_service_t processes
