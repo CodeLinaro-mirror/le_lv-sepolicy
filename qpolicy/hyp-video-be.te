@@ -41,7 +41,7 @@ allow hyp_video_t self:capability { sys_resource sys_nice net_admin kill dac_ove
 allow hyp_video_t etc_t:dir { write };
 allow hyp_video_t etc_t:file { write };
 allow hyp_video_t hyp_video_tmpfs_t:dir create;
-allow hyp_video_t hyp_video_tmpfs_t:fifo_file read;
+allow hyp_video_t hyp_video_tmpfs_t:fifo_file { create read unlink write open };
 
 create_fifo_files_pattern(hyp_video_t, hyp_video_tmpfs_t, hyp_video_tmpfs_t)
 
