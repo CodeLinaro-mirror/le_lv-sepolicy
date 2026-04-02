@@ -34,7 +34,6 @@ diagservice_unlink_tmpfs_files(ssr_rm_t)
 pilrm_mmap_rw_tmpfs_files(ssr_rm_t)
 audioservice_mmap_rw_tmpfs_files(ssr_rm_t)
 subsys_ramdump_rw_files(ssr_rm_t)
-compressch_mmap_rw_tmpfs_files(ssr_rm_t)
 
 audioservice_delete_tmpfs_files(ssr_rm_t)
 glinkserver_delete_tmpfs_files(ssr_rm_t)
