@@ -55,6 +55,10 @@ adreno200_delete_tmpfs_files(pil_rm_t)
 ssctl_service_mmap_rw_tmpfs_files(pil_rm_t)
 soccp_driver_mmap_rw_tmpfs_files(pil_rm_t)
 
+kernel_search_debugfs(pil_rm_t)
+fs_search_tracefs_dirs(pil_rm_t)
+fs_rw_tracefs_files(pil_rm_t)
+
 # /firmware/qcom/sa8775p/image/cdsp0.mdt
 fs_list_dos(pil_rm_t)
 fs_read_dos_files(pil_rm_t)

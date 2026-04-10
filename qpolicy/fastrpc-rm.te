@@ -35,6 +35,10 @@ glinkserver_rw_tmpfs_files(fastrpc_rm_t)
 audioservice_mmap_rw_tmpfs_files(fastrpc_rm_t)
 audioservice_delete_tmpfs_files(fastrpc_rm_t)
 
+kernel_search_debugfs(fastrpc_rm_t)
+fs_search_tracefs_dirs(fastrpc_rm_t)
+fs_rw_tracefs_files(fastrpc_rm_t)
+
 glinkserver_ptrace(fastrpc_rm_t)
 glinkserver_use_fds(fastrpc_rm_t)
 
