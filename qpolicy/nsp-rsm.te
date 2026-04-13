@@ -44,3 +44,11 @@ unconfined_server_signull(nsp_rsm_t)
 
 # /etc/compresmgr_cpu_config.xml 
 compresmgr_rw_etc_files(nsp_rsm_t)
+
+#Commenting for now, since OSAL is not hetting used for this component
+#Once OSAL is enabled please uncomment it
+# allow qlf to create dir for audio in /var/log/
+#files_create_var_dirs(nsp_rsm_t)
+# Allow qlf to check file status in /var/log/
+#files_read_var_symlinks(nsp_rsm_t)
+
