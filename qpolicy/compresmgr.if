@@ -75,6 +75,7 @@ interface(`compresmgr_rw_etc_files',`
 
     list_dirs_pattern($1, etc_t, compresmgr_etc_t)
     rw_files_pattern($1, etc_t, compresmgr_etc_t)
+	allow $1 compresmgr_etc_t:file { getattr open read };
 ')
 
 ########################################
@@ -93,4 +94,39 @@ interface(`compresmgr_nnp_trans',`
     ')
 
     allow $1 compresmgr_t:process2 nnp_transition;
+')
+
+########################################
+## <summary>
+##  map hscnoc device (/dev/hscnoc).
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`compresmgr_map_hscnoc_dev',`
+    gen_require(`
+        type hscnoc_device_t;
+    ')
+    allow $1 hscnoc_device_t:chr_file map;
+')
+
+########################################
+## <summary>
+##  Read and write hscnoc device (/dev/hscnoc).
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`compresmgr_rw_hscnoc_dev',`
+    gen_require(`
+        type device_t, hscnoc_device_t;
+    ')
+
+    rw_chr_files_pattern($1, device_t, hscnoc_device_t)
 ')
