@@ -81,6 +81,7 @@ files_read_default_symlinks(systemd_tmpfiles_t)
 
 files_manage_default_dirs(systemd_update_done_t)
 files_relabel_default_dirs(systemd_tmpfiles_t)
+files_manage_generic_spool_dirs(systemd_tmpfiles_t)
 
 #systemd_logind access /var/lib/systemd/linger
 files_manage_default_files(systemd_logind_t)
