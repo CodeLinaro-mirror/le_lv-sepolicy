@@ -1,0 +1,12 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+files_append_default_files(staff_t)
+files_read_default_files(staff_t)
+logging_read_audit_log(staff_t)
+
+#ethernet access public network via ssh
+allow staff_t self:process signal;
+allow staff_t self:rawip_socket { create ioctl read write bind getopt setopt getattr };
+allow staff_t self:capability { setgid setuid net_admin net_raw};
+allow staff_t self:netlink_route_socket create_netlink_socket_perms;

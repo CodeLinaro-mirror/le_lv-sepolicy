@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 ########################################
@@ -254,4 +254,22 @@ interface(`dev_manage_generic_sockets',`
     ')
 
     manage_sock_files_pattern($1, device_t, device_t)
+')
+
+########################################
+## <summary>
+##  Getattr usbfs filesystem.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`dev_getattr_usbfs',`
+    gen_require(`
+        type usbfs_t;
+    ')
+
+    allow $1 usbfs_t:filesystem getattr;
 ')

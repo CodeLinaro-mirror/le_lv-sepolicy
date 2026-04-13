@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 # restorecon /data/misc and /data/tzstorage
@@ -9,6 +9,8 @@ qseecomd_relabel_persist(setfiles_t)
 
 # restorecon /dev/qseecom
 qseecomd_relabel_dev(setfiles_t)
+
+dev_getattr_usbfs(setfiles_t)
 
 # Need to load policy once more time after install new lv-sepolicy rpm pacakge
 term_use_generic_ptys(load_policy_t)

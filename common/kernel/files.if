@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 ## <summary>Policy for SELinux policy and userland applications.</summary>
@@ -110,6 +110,24 @@ interface(`files_mmap_default_files',`
     ')
 
     mmap_exec_files_pattern($1, default_t, default_t)
+')
+
+##################################
+## <summary>
+##  Allow to append files under /data.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_append_default_files',`
+    gen_require(`
+        type default_t;
+    ')
+
+    append_files_pattern($1, default_t, default_t)
 ')
 
 ########################################
