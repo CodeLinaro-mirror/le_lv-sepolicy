@@ -6,3 +6,9 @@ policy_module(km_lite, 1.0)
 # Keymaster_lib
 type keymaster_lib_t;
 fs_associate(keymaster_lib_t)
+
+# kernel_t
+require {
+    type kernel_t;
+}
+keymaster_mmap_lib_files(kernel_t)
