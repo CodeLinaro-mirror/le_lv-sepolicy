@@ -59,7 +59,7 @@ libkiumd_mmap_exec_lib_file(ssr_rm_t)
 logging_dgram_send(ssr_rm_t)
 
 allow ssr_rm_t self:unix_dgram_socket create_socket_perms;
-allow ssr_rm_t self:process { setrlimit setsched getsched };
+allow ssr_rm_t self:process { setrlimit setsched getsched signal };
 allow ssr_rm_t self:capability { sys_resource net_admin sys_nice };
 
 userdom_mmap_rw_inherited_user_tmp_files(ssr_rm_t)
@@ -69,3 +69,7 @@ fs_rw_tmpfs_files(ssr_rm_t)
 fs_map_tmpfs_files(ssr_rm_t)
 pilrm_delete_tmpfs_files(ssr_rm_t)
 fs_manage_tmpfs_files(ssr_rm_t)
+
+fastrpc_rm_unlink_tmpfs_files(ssr_rm_t)
+
+dev_read_sysfs(ssr_rm_t)
