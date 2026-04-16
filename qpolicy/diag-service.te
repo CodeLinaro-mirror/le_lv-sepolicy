@@ -96,3 +96,6 @@ qdssservice_rw_tmpfs_files(diag_service_t)
 
 # pm_register
 power_use_pm_register(diag_service_t, diag_service_power_t)
+
+#for saving initial DSP log
+allow diag_service_t diag_service_tmpfs_t:file append;
