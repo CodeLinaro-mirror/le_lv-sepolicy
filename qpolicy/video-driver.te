@@ -115,6 +115,8 @@ allow video_driver_t video_driver_tmpfs_t:dir { create };
 allow video_driver_t video_driver_tmpfs_t:fifo_file { create read open };
 allow video_driver_t etc_t:dir { write };
 allow video_driver_t etc_t:file { write };
+allow video_driver_t video_driver_tmpfs_t:file map;
+allow video_driver_t initrc_t:process signull;
 
 files_tmp_file(video_driver_tmp_t)
 files_tmp_filetrans(video_driver_t, video_driver_tmp_t, { dir fifo_file file lnk_file })
