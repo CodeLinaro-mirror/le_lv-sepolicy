@@ -42,6 +42,7 @@ allow diag_service_t self:unix_dgram_socket { create connect getopt setopt };
 allow diag_service_t self:tcp_socket { create connect getopt setopt bind read write };
 allow diag_service_t self:process { setrlimit setsched getsched };
 allow diag_service_t self:capability { sys_resource sys_nice net_admin sys_ptrace };
+allow diag_service_t self:process signal;
 
 # /tmp/lrms_log_(pid).txt
 files_tmp_file(diag_service_tmp_t)
