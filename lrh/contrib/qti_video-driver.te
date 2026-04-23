@@ -121,6 +121,8 @@ hyp_video_ptrace(video_driver_t)
 allow video_driver_t self:unix_dgram_socket { create connect getopt setopt };
 allow video_driver_t self:process { setrlimit setsched getsched };
 allow video_driver_t self:capability { sys_resource sys_ptrace net_admin sys_nice sys_ptrace dac_override kill fowner};
+allow video_driver_t video_driver_tmpfs_t:dir { create };
+allow video_driver_t video_driver_tmpfs_t:fifo_file { create read open unlink write };
 
 files_tmp_file(video_driver_tmp_t)
 files_tmp_filetrans(video_driver_t, video_driver_tmp_t, { dir fifo_file file lnk_file })
@@ -131,6 +133,7 @@ manage_fifo_files_pattern(video_driver_t, video_driver_tmp_t, video_driver_tmp_t
 files_tmpfs_file(video_driver_tmpfs_t)
 fs_tmpfs_filetrans(video_driver_t, video_driver_tmpfs_t, { dir file })
 create_files_pattern(video_driver_t, video_driver_tmpfs_t, video_driver_tmpfs_t)
+manage_files_pattern(video_driver_t, video_driver_tmpfs_t, video_driver_tmpfs_t)
 videodriver_mmap_rw_tmpfs_files(video_driver_t)
 videodriver_delete_tmpfs_files(video_driver_t)
 
