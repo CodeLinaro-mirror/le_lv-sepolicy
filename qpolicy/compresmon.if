@@ -112,3 +112,22 @@ interface(`compresmon_rw_nsp_sysmon_dev',`
 
     rw_chr_files_pattern($1, device_t, nsp_sysmon_device_t)
 ')
+
+
+######################################
+## <summary>
+##  Read and write compresmon sock tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+
+interface(`compresmon_rw_tmpfs_sock_files',`
+    gen_require(`
+        type tmpfs_t;
+    ')
+    rw_sock_files_pattern($1, tmpfs_t, tmpfs_t)
+')
