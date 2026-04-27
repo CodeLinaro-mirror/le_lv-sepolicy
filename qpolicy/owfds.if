@@ -252,3 +252,21 @@ interface(`dev_map_vfio_dpu_safe_10_dev',`
 
     allow $1 vfio_dpu_safe_device_1_t:chr_file map;
 ')
+
+########################################
+## <summary>
+##      Allow a domain to use file descriptors owned by openwfd_server_t.
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed.
+##      </summary>
+## </param>
+#
+interface(`openwfd_server_use_fds',`
+    gen_require(`
+        type openwfd_server_t;
+    ')
+
+    allow $1 openwfd_server_t:fd use;
+')
