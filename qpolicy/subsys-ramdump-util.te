@@ -73,3 +73,6 @@ fs_create_mmap_rw_tmpfs_files(subsys_ramdump_util_t)
 pilrm_rw_tmpfs_files(subsys_ramdump_util_t)
 pilrm_mmap_rw_tmpfs_files(subsys_ramdump_util_t)
 pil_rm_signull(subsys_ramdump_util_t)
+
+files_manage_default_dirs(subsys_ramdump_util_t)
+files_manage_default_files(subsys_ramdump_util_t)
