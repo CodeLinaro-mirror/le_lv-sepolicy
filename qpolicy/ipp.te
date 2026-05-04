@@ -30,11 +30,13 @@ fs_rw_tmpfs_dirs(ipp_t)
 dev_read_sysfs(ipp_t)
 
 ipp_manage_ipp_exec_files(ipp_t)
+ipp_manage_lib_files(ipp_t)
 
 # smcinvoke
 dev_rw_smcinvoke_dev(ipp_t)
 minkdescriptor_mmap_lib_files(ipp_t)
 smcinvoke_server_stream_connectto(ipp_t)
+init_rw_script_stream_sockets(ipp_t)
 
 # rw /dev/dma_heap/linux,cma
 dev_rw_dma_dev(ipp_t)
@@ -57,8 +59,14 @@ logging_read_syslog_pid(ipp_t)
 logging_dgram_send(ipp_t)
 
 # local
-allow ipp_t self:process { setrlimit setsched };
+allow ipp_t self:process { getsched ptrace setrlimit setsched signal signull };
 allow ipp_t self:capability { sys_resource };
 allow ipp_t self:unix_dgram_socket { create connect write };
+init_map_initrc_devpts(ipp_t)
 
 power_use_pm_register(ipp_t, ipp_power_t)
+
+# /data default_t access for ipp_ut
+files_search_default(ipp_t)
+files_read_default_files(ipp_t)
+files_read_generic_tmp_files(ipp_t)
