@@ -1,0 +1,22 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary>Policy for SELinux policy and userland applications.</summary>
+
+######################################
+## <summary>
+##  Read and write /dev/socket/leprop-service.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`system_core_rw_leprop_socket',`
+    gen_require(`
+        type system_core_leprop_socket_t;
+    ')
+
+    allow $1 system_core_leprop_socket_t:sock_file { open getattr read write };
+')
