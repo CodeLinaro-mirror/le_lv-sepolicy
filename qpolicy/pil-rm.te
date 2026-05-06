@@ -125,3 +125,10 @@ compresmgr_rw_etc_files(pil_rm_t)
 userdom_manage_user_tmpfs_files(pil_rm_t)
 mmap_rw_files_pattern(pil_rm_t,user_tmpfs_t,user_tmpfs_t)
 soccp_driver_signull(pil_rm_t)
+
+#for qdss
+allow pil_rm_t pil_rm_tmpfs_t:file unlink;
+allow pil_rm_t qdss_service_tmpfs_t:file unlink;
+qdss_service_signull(pil_rm_t)
+qdssservice_manage_tmpfs_files(pil_rm_t)
+qdssservice_mmap_rw_tmpfs_files(pil_rm_t)

@@ -149,3 +149,39 @@ interface(`qdssservice_map_dev',`
 
     allow $1 qdss_service_device_t:chr_file map;
 ')
+
+######################################
+## <summary>
+##  Delete qdss-service tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`qdssservice_delete_tmpfs_files',`
+    gen_require(`
+        type qdss_service_tmpfs_t;
+    ')
+
+    delete_files_pattern($1, qdss_service_tmpfs_t, qdss_service_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Read and write qdssservice-service tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`qdssservice_manage_tmpfs_files',`
+    gen_require(`
+        type qdss_service_tmpfs_t;
+    ')
+
+    manage_files_pattern($1, qdss_service_tmpfs_t, qdss_service_tmpfs_t)
+')

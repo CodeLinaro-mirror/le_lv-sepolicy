@@ -109,3 +109,6 @@ kernel_relabelfrom_unlabeled_symlinks(systemd_tmpfiles_t)
 soccp_driver_read_tmpfs_files(systemd_tmpfiles_t)
 
 fs_write_cgroup_files(systemd_networkd_t)
+
+#for diag
+diagservice_rw_tmpfs_files(systemd_tmpfiles_t)
