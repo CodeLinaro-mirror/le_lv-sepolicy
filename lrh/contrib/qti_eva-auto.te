@@ -69,6 +69,10 @@ allow eva_auto_t self:capability { sys_resource sys_nice net_admin dac_override 
 
 files_tmp_file(eva_auto_tmp_t)
 files_tmp_filetrans(eva_auto_t, eva_auto_tmp_t, { dir fifo_file file lnk_file })
+
+#xml reading access /etc/safety_config
+files_read_safety_config_files(eva_auto_t)
+
 manage_files_pattern(eva_auto_t, eva_auto_tmp_t, eva_auto_tmp_t)
 manage_dirs_pattern(eva_auto_t, eva_auto_tmp_t, eva_auto_tmp_t)
 manage_fifo_files_pattern(eva_auto_t, eva_auto_tmp_t, eva_auto_tmp_t)

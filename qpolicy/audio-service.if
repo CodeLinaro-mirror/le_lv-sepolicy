@@ -116,6 +116,25 @@ interface(`audioservice_read_etc_files',`
 
 ######################################
 ## <summary>
+##  Create read and write /etc
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`audioservice_rw_chime_etc_files',`
+    gen_require(`
+        type etc_t, etc_runtime_t;
+    ')
+    read_files_pattern($1, etc_t, etc_runtime_t)
+    create_files_pattern($1, etc_t, etc_t)
+    mmap_rw_files_pattern($1, etc_t, etc_t, file)
+')
+
+######################################
+## <summary>
 ##  Read and write audio device (/dev/ipc_shmem)
 ## </summary>
 ## <param name="domain">
@@ -259,4 +278,19 @@ interface(`audioservice_tcp_comm',`
     ')
 
     allow $1 audio_service_t:tcp_socket { accept bind create listen setopt shutdown connect read write };
+')
+
+########################################
+## <summary>
+##      Allow mmap() (map) of /dev/kiumd (kiumd_device_t).
+## </summary>
+## <param name="domain">
+##      <summary>Domain allowed access.</summary>
+## </param>
+interface(`audioservice_map_kiumd_dev',`
+    gen_require(`
+        type kiumd_device_t;
+    ')
+
+    allow $1 kiumd_device_t:chr_file map;
 ')

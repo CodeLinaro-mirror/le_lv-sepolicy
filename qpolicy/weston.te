@@ -41,6 +41,10 @@ init_signal(weston_t)
 init_signal_script(weston_t)
 init_read_state(weston_t)
 init_stream_connect_script(weston_t)
+# initrc_runtime_t
+init_create_initrc_runtime_files(weston_t)
+init_rw_initrc_runtime_files(weston_t)
+init_create_initrc_runtime_sock_files(weston_t)
 
 # use fd of the kernel library file
 kernel_use_fds(weston_t)

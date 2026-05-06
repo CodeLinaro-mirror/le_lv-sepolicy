@@ -1,0 +1,40 @@
+# Copyright (c) 2025 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary>Policy interface for SELinux policy and userland applications.</summary>
+
+######################################
+## <summary>
+##  Send signull to pciesm related process.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`pciesm_signull',`
+    gen_require(`
+        type pciesm_t;
+    ')
+
+    allow $1 pciesm_t:process signull;
+')
+
+######################################
+## <summary>
+##  Map, read and write pciesm tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`pciesm_mmap_rw_tmpfs_files',`
+    gen_require(`
+        type pciesm_tmpfs_t;
+    ')
+
+    mmap_rw_files_pattern($1, pciesm_tmpfs_t, pciesm_tmpfs_t)
+')

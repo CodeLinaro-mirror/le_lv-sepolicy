@@ -1,0 +1,58 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary>Policy for SELinux policy and userland applications.</summary>
+
+######################################
+## <summary>
+##  Send signull to sdv_dice_service process.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`sdv_dice_service_signull',`
+    gen_require(`
+        type sdv_dice_t;
+    ')
+
+    allow $1 sdv_dice_t:process signull;
+')
+
+######################################
+## <summary>
+##  Read, write and map open-dice devices (/dev/open-dice0).
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+interface(`sdv_dice_rw_opendice_dev',`
+    gen_require(`
+        type device_t, sdv_dice_opendice_t;
+    ')
+
+    rw_chr_files_pattern($1, device_t, sdv_dice_opendice_t)
+    allow $1 sdv_dice_opendice_t:chr_file { map };
+')
+
+######################################
+## <summary>
+##  Read, write and map dice-vm devices (/dev/dice-vm_autoghgvm).
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+interface(`sdv_dice_rw_vm_dev',`
+    gen_require(`
+        type device_t, sdv_dice_vm_t;
+    ')
+
+    rw_chr_files_pattern($1, device_t, sdv_dice_vm_t)
+    allow $1 sdv_dice_vm_t:chr_file { map };
+')
