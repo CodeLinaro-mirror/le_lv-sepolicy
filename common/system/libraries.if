@@ -1,0 +1,20 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+########################################
+## <summary>
+##  Transition to ldconfig_t when NNP has been set.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  The type of the process performing this action.
+##  </summary>
+## </param>
+#
+interface(`ldconfig_nnp_trans',`
+    gen_require(`
+        type ldconfig_t;
+    ')
+
+    allow $1 ldconfig_t:process2 nnp_transition;
+')

@@ -22,4 +22,22 @@ interface(`keymaster_mmap_lib_files',`
     allow $1 keymaster_lib_t:file mmap_exec_file_perms;
 ')
 
+########################################
+## <summary>
+##  Delete KeyMaster library files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`keymaster_delete_lib_files',`
+    gen_require(`
+        type keymaster_lib_t, lib_t;
+    ')
+
+    delete_files_pattern($1, lib_t, keymaster_lib_t)
+')
+
 
