@@ -136,6 +136,7 @@ qdssservice_map_dev(qdss_service_t)
 dev_rw_dma_dev(qdss_service_t)
 allow qdss_service_t device_t:chr_file { read write };
 allow qdss_service_t device_t:chr_file { ioctl open };
+allow qdss_service_t device_t:sock_file write;
 allow qdss_service_t self:process signal;
 diag_service_signull(qdss_service_t)
 files_create_default_files(qdss_service_t)
