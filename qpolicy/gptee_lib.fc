@@ -31,5 +31,6 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /usr/lib/libGPTEE(.*)?           --    gen_context(system_u:object_r:gptee_lib_t,s0)
+/usr/lib/libGPQTEEC(.*)?         --    gen_context(system_u:object_r:gptee_lib_t,s0)
 /usr/lib/libGPMTEEC(.*)?         --    gen_context(system_u:object_r:gptee_lib_t,s0)
-/usr/bin/GPTEE_Sample_client     --    gen_context(system_u:object_r:gptee_client_t,s0)
+/usr/bin/GPTEE_Sample_client     --    gen_context(system_u:object_r:gptee_client_exec_t,s0)

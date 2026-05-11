@@ -7,6 +7,7 @@ type pciesm_t;
 type pciesm_exec_t;
 type pciesm_tmpfs_t;
 type pciesm_power_t;
+type pciesm_tmp_t;
 
 init_daemon_domain(pciesm_t, pciesm_exec_t)
 init_search_runtime(pciesm_t)
@@ -24,6 +25,11 @@ manage_dirs_pattern(pciesm_t, pciesm_tmpfs_t, pciesm_tmpfs_t)
 create_files_pattern(pciesm_t, pciesm_tmpfs_t, pciesm_tmpfs_t)
 manage_files_pattern(pciesm_t, pciesm_tmpfs_t, pciesm_tmpfs_t)
 
+files_tmp_file(pciesm_tmp_t)
+files_tmp_filetrans(pciesm_t,  pciesm_tmp_t, { dir file })
+create_files_pattern(pciesm_t, pciesm_tmp_t, pciesm_tmp_t)
+manage_files_pattern(pciesm_t, pciesm_tmp_t, pciesm_tmp_t)
+
 logging_create_devlog_dev(pciesm_t)
 logging_send_syslog_msg(pciesm_t)
 logging_watch_runtime_dirs(pciesm_t)
@@ -37,9 +43,18 @@ safetymonitor_rw_tmpfs_files(pciesm_t)
 
 files_read_safety_config_files(pciesm_t)
 
+compresmgr_rw_etc_files(pciesm_t)
+userdom_manage_user_tmp_files(pciesm_t)
+fs_rw_tmp_dirs(pciesm_t)
+fs_create_write_tmp_files(pciesm_t)
+
+files_manage_var_dirs(pciesm_t)
+files_manage_var_files(pciesm_t)
+
 allow pciesm_t pciesm_tmpfs_t:file { map };
 allow pciesm_t self:unix_dgram_socket { getopt setopt create connect sendto write };
 allow pciesm_t self:unix_stream_socket { read write listen };
-allow pciesm_t self:capability { sys_admin sys_resource };
+allow pciesm_t self:capability { sys_admin sys_resource sys_nice};
+allow pciesm_t self:process { getsched setsched signal };
 
 power_use_pm_register(pciesm_t, pciesm_power_t)
