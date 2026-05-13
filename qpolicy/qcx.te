@@ -166,6 +166,7 @@ allow qcx_server_t var_t:lnk_file read;
 allow qcx_server_t gptp_tmpfs_t:file { open read write map };
 allow qcx_server_t qgptp_device_t:chr_file { open read write };
 qcxserver_mmap_rw_tmpfs_files(qcx_be_server_t)
+corecmd_read_bin_files(qcx_server_t)
 
 # tmpfs
 fs_map_tmpfs_files(qcx_be_server_t)
