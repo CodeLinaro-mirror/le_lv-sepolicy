@@ -97,6 +97,9 @@ power_use_pm_register(safetymonitor_t, safetymonitor_power_t)
 #/proc/filesystems
 kernel_read_proc_files(safetymonitor_t)
 
+# for triggering sysrq (e.g. echo b > /proc/sysrq-trigger)
+kernel_rw_all_sysctls(safetymonitor_t)
+
 #compute-resmgr
 compresmgr_rw_etc_files(safetymonitor_t)
 
