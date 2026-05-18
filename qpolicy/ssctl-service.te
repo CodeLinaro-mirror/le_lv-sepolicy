@@ -51,3 +51,6 @@ dev_read_sysfs(ssctl_service_t)
 dev_rw_kiumd_dev(ssctl_service_t)
 dev_rw_vfio_dev(ssctl_service_t)
 dev_map_kiumd_dev(ssctl_service_t)
+
+init_rw_script_stream_sockets(ssctl_service_t)
+allow ssctl_service_t self:capability net_admin;

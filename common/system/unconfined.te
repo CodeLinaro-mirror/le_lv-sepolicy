@@ -37,5 +37,11 @@ corenet_icmp_bind_generic_node(unconfined_t)
 allow_she_lib_files(unconfined_t)
 
 gptee_mmap_lib_files(unconfined_t)
+gpce_be_delete_lib_files(unconfined_t)
+gptee_delete_lib_files(unconfined_t)
+gptee_delete_client_files(unconfined_t)
+keymaster_delete_lib_files(unconfined_t)
+minkdescriptor_delete_lib_files(unconfined_t)
+delete_she_lib_files(unconfined_t)
 
 init_binder(unconfined_t)

@@ -24,6 +24,7 @@ fastrpc_rm_signull(ssr_rm_t)
 diag_service_signull(ssr_rm_t)
 audio_service_signull(ssr_rm_t)
 pil_rm_signull(ssr_rm_t)
+compressch_signull(ssr_rm_t)
 
 glinkserver_mmap_rw_tmpfs_files(ssr_rm_t)
 fastrpc_rm_mmap_rw_tmpfs_files(ssr_rm_t)
@@ -59,7 +60,7 @@ libkiumd_mmap_exec_lib_file(ssr_rm_t)
 logging_dgram_send(ssr_rm_t)
 
 allow ssr_rm_t self:unix_dgram_socket create_socket_perms;
-allow ssr_rm_t self:process { setrlimit setsched getsched };
+allow ssr_rm_t self:process { setrlimit setsched getsched signal };
 allow ssr_rm_t self:capability { sys_resource net_admin sys_nice };
 
 userdom_mmap_rw_inherited_user_tmp_files(ssr_rm_t)
@@ -76,3 +77,6 @@ fastrpc_map_user_tmpfs(ssr_rm_t)
 fastrpc_unlink_user_tmpfs(ssr_rm_t)
 fastrpc_read_user_tmpfs(ssr_rm_t)
 fastrpc_signull(ssr_rm_t)
+fastrpc_rm_unlink_tmpfs_files(ssr_rm_t)
+
+dev_read_sysfs(ssr_rm_t)

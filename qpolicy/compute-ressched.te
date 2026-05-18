@@ -5,6 +5,7 @@ policy_module(compute-ressched, 1.0)
 
 type compressch_t;
 type compressch_exec_t;
+type compressch_power_t;
 
 init_daemon_domain(compressch_t, compressch_exec_t)
 
@@ -58,3 +59,8 @@ files_create_var_dirs(compressch_t)
 # Allow qlf to check file status in /var/log/
 files_read_var_symlinks(compressch_t)
 
+#allow ssr
+ssrrm_rw_tmpfs_files(compressch_t)
+
+#To allow registering with power manager (pm-client)
+power_use_pm_register(compressch_t, compressch_power_t)

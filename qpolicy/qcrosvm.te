@@ -31,6 +31,8 @@ kernel_request_load_module(qcrosvm_t)
 kernel_search_debugfs(qcrosvm_t)
 dev_getattr_fs(qcrosvm_t)
 dev_read_sysfs(qcrosvm_t)
+init_read_script_tmp_files(qcrosvm_t)
+fs_getattr_tmpfs(qcrosvm_t)
 
 fs_rw_tracefs_files(qcrosvm_t)
 fs_list_dos(qcrosvm_t)

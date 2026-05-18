@@ -62,6 +62,7 @@ qseecomd_use_fds(smcinvoke_service_t)
 
 # ippc
 ipp_gpce_be_process(smcinvoke_service_t)
+ipp_use_fds(smcinvoke_service_t)
 
 # ssgtz_daemon
 ssgtz_daemon_signull(smcinvoke_service_t)
@@ -79,10 +80,10 @@ userdom_manage_tmp_files(smcinvoke_service_t)
 # openwfd
 openwfd_server_signull(smcinvoke_service_t)
 openwfd_server_ptrace(smcinvoke_service_t)
+openwfd_server_use_fds(smcinvoke_service_t)
 
 owfds_rw_tmpfs_files(smcinvoke_service_t)
 openwfd_mmap_rw_tmpfs_files(smcinvoke_service_t)
 fs_search_tracefs_dirs(smcinvoke_service_t)
 fs_rw_tracefs_files(smcinvoke_service_t)
-
 

@@ -23,3 +23,21 @@ interface(`allow_she_lib_files',`
     allow $1 she_lib_t:file { execute execute_no_trans getattr map open read relabelfrom };
 ')
 
+########################################
+## <summary>
+##  Delete SHE library files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`delete_she_lib_files',`
+    gen_require(`
+        type she_lib_t, lib_t;
+    ')
+
+    delete_files_pattern($1, lib_t, she_lib_t)
+')
+

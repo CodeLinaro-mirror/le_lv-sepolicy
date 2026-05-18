@@ -14,6 +14,7 @@ init_daemon_domain(subsys_ramdump_util_t, subsys_ramdump_util_exec_t)
 dev_node(subsystem_ramdump_util_device_t)
 
 init_rw_script_stream_sockets(subsys_ramdump_util_t)
+init_signull_script(subsys_ramdump_util_t)
 
 logging_send_syslog_msg(subsys_ramdump_util_t)
 
@@ -72,3 +73,6 @@ fs_create_mmap_rw_tmpfs_files(subsys_ramdump_util_t)
 pilrm_rw_tmpfs_files(subsys_ramdump_util_t)
 pilrm_mmap_rw_tmpfs_files(subsys_ramdump_util_t)
 pil_rm_signull(subsys_ramdump_util_t)
+
+files_manage_default_dirs(subsys_ramdump_util_t)
+files_manage_default_files(subsys_ramdump_util_t)

@@ -124,3 +124,6 @@ compresmgr_rw_etc_files(pil_rm_t)
 userdom_manage_user_tmpfs_files(pil_rm_t)
 mmap_rw_files_pattern(pil_rm_t,user_tmpfs_t,user_tmpfs_t)
 soccp_driver_signull(pil_rm_t)
+
+# Allow pil-rm to access glinkserver tmpfs files (for shared memory lock)
+glinkserver_rw_tmpfs_files(pil_rm_t)

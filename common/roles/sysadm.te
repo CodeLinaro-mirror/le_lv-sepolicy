@@ -7,3 +7,5 @@ dbus_sysadm_user(sysadm)
 pulseaudio_role(root, sysadm_t, sysadm_application_exec_domain, sysadm_r)
 
 init_rw_script_stream_sockets(sysadm_t)
+
+allow sysadm_t self:netlink_route_socket { nlmsg_write };

@@ -11,6 +11,12 @@ init_system_domain(gptee_client_t, gptee_client_exec_t)
 fs_associate(gptee_lib_t)
 gptee_mmap_lib_files(gptee_client_t)
 
+# kernel_t
+require {
+    type kernel_t;
+}
+gptee_mmap_lib_files(kernel_t)
+
 # self
 allow gptee_client_t self:unix_dgram_socket { create connect write getopt setopt };
 allow gptee_client_t self:process { setrlimit setsched };

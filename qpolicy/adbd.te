@@ -118,7 +118,7 @@ require {
 allow systemd_update_done_t initrc_t:unix_stream_socket {read write getattr ioctl };
 allow systemd_update_done_t default_t:dir { search write add_name};
 allow systemd_update_done_t self:capability { net_admin };
-allow systemd_passwd_agent_t initrc_devpts_t:chr_file { read write };
+allow systemd_passwd_agent_t initrc_devpts_t:chr_file { read write append };
 allow systemd_tmpfiles_t default_t:dir { search getattr };
 allow systemd_logind_t default_t:dir {search getattr};
 allow subsys_ramdump_util_t default_t:dir search;
