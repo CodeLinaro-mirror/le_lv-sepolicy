@@ -94,7 +94,7 @@ kernel_read_unlabeled_state(nsp_drv_t)
 ## ========== local ==========
 allow nsp_drv_t self:unix_dgram_socket { create connect getopt setopt };
 allow nsp_drv_t self:unix_stream_socket { listen };
-allow nsp_drv_t self:process { setrlimit setsched getsched};
+allow nsp_drv_t self:process { setrlimit setsched getsched signal };
 allow nsp_drv_t self:capability { sys_resource net_admin sys_nice };
 # Allow access to safety configuration files
 files_read_safety_config_files(nsp_drv_t)
