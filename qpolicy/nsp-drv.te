@@ -44,6 +44,7 @@ create_files_pattern(nsp_drv_t, nsp_drv_tmpfs_t, nsp_drv_tmpfs_t)
 nspdrv_mmap_rw_tmpfs_files(nsp_drv_t)
 nspdrv_delete_tmpfs_files(nsp_drv_t)
 safetymonitor_rw_tmpfs_files(nsp_drv_t)
+files_read_safety_config_files(nsp_drv_t)
 
 nspdrv_delete_tmpfs_files(nsp_drv_t)
 nspconfig_signull(nsp_drv_t)
