@@ -21,3 +21,4 @@
 /dev/scmi_camera_pdb2   -c      gen_context(system_u:object_r:qcx_server_dev_t,s0)
 /dev/scmi_camera_pdb3   -c      gen_context(system_u:object_r:qcx_server_dev_t,s0)
 /dev/scmi_camera_pdb4   -c      gen_context(system_u:object_r:qcx_server_dev_t,s0)
+

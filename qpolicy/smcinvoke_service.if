@@ -23,6 +23,24 @@ interface(`minkdescriptor_mmap_lib_files',`
 
 ########################################
 ## <summary>
+##  Delete minkdescriptor library files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`minkdescriptor_delete_lib_files',`
+    gen_require(`
+        type minkdescriptor_lib_t, lib_t;
+    ')
+
+    delete_files_pattern($1, lib_t, minkdescriptor_lib_t)
+')
+
+########################################
+## <summary>
 ## Connect to smcinvoke_service_t with a unix socket.
 ## </summary>
 ## <param name="domain">

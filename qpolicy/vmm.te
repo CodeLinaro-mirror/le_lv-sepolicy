@@ -74,7 +74,7 @@ files_manage_default_files(vmm_t);
 
 allow vmm_t self:unix_dgram_socket { create connect };
 allow vmm_t self:capability { sys_resource sys_nice net_admin dac_override sys_admin };
-allow vmm_t self:process { setrlimit setsched signal };
+allow vmm_t self:process { setrlimit setsched getsched signal };
 allow vmm_t vmm_tmpfs_t:file delete_file_perms;
 
 # for running vmm_test app in adb shell
