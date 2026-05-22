@@ -33,6 +33,9 @@ diagservice_delete_tmpfs_files(glinkserver_t)
 diagservice_unlink_tmpfs_files(glinkserver_t)
 audioservice_mmap_rw_tmpfs_files(glinkserver_t)
 audioservice_delete_tmpfs_files(glinkserver_t)
+kernel_search_debugfs(glinkserver_t)
+fs_search_tracefs_dirs(glinkserver_t)
+fs_rw_tracefs_files(glinkserver_t)
 
 # /dev/umd_glink
 glinkserver_rw_umd_glink_dev(glinkserver_t)
