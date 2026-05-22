@@ -21,6 +21,8 @@ files_read_etc_files(sdv_dice_t)
 # VMM client
 vmm_create_tmpfs_files(sdv_dice_t)
 vmm_client_connect_server(sdv_dice_t);
+files_create_tmp_sock_files(sdv_dice_t)
+fs_manage_tmpfs_sockets(sdv_dice_t)
 
 # tmpfs
 fs_manage_tmpfs_files(sdv_dice_t)
@@ -29,6 +31,7 @@ fs_rw_tmpfs_dirs(sdv_dice_t)
 
 # self
 allow sdv_dice_t self:unix_dgram_socket { connect create write };
+allow sdv_dice_t self:unix_stream_socket { create bind listen accept read write };
 allow sdv_dice_t self:process { setrlimit setsched getsched signull signal };
 
 # Access open-dice and dice-vm char devices
