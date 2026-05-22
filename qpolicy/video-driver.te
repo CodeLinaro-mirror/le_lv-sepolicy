@@ -45,6 +45,7 @@ manage_files_pattern(video_driver_t, video_driver_etc_t, video_driver_etc_t)
 # so file transition rules can't work, use below two interface for the moment
 fs_rw_tmpfs_files(video_driver_t)
 fs_delete_tmpfs_files(video_driver_t)
+fs_map_tmpfs_files(video_driver_t)
 
 # dbus and logind access for suspend and resume support
 dbus_system_bus_client(video_driver_t)
@@ -115,7 +116,6 @@ allow video_driver_t video_driver_tmpfs_t:dir { create };
 allow video_driver_t video_driver_tmpfs_t:fifo_file { create read open };
 allow video_driver_t etc_t:dir { write };
 allow video_driver_t etc_t:file { write };
-allow video_driver_t video_driver_tmpfs_t:file map;
 allow video_driver_t initrc_t:process signull;
 
 files_tmp_file(video_driver_tmp_t)
