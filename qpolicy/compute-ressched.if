@@ -40,3 +40,23 @@ interface(`compressch_nnp_transition',`
     allow $1 compressch_t:process2 nnp_transition;
 ')
 
+######################################
+## <summary>
+##  Read compute-ressched config files under /etc.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`compressch_read_etc_files',`
+    gen_require(`
+        type etc_t;
+        type compressch_etc_t;
+    ')
+
+    list_dirs_pattern($1, etc_t, compressch_etc_t)
+    read_files_pattern($1, etc_t, compressch_etc_t)
+    allow $1 compressch_etc_t:file { getattr open read };
+')
