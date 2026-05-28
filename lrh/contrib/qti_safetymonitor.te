@@ -80,6 +80,9 @@ nspdrv_delete_tmpfs_files(safetymonitor_t)
 safetymonitor_execute_bins(safetymonitor_t)
 corecmd_mmap_bin_files(safetymonitor_t)
 
+# for triggering sysrq (e.g. echo b > /proc/sysrq-trigger)
+kernel_rw_all_sysctls(safetymonitor_t)
+
 # pm_register
 power_use_pm_register(safetymonitor_t, safetymonitor_power_t)
 
@@ -113,4 +116,3 @@ compresmgr_unlink_tmpfs_files(safetymonitor_t)
 pciesm_signull(safetymonitor_t)
 pciesm_mmap_rw_tmpfs_files(safetymonitor_t)
 pciesm_unlink_tmpfs_files(safetymonitor_t)
-

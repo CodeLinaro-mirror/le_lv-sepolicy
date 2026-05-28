@@ -57,3 +57,39 @@ interface(`gptee_manage_lib_files',`
 
     manage_files_pattern($1, lib_t, gptee_lib_t)
 ')
+
+########################################
+## <summary>
+##  Delete GPTEE library files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`gptee_delete_lib_files',`
+    gen_require(`
+        type gptee_lib_t, lib_t;
+    ')
+
+    delete_files_pattern($1, lib_t, gptee_lib_t)
+')
+
+########################################
+## <summary>
+##  Delete GPTEE client files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`gptee_delete_client_files',`
+    gen_require(`
+        type gptee_client_t;
+    ')
+
+    allow $1 gptee_client_t:file { getattr unlink };
+')

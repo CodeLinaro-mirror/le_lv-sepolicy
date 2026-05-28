@@ -57,3 +57,39 @@ interface(`ipp_manage_lib_files',`
 
     allow $1 ipp_lib_t:file { read open getattr map execute };
 ')
+
+########################################
+## <summary>
+##  Use file descriptors from ipp_t.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`ipp_use_fds',`
+    gen_require(`
+        type ipp_t;
+    ')
+
+    allow $1 ipp_t:fd use;
+')
+
+########################################
+## <summary>
+##  Allow domain to nnp_transition into ipp_t.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`ipp_initrc_nnp_transition',`
+    gen_require(`
+        type ipp_t;
+    ')
+
+    allow $1 ipp_t:process2 nnp_transition;
+')

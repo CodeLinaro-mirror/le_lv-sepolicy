@@ -7,6 +7,7 @@ type ecc_err_handler_t;
 type ecc_err_handler_exec_t;
 type ecc_err_handler_tmp_t;
 type ecc_err_handler_tmpfs_t;
+type ecc_err_handler_power_t;
 
 init_daemon_domain(ecc_err_handler_t, ecc_err_handler_exec_t)
 
@@ -52,3 +53,4 @@ ecc_err_handler_mmap_rw_tmpfs_files(ecc_err_handler_t)
 compresmgr_rw_etc_files(ecc_err_handler_t)
 fs_rw_tmpfs_files(ecc_err_handler_t)
 
+power_use_pm_register(ecc_err_handler_t, ecc_err_handler_power_t)

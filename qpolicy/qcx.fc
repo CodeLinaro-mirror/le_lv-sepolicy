@@ -16,3 +16,9 @@
 /dev/i2c-27             -c      gen_context(system_u:object_r:qcx_server_dev_t,s0)
 /dev/i2c-28             -c      gen_context(system_u:object_r:qcx_server_dev_t,s0)
 /dev/i2c-29             -c      gen_context(system_u:object_r:qcx_server_dev_t,s0)
+/dev/scmi_camera_pdb0   -c      gen_context(system_u:object_r:qcx_server_dev_t,s0)
+/dev/scmi_camera_pdb1   -c      gen_context(system_u:object_r:qcx_server_dev_t,s0)
+/dev/scmi_camera_pdb2   -c      gen_context(system_u:object_r:qcx_server_dev_t,s0)
+/dev/scmi_camera_pdb3   -c      gen_context(system_u:object_r:qcx_server_dev_t,s0)
+/dev/scmi_camera_pdb4   -c      gen_context(system_u:object_r:qcx_server_dev_t,s0)
+

@@ -38,8 +38,14 @@ qseecomd_manage_data_files(initrc_t)
 qseecomd_rw_persist(initrc_t)
 qseecomd_manage_persist_files(initrc_t)
 minkdescriptor_mmap_lib_files(initrc_t)
+minkdescriptor_delete_lib_files(initrc_t)
 keymaster_mmap_lib_files(initrc_t)
+keymaster_delete_lib_files(initrc_t)
 gptee_mmap_lib_files(initrc_t)
+gptee_delete_lib_files(initrc_t)
+gptee_delete_client_files(initrc_t)
+gpce_be_map_lib_files(initrc_t)
+gpce_be_delete_lib_files(initrc_t)
 
 audioservice_rw_etc_files(initrc_t)
 
@@ -68,6 +74,7 @@ fs_cgroup_filetrans_memory_pressure(initrc_t, file, "memory.pressure")
 fs_mounton_memory_pressure(initrc_t)
 
 owfds_map_lib_files(initrc_t)
+ldconfig_nnp_trans(initrc_t)
 modutils_kmod_nnp_trans(initrc_t)
 term_watch_reads_unallocated_ttys(initrc_t)
 
@@ -79,10 +86,13 @@ netutils_ping_nnp_trans(initrc_t)
 syscache_rm_nnp_trans(initrc_t)
 
 allow_she_lib_files(initrc_t)
+delete_she_lib_files(initrc_t)
 
+apss_stl_read_config_files(initrc_t)
 files_read_safety_config_files(initrc_t)
 eva_auto_nnp_trans(initrc_t)
 qseecomd_auto_nnp_trans(initrc_t)
 
 unconfined_binder(initrc_t)
 unconfined_system_stop(initrc_t)
+ipp_initrc_nnp_transition(initrc_t)

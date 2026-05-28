@@ -4,3 +4,8 @@
 owfds_map_lib_files(ldconfig_t)
 weston_map_lib_files(ldconfig_t)
 libkiumd_mmap_exec_lib_file(ldconfig_t)
+gpce_be_map_lib_files(ldconfig_t)
+gptee_mmap_lib_files(ldconfig_t)
+keymaster_mmap_lib_files(ldconfig_t)
+minkdescriptor_mmap_lib_files(ldconfig_t)
+allow_she_lib_files(ldconfig_t)
