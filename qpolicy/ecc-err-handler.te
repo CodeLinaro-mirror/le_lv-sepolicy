@@ -36,6 +36,7 @@ adreno200_delete_tmpfs_files(ecc_err_handler_t)
 
 # ========== local ==========
 allow ecc_err_handler_t self:netlink_route_socket create_netlink_socket_perms;
+allow ecc_err_handler_t self:netlink_kobject_uevent_socket { create bind read };
 allow ecc_err_handler_t self:unix_dgram_socket { create connect getopt setopt };
 allow ecc_err_handler_t self:udp_socket { create ioctl };
 allow ecc_err_handler_t self:process { setrlimit setsched };
