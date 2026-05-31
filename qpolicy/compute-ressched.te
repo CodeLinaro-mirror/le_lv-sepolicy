@@ -5,9 +5,14 @@ policy_module(compute-ressched, 1.0)
 
 type compressch_t;
 type compressch_exec_t;
+type compressch_etc_t;
 type compressch_power_t;
 
 init_daemon_domain(compressch_t, compressch_exec_t)
+
+#to allow access to /etc/compute-ressched.xml
+files_config_file(compressch_etc_t)
+compressch_read_etc_files(compressch_t)
 
 init_rw_script_stream_sockets(compressch_t)
 init_signull_script(compressch_t)

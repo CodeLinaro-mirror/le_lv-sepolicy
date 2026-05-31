@@ -162,6 +162,8 @@ manage_files_pattern(openwfd_server_t, openwfd_tmpfs_t, openwfd_tmpfs_t)
 compresmgr_rw_etc_files(openwfd_server_t)
 compresmgr_rw_etc_files(bridgeship_server_t)
 
+files_read_safety_config_files(openwfd_server_t)
+
 kernel_search_debugfs(openwfd_server_t)
 kernel_read_unlabeled_state(openwfd_server_t)
 fs_rw_tracefs_files(openwfd_server_t)
