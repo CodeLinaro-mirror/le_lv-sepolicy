@@ -79,6 +79,7 @@ userdom_manage_tmp_files(smcinvoke_service_t)
 # openwfd
 openwfd_server_signull(smcinvoke_service_t)
 openwfd_server_ptrace(smcinvoke_service_t)
+openwfd_server_use_fds(smcinvoke_service_t)
 
 owfds_rw_tmpfs_files(smcinvoke_service_t)
 openwfd_mmap_rw_tmpfs_files(smcinvoke_service_t)

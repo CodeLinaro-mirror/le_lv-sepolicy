@@ -183,3 +183,90 @@ interface(`openwfd_server_rw_dev',`
     rw_chr_files_pattern($1, device_t, openwfd_server_dev_t)
 ')
 
+######################################
+## <summary>
+##  Read and write vfio_dpu_safe_00 device (/dev/vfio_dpu_safe_00)
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`safeserver_rw_vfio_dpu_safe_00_dev',`
+    gen_require(`
+        type vfio_dpu_safe_device_0_t;
+    ')
+    allow $1 vfio_dpu_safe_device_0_t:chr_file rw_chr_file_perms;
+')
+
+########################################
+## <summary>
+##      map umd_pil device.
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+#
+interface(`dev_map_vfio_dpu_safe_00_dev',`
+    gen_require(`
+        type vfio_dpu_safe_device_0_t;
+    ')
+
+    allow $1 vfio_dpu_safe_device_0_t:chr_file map;
+')
+
+######################################
+## <summary>
+##  Read and write vfio_dpu_safe_10 device (/dev/vfio_dpu_safe_10)
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`safeserver_rw_vfio_dpu_safe_10_dev',`
+    gen_require(`
+        type vfio_dpu_safe_device_1_t;
+    ')
+    allow $1 vfio_dpu_safe_device_1_t:chr_file rw_chr_file_perms;
+')
+
+########################################
+## <summary>
+##      map vfio_dpu_safe_10 device (/dev/vfio_dpu_safe_10)
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+#
+interface(`dev_map_vfio_dpu_safe_10_dev',`
+    gen_require(`
+        type vfio_dpu_safe_device_1_t;
+    ')
+
+    allow $1 vfio_dpu_safe_device_1_t:chr_file map;
+')
+
+########################################
+## <summary>
+##      Allow a domain to use file descriptors owned by openwfd_server_t.
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed.
+##      </summary>
+## </param>
+#
+interface(`openwfd_server_use_fds',`
+    gen_require(`
+        type openwfd_server_t;
+    ')
+
+    allow $1 openwfd_server_t:fd use;
+')
