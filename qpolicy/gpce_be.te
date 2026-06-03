@@ -33,11 +33,15 @@ gpce_be_create_tmpfs_files(gpce_be_t)
 gpce_be_mmap_rw_tmpfs_files(gpce_be_t)
 gpce_be_rw_tmpfs_files(gpce_be_t)
 dev_rw_hab_dev(gpce_be_t)
+ipp_gpce_be_process(gpce_be_t)
 
 
 # /dev/shm/lrmc_rq_*
 files_tmpfs_file(gpce_be_tmpfs_t)
 fs_tmpfs_filetrans(gpce_be_t, gpce_be_tmpfs_t, { dir file })
+# Allow gpce_be to access LRMC queue files created under tmpfs by ippserver.
+fs_create_mmap_rw_tmpfs_files(gpce_be_t)
+ipp_use_fds(gpce_be_t)
 
 # /usr/lib/libkiumd,liblrms,liblrmc
 libkiumd_mmap_exec_lib_file(gpce_be_t)
@@ -55,6 +59,7 @@ dev_rw_dma_dev(gpce_be_t)
 dev_rw_kiumd_dev(gpce_be_t)
 dev_rw_vfio_dev(gpce_be_t)
 dev_read_sysfs(gpce_be_t)
+kernel_search_vm_sysctl(gpce_be_t)
 
 unconfined_server_signull(gpce_be_t)
 unconfined_server_ptrace(gpce_be_t)
@@ -69,6 +74,6 @@ files_tmp_filetrans(gpce_be_t, gpce_be_tmp_t, { dir file })
 manage_files_pattern(gpce_be_t, gpce_be_tmp_t, gpce_be_tmp_t)
 
 #================local===================
-allow gpce_be_t self:process { setrlimit setsched getsched };
+allow gpce_be_t self:process { setrlimit setsched getsched signal };
 allow gpce_be_t self:capability { sys_resource sys_nice dac_override};
 allow gpce_be_t tmpfs_t:file { read write open getattr };
