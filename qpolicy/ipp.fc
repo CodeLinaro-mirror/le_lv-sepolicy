@@ -1,0 +1,6 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+/usr/bin/ippserver                 --      gen_context(system_u:object_r:ipp_exec_t,s0)
+/usr/bin/ipp_ut                    --      gen_context(system_u:object_r:ipp_exec_t,s0)
+/usr/lib/libipp(.*)?               --      gen_context(system_u:object_r:ipp_lib_t,s0)

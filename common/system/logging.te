@@ -17,6 +17,8 @@ files_read_default_symlinks(auditd_t)
 
 ssrrm_signull(syslogd_t)
 display_be_signull(syslogd_t)
+smcinvoke_service_signull(syslogd_t)
+ssgtz_daemon_signull(syslogd_t)
 
 init_rw_script_stream_sockets(auditctl_t)
 init_rw_script_stream_sockets(auditd_t)

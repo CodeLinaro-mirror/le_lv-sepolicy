@@ -242,6 +242,24 @@ interface(`fs_search_tracefs_dirs',`
 
 ########################################
 ## <summary>
+##  Read and write tmp dirs
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`fs_rw_tmp_dirs',`
+    gen_require(`
+        type tmp_t;
+    ')
+
+    allow $1 tmp_t:dir rw_dir_perms;
+')
+
+########################################
+## <summary>
 ##  Read and write tmpfs dirs
 ## </summary>
 ## <param name="domain">

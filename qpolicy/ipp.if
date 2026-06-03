@@ -1,0 +1,59 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary>Policy for SELinux policy and userland applications.</summary>
+
+
+######################################
+## <summary>
+##  gpce_be signull ipp_t process.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`ipp_gpce_be_process',`
+    gen_require(`
+        type ipp_t;
+    ')
+
+    allow $1 ipp_t:process { signull ptrace };
+')
+
+########################################
+## <summary>
+##  Manage ipp_exec_t.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`ipp_manage_ipp_exec_files',`
+    gen_require(`
+        type ipp_exec_t;
+    ')
+
+    allow $1 ipp_exec_t:file { execute execute_no_trans getattr map open read };
+')
+
+########################################
+## <summary>
+##  Manage ipp library files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`ipp_manage_lib_files',`
+    gen_require(`
+        type ipp_lib_t;
+    ')
+
+    allow $1 ipp_lib_t:file { read open getattr map execute };
+')
