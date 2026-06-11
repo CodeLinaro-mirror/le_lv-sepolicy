@@ -20,3 +20,41 @@ interface(`system_core_rw_leprop_socket',`
 
     allow $1 system_core_leprop_socket_t:sock_file { open getattr read write };
 ')
+
+######################################
+## <summary>
+##  Transition to leprop_t under NoNewPrivileges (NNP).
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain performing the NNP transition (typically initrc_t).
+##  </summary>
+## </param>
+#
+interface(`system_core_leprop_nnp_trans',`
+    gen_require(`
+        type leprop_t;
+    ')
+
+    allow $1 leprop_t:process2 nnp_transition;
+')
+
+######################################
+## <summary>
+##  Connect to the leprop-service unix stream socket
+##  (/dev/socket/leprop-service).
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`system_core_connectto_leprop',`
+    gen_require(`
+        type leprop_t, system_core_leprop_socket_t;
+    ')
+
+    allow $1 system_core_leprop_socket_t:sock_file write;
+    allow $1 leprop_t:unix_stream_socket connectto;
+')
