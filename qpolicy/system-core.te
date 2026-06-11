@@ -2,4 +2,39 @@
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(system-core, 1.0)
+
 type system_core_leprop_socket_t;
+# Make it a file_type so setfiles/restorecon (files_relabel_all_files) can
+# getattr/relabel it, and so it associates with tmpfs/devtmpfs. Mirrors the
+# refpolicy devlog_t pattern (a /dev sock_file type).
+files_type(system_core_leprop_socket_t)
+
+# leprop-service: LE property service daemon (/usr/sbin/leprop-service)
+type leprop_t;
+type leprop_exec_t;
+init_daemon_domain(leprop_t, leprop_exec_t)
+
+# LOG() / ALOGE() output
+logging_send_syslog_msg(leprop_t)
+
+# leprop-service is spawned by an init script and inherits its stream socket
+init_rw_script_stream_sockets(leprop_t)
+
+# load_default_properties(): /build.prop, /etc/build.prop, /vendor/build.prop
+#   /                is root_t:dir       (searched to reach /build.prop)
+#   /build.prop      is default_t:file
+#   /vendor          is default_t:dir    (searched to reach /vendor/build.prop)
+#   /etc/build.prop  is etc_t:file       (written back by save_persist_ds_to_file)
+files_list_root(leprop_t)
+files_read_default_files(leprop_t)
+files_search_default(leprop_t)
+files_rw_etc_files(leprop_t)
+
+# create_socket(): create the listening UNIX stream socket
+allow leprop_t self:unix_stream_socket { create_stream_socket_perms listen accept };
+
+# bind() in /dev/socket (device_t dir) creates the socket node with the
+# leprop socket type via an automatic file transition; this removes the
+# need for restorecon to relabel it afterwards.
+dev_filetrans(leprop_t, system_core_leprop_socket_t, sock_file, "leprop-service")
+manage_sock_files_pattern(leprop_t, system_core_leprop_socket_t, system_core_leprop_socket_t)
