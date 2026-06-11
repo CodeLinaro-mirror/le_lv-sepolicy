@@ -36,5 +36,18 @@ fs_map_tmpfs_files(fastrpc_t)
 files_read_var_symlinks(fastrpc_t)
 libkiumd_manage_lib_files(fastrpc_t)
 libkiumd_mmap_exec_lib_file(fastrpc_t)
+
+# /vendor/dsp - allow fastrpc-debug's reverse listener (frpc_listener2) to
+# open DSP shell/skel/oemconfig libraries that the DSP requests via apps_std
+# (e.g. /vendor/dsp/<nsp>/oemconfig.so, fastrpc_shell_*).
+#
+# vendor_search_dir() grants the search-only traversal of /vendor itself
+# (labeled vendor_dir_t by the `vendor` module). The firmware_*_dsp_*
+# interfaces grant access to the contents of /vendor/dsp.
+vendor_search_dir(fastrpc_t)
+firmware_search_dsp_dirs(fastrpc_t)
+firmware_read_dsp_lnk_files(fastrpc_t)
+firmware_read_dsp_files(fastrpc_t)
+
 allow fastrpc_t self:capability { sys_resource };
 allow fastrpc_t self:process signal;
