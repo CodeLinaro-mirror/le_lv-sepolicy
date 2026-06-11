@@ -116,6 +116,10 @@ videodriver_rw_tmpfs_files(video_driver_t)
 #libkiumd
 libkiumd_mmap_exec_lib_file(video_driver_t)
 
+# This is a workround, rootcause is that early service start earlier than selinux initial to /dev for bootkpi, cause some devices
+# under /dev such as /dev/ksync run under uncorrect selinux context as device_t.
+dev_manage_generic_chr_files(video_driver_t)
+
 hyp_video_ptrace(video_driver_t)
 # ========== local ==========
 allow video_driver_t self:unix_dgram_socket { create connect getopt setopt };
@@ -134,6 +138,7 @@ files_tmpfs_file(video_driver_tmpfs_t)
 fs_tmpfs_filetrans(video_driver_t, video_driver_tmpfs_t, { dir file })
 create_files_pattern(video_driver_t, video_driver_tmpfs_t, video_driver_tmpfs_t)
 manage_files_pattern(video_driver_t, video_driver_tmpfs_t, video_driver_tmpfs_t)
+manage_fifo_files_pattern(video_driver_t, video_driver_tmpfs_t, video_driver_tmpfs_t)
 videodriver_mmap_rw_tmpfs_files(video_driver_t)
 videodriver_delete_tmpfs_files(video_driver_t)
 

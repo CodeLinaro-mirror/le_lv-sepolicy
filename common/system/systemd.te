@@ -133,3 +133,5 @@ pfm_read_tmpfs_files(systemd_tmpfiles_t)
 kernel_relabelfrom_unlabeled_dirs(systemd_tmpfiles_t)
 kernel_relabelfrom_unlabeled_symlinks(systemd_tmpfiles_t)
 soccp_driver_read_tmpfs_files(systemd_tmpfiles_t)
+
+init_getattr_utmp(systemd_tmpfiles_t)
