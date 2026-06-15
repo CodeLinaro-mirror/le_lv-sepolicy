@@ -10,3 +10,11 @@
 /etc/compute_resmgr/nsivi/compresmgr_cpu_config.xml      --      gen_context(system_u:object_r:compresmgr_etc_t,s0)
 /etc/compute_resmgr/flex/compresmgr_cpu_config.xml       --      gen_context(system_u:object_r:compresmgr_etc_t,s0)
 /dev/hscnoc                      -c      gen_context(system_u:object_r:hscnoc_device_t,s0)
+
+/etc/compresmgr_nsp_config.xml                           --      gen_context(system_u:object_r:compresmgr_etc_t,s0)
+/etc/compute_resmgr/compresmgr_nsp_config.xml            --      gen_context(system_u:object_r:compresmgr_etc_t,s0)
+/etc/compute_resmgr/adas/compresmgr_nsp_config.xml       --      gen_context(system_u:object_r:compresmgr_etc_t,s0)
+/etc/compute_resmgr/sivi/compresmgr_nsp_config.xml       --      gen_context(system_u:object_r:compresmgr_etc_t,s0)
+/etc/compute_resmgr/nsivi/compresmgr_nsp_config.xml      --      gen_context(system_u:object_r:compresmgr_etc_t,s0)
+/etc/compute_resmgr/flex/compresmgr_nsp_config.xml       --      gen_context(system_u:object_r:compresmgr_etc_t,s0)
+
