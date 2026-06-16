@@ -78,3 +78,6 @@ libkiumd_manage_lib_files(hyp_video_t)
 
 allow hyp_video_t hyp_video_tmpfs_t:dir create;
 allow hyp_video_t hyp_video_tmpfs_t:fifo_file { create read unlink write open };
+
+dev_read_sysfs(hyp_video_t)
+files_read_etc_files(hyp_video_t)

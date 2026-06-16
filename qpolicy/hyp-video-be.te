@@ -56,3 +56,5 @@ libkiumd_relabel_lib_files(hyp_video_t)
 libkiumd_manage_lib_files(hyp_video_t)
 
 compresmgr_rw_etc_files(hyp_video_t)
+dev_read_sysfs(hyp_video_t)
+files_read_etc_files(hyp_video_t)
