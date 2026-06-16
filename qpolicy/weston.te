@@ -221,6 +221,10 @@ userdom_mmap_rw_user_runtime_files(weston_t)
 
 compresmgr_rw_etc_files(weston_t)
 
+firmware_search_dsp_dirs(weston_t)
+
+vendor_search_dir(weston_t)
+
 allow weston_t self:unix_dgram_socket { create connect };
 allow weston_t self:unix_stream_socket { connectto listen accept };
 allow weston_t self:tcp_socket create_socket_perms;
