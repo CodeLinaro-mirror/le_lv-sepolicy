@@ -82,3 +82,7 @@ fs_tmpfs_filetrans(eva_auto_t, eva_auto_tmpfs_t, { dir file })
 create_files_pattern(eva_auto_t, eva_auto_tmpfs_t, eva_auto_tmpfs_t)
 manage_files_pattern(eva_auto_t, eva_auto_tmpfs_t, eva_auto_tmpfs_t)
 evauto_mmap_rw_tmpfs_files(eva_auto_t)
+
+initrc_rw_state_files(eva_auto_t)
+initrc_signull(eva_auto_t)
+initrc_ptrace(eva_auto_t)
