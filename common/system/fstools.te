@@ -1,6 +1,7 @@
 # Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
+files_runtime_filetrans(fsadm_t, fsadm_run_t, file)
 files_manage_default_files(fsadm_t)
 
 kernel_use_fds(fsadm_t)
