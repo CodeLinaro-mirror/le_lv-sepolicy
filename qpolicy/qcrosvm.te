@@ -76,3 +76,6 @@ read_files_pattern(qcrosvm_t, qcrosvm_boot_t, qcrosvm_boot_t)
 fs_getattr_all_sockets(qcrosvm_t)
 fs_manage_tmpfs_sockets(qcrosvm_t)
 fs_manage_tmpfs_files(qcrosvm_t)
+
+# connect to vmm_service unix socket for vcpu wakeup on PM resume
+vmm_client_connect_server(qcrosvm_t)
