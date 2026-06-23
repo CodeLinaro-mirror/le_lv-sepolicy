@@ -144,3 +144,22 @@ interface(`synxservice_rw_tmpfs_files',`
     allow $1 synxservice_tmpfs_t:dir search;
     allow $1 synxservice_tmpfs_t:file { open read write getattr };
 ')
+
+
+######################################
+## <summary>
+##  Send signull to synxservice_t.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`synxservice_signull',`
+    gen_require(`
+        type synxservice_t;
+    ')
+
+    allow $1 synxservice_t:process signull;
+')
