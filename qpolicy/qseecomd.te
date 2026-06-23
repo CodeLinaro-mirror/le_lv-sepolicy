@@ -74,6 +74,7 @@ dev_rw_dma_dev(qseecomd_t)
 
 # /dev/smcinvoke
 dev_rw_smcinvoke_dev(qseecomd_t)
+minkdescriptor_mmap_lib_files(qseecomd_t)
 
 # search unlabeled_t type on /data
 kernel_mounton_unlabeled_dirs(qseecomd_t)

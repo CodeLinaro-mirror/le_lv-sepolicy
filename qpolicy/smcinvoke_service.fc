@@ -1,0 +1,6 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+/usr/bin/smcinvoke_service          --      gen_context(system_u:object_r:smcinvoke_service_exec_t,s0)
+/usr/lib/libminkdescriptor.so.1     --      gen_context(system_u:object_r:minkdescriptor_lib_t,s0)
+/usr/lib/libminkdescriptor.so.1.0.0 --      gen_context(system_u:object_r:minkdescriptor_lib_t,s0)
