@@ -219,3 +219,21 @@ interface(`init_create_var_lib_dirs',`
 
     allow $1 init_var_lib_t:dir create_dir_perms;
 ')
+
+########################################
+## <summary>
+##  Map initrc devpts character devices.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`init_map_initrc_devpts',`
+    gen_require(`
+        type initrc_devpts_t;
+    ')
+
+    allow $1 initrc_devpts_t:chr_file map;
+')
