@@ -20,6 +20,7 @@ init_rw_script_stream_sockets(syscache_rm_t)
 init_signull_script(syscache_rm_t);
 
 logging_send_syslog_msg(syscache_rm_t)
+logging_create_generic_logs(syscache_rm_t)
 
 dev_rw_kiumd_dev(syscache_rm_t)
 dev_rw_vfio_dev(syscache_rm_t)
@@ -27,6 +28,13 @@ dev_read_sysfs(syscache_rm_t)
 
 userdom_manage_user_tmp_files(syscache_rm_t)
 userdom_map_tmp_files(syscache_rm_t)
+
+# allow qlf-client to resolve /var/log -> /var/volatile/log and create under /var/log
+files_create_var_dirs(syscache_rm_t)
+files_read_var_symlinks(syscache_rm_t)
+files_search_mnt(syscache_rm_t)
+files_manage_var_files(syscache_rm_t)
+files_manage_var_dirs(syscache_rm_t)
 
 safetymonitor_rw_tmpfs_files(syscache_rm_t)
 
