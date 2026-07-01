@@ -6,3 +6,6 @@ files_manage_default_files(fsadm_t)
 
 kernel_use_fds(fsadm_t)
 init_read_utmp(fsadm_t)
+
+# write files under /var
+files_write_var_files(fsadm_t)
