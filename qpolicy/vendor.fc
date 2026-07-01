@@ -1,0 +1,9 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+#
+# File contexts for the `vendor` policy module.
+# Labels ONLY the /vendor directory inode itself (note the `-d`).
+# Do NOT add a recursive pattern here -- subdirectories of /vendor are
+# owned by their respective modules (e.g. /vendor/dsp -> firmware module).
+
+/vendor                 -d      gen_context(system_u:object_r:vendor_dir_t,s0)

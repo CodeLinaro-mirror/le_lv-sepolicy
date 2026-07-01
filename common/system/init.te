@@ -62,6 +62,11 @@ systemd_networkd_nnp_trans(initrc_t)
 systemd_coredump_nnp_trans(initrc_t)
 systemd_userdbd_nnp_trans(initrc_t)
 
+# leprop-service: NNP transition + init scripts (setprop/persist-prop.sh/etc)
+# access /dev/socket/leprop-service while running in initrc_t
+system_core_leprop_nnp_trans(initrc_t)
+system_core_rw_leprop_socket(initrc_t)
+
 weston_read_lib_files(initrc_t)
 
 fs_watch_memory_pressure(initrc_t)
