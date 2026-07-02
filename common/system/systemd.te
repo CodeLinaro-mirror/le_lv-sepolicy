@@ -135,3 +135,10 @@ kernel_relabelfrom_unlabeled_symlinks(systemd_tmpfiles_t)
 soccp_driver_read_tmpfs_files(systemd_tmpfiles_t)
 
 init_getattr_utmp(systemd_tmpfiles_t)
+# Allow systemd_generator to create blacklist conf in /run/modprobe.d
+files_create_runtime_dirs(systemd_generator_t)
+files_create_var_run_files(systemd_generator_t)
+files_rw_var_run_files(systemd_generator_t)
+# Allow systemd_modules_load to list /run/modprobe.d
+files_list_runtime(systemd_modules_load_t)
+files_read_runtime_files(systemd_modules_load_t)
