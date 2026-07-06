@@ -38,3 +38,6 @@ allow leprop_t self:unix_stream_socket { create_stream_socket_perms listen accep
 # need for restorecon to relabel it afterwards.
 dev_filetrans(leprop_t, system_core_leprop_socket_t, sock_file, "leprop-service")
 manage_sock_files_pattern(leprop_t, system_core_leprop_socket_t, system_core_leprop_socket_t)
+
+# search /vendor directory
+vendor_search_dir(leprop_t)
