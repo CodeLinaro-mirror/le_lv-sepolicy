@@ -2,4 +2,25 @@
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 policy_module(system-core, 1.0)
+
 type system_core_leprop_socket_t;
+files_type(system_core_leprop_socket_t)
+
+type leprop_t;
+type leprop_exec_t;
+init_daemon_domain(leprop_t, leprop_exec_t)
+
+logging_send_syslog_msg(leprop_t)
+init_rw_script_stream_sockets(leprop_t)
+
+files_list_root(leprop_t)
+files_read_default_files(leprop_t)
+files_search_default(leprop_t)
+files_rw_etc_files(leprop_t)
+
+allow leprop_t self:unix_stream_socket { create_stream_socket_perms listen accept };
+
+dev_filetrans(leprop_t, system_core_leprop_socket_t, sock_file, "leprop-service")
+manage_sock_files_pattern(leprop_t, system_core_leprop_socket_t, system_core_leprop_socket_t)
+
+kernel_use_fds(leprop_t)
