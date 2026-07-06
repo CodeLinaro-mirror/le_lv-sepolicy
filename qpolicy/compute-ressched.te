@@ -7,12 +7,19 @@ type compressch_t;
 type compressch_exec_t;
 type compressch_etc_t;
 type compressch_power_t;
+type compressch_tmpfs_t;
 
 init_daemon_domain(compressch_t, compressch_exec_t)
 
 #to allow access to /etc/compute-ressched.xml
 files_config_file(compressch_etc_t)
 compressch_read_etc_files(compressch_t)
+
+
+files_tmpfs_file(compressch_tmpfs_t)
+fs_tmpfs_filetrans(compressch_t, compressch_tmpfs_t, { dir file })
+compressch_create_tmpfs_files(compressch_t)
+compressch_mmap_rw_tmpfs_files(compressch_t)
 
 init_rw_script_stream_sockets(compressch_t)
 init_signull_script(compressch_t)
@@ -48,6 +55,10 @@ fs_manage_tmpfs_files(compressch_t)
 fs_map_tmpfs_files(compressch_t)
 userdom_rw_user_tmpfs_files(compressch_t)
 userdom_map_user_tmpfs_files(compressch_t)
+glinkserver_rw_tmpfs_files(compressch_t)
+glinkserver_ptrace(compressch_t)
+glinkserver_use_fds(compressch_t)
+
 unconfined_signull(compressch_t)
 userdom_manage_tmp_files(compressch_t)
 files_manage_var_files(compressch_t)
