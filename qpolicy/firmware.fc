@@ -1,0 +1,12 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+#
+# File contexts for the `firmware` policy module.
+# This module owns the type `dsp_file_t`, used for the DSP firmware /
+# skel / shell library tree mounted at /vendor/dsp.
+#
+# Note: /vendor itself is labeled by the `vendor` module as vendor_dir_t.
+# Domains that need to descend into /vendor/dsp must call
+# vendor_search_dir() in addition to the firmware_*_dsp_* interfaces.
+
+/vendor/dsp(/.*)?               gen_context(system_u:object_r:dsp_file_t,s0)
