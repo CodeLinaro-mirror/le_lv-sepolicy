@@ -59,6 +59,10 @@ files_tmp_file(fastrpc_rm_tmp_t)
 files_tmp_filetrans(fastrpc_rm_t, fastrpc_rm_tmp_t, { dir file })
 manage_files_pattern(fastrpc_rm_t, fastrpc_rm_tmp_t, fastrpc_rm_tmp_t)
 
+# /var
+files_list_var_dirs(fastrpc_rm_t)
+files_watch_var_dirs(fastrpc_rm_t)
+
 files_tmpfs_file(fastrpc_rm_tmpfs_t)
 fs_tmpfs_filetrans(fastrpc_rm_t, fastrpc_rm_tmpfs_t, { dir file })
 fastrpc_rm_create_tmpfs_files(fastrpc_rm_t)
