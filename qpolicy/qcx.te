@@ -114,6 +114,9 @@ files_manage_var_files(qcx_server_t)
 files_read_var_symlinks(qcx_server_t)
 files_search_mnt(qcx_server_t)
 
+# /vendor
+vendor_search_dir(qcx_server_t)
+
 # tracefs
 fs_search_tracefs_dirs(qcx_server_t)
 fs_rw_tracefs_files(qcx_server_t)
@@ -216,4 +219,3 @@ allow qcx_be_server_t tmp_t:dir search;
 
 #!!!! This avc can be allowed using the boolean 'systemd_tmpfiles_manage_all'
 allow systemd_tmpfiles_t qcx_server_tmpfs_t:dir read;
-

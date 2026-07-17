@@ -34,6 +34,7 @@ ssrrm_rw_tmpfs_files(fastrpc_rm_t)
 glinkserver_rw_tmpfs_files(fastrpc_rm_t)
 audioservice_mmap_rw_tmpfs_files(fastrpc_rm_t)
 audioservice_delete_tmpfs_files(fastrpc_rm_t)
+compressch_mmap_rw_tmpfs_files(fastrpc_rm_t)
 kernel_search_debugfs(fastrpc_rm_t)
 fs_search_tracefs_dirs(fastrpc_rm_t)
 fs_rw_tracefs_files(fastrpc_rm_t)
@@ -57,6 +58,10 @@ allow fastrpc_rm_t self:process { setrlimit setsched getsched signal};
 files_tmp_file(fastrpc_rm_tmp_t)
 files_tmp_filetrans(fastrpc_rm_t, fastrpc_rm_tmp_t, { dir file })
 manage_files_pattern(fastrpc_rm_t, fastrpc_rm_tmp_t, fastrpc_rm_tmp_t)
+
+# /var
+files_list_var_dirs(fastrpc_rm_t)
+files_watch_var_dirs(fastrpc_rm_t)
 
 files_tmpfs_file(fastrpc_rm_tmpfs_t)
 fs_tmpfs_filetrans(fastrpc_rm_t, fastrpc_rm_tmpfs_t, { dir file })
