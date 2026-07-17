@@ -25,6 +25,7 @@ diag_service_signull(ssr_rm_t)
 audio_service_signull(ssr_rm_t)
 pil_rm_signull(ssr_rm_t)
 compressch_signull(ssr_rm_t)
+compressch_unlink_tmpfs_files(ssr_rm_t)
 
 glinkserver_mmap_rw_tmpfs_files(ssr_rm_t)
 fastrpc_rm_mmap_rw_tmpfs_files(ssr_rm_t)

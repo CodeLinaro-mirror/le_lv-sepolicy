@@ -96,6 +96,42 @@ interface(`compressch_mmap_rw_tmpfs_files',`
 
     mmap_rw_files_pattern($1, compressch_tmpfs_t, compressch_tmpfs_t)
 ')
+
+######################################
+## <summary>
+##  Read compute-ressched tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`compressch_read_tmpfs_files',`
+    gen_require(`
+        type compressch_tmpfs_t;
+    ')
+
+    read_files_pattern($1, compressch_tmpfs_t, compressch_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Unlink compute-ressched tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`compressch_unlink_tmpfs_files',`
+    gen_require(`
+        type compressch_tmpfs_t;
+    ')
+
+    allow $1 compressch_tmpfs_t:file unlink;
+')
  
 
 
