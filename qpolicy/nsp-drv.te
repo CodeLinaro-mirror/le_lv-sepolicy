@@ -72,6 +72,12 @@ compresmgr_rw_etc_files(nsp_drv_t)
 fastrpc_rm_rw_tmpfs_files(nsp_drv_t)
 fastrpc_rm_ptrace(nsp_drv_t)
 
+# /dev/mqueue/ssr_lrm
+ssrrm_rw_tmpfs_files(nsp_drv_t)
+
+# Allow SSR RM to check nsp_drv process status
+ssrrm_signull(nsp_drv_t)
+
 # dmabuf
 fastrpc_rm_use_fds(nsp_drv_t)
 
