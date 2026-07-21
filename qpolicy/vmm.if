@@ -41,6 +41,24 @@ interface(`vmm_mmap_rw_tmpfs_files',`
 
 ######################################
 ## <summary>
+##  Getattr vmm tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`vmm_getattr_tmpfs_files',`
+    gen_require(`
+        type vmm_tmpfs_t;
+    ')
+
+    allow $1 vmm_tmpfs_t:file getattr_file_perms;
+')
+
+######################################
+## <summary>
 ##  vmm server client connectto create unlink write.
 ## </summary>
 ## <param name="domain">
