@@ -119,6 +119,9 @@ audioservice_mmap_rw_tmpfs_files(systemd_tmpfiles_t)
 
 # /tmp/qcxserver.lock
 qcxserver_rw_tmpfs_files(systemd_tmpfiles_t)
+qcxserver_create_tmpfs_files(systemd_tmpfiles_t)
+vmm_mmap_rw_tmpfs_files(systemd_tmpfiles_t)
+synxservice_rw_tmpfs_files(systemd_tmpfiles_t)
 
 # /tmp/lrm_server_1178_soccp-drv.txt
 soccp_driver_read_tmpfs_files(systemd_tmpfiles_t)
