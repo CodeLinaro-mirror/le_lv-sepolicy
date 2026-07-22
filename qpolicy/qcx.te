@@ -15,7 +15,7 @@ init_daemon_domain(qcx_server_t, qcx_server_exec_t)
 init_rw_script_stream_sockets(qcx_server_t)
 init_ptrace_script(qcx_server_t)
 
-# used to access /dev/scmi_camera
+# used to access /dev/scmi_camera and /dev/ccu_device
 dev_node(qcx_server_dev_t)
 qcxserver_rw_scmi_dev(qcx_server_t)
 
@@ -45,6 +45,10 @@ unconfined_server_ptrace(qcx_server_t)
 
 # user_temp_t
 userdom_write_user_tmp_files(qcx_server_t)
+userdom_manage_user_tmpfs_files(qcx_server_t)
+
+# dmabuf fd received from unconfined clients
+unconfined_use_fds(qcx_server_t)
 
 # /tmp/
 files_tmp_file(qcx_server_tmp_t)
@@ -56,6 +60,9 @@ qcxserver_init_write_runtime_dirs(qcx_server_t)
 
 # /usr/bin/camera/camxoverridesettings.txt
 qcxserver_read_config_files(qcx_server_t)
+
+# /etc/safety_config/*.xml
+files_read_safety_config_files(qcx_server_t)
 
 # tmpfs
 fs_manage_tmpfs_dirs(qcx_server_t)
@@ -86,7 +93,7 @@ files_manage_default_files(qcx_server_t)
 # Todo, unlabeled_t, could remove after setting selinxu context to /data mount
 kernel_mounton_unlabeled_dirs(qcx_server_t)
 files_manage_isid_type_dirs(qcx_server_t)
-files_manage_isid_type_files(qcx_server_t)
+kernel_manage_unlabeled_files(qcx_server_t)
 
 # pm_register
 power_use_pm_register(qcx_server_t, qcx_server_power_t)
@@ -94,6 +101,8 @@ power_use_pm_register(qcx_server_t, qcx_server_power_t)
 # /var
 files_manage_var_dirs(qcx_server_t)
 files_manage_var_files(qcx_server_t)
+# Allow resolving symlink such as /var/log -> /var/volatile/log
+files_read_var_symlinks(qcx_server_t)
 files_search_mnt(qcx_server_t)
 
 # tracefs
@@ -112,6 +121,7 @@ dev_read_sysfs(qcx_server_t)
 dev_rw_realtime_clock(qcx_server_t)
 dev_rw_scmnode_dev(qcx_server_t)
 dev_rw_scmnode_sec_dev(qcx_server_t)
+
 
 allow qcx_server_t self:process { setrlimit setsched ptrace };
 allow qcx_server_t self:unix_stream_socket { listen };
@@ -135,10 +145,14 @@ logging_send_syslog_msg(qcx_be_server_t)
 
 # qcx_server
 qcxserver_rw_tmpfs_files(qcx_be_server_t)
+qcxserver_mmap_rw_tmpfs_files(qcx_be_server_t)
 
 # tmpfs
 fs_map_tmpfs_files(qcx_be_server_t)
 fs_manage_tmpfs_files(qcx_be_server_t)
+fs_tmpfs_filetrans(qcx_be_server_t, qcx_server_tmpfs_t, { dir file })
+manage_files_pattern(qcx_be_server_t, qcx_server_tmpfs_t, qcx_server_tmpfs_t)
+create_dirs_pattern(qcx_be_server_t, qcx_server_tmpfs_t, qcx_server_tmpfs_t)
 
 # /var
 files_manage_var_files(qcx_be_server_t)

@@ -19,7 +19,7 @@ fs_type(qcrosvm_boot_t)
 kernel_mounton_unlabeled_dirs(qcrosvm_t)
 
 # Todo, unlabeled_t, could remove after setting selinxu context to /firmware/vm/boot mount
-files_manage_isid_type_files(qcrosvm_t)
+kernel_manage_unlabeled_files(qcrosvm_t)
 
 files_rw_generic_tmp_sockets(qcrosvm_t)
 files_create_tmp_files(qcrosvm_t)

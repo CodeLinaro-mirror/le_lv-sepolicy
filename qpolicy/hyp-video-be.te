@@ -20,7 +20,7 @@ files_read_default_files(hyp_video_t)
 
 # Todo, unlabeled_t, could remove after setting selinxu context to /data mount
 kernel_mounton_unlabeled_dirs(hyp_video_t)
-files_manage_isid_type_files(hyp_video_t)
+kernel_manage_unlabeled_files(hyp_video_t)
 
 files_search_default(hyp_video_t)
 
