@@ -123,6 +123,15 @@ qcxserver_create_tmpfs_files(systemd_tmpfiles_t)
 vmm_mmap_rw_tmpfs_files(systemd_tmpfiles_t)
 synxservice_rw_tmpfs_files(systemd_tmpfiles_t)
 
+# /tmp/camera_out
+qcxserver_lock_tmpfs_dirs(systemd_tmpfiles_t)
+
+# /tmp/lrm_server_(pid)_vmm-ramdump.txt
+vmm_getattr_tmpfs_files(systemd_tmpfiles_t)
+
+# /tmp/lrm_server_(pid)_synx-service.txt
+synxservice_getattr_tmpfs_files(systemd_tmpfiles_t)
+
 # /tmp/lrm_server_1178_soccp-drv.txt
 soccp_driver_read_tmpfs_files(systemd_tmpfiles_t)
 kernel_read_unlabeled_state(systemd_tmpfiles_t)

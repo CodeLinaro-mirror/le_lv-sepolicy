@@ -95,6 +95,24 @@ interface(`qcxserver_delete_tmpfs_files',`
 
 ######################################
 ## <summary>
+##  Lock qcxserver tmpfs directories.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`qcxserver_lock_tmpfs_dirs',`
+    gen_require(`
+        type qcx_server_tmpfs_t;
+    ')
+
+    allow $1 qcx_server_tmpfs_t:dir lock;
+')
+
+######################################
+## <summary>
 ##  Send signull to qcx_server_t.
 ## </summary>
 ## <param name="domain">
