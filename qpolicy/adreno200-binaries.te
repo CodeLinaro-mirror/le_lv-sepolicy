@@ -184,3 +184,9 @@ manage_sock_files_pattern(adreno200_t, adreno200_run_t, adreno200_run_t)
 # AV-container's weston-simple-egl EGL initialisation; the GPU service
 # thread servicing that client inherits an fd opened by systemd_nspawn_t.
 systemd_nspawn_use_fds(adreno200_t)
+gen_require(`
+    type proc_t;
+    class dir { read open search };
+')
+
+allow adreno200_t proc_t:dir { read open search };
