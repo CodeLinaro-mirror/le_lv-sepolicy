@@ -170,8 +170,9 @@ allow qcx_server_t gptp_tmpfs_t:file { open read write map };
 allow qcx_server_t qgptp_device_t:chr_file { open read write };
 qcxserver_mmap_rw_tmpfs_files(qcx_be_server_t)
 corecmd_read_bin_files(qcx_server_t)
+vendor_search_dir(qcx_server_t)
 
-# tmpfs
+#tmpfs
 fs_map_tmpfs_files(qcx_be_server_t)
 fs_manage_tmpfs_files(qcx_be_server_t)
 fs_tmpfs_filetrans(qcx_be_server_t, qcx_server_tmpfs_t, { dir file })
