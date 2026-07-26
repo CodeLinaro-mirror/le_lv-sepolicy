@@ -67,8 +67,9 @@ files_manage_generic_tmp_files(qcrosvm_t)
 allow qcrosvm_t self:tun_socket { create };
 allow qcrosvm_t self:udp_socket { create ioctl };
 allow qcrosvm_t self:process { getsched };
-allow qcrosvm_t self:capability { net_admin dac_override dac_read_search };
+allow qcrosvm_t self:capability { net_admin dac_override dac_read_search sys_nice };
 allow qcrosvm_t self:anon_inode { create map read write };
+allow qcrosvm_t self:io_uring { override_creds sqpoll };
 allow qcrosvm_t qcrosvm_boot_t:lnk_file read;
 
 logging_send_syslog_msg(qcrosvm_t)
