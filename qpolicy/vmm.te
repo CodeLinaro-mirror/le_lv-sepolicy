@@ -24,7 +24,7 @@ init_dbus_chat(vmm_t)
 init_get_system_status(vmm_t)
 # check status and start of service from init_t domain
 #init_status(vmm_t)
-#init_start(vmm_t)
+init_start(vmm_t)
 
 # qcrosvm.service
 #systemd_status_systemd_services(vmm_t)
