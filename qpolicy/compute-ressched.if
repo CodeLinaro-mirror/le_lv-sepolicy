@@ -132,6 +132,24 @@ interface(`compressch_unlink_tmpfs_files',`
 
     allow $1 compressch_tmpfs_t:file unlink;
 ')
+
+######################################
+## <summary>
+##  Setattr compute-ressched tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`compressch_setattr_tmpfs_files',`
+    gen_require(`
+        type compressch_tmpfs_t;
+    ')
+
+    allow $1 compressch_tmpfs_t:file setattr;
+')
  
 
 

@@ -32,6 +32,8 @@ allow sdv_dice_t cert_t:dir  { search open read getattr };
 allow sdv_dice_t cert_t:file { read open getattr };
 allow sdv_dice_t cert_t:lnk_file { read getattr };
 
+files_delete_tmp_dir_entry(sdv_dice_t)
+
 # tmpfs
 fs_manage_tmpfs_files(sdv_dice_t)
 fs_map_tmpfs_files(sdv_dice_t)
