@@ -72,3 +72,5 @@ allow soccp_driver_t self:capability dac_override;
 allow soccp_driver_t self:process getsched;
 
 dev_map_kiumd_dev(soccp_driver_t)
+
+pilrm_use_lrm_run_dir(soccp_driver_t)

@@ -109,3 +109,6 @@ owfds_create_tmpfs_files(qseecomd_t)
 owfds_rw_tmpfs_files(qseecomd_t)
 
 power_use_pm_register(qseecomd_t, qseecomd_power_t)
+
+pilrm_use_lrm_run_dir(qseecomd_t)
+smcinvoke_server_stream_connectto(qseecomd_t)

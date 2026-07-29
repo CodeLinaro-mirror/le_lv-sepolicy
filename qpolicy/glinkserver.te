@@ -83,3 +83,5 @@ pilrm_create_tmpfs_files(glinkserver_t)
 files_manage_var_dirs(glinkserver_t)
 files_manage_var_files(glinkserver_t)
 files_manage_var_symlinks(glinkserver_t)
+
+pilrm_use_lrm_run_dir(glinkserver_t)

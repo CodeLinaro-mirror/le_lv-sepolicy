@@ -81,3 +81,5 @@ ssrrm_rw_tmpfs_files(compressch_t)
 
 #To allow registering with power manager (pm-client)
 power_use_pm_register(compressch_t, compressch_power_t)
+
+pilrm_use_lrm_run_dir(compressch_t)
