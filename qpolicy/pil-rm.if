@@ -113,6 +113,24 @@ interface(`pilrm_delete_tmpfs_files',`
 
 ######################################
 ## <summary>
+##  Lock pil-rm tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`pilrm_lock_tmpfs_files',`
+    gen_require(`
+        type pil_rm_tmpfs_t;
+    ')
+
+    allow $1 pil_rm_tmpfs_t:file lock;
+')
+
+######################################
+## <summary>
 ##  Read and write scmi devices.
 ## </summary>
 ## <param name="domain">

@@ -93,3 +93,29 @@ interface(`ecc_err_handler_rw_tmpfs_files',`
 
     rw_files_pattern($1, ecc_err_handler_tmpfs_t, ecc_err_handler_tmpfs_t)
 ')
+
+interface(`ecc_err_handlerrm_rw_umd_dev',`
+    gen_require(`
+        type device_t, ecc_err_handler_rm_umd_dev_t;
+    ')
+
+    rw_chr_files_pattern($1, device_t, ecc_err_handler_rm_umd_dev_t)
+')
+
+########################################
+## <summary>
+##      map psail_auditor device.
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+#
+interface(`ecc_err_handlerrm_map_umd_dev',`
+    gen_require(`
+        type ecc_err_handler_rm_umd_dev_t;
+    ')
+
+    allow $1 ecc_err_handler_rm_umd_dev_t:chr_file map;
+')

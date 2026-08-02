@@ -20,3 +20,4 @@
 /usr/bin/be_log.cfg        --       gen_context(system_u:object_r:audio_etc_t,s0)
 /dev/ipc_shmem             -c       gen_context(system_u:object_r:audio_device_t,s0)
 /dev/scmi_audio            -c       gen_context(system_u:object_r:audio_device_t,s0)
+/etc/audio_oem_cfg(/.*)?            gen_context(system_u:object_r:audio_etc_t,s0)

@@ -35,6 +35,7 @@ mount_watch_reads_runtime_files(unconfined_t)
 corenet_icmp_bind_generic_node(unconfined_t)
 
 allow_she_lib_files(unconfined_t)
+ipp_manage_lib_files(unconfined_t)
 
 gptee_mmap_lib_files(unconfined_t)
 gpce_be_delete_lib_files(unconfined_t)

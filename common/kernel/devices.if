@@ -363,3 +363,30 @@ interface(`dev_getattr_usbfs',`
 
     allow $1 usbfs_t:filesystem getattr;
 ')
+
+########################################
+## <summary>
+##  Allow a domain to access the qcom_vm_cpufreq device
+##  and issue its specific ioctls.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`qcom_vm_cpufreq_dev',`
+    gen_require(`
+        type qcom_vm_cpufreq_device_t;
+    ')
+
+    # Allow basic file operations on the character device
+    allow $1 qcom_vm_cpufreq_device_t:chr_file { open read write getattr ioctl };
+
+      # Lower 16 bits: (magic << 8 | nr) — direction/size bits not checked
+      # CPU_PERF_LEVEL_SET            _IOW(0xBB, 1, ...)  → 0xBB01
+      # CPU_PERF_LEVEL_GET            _IOWR(0xBB, 2, ...) → 0xBB02
+      # CPU_PERF_LEVELS_GET_AVAILABLE _IOR(0xBB, 3, ...)  → 0xBB03
+      # CPU_PERF_TRANSITION_LATENCY_GET _IOR(0xBB, 4, ...) → 0xBB04
+      allowxperm $1 qcom_vm_cpufreq_device_t:chr_file ioctl { 0xBB01 0xBB02 0xBB03 0xBB04 };
+')

@@ -160,6 +160,24 @@ interface(`owfds_map_tmpfs_files',`
 
 ######################################
 ## <summary>
+##  Map, read and write openwfd tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`openwfd_mmap_rw_tmpfs_files',`
+    gen_require(`
+        type openwfd_tmpfs_t;
+    ')
+
+    mmap_rw_files_pattern($1, openwfd_tmpfs_t, openwfd_tmpfs_t)
+')
+
+######################################
+## <summary>
 ##  pm-umd-display-0/1.sock connectto.
 ## </summary>
 ## <param name="domain">
@@ -229,4 +247,74 @@ interface(`openwfd_server_manage_pm_sockfile',`
     ')
 
     allow $1 openwfd_server_power_t:sock_file manage_sock_file_perms;
+')
+
+######################################
+## <summary>
+##  Read and write vfio_dpu_safe_00 device (/dev/vfio_dpu_safe_00)
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`safeserver_rw_vfio_dpu_safe_00_dev',`
+    gen_require(`
+        type vfio_dpu_safe_device_0_t;
+    ')
+    allow $1 vfio_dpu_safe_device_0_t:chr_file rw_chr_file_perms;
+')
+
+########################################
+## <summary>
+##      map umd_pil device.
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+#
+interface(`dev_map_vfio_dpu_safe_00_dev',`
+    gen_require(`
+        type vfio_dpu_safe_device_0_t;
+    ')
+
+    allow $1 vfio_dpu_safe_device_0_t:chr_file map;
+')
+
+######################################
+## <summary>
+##  Read and write vfio_dpu_safe_10 device (/dev/vfio_dpu_safe_10)
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`safeserver_rw_vfio_dpu_safe_10_dev',`
+    gen_require(`
+        type vfio_dpu_safe_device_1_t;
+    ')
+    allow $1 vfio_dpu_safe_device_1_t:chr_file rw_chr_file_perms;
+')
+
+########################################
+## <summary>
+##      map vfio_dpu_safe_10 device (/dev/vfio_dpu_safe_10)
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+#
+interface(`dev_map_vfio_dpu_safe_10_dev',`
+    gen_require(`
+        type vfio_dpu_safe_device_1_t;
+    ')
+
+    allow $1 vfio_dpu_safe_device_1_t:chr_file map;
 ')

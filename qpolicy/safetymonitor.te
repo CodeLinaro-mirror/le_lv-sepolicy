@@ -56,6 +56,12 @@ qcxserver_mmap_rw_tmpfs_files(safetymonitor_t)
 qcxserver_signull(safetymonitor_t)
 qcxserver_delete_tmpfs_files(safetymonitor_t)
 
+#synxservice
+synxservice_rw_tmpfs_files(safetymonitor_t)
+synxservice_mmap_rw_tmpfs_files(safetymonitor_t)
+synxservice_signull(safetymonitor_t)
+synxservice_delete_tmpfs_files(safetymonitor_t)
+
 evauto_mmap_rw_tmpfs_files(safetymonitor_t)
 syscache_rm_mmap_rw_tmpfs_files(safetymonitor_t)
 ecc_err_handler_mmap_rw_tmpfs_files(safetymonitor_t)
@@ -81,7 +87,9 @@ libkiumd_mmap_exec_lib_file(safetymonitor_t)
 
 nsp_rsm_signull(safetymonitor_t)
 compressch_signull(safetymonitor_t)
+compressch_read_tmpfs_files(safetymonitor_t)
 nsp_drv_signull(safetymonitor_t)
+compressch_mmap_rw_tmpfs_files(safetymonitor_t)
 
 #allow bin execute
 safetymonitor_execute_bins(safetymonitor_t)

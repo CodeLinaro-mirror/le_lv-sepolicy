@@ -67,3 +67,39 @@ interface(`unconfined_server_read_files',`
 
     read_files_pattern($1, unconfined_service_t, unconfined_service_t)
 ')
+
+########################################
+## <summary>
+## Unconfined binder
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`unconfined_binder',`
+    gen_require(`
+        type unconfined_t;
+    ')
+
+    allow $1 unconfined_t:binder { call transfer };
+')
+
+########################################
+## <summary>
+## Unconfined system stop
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`unconfined_system_stop',`
+    gen_require(`
+        type unconfined_t;
+    ')
+
+    allow $1 unconfined_t:system { stop };
+')
