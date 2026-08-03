@@ -99,6 +99,9 @@ files_manage_generic_spool_dirs(systemd_tmpfiles_t)
 files_manage_default_files(systemd_logind_t)
 files_manage_default_files(systemd_modules_load_t)
 files_manage_default_files(systemd_generator_t)
+# sleep-notify@.service is labeled power_unit_t (matches [^/]*sleep.* in systemd.fc).
+# The generator must stat it to create symlinks in sleep-drivers.target.requires/.
+systemd_getattr_power_unit_files(systemd_generator_t)
 
 weston_read_pid(systemd_logind_t)
 
