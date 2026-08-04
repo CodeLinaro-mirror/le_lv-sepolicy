@@ -188,6 +188,7 @@ files_search_tmp(qcx_be_server_t)
 dev_rw_dma_dev(qcx_be_server_t)
 dev_rw_hab_dev(qcx_be_server_t)
 dev_read_sysfs(qcx_be_server_t)
+dev_rw_gpiochip_dev(qcx_be_server_t)
 dev_rw_scmnode_dev(qcx_be_server_t)
 dev_rw_scmnode_sec_dev(qcx_be_server_t)
 
