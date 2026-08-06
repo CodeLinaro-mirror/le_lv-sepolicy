@@ -41,3 +41,6 @@ manage_sock_files_pattern(leprop_t, system_core_leprop_socket_t, system_core_lep
 
 # search /vendor directory
 vendor_search_dir(leprop_t)
+
+# use fd inherited from kernel_t
+kernel_use_fds(leprop_t)

@@ -90,7 +90,7 @@ fs_tmpfs_filetrans(pil_rm_t, pil_rm_tmpfs_t, { dir file })
 pilrm_create_tmpfs_files(pil_rm_t)
 pilrm_mmap_rw_tmpfs_files(pil_rm_t)
 pilrm_delete_tmpfs_files(pil_rm_t)
-
+pilrm_lock_tmpfs_files(pil_rm_t)
 
 #power manager power_use_pm_register
 power_use_pm_register(pil_rm_t, pil_rm_power_t)

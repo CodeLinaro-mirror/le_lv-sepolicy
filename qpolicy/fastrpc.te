@@ -49,5 +49,8 @@ firmware_search_dsp_dirs(fastrpc_t)
 firmware_read_dsp_lnk_files(fastrpc_t)
 firmware_read_dsp_files(fastrpc_t)
 
+# /usr/share/fastrpc/testsig-*.so
+files_read_usr_files(fastrpc_t)
+
 allow fastrpc_t self:capability { sys_resource };
 allow fastrpc_t self:process signal;

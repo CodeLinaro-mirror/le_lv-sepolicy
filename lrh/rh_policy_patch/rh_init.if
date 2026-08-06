@@ -1,0 +1,112 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary>Policy for init and initrc domains.</summary>
+
+########################################
+## <summary>
+##  Read initrc state files on tmpfs/mqueue.
+## </summary>
+## <param name="domain">
+## <summary>
+## Domain allowed access.
+## </summary>
+## </param>
+#
+interface(`initrc_read_state_files',`
+    gen_require(`
+        type initrc_state_t;
+    ')
+
+    allow $1 initrc_state_t:file { read open getattr };
+')
+
+########################################
+## <summary>
+##  Read and write initrc state files on tmpfs.
+## </summary>
+## <param name="domain">
+## <summary>
+## Domain allowed access.
+## </summary>
+## </param>
+#
+interface(`initrc_rw_state_files',`
+    gen_require(`
+        type initrc_state_t;
+    ')
+
+    allow $1 initrc_state_t:file { read write open getattr map };
+')
+
+########################################
+## <summary>
+##  Search initrc_t process directory in /proc.
+## </summary>
+## <param name="domain">
+## <summary>
+## Domain allowed access.
+## </summary>
+## </param>
+#
+interface(`initrc_search_proc',`
+    gen_require(`
+        type initrc_t;
+    ')
+
+    allow $1 initrc_t:dir search;
+')
+
+########################################
+## <summary>
+##  Send null signal to initrc_t process.
+## </summary>
+## <param name="domain">
+## <summary>
+## Domain allowed access.
+## </summary>
+## </param>
+#
+interface(`initrc_signull',`
+    gen_require(`
+        type initrc_t;
+    ')
+
+    allow $1 initrc_t:process signull;
+')
+
+########################################
+## <summary>
+##  Read initrc_t process files in /proc (e.g. cmdline).
+## </summary>
+## <param name="domain">
+## <summary>
+## Domain allowed access.
+## </summary>
+## </param>
+#
+interface(`initrc_read_proc_files',`
+    gen_require(`
+        type initrc_t;
+    ')
+
+    allow $1 initrc_t:file { read open getattr };
+')
+
+########################################
+## <summary>
+##  Ptrace initrc_t process.
+## </summary>
+## <param name="domain">
+## <summary>
+## Domain allowed access.
+## </summary>
+## </param>
+#
+interface(`initrc_ptrace',`
+    gen_require(`
+        type initrc_t;
+    ')
+
+    allow $1 initrc_t:process ptrace;
+')
