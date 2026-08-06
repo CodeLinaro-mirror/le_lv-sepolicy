@@ -58,6 +58,10 @@ soccp_driver_mmap_rw_tmpfs_files(soccp_driver_t)
 soccp_driver_delete_tmpfs_files(soccp_driver_t)
 soccp_driver_rw_tmpfs_files(soccp_driver_t)
 init_signull_script(soccp_driver_t)
+userdom_rw_user_tmpfs_files(soccp_driver_t)
+userdom_map_user_tmpfs_files(soccp_driver_t)
+userdom_delete_user_tmpfs_files(soccp_driver_t)
+unconfined_signull(soccp_driver_t)
 
 # For operations without existing interfaces
 allow soccp_driver_t self:unix_dgram_socket { create connect getopt setopt };

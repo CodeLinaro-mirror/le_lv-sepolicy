@@ -31,6 +31,10 @@ glinkserver_rw_tmpfs_files(diag_service_t)
 audioservice_mmap_rw_tmpfs_files(diag_service_t)
 audioservice_delete_tmpfs_files(diag_service_t)
 ssctl_service_mmap_rw_tmpfs_files(diag_service_t)
+kernel_search_debugfs(diag_service_t)
+fs_search_tracefs_dirs(diag_service_t)
+fs_rw_tracefs_files(diag_service_t)
+
 # kernel
 kernel_signull(diag_service_t)
 kernel_read_unlabeled_state(diag_service_t)
@@ -106,3 +110,7 @@ power_use_pm_register(diag_service_t, diag_service_power_t)
 diagservice_rw_tmpfs_files(diag_service_t)
 
 allow diag_service_t self:process signal;
+
+files_manage_var_dirs(diag_service_t)
+files_manage_var_files(diag_service_t)
+files_manage_var_symlinks(diag_service_t)

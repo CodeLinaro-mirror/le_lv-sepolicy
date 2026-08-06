@@ -116,6 +116,42 @@ interface(`qseecomd_relabel_persist',`
 
 ########################################
 ## <summary>
+##	Manage qseecomd files in /data.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`qseecomd_manage_data_files',`
+    gen_require(`
+        type qseecomd_data_t;
+    ')
+
+    manage_files_pattern($1, qseecomd_data_t, qseecomd_data_t)
+')
+
+########################################
+## <summary>
+##	Manage qseecomd directories in /data.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`qseecomd_manage_data_dirs',`
+    gen_require(`
+        type qseecomd_data_t;
+    ')
+
+    manage_dirs_pattern($1, qseecomd_data_t, qseecomd_data_t)
+')
+
+########################################
+## <summary>
 ##	Manage qseecomd data.
 ## </summary>
 ## <param name="domain">
@@ -209,6 +245,24 @@ interface(`qseecomd_setattr_persist',`
 
 ########################################
 ## <summary>
+##  Manage qseecomd files in /persist/data.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`qseecomd_manage_persist_files',`
+    gen_require(`
+        type qseecomd_persist_t;
+    ')
+
+    manage_files_pattern($1, qseecomd_persist_t, qseecomd_persist_t)
+')
+
+########################################
+## <summary>
 ##      getattr to /persist/data directory.
 ## </summary>
 ## <param name="domain">
@@ -223,6 +277,24 @@ interface(`qseecomd_getattr_persist_dirs',`
     ')
 
     getattr_dirs_pattern($1, qseecomd_persist_t, qseecomd_persist_t)
+')
+
+########################################
+## <summary>
+##  Manage qseecomd directories in /persist/data.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`qseecomd_manage_persist_dirs',`
+    gen_require(`
+        type qseecomd_persist_t;
+    ')
+
+    manage_dirs_pattern($1, qseecomd_persist_t, qseecomd_persist_t)
 ')
 
 ########################################

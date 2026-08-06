@@ -82,6 +82,7 @@ dev_read_sysfs(weston_t)
 # /dev/socket/leprop-service
 dev_manage_generic_sockets(weston_t)
 unconfined_server_stream_connectto(weston_t)
+system_core_connectto_leprop(weston_t)
 
 # /tmp/weston.log
 # files_manage_generic_tmp_files(weston_t)
@@ -219,6 +220,10 @@ userdom_user_runtime_filetrans(weston_t, weston_tmp_t, { dir file sock_file })
 userdom_mmap_rw_user_runtime_files(weston_t)
 
 compresmgr_rw_etc_files(weston_t)
+
+firmware_search_dsp_dirs(weston_t)
+
+vendor_search_dir(weston_t)
 
 allow weston_t self:unix_dgram_socket { create connect };
 allow weston_t self:unix_stream_socket { connectto listen accept };

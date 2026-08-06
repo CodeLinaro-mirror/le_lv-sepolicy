@@ -126,6 +126,7 @@ allow qcx_server_t self:capability { sys_resource sys_nice dac_override sys_ptra
 
 pilrm_rw_tmpfs_files(qcx_server_t);
 
+initrc_rw_state_files(qcx_server_t)
 
 
 #============= qcx_be_server =============
@@ -173,6 +174,9 @@ files_manage_default_files(qcx_be_server_t)
 # pm_register
 power_use_pm_register(qcx_be_server_t, qcx_be_server_power_t)
 
+# This is a workround, rootcause is that early service start earlier than selinux initial to /dev for bootkpi, cause some devices
+# under /dev such as /dev/ksync run under uncorrect selinux context as device_t.
+dev_manage_generic_chr_files(qcx_server_t)
 
 allow qcx_be_server_t self:process { setsched };
 allow qcx_be_server_t self:capability { sys_resource sys_nice dac_override net_admin};

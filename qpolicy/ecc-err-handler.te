@@ -7,12 +7,16 @@ type ecc_err_handler_t;
 type ecc_err_handler_exec_t;
 type ecc_err_handler_tmp_t;
 type ecc_err_handler_tmpfs_t;
+type ecc_err_handler_power_t;
+type ecc_err_handler_rm_umd_dev_t;
 
 init_daemon_domain(ecc_err_handler_t, ecc_err_handler_exec_t)
+dev_node(ecc_err_handler_rm_umd_dev_t)
 
 init_rw_script_stream_sockets(ecc_err_handler_t)
 
 logging_send_syslog_msg(ecc_err_handler_t)
+logging_create_generic_logs(ecc_err_handler_t)
 
 dev_rw_kiumd_dev(ecc_err_handler_t)
 dev_rw_vfio_dev(ecc_err_handler_t)
@@ -20,24 +24,41 @@ dev_read_sysfs(ecc_err_handler_t)
 
 userdom_manage_user_tmp_files(ecc_err_handler_t)
 userdom_map_tmp_files(ecc_err_handler_t)
+userdom_read_user_tmpfs_files(ecc_err_handler_t)
+userdom_rw_user_tmpfs_files(ecc_err_handler_t)
+userdom_map_user_tmpfs_files(ecc_err_handler_t)
+userdom_delete_user_tmpfs_files(ecc_err_handler_t)
+
+# allow qlf-client to resolve /var/log -> /var/volatile/log and create under /var/log
+files_create_var_dirs(ecc_err_handler_t)
+files_read_var_symlinks(ecc_err_handler_t)
+files_search_mnt(ecc_err_handler_t)
+files_manage_var_files(ecc_err_handler_t)
+files_manage_var_dirs(ecc_err_handler_t)
+
+ecc_err_handlerrm_rw_umd_dev(ecc_err_handler_t)
 
 safetymonitor_rw_tmpfs_files(ecc_err_handler_t)
 kernel_read_debugfs(ecc_err_handler_t)
 
 #libkiumd
 libkiumd_mmap_exec_lib_file(ecc_err_handler_t)
+dev_dontaudit_scmnode_sec_dev(ecc_err_handler_t)
 
 #adreno200
 adreno200_rw_tmpfs_files(ecc_err_handler_t)
 adreno200_signull(ecc_err_handler_t)
 adreno200_mmap_rw_tmpfs_files(ecc_err_handler_t)
 adreno200_delete_tmpfs_files(ecc_err_handler_t)
+unconfined_server_signull(ecc_err_handler_t)
+unconfined_signull(ecc_err_handler_t)
 
 # ========== local ==========
 allow ecc_err_handler_t self:netlink_route_socket create_netlink_socket_perms;
+allow ecc_err_handler_t self:netlink_kobject_uevent_socket { create bind read };
 allow ecc_err_handler_t self:unix_dgram_socket { create connect getopt setopt };
 allow ecc_err_handler_t self:udp_socket { create ioctl };
-allow ecc_err_handler_t self:process { setrlimit setsched };
+allow ecc_err_handler_t self:process { setrlimit setsched getsched signal };
 allow ecc_err_handler_t self:capability { sys_resource sys_nice net_admin };
 
 files_tmp_file(ecc_err_handler_tmp_t)
@@ -48,7 +69,13 @@ manage_files_pattern(ecc_err_handler_t, ecc_err_handler_tmp_t, ecc_err_handler_t
 files_tmpfs_file(ecc_err_handler_tmpfs_t)
 fs_tmpfs_filetrans(ecc_err_handler_t, ecc_err_handler_tmpfs_t, { dir file })
 create_files_pattern(ecc_err_handler_t, ecc_err_handler_tmpfs_t, ecc_err_handler_tmpfs_t)
+delete_files_pattern(ecc_err_handler_t, ecc_err_handler_tmpfs_t, ecc_err_handler_tmpfs_t)
 ecc_err_handler_mmap_rw_tmpfs_files(ecc_err_handler_t)
 compresmgr_rw_etc_files(ecc_err_handler_t)
 fs_rw_tmpfs_files(ecc_err_handler_t)
 
+# xml reading access /etc/safety_config
+files_read_safety_config_files(ecc_err_handler_t)
+
+power_use_pm_register(ecc_err_handler_t, ecc_err_handler_power_t)
+ecc_err_handlerrm_map_umd_dev(ecc_err_handler_t)
