@@ -1,0 +1,31 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary>Policy for the /vendor directory.</summary>
+
+#######################################
+## <summary>
+##  Search the /vendor directory.
+##
+##  Grants the minimum traversal (search) permission on the /vendor
+##  directory inode itself, so that callers may descend into labeled
+##  subdirectories such as /vendor/dsp without having to be granted
+##  search on the catch-all default_t type.
+##
+##  This interface intentionally does NOT grant any access to files or
+##  subdirectories below /vendor; those must be requested separately
+##  from the owning module (e.g. firmware_search_dsp_dirs()).
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed to search /vendor.
+##  </summary>
+## </param>
+#
+interface(`vendor_search_dir',`
+    gen_require(`
+        type vendor_dir_t;
+    ')
+
+    allow $1 vendor_dir_t:dir search_dir_perms;
+')

@@ -92,6 +92,10 @@ powercyclemgr_mmap_rw_tmpfs_files(safetymonitor_t)
 powercyclemgr_rw_tmpfs_files(safetymonitor_t)
 powercyclemgr_unlink_tmpfs_files(safetymonitor_t)
 
+#openwfd
+openwfd_mmap_rw_tmpfs_files(safetymonitor_t)
+openwfd_server_signull(safetymonitor_t)
+
 # ========== local ==========
 allow safetymonitor_t self:unix_dgram_socket { create connect };
 allow safetymonitor_t self:process { setrlimit setsched };
@@ -104,6 +108,9 @@ manage_files_pattern(safetymonitor_t, safetymonitor_tmp_t, safetymonitor_tmp_t)
 files_tmpfs_file(safetymonitor_tmpfs_t)
 fs_tmpfs_filetrans(safetymonitor_t, safetymonitor_tmpfs_t, { dir file })
 manage_files_pattern(safetymonitor_t, safetymonitor_tmpfs_t, safetymonitor_tmpfs_t)
+
+initrc_rw_state_files(safetymonitor_t)
+initrc_signull(safetymonitor_t)
 
 compresmon_signull(safetymonitor_t)
 compresmon_mmap_rw_tmpfs_files(safetymonitor_t)

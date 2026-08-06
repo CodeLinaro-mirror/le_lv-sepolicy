@@ -23,6 +23,16 @@ vmm_create_tmpfs_files(sdv_dice_t)
 vmm_client_connect_server(sdv_dice_t);
 files_create_tmp_sock_files(sdv_dice_t)
 fs_manage_tmpfs_sockets(sdv_dice_t)
+# VMM library searches /etc/ssl at startup when sdv_dice starts
+# early, triggering SSL initialization in the sdv_dice_t domain.
+gen_require(`
+    type cert_t;
+')
+allow sdv_dice_t cert_t:dir  { search open read getattr };
+allow sdv_dice_t cert_t:file { read open getattr };
+allow sdv_dice_t cert_t:lnk_file { read getattr };
+
+files_delete_tmp_dir_entry(sdv_dice_t)
 
 # tmpfs
 fs_manage_tmpfs_files(sdv_dice_t)

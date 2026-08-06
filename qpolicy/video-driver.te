@@ -113,6 +113,7 @@ allow video_driver_t self:unix_dgram_socket { create connect getopt setopt };
 allow video_driver_t self:unix_stream_socket { listen };
 allow video_driver_t self:process { setrlimit setsched signal getsched };
 allow video_driver_t self:capability { sys_resource sys_ptrace net_admin sys_nice sys_ptrace dac_override kill fowner};
+allow video_driver_t self:fifo_file { rw_fifo_file_perms };
 allow video_driver_t video_driver_tmpfs_t:dir { create };
 allow video_driver_t video_driver_tmpfs_t:fifo_file { create read open unlink write };
 allow video_driver_t etc_t:dir { write };

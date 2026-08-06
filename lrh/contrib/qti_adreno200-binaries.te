@@ -115,6 +115,9 @@ init_read_state(adreno200_t)
 
 # open/read/write chr_file
 dev_rw_input_dev(adreno200_t)
+initrc_search_proc(adreno200_t)
+initrc_read_proc_files(adreno200_t)
+
 
 # ========== local ==========
 allow adreno200_t self:unix_dgram_socket { create connect };

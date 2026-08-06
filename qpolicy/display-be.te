@@ -21,6 +21,8 @@ owfds_rw_tmpfs_files(display_be_t)
 logging_create_devlog_dev(display_be_t)
 logging_dgram_send(display_be_t)
 
+kernel_search_vm_sysctl(display_be_t)
+
 # ========== local ==========
 allow display_be_t self:unix_dgram_socket { create connect sendto };
 allow display_be_t self:process { setrlimit setsched };

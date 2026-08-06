@@ -126,6 +126,7 @@ allow qcx_server_t self:capability { sys_resource sys_nice dac_override sys_ptra
 
 pilrm_rw_tmpfs_files(qcx_server_t);
 
+initrc_rw_state_files(qcx_server_t)
 
 
 #============= qcx_be_server =============

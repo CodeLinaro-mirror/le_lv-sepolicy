@@ -1,0 +1,24 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+#
+# Policy for the /vendor directory itself.
+#
+# /vendor is not labeled by the base/refpolicy on this target. Without this
+# module it would default to default_t, and any domain that needed to descend
+# into a subdirectory of /vendor (e.g. /vendor/dsp) would have to be granted
+# `search` on default_t -- which is the catch-all type for every unlabeled
+# directory on the system. Defining a dedicated type here lets us grant the
+# minimum traversal permission to specific domains via the
+# vendor_search_dir() interface.
+#
+# This module owns ONLY the /vendor directory inode. Subdirectories such as
+# /vendor/dsp are labeled by their respective owning modules (e.g. firmware).
+
+policy_module(vendor, 1.0)
+
+# Defined type for /vendor (directory inode only).
+type vendor_dir_t;
+
+files_mountpoint(vendor_dir_t)
+fs_associate(vendor_dir_t)
+fs_type(vendor_dir_t)

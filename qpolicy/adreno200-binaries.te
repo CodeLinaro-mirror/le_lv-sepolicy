@@ -37,6 +37,13 @@ dev_rw_ksync_dev(adreno200_t)
 kernel_search_debugfs(adreno200_t)
 kernel_read_unlabeled_state(adreno200_t)
 
+#sysctl_vm_t
+kernel_search_vm_sysctl(adreno200_t)
+kernel_read_vm_sysctls(adreno200_t)
+
+#sysctl_vm_overcommit_t
+kernel_rw_vm_overcommit_sysctl(adreno200_t)
+
 # This is a workround, rootcause is that early service start earlier than selinux initial to /dev for bootkpi, cause some devices
 # under /dev such as /dev/ksync run under uncorrect selinux context as device_t.
 dev_manage_generic_chr_files(adreno200_t)
@@ -77,6 +84,11 @@ unconfined_server_read_files(adreno200_t)
 unconfined_server_ptrace(adreno200_t)
 unconfined_ptrace(adreno200_t)
 unconfined_use_fds(adreno200_t)
+
+# QLF/LRMC: the kgsl LRMS worker thread does kill(client_pid, 0) to
+# poll client liveness.
+init_signull_script(adreno200_t)
+unconfined_signull(adreno200_t)
 files_tmp_file(adreno200_tmp_t)
 files_tmp_filetrans(adreno200_t, adreno200_tmp_t, { dir file })
 manage_files_pattern(adreno200_t, adreno200_tmp_t, adreno200_tmp_t)
@@ -133,6 +145,17 @@ init_start_generic_units(adreno200_t)
 
 # open/read/write chr_file
 dev_rw_input_dev(adreno200_t)
+
+# QLF/LRMC: kgsl hosts a libkiumd LRMS server for its QLF client
+# (/qlf_gpu0, /qlf_gpu1).
+userdom_use_all_users_fds(adreno200_t)
+userdom_rw_user_tmp_files(adreno200_t)
+userdom_map_tmp_files(adreno200_t)
+userdom_rw_user_tmpfs_files(adreno200_t)
+userdom_map_user_tmpfs_files(adreno200_t)
+userdom_delete_user_tmpfs_files(adreno200_t)
+fs_map_tmpfs_files(adreno200_t)
+fs_manage_tmpfs_files(adreno200_t)
 
 # ========== local ==========
 allow adreno200_t self:unix_dgram_socket { create connect };

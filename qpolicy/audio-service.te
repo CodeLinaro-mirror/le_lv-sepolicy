@@ -64,6 +64,7 @@ term_open_unallocated_ttys(audio_service_t)
 term_use_unallocated_ttys(audio_service_t)
 
 # /vendor/dsp
+vendor_search_dir(audio_service_t)
 firmware_search_dsp_dirs(audio_service_t)
 firmware_read_dsp_lnk_files(audio_service_t)
 firmware_write_dsp_dirs(audio_service_t)

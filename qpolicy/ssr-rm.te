@@ -25,6 +25,7 @@ diag_service_signull(ssr_rm_t)
 audio_service_signull(ssr_rm_t)
 pil_rm_signull(ssr_rm_t)
 compressch_signull(ssr_rm_t)
+compressch_unlink_tmpfs_files(ssr_rm_t)
 
 glinkserver_mmap_rw_tmpfs_files(ssr_rm_t)
 fastrpc_rm_mmap_rw_tmpfs_files(ssr_rm_t)
@@ -33,6 +34,7 @@ diagservice_delete_tmpfs_files(ssr_rm_t)
 diagservice_unlink_tmpfs_files(ssr_rm_t)
 pilrm_mmap_rw_tmpfs_files(ssr_rm_t)
 audioservice_mmap_rw_tmpfs_files(ssr_rm_t)
+compressch_mmap_rw_tmpfs_files(ssr_rm_t)
 subsys_ramdump_rw_files(ssr_rm_t)
 
 audioservice_delete_tmpfs_files(ssr_rm_t)
@@ -55,6 +57,12 @@ allow ssr_rm_t ssr_rm_tmpfs_t:file unlink;
 
 #libkiumd
 libkiumd_mmap_exec_lib_file(ssr_rm_t)
+
+# Allow SSR RM to check nsp_drv process status
+ nsp_drv_signull(ssr_rm_t)
+ 
+ # Allow SSR RM to access nsp_drv tmpfs files (shared memory/mqueue for callbacks)
+ nspdrv_mmap_rw_tmpfs_files(ssr_rm_t)
 
 # /run/systemd/journal/dev-log
 logging_dgram_send(ssr_rm_t)

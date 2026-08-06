@@ -445,6 +445,24 @@ interface(`files_rw_var_dirs',`
     rw_dirs_pattern($1, var_t, var_t)
 ')
 
+########################################
+## <summary>
+##  Write files under /var.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_write_var_files',`
+    gen_require(`
+        type var_t;
+    ')
+
+    write_files_pattern($1, var_t, var_t)
+')
+
 ##################################
 ## <summary>
 ##  Allow to map files under /var/run.

@@ -5,3 +5,8 @@ files_manage_default_files(fsadm_t)
 
 kernel_use_fds(fsadm_t)
 init_read_utmp(fsadm_t)
+
+files_runtime_filetrans(fsadm_t, fsadm_run_t, file)
+
+# write files under /var
+files_write_var_files(fsadm_t)

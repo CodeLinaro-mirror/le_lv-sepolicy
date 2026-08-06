@@ -31,4 +31,5 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /usr/bin/eva_server     --      gen_context(system_u:object_r:eva_auto_exec_t,s0)
+/usr/bin/evastl_app     --      gen_context(system_u:object_r:eva_auto_exec_t,s0)
 /dev/scmi_eva           -c      gen_context(system_u:object_r:eva_auto_dev_t,s0)

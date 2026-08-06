@@ -35,6 +35,7 @@ policy_module(rh_init, 1.0)
 require {
     type init_t;
     type initrc_t;
+    type initrc_state_t;
 }
 
 qseecomd_manage_data(init_t)
@@ -65,3 +66,24 @@ auth_rw_shadow(init_t)
 fs_manage_dos_dirs(init_t)
 
 allow_she_lib_files(initrc_t)
+files_tmpfs_file(initrc_state_t)
+
+################### initrc_t #####################
+allow initrc_t self:binder { set_context_mgr call transfer };
+allow initrc_t self:process { execmem };
+
+unconfined_domain(initrc_t)
+qseecomd_manage_data_dirs(initrc_t)
+qseecomd_getattr_persist_dirs(initrc_t)
+qseecomd_setattr_persist(initrc_t)
+qseecomd_manage_data_files(initrc_t)
+qseecomd_rw_persist(initrc_t)
+qseecomd_manage_persist_files(initrc_t)
+
+libkiumd_read_lib_files(initrc_t)
+libkiumd_mmap_exec_lib_file(initrc_t)
+
+modutils_kmod_nnp_trans(initrc_t)
+
+unconfined_binder(initrc_t)
+unconfined_system_stop(initrc_t)
