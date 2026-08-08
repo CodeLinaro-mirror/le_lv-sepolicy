@@ -7,6 +7,7 @@ type pil_rm_t;
 type pil_rm_exec_t;
 type pil_rm_tmp_t;
 type pil_rm_tmpfs_t;
+type pil_rm_run_t;
 type pil_rm_power_t;
 type pil_rm_scmi_dev_t;
 type pil_done_dev_t;
@@ -130,3 +131,12 @@ soccp_driver_signull(pil_rm_t)
 
 # Allow pil-rm to access glinkserver tmpfs files (for shared memory lock)
 glinkserver_mmap_rw_tmpfs_files(pil_rm_t)
+
+# /run/lrm/
+files_runtime_file(pil_rm_run_t)
+files_pid_filetrans(pil_rm_t, pil_rm_run_t, dir)
+manage_dirs_pattern(pil_rm_t, pil_rm_run_t, pil_rm_run_t)
+manage_files_pattern(pil_rm_t, pil_rm_run_t, pil_rm_run_t)
+manage_sock_files_pattern(pil_rm_t, pil_rm_run_t, pil_rm_run_t)
+
+allow pil_rm_t ssr_rm_t:unix_stream_socket connectto;

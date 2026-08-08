@@ -389,3 +389,23 @@ interface(`systemd_relabel_coredump_var_lib_dirs',`
 
     allow $1 systemd_coredump_var_lib_t:dir relabel_dir_perms;
 ')
+
+########################################
+## <summary>
+##  Allow a domain to getattr power unit files (e.g. sleep-notify@.service).
+##  Needed so systemd generators can stat power_unit_t files when creating
+##  symlinks in sleep-drivers.target.requires/.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`systemd_getattr_power_unit_files',`
+    gen_require(`
+        type power_unit_t;
+    ')
+
+    allow $1 power_unit_t:file getattr;
+')

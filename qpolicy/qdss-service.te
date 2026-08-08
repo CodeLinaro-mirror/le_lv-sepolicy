@@ -149,3 +149,5 @@ files_list_default_dirs(qdss_service_t)
 
 #for connecting to quts port 3500
 allow qdss_service_t unreserved_port_t:tcp_socket name_bind;
+
+pilrm_use_lrm_run_dir(qdss_service_t)

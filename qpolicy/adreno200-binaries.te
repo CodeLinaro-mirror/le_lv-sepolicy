@@ -165,3 +165,5 @@ allow adreno200_t self:process { signull ptrace setrlimit setsched getsched sign
 allow adreno200_t self:capability { sys_resource sys_nice sys_ptrace dac_override net_admin };
 allow adreno200_t self:fifo_file { rw_fifo_file_perms };
 allow adreno200_t adreno200_tmpfs_t:file delete_file_perms;
+
+pilrm_use_lrm_run_dir(adreno200_t)

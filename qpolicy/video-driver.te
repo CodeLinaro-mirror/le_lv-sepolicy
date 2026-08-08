@@ -166,3 +166,5 @@ userdom_delete_user_tmpfs_files(video_driver_t)
 userdom_manage_user_tmpfs_files(video_driver_t)
 
 mmap_rw_files_pattern(video_driver_t,user_tmpfs_t,user_tmpfs_t)
+
+pilrm_use_lrm_run_dir(video_driver_t)

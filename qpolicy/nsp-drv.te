@@ -107,3 +107,5 @@ files_read_safety_config_files(nsp_drv_t)
 
 allow nsp_drv_t nsp_drv_tmpfs_t:file map;
 allow nsp_drv_t nsp_drv_tmpfs_t:file unlink;
+
+pilrm_use_lrm_run_dir(nsp_drv_t)

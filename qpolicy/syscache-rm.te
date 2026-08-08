@@ -102,3 +102,5 @@ qcxserver_signull(syscache_rm_t)
 files_read_safety_config_files(syscache_rm_t)
 
 power_use_pm_register(syscache_rm_t, syscache_rm_power_t)
+
+pilrm_use_lrm_run_dir(syscache_rm_t)

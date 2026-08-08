@@ -220,3 +220,4 @@ allow qcx_be_server_t tmp_t:dir search;
 
 #!!!! This avc can be allowed using the boolean 'systemd_tmpfiles_manage_all'
 allow systemd_tmpfiles_t qcx_server_tmpfs_t:dir read;
+pilrm_use_lrm_run_dir(qcx_server_t)

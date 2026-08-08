@@ -117,3 +117,5 @@ evauto_mmap_rw_tmpfs_files(eva_auto_t)
 
 # /var overlay
 kernel_read_unlabeled_state(eva_auto_t)
+
+pilrm_use_lrm_run_dir(eva_auto_t)

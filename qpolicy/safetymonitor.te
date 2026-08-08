@@ -7,6 +7,7 @@ type safetymonitor_t;
 type safetymonitor_exec_t;
 type safetymonitor_tmp_t;
 type safetymonitor_tmpfs_t;
+type safetymonitor_run_t;
 type safetymonitor_power_t;
 type safety_ddr_device_t;
 
@@ -146,3 +147,11 @@ allow safetymonitor_t self:capability kill;
 
 pciesm_signull(safetymonitor_t)
 pciesm_mmap_rw_tmpfs_files(safetymonitor_t)
+
+pilrm_use_lrm_run_dir(safetymonitor_t)
+
+# /run/safetymonitor/
+files_runtime_file(safetymonitor_run_t)
+files_pid_filetrans(safetymonitor_t, safetymonitor_run_t, dir)
+manage_dirs_pattern(safetymonitor_t, safetymonitor_run_t, safetymonitor_run_t)
+manage_files_pattern(safetymonitor_t, safetymonitor_run_t, safetymonitor_run_t)

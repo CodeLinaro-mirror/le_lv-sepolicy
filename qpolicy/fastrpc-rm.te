@@ -92,3 +92,5 @@ compresmon_unlink_tmpfs_files(fastrpc_rm_t)
 nspdrv_mmap_rw_tmpfs_files(fastrpc_rm_t)
 nsp_drv_signull(fastrpc_rm_t)
 fastrpc_signull(fastrpc_rm_t)
+
+pilrm_use_lrm_run_dir(fastrpc_rm_t)
