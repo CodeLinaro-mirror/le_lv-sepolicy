@@ -73,6 +73,9 @@ qcxserver_read_config_files(qcx_server_t)
 # /etc/safety_config/*.xml
 files_read_safety_config_files(qcx_server_t)
 
+# /etc/
+files_read_etc_files(qcx_server_t)
+
 # tmpfs
 fs_manage_tmpfs_dirs(qcx_server_t)
 fs_getattr_tmpfs(qcx_server_t)
@@ -166,6 +169,7 @@ qcxserver_rw_tmpfs_files(qcx_be_server_t)
 
 allow qcx_server_t device_t:chr_file { open read write };
 allow qcx_server_t safety_config_etc_t:file { getattr open read };
+allow qcx_server_t etc_t:file { open getattr };
 allow qcx_server_t var_t:lnk_file read;
 allow qcx_server_t gptp_tmpfs_t:file { open read write map };
 allow qcx_server_t qgptp_device_t:chr_file { open read write };
