@@ -9,7 +9,6 @@
 /etc/compute_resmgr/sivi/compresmgr_cpu_config.xml       --      gen_context(system_u:object_r:compresmgr_etc_t,s0)
 /etc/compute_resmgr/nsivi/compresmgr_cpu_config.xml      --      gen_context(system_u:object_r:compresmgr_etc_t,s0)
 /etc/compute_resmgr/flex/compresmgr_cpu_config.xml       --      gen_context(system_u:object_r:compresmgr_etc_t,s0)
-/dev/hscnoc                      -c      gen_context(system_u:object_r:hscnoc_device_t,s0)
 
 /etc/compresmgr_nsp_config.xml                           --      gen_context(system_u:object_r:compresmgr_etc_t,s0)
 /etc/compute_resmgr/compresmgr_nsp_config.xml            --      gen_context(system_u:object_r:compresmgr_etc_t,s0)
@@ -18,3 +17,14 @@
 /etc/compute_resmgr/nsivi/compresmgr_nsp_config.xml      --      gen_context(system_u:object_r:compresmgr_etc_t,s0)
 /etc/compute_resmgr/flex/compresmgr_nsp_config.xml       --      gen_context(system_u:object_r:compresmgr_etc_t,s0)
 
+/etc/compute_resmgr/8787/adas/compresmgr_cpu_config.xml       --      gen_context(system_u:object_r:compresmgr_etc_t,s0)
+/etc/compute_resmgr/8787/sivi/compresmgr_cpu_config.xml       --      gen_context(system_u:object_r:compresmgr_etc_t,s0)
+/etc/compute_resmgr/8787/nsivi/compresmgr_cpu_config.xml      --      gen_context(system_u:object_r:compresmgr_etc_t,s0)
+/etc/compute_resmgr/8787/flex/compresmgr_cpu_config.xml       --      gen_context(system_u:object_r:compresmgr_etc_t,s0)
+
+/etc/compute_resmgr/8787/adas/compresmgr_nsp_config.xml       --      gen_context(system_u:object_r:compresmgr_etc_t,s0)
+/etc/compute_resmgr/8787/sivi/compresmgr_nsp_config.xml       --      gen_context(system_u:object_r:compresmgr_etc_t,s0)
+/etc/compute_resmgr/8787/nsivi/compresmgr_nsp_config.xml       --      gen_context(system_u:object_r:compresmgr_etc_t,s0)
+/etc/compute_resmgr/8787/flex/compresmgr_nsp_config.xml       --      gen_context(system_u:object_r:compresmgr_etc_t,s0)
+
+/dev/hscnoc                      -c      gen_context(system_u:object_r:hscnoc_device_t,s0)
