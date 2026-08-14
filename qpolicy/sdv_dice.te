@@ -43,6 +43,7 @@ fs_rw_tmpfs_dirs(sdv_dice_t)
 allow sdv_dice_t self:unix_dgram_socket { connect create write };
 allow sdv_dice_t self:unix_stream_socket { create bind listen accept read write };
 allow sdv_dice_t self:process { setrlimit setsched getsched signull signal };
+allow sdv_dice_t self:capability sys_resource;
 
 # Access open-dice and dice-vm char devices
 sdv_dice_rw_opendice_dev(sdv_dice_t)
@@ -51,3 +52,13 @@ sdv_dice_rw_vm_dev(sdv_dice_t)
 # syslog
 logging_create_devlog_dev(sdv_dice_t)
 logging_dgram_send(sdv_dice_t)
+
+# ASB: libkiumd (liblrmc.so) and SAIL mailbox client
+libkiumd_mmap_exec_lib_file(sdv_dice_t)
+gen_require(`
+    type sail_mailbox_tmpfs_t;
+    type sail_mailbox_t;
+')
+allow sdv_dice_t sail_mailbox_tmpfs_t:file { read write open getattr };
+# SAIL mailbox worker sends signull to check sdv_dice_service is alive
+allow sail_mailbox_t sdv_dice_t:process signull;
