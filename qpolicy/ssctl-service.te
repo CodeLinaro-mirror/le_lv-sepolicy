@@ -8,8 +8,10 @@ type ssctl_service_exec_t;
 type ssctl_service_tmp_t;
 type ssctl_service_tmpfs_t;
 type ssctl_service_power_t;
+type umd_ssctl_device_t;
 
 init_daemon_domain(ssctl_service_t, ssctl_service_exec_t)
+dev_node(umd_ssctl_device_t)
 
 init_rw_script_stream_sockets(ssctl_service_t)
 
@@ -37,6 +39,9 @@ ssctl_service_mmap_rw_tmpfs_files(ssctl_service_t)
 ssctl_service_rw_tmpfs_files(ssctl_service_t)
 allow ssctl_service_t ssctl_service_tmpfs_t:file unlink;
 
+# /dev/umd_ssctl
+ssctlsrv_rw_umd_ssctl_dev(ssctl_service_t)
+
 libkiumd_mmap_exec_lib_file(ssctl_service_t)
 
 power_use_pm_register(ssctl_service_t, ssctl_service_power_t)
@@ -51,3 +56,4 @@ dev_rw_vfio_dev(ssctl_service_t)
 allow ssctl_service_t self:unix_dgram_socket { connect create getopt setopt };
 allow ssctl_service_t self:capability { sys_resource net_admin };
 allow ssctl_service_t self:process { setrlimit };
+ssctlsrv_map_umd_ssctl_dev(ssctl_service_t)
