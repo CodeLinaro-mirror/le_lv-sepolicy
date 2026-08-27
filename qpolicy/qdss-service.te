@@ -51,7 +51,7 @@ qdssservice_manage_tmpfs_files(qdss_service_t)
 # ========== local ==========
 allow qdss_service_t self:unix_dgram_socket { create connect getopt setopt };
 allow qdss_service_t self:tcp_socket { create connect getopt setopt bind read write };
-allow qdss_service_t self:process { setrlimit setsched getsched };
+allow qdss_service_t self:process { setrlimit setsched getsched signull };
 allow qdss_service_t self:capability { sys_resource sys_nice net_admin sys_ptrace };
 allow qdss_service_t qdss_service_tmpfs_t:file unlink;
 allow qdss_service_t qdss_service_tmp_t:dir { create };
