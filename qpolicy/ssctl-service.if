@@ -76,3 +76,39 @@ interface(`ssctl_service_rw_tmpfs_files',`
 
     rw_files_pattern($1, ssctl_service_tmpfs_t, ssctl_service_tmpfs_t)
 ')
+
+########################################
+## <summary>
+##  Read and write umd_ssctl device (/dev/umd_ssctl).
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`ssctlsrv_rw_umd_ssctl_dev',`
+    gen_require(`
+        type device_t, umd_ssctl_device_t;
+    ')
+
+    rw_chr_files_pattern($1, device_t, umd_ssctl_device_t)
+')
+
+########################################
+## <summary>
+##      map umd_ssctl device.
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+#
+interface(`ssctlsrv_map_umd_ssctl_dev',`
+    gen_require(`
+        type umd_ssctl_device_t;
+    ')
+
+    allow $1 umd_ssctl_device_t:chr_file map;
+')
