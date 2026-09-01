@@ -34,6 +34,9 @@ allow sdv_dice_t cert_t:lnk_file { read getattr };
 
 files_delete_tmp_dir_entry(sdv_dice_t)
 
+# read cmdline in /proc
+kernel_read_proc_files(sdv_dice_t)
+
 # tmpfs
 fs_manage_tmpfs_files(sdv_dice_t)
 fs_map_tmpfs_files(sdv_dice_t)

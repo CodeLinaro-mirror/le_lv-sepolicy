@@ -87,6 +87,7 @@ files_search_default(nsp_drv_t)
 # sde10,/vendor/dsp/cdsp/fastrpc_shell_unsigned_3 
 firmware_search_dsp_dirs(nsp_drv_t)
 firmware_read_dsp_files(nsp_drv_t)
+vendor_search_dir(nsp_drv_t)
 
 # /var/volatile/log/frpc
 files_create_var_dirs(nsp_drv_t)

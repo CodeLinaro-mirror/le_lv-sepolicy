@@ -10,3 +10,5 @@ init_rw_script_stream_sockets(udev_t)
 kernel_read_fs_sysctls(udev_t)
 
 allow udev_t self:process { getsched setrlimit };
+# Allow udev to read blacklist conf in /run/modprobe.d
+files_read_runtime_files(udev_t)
