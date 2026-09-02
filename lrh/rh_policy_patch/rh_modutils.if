@@ -1,0 +1,22 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary>Policy for kernel module utilities</summary>
+
+########################################
+## <summary>
+##  Transition to kmod_t when NNP has been set.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  The type of the process performing this action.
+##  </summary>
+## </param>
+#
+interface(`modutils_kmod_nnp_trans',`
+    gen_require(`
+        type kmod_t;
+    ')
+
+    allow $1 kmod_t:process2 nnp_transition;
+')

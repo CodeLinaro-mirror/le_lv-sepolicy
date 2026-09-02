@@ -64,6 +64,7 @@ term_open_unallocated_ttys(audio_service_t)
 term_use_unallocated_ttys(audio_service_t)
 
 # /vendor/dsp
+vendor_search_dir(audio_service_t)
 firmware_search_dsp_dirs(audio_service_t)
 firmware_read_dsp_lnk_files(audio_service_t)
 firmware_write_dsp_dirs(audio_service_t)
@@ -87,6 +88,7 @@ diagservice_rw_tmpfs_files(audio_service_t)
 pilrm_rw_tmpfs_files(audio_service_t)
 kernel_read_debugfs(audio_service_t)
 kernel_read_proc_files(audio_service_t)
+kernel_search_vm_sysctl(audio_service_t)
 #early stage policy
 fs_manage_tmpfs_sockets(audio_service_t)
 
@@ -214,3 +216,6 @@ dev_rw_input_dev(audio_service_t)
 kernel_read_unlabeled_state(audio_service_t)
 
 audioservice_map_kiumd_dev(audio_service_t)
+vendor_search_dir(audio_service_t)
+
+pilrm_use_lrm_run_dir(audio_service_t)

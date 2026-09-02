@@ -239,3 +239,5 @@ allow weston_t weston_exec_t:file execute_no_trans;
 allow weston_t weston_tmpfs_t:file delete_file_perms;
 allow weston_t weston_tmp_t:sock_file { create_file_perms delete_sock_file_perms write };
 allow kernel_t weston_lib_t:file { getattr open read };
+
+pilrm_use_lrm_run_dir(weston_t)

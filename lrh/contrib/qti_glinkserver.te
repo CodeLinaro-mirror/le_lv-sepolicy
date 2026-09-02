@@ -86,6 +86,9 @@ allow glinkserver_t self:unix_dgram_socket { create connect write getopt setopt 
 allow glinkserver_t self:process { setrlimit signull setsched };
 allow glinkserver_t self:capability { net_admin sys_nice sys_resource dac_override };
 
+initrc_rw_state_files(glinkserver_t)
+initrc_signull(glinkserver_t)
+
 userdom_manage_user_tmp_files(glinkserver_t)
 userdom_map_tmp_files(glinkserver_t)
 allow glinkserver_t tmpfs_t:file unlink;

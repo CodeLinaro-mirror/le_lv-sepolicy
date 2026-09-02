@@ -66,3 +66,5 @@ allow synxservice_t self:capability { net_admin sys_nice sys_resource dac_overri
 userdom_manage_user_tmp_files(synxservice_t)
 userdom_map_tmp_files(synxservice_t)
 fs_manage_tmpfs_files(synxservice_t)
+
+pilrm_use_lrm_run_dir(synxservice_t)

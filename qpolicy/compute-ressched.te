@@ -20,6 +20,7 @@ files_tmpfs_file(compressch_tmpfs_t)
 fs_tmpfs_filetrans(compressch_t, compressch_tmpfs_t, { dir file })
 compressch_create_tmpfs_files(compressch_t)
 compressch_mmap_rw_tmpfs_files(compressch_t)
+compressch_setattr_tmpfs_files(compressch_t)
 
 init_rw_script_stream_sockets(compressch_t)
 init_signull_script(compressch_t)
@@ -80,3 +81,5 @@ ssrrm_rw_tmpfs_files(compressch_t)
 
 #To allow registering with power manager (pm-client)
 power_use_pm_register(compressch_t, compressch_power_t)
+
+pilrm_use_lrm_run_dir(compressch_t)

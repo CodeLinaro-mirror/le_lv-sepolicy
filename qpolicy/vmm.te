@@ -24,7 +24,7 @@ init_dbus_chat(vmm_t)
 init_get_system_status(vmm_t)
 # check status and start of service from init_t domain
 #init_status(vmm_t)
-#init_start(vmm_t)
+init_start(vmm_t)
 
 # qcrosvm.service
 #systemd_status_systemd_services(vmm_t)
@@ -114,3 +114,5 @@ systemd_dbus_chat_logind(vmm_t)
 files_manage_var_dirs(vmm_t)
 files_manage_var_files(vmm_t)
 files_manage_var_symlinks(vmm_t)
+
+pilrm_use_lrm_run_dir(vmm_t)

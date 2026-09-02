@@ -99,6 +99,9 @@ files_manage_generic_spool_dirs(systemd_tmpfiles_t)
 files_manage_default_files(systemd_logind_t)
 files_manage_default_files(systemd_modules_load_t)
 files_manage_default_files(systemd_generator_t)
+# sleep-notify@.service is labeled power_unit_t (matches [^/]*sleep.* in systemd.fc).
+# The generator must stat it to create symlinks in sleep-drivers.target.requires/.
+systemd_getattr_power_unit_files(systemd_generator_t)
 
 weston_read_pid(systemd_logind_t)
 
@@ -119,6 +122,18 @@ audioservice_mmap_rw_tmpfs_files(systemd_tmpfiles_t)
 
 # /tmp/qcxserver.lock
 qcxserver_rw_tmpfs_files(systemd_tmpfiles_t)
+qcxserver_create_tmpfs_files(systemd_tmpfiles_t)
+vmm_mmap_rw_tmpfs_files(systemd_tmpfiles_t)
+synxservice_rw_tmpfs_files(systemd_tmpfiles_t)
+
+# /tmp/camera_out
+qcxserver_lock_tmpfs_dirs(systemd_tmpfiles_t)
+
+# /tmp/lrm_server_(pid)_vmm-ramdump.txt
+vmm_getattr_tmpfs_files(systemd_tmpfiles_t)
+
+# /tmp/lrm_server_(pid)_synx-service.txt
+synxservice_getattr_tmpfs_files(systemd_tmpfiles_t)
 
 # /tmp/lrm_server_1178_soccp-drv.txt
 soccp_driver_read_tmpfs_files(systemd_tmpfiles_t)
@@ -135,3 +150,10 @@ kernel_relabelfrom_unlabeled_symlinks(systemd_tmpfiles_t)
 soccp_driver_read_tmpfs_files(systemd_tmpfiles_t)
 
 init_getattr_utmp(systemd_tmpfiles_t)
+# Allow systemd_generator to create blacklist conf in /run/modprobe.d
+files_create_runtime_dirs(systemd_generator_t)
+files_create_var_run_files(systemd_generator_t)
+files_rw_var_run_files(systemd_generator_t)
+# Allow systemd_modules_load to list /run/modprobe.d
+files_list_runtime(systemd_modules_load_t)
+files_read_runtime_files(systemd_modules_load_t)

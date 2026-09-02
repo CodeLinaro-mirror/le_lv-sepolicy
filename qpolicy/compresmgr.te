@@ -6,6 +6,7 @@ policy_module(compresmgr, 1.0)
 type compresmgr_t;
 type compresmgr_exec_t;
 type compresmgr_tmpfs_t;
+type compresmgr_run_t;
 type compresmgr_etc_t;
 type compresmgr_power_t;
 type hscnoc_device_t;
@@ -87,4 +88,12 @@ files_read_var_symlinks(compresmgr_t)
 dev_node(hscnoc_device_t)
 compresmgr_rw_hscnoc_dev(compresmgr_t)
 compresmgr_map_hscnoc_dev(compresmgr_t)
+
+pilrm_use_lrm_run_dir(compresmgr_t)
+
+# /run/compresmgr/
+files_runtime_file(compresmgr_run_t)
+files_pid_filetrans(compresmgr_t, compresmgr_run_t, dir)
+manage_dirs_pattern(compresmgr_t, compresmgr_run_t, compresmgr_run_t)
+manage_files_pattern(compresmgr_t, compresmgr_run_t, compresmgr_run_t)
 

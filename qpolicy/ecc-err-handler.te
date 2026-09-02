@@ -9,6 +9,7 @@ type ecc_err_handler_tmp_t;
 type ecc_err_handler_tmpfs_t;
 type ecc_err_handler_power_t;
 type ecc_err_handler_rm_umd_dev_t;
+type ecc_err_handler_data_t;
 
 init_daemon_domain(ecc_err_handler_t, ecc_err_handler_exec_t)
 dev_node(ecc_err_handler_rm_umd_dev_t)
@@ -60,6 +61,8 @@ allow ecc_err_handler_t self:unix_dgram_socket { create connect getopt setopt };
 allow ecc_err_handler_t self:udp_socket { create ioctl };
 allow ecc_err_handler_t self:process { setrlimit setsched getsched signal };
 allow ecc_err_handler_t self:capability { sys_resource sys_nice net_admin };
+allow ecc_err_handler_t ecc_err_handler_data_t:dir  { read open search getattr };
+allow ecc_err_handler_t ecc_err_handler_data_t:file { read open getattr };
 
 files_tmp_file(ecc_err_handler_tmp_t)
 files_tmp_filetrans(ecc_err_handler_t, ecc_err_handler_tmp_t, { dir fifo_file file lnk_file })
