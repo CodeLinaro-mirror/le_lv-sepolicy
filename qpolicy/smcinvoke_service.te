@@ -5,6 +5,7 @@ policy_module(smcinvoke_service, 1.0)
 
 type smcinvoke_service_t;
 type smcinvoke_service_exec_t;
+type smcinvoke_service_run_t;
 
 init_daemon_domain(smcinvoke_service_t, smcinvoke_service_exec_t)
 
@@ -15,6 +16,7 @@ minkdescriptor_mmap_lib_files(smcinvoke_service_t)
 
 # self
 allow smcinvoke_service_t self:unix_dgram_socket { create connect write getopt setopt };
+allow smcinvoke_service_t self:unix_stream_socket connectto;
 allow smcinvoke_service_t self:process { setrlimit setsched getsched signal signull };
 allow smcinvoke_service_t self:capability { sys_resource kill net_admin sys_ptrace };
 
@@ -86,4 +88,15 @@ owfds_rw_tmpfs_files(smcinvoke_service_t)
 openwfd_mmap_rw_tmpfs_files(smcinvoke_service_t)
 fs_search_tracefs_dirs(smcinvoke_service_t)
 fs_rw_tracefs_files(smcinvoke_service_t)
+
+pilrm_use_lrm_run_dir(smcinvoke_service_t)
+
+# /run/smcinvoke/
+files_runtime_file(smcinvoke_service_run_t)
+files_pid_filetrans(smcinvoke_service_t, smcinvoke_service_run_t, dir)
+manage_dirs_pattern(smcinvoke_service_t, smcinvoke_service_run_t, smcinvoke_service_run_t)
+manage_files_pattern(smcinvoke_service_t, smcinvoke_service_run_t, smcinvoke_service_run_t)
+
+kernel_read_vm_sysctls(smcinvoke_service_t)
+kernel_read_vm_overcommit_sysctl(smcinvoke_service_t)
 

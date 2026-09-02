@@ -76,3 +76,5 @@ manage_files_pattern(gpce_be_t, gpce_be_tmp_t, gpce_be_tmp_t)
 #================local===================
 allow gpce_be_t self:process { setrlimit setsched getsched signal };
 allow gpce_be_t self:capability { sys_resource sys_nice dac_override};
+
+pilrm_use_lrm_run_dir(gpce_be_t)
