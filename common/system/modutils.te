@@ -11,3 +11,5 @@ kernel_read_unlabeled_files(kmod_t)
 allow kmod_t self:capability net_admin;
 fs_rw_tmpfs_files(kmod_t)
 files_rw_root_chr_files(kmod_t)
+# Allow kmod/modprobe to read blacklist conf in /run/modprobe.d
+files_read_runtime_files(kmod_t)

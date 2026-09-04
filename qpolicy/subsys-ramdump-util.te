@@ -76,3 +76,5 @@ pil_rm_signull(subsys_ramdump_util_t)
 
 files_manage_default_dirs(subsys_ramdump_util_t)
 files_manage_default_files(subsys_ramdump_util_t)
+
+pilrm_use_lrm_run_dir(subsys_ramdump_util_t)

@@ -70,3 +70,5 @@ power_use_pm_register(ipp_t, ipp_power_t)
 files_search_default(ipp_t)
 files_read_default_files(ipp_t)
 files_read_generic_tmp_files(ipp_t)
+
+pilrm_use_lrm_run_dir(ipp_t)
