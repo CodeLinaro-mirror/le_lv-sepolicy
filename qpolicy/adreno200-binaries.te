@@ -168,3 +168,6 @@ allow adreno200_t self:fifo_file { rw_fifo_file_perms };
 allow adreno200_t adreno200_tmpfs_t:file delete_file_perms;
 
 pilrm_use_lrm_run_dir(adreno200_t)
+
+adreno200_map_rgs_dev(adreno200_t)
+dev_map_input_dev(adreno200_t)
