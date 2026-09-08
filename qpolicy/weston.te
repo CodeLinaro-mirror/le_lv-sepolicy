@@ -42,6 +42,7 @@ init_signal_script(weston_t)
 init_read_state(weston_t)
 init_stream_connect_script(weston_t)
 # initrc_runtime_t
+init_list_initrc_runtime_dirs(weston_t)
 init_create_initrc_runtime_files(weston_t)
 init_rw_initrc_runtime_files(weston_t)
 init_create_initrc_runtime_sock_files(weston_t)
