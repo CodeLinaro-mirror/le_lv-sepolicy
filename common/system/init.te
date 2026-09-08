@@ -89,6 +89,7 @@ compresmon_nnp_trans(initrc_t)
 seutil_nnp_trans(initrc_t)
 netutils_ping_nnp_trans(initrc_t)
 syscache_rm_nnp_trans(initrc_t)
+qlflogging_nnp_trans(initrc_t)
 
 allow_she_lib_files(initrc_t)
 delete_she_lib_files(initrc_t)

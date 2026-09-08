@@ -1,0 +1,94 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary>Policy for qlf-kernel-loggingd SELinux policy and userland applications.</summary>
+
+######################################
+## <summary>
+##  Send signull to qlf-kernel-loggingd.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`qlflogging_signull',`
+    gen_require(`
+        type qlf_logging_t;
+    ')
+
+    allow $1 qlf_logging_t:process signull;
+')
+
+######################################
+## <summary>
+##  Map, read and write qlf-kernel-logging tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`qlflogging_mmap_rw_tmpfs_files',`
+    gen_require(`
+        type qlf_logging_tmpfs_t;
+    ')
+
+    mmap_rw_files_pattern($1, qlf_logging_tmpfs_t, qlf_logging_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Read and write qlf-kernel-logging tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`qlflogging_rw_tmpfs_files',`
+    gen_require(`
+        type qlf_logging_tmpfs_t;
+    ')
+
+    rw_files_pattern($1, qlf_logging_tmpfs_t, qlf_logging_tmpfs_t)
+')
+
+########################################
+## <summary>
+##  Allow domain to nnp_transition into qlf_logging_t.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`qlflogging_nnp_trans',`
+    gen_require(`
+        type qlf_logging_t;
+    ')
+
+    allow $1 qlf_logging_t:process2 nnp_transition;
+')
+
+######################################
+## <summary>
+##  Write to qlf-kernel-logging POSIX message queue (/dev/mqueue/kernel_log).
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`qlflogging_write_mqueue',`
+    gen_require(`
+        type qlf_logging_t;
+    ')
+
+    allow $1 qlf_logging_t:msgq { write associate };
+')
