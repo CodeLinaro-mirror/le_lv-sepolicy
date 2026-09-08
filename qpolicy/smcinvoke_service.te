@@ -62,6 +62,9 @@ qseecomd_signull(smcinvoke_service_t)
 qseecomd_ptrace(smcinvoke_service_t)
 qseecomd_use_fds(smcinvoke_service_t)
 
+# sdv_dice
+sdv_dice_service_signull(smcinvoke_service_t)
+
 # ippc
 ipp_gpce_be_process(smcinvoke_service_t)
 ipp_use_fds(smcinvoke_service_t)

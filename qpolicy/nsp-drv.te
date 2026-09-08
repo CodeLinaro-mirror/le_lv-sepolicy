@@ -55,6 +55,18 @@ nspconfig_create_tmpfs_files(nsp_drv_t)
 nspconfig_mmap_rw_tmpfs_files(nsp_drv_t)
 nspconfig_rw_tmpfs_files(nsp_drv_t)
 
+# /vendor/dsp - allow fastrpc-debug's reverse listener (frpc_listener2) to
+# open DSP shell/skel/oemconfig libraries that the DSP requests via apps_std
+# (e.g. /vendor/dsp/<nsp>/oemconfig.so, fastrpc_shell_*).
+#
+# vendor_search_dir() grants the search-only traversal of /vendor itself
+# (labeled vendor_dir_t by the `vendor` module). The firmware_*_dsp_*
+# interfaces grant access to the contents of /vendor/dsp.
+vendor_search_dir(nsp_drv_t)
+firmware_search_dsp_dirs(nsp_drv_t)
+firmware_read_dsp_lnk_files(nsp_drv_t)
+firmware_read_dsp_files(nsp_drv_t)
+
 #libkiumd
 libkiumd_mmap_exec_lib_file(nsp_drv_t)
 nsp_drv_rm_map_umd_dev(nsp_drv_t)
@@ -67,6 +79,9 @@ power_setattr_sock_files(nsp_drv_t)
 
 # /etc/compresmgr_cpu_config.xml
 compresmgr_rw_etc_files(nsp_drv_t)
+
+# /dev/mqueue/compute-ressched
+compressch_mmap_rw_tmpfs_files(nsp_drv_t)
 
 # /dev/mqueue/fastrpc-rm
 fastrpc_rm_rw_tmpfs_files(nsp_drv_t)
