@@ -202,3 +202,21 @@ interface(`adreno200_power_manage_sock',`
 
     manage_sock_files_pattern($1, adreno200_power_t, adreno200_power_t)
 ')
+
+########################################
+## <summary>
+##  map rgs devices (/dev/rgs/*).
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`adreno200_map_rgs_dev',`
+    gen_require(`
+        type adreno200_dev_t;
+    ')
+
+    allow $1 adreno200_dev_t:chr_file map;
+')

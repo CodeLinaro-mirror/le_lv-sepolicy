@@ -1,0 +1,6 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+/usr/bin/qlf-kernel-loggingd       --      gen_context(system_u:object_r:qlf_logging_exec_t,s0)
+/usr/lib/ebpf/pr_err_trace_ebpf.o  --      gen_context(system_u:object_r:qlf_logging_exec_t,s0)
+/var/qlf_trace_events.xml          --      gen_context(system_u:object_r:qlf_logging_var_t,s0)
