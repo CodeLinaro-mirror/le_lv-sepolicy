@@ -3,6 +3,10 @@
 
 policy_module(ssctl-service, 1.0)
 
+require {
+    type debugfs_t;
+}
+
 type ssctl_service_t;
 type ssctl_service_exec_t;
 type ssctl_service_tmp_t;
@@ -57,3 +61,6 @@ allow ssctl_service_t self:unix_dgram_socket { connect create getopt setopt };
 allow ssctl_service_t self:capability { sys_resource net_admin };
 allow ssctl_service_t self:process { setrlimit };
 ssctlsrv_map_umd_ssctl_dev(ssctl_service_t)
+
+allow ssctl_service_t debugfs_t:dir { search open read };
+allow ssctl_service_t debugfs_t:file { open read getattr };
