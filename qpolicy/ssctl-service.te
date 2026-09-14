@@ -56,3 +56,5 @@ init_rw_script_stream_sockets(ssctl_service_t)
 allow ssctl_service_t self:capability net_admin;
 
 pilrm_use_lrm_run_dir(ssctl_service_t)
+kernel_search_debugfs(ssctl_service_t)
+kernel_read_debugfs(ssctl_service_t)
