@@ -157,3 +157,4 @@ files_rw_var_run_files(systemd_generator_t)
 # Allow systemd_modules_load to list /run/modprobe.d
 files_list_runtime(systemd_modules_load_t)
 files_read_runtime_files(systemd_modules_load_t)
+systemd_dbus_chat_logind(systemd_networkd_t)
