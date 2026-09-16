@@ -106,6 +106,8 @@ allow audio_service_t initrc_t:unix_stream_socket connectto;
 # Allow audio_service_t to send D-Bus messages to other audio_service_t processes
 # If the service is registered on the system bus, allow acquiring the service
 audioservice_dbus_chat(audio_service_t)
+unconfined_dbus_send(audio_service_t)
+unconfined_dbus_connect(audio_service_t)
 audioservice_ipc_sockets(audio_service_t)
 audioservice_process_control(audio_service_t)
 audioservice_tcp_comm(audio_service_t)
