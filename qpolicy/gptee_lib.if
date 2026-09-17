@@ -93,3 +93,21 @@ interface(`gptee_delete_client_files',`
 
     allow $1 gptee_client_t:file { getattr unlink };
 ')
+
+########################################
+## <summary>
+##  Get the attributes of gptee library files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`gptee_getattr_lib_files',`
+    gen_require(`
+        type gptee_lib_t;
+    ')
+
+    allow $1 gptee_lib_t:file getattr;
+')

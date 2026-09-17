@@ -73,3 +73,9 @@ kernel_mounton_unlabeled_dirs(ssgtz_daemon_t)
 
 # search root directory
 files_list_default(ssgtz_daemon_t)
+
+# The daemon registers with the safety monitor over the shared LRM run
+# directory, creating its own endpoint under /run/lrm:
+#   avc: denied { create } name="..." tclass=sock_file
+#     scontext=...:ssgtz_daemon_t tcontext=...:pil_rm_run_t
+pilrm_use_lrm_run_dir(ssgtz_daemon_t)

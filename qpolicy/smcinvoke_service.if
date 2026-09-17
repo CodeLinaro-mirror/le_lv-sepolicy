@@ -74,3 +74,21 @@ interface(`smcinvoke_service_signull',`
 
     allow $1 smcinvoke_service_t:process signull;
 ')
+
+########################################
+## <summary>
+##  Get the attributes of minkdescriptor library files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`minkdescriptor_getattr_lib_files',`
+    gen_require(`
+        type minkdescriptor_lib_t;
+    ')
+
+    allow $1 minkdescriptor_lib_t:file getattr;
+')
