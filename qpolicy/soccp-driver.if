@@ -166,3 +166,21 @@ interface(`soccp_driver_ptrace',`
 
     allow $1 soccp_driver_t:process ptrace;
 ')
+
+######################################
+## <summary>
+##  Allow connecting to soccp-driver unix stream socket.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`soccp_driver_stream_connectto',`
+    gen_require(`
+        type soccp_driver_t;
+    ')
+
+    allow $1 soccp_driver_t:unix_stream_socket connectto;
+')
