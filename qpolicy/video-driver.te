@@ -52,12 +52,21 @@ dbus_system_bus_client(video_driver_t)
 systemd_dbus_chat_logind(video_driver_t)
 systemd_write_inhibit_pipes(video_driver_t)
 
+# Boot-time service dependency check: videoCore queries the systemd manager
+# (org.freedesktop.systemd1, init_t) over D-Bus for the ActiveState of its
+# dependencies (e.g. pil-rm.service) and Subscribes to JobRemoved signals.
+init_dbus_chat(video_driver_t)
+# Reading a unit's ActiveState makes systemd run mac_selinux_filter, which
+# checks service:status against the unit's type (systemd_unit_t).
+init_get_generic_units_status(video_driver_t)
+
 systemd_read_logind_sessions_files(video_driver_t)
 systemd_login_read_pid_files(video_driver_t)
 
 dbus_stream_connect_system_dbusd(video_driver_t)
 dbus_chat_session_bus(video_driver_t)
 dbus_write_pid_sock_files(video_driver_t)
+dbus_send_system_bus(video_driver_t)
 
 dbus_read_pid_files(video_driver_t)
 
@@ -166,3 +175,5 @@ userdom_delete_user_tmpfs_files(video_driver_t)
 userdom_manage_user_tmpfs_files(video_driver_t)
 
 mmap_rw_files_pattern(video_driver_t,user_tmpfs_t,user_tmpfs_t)
+
+pilrm_use_lrm_run_dir(video_driver_t)

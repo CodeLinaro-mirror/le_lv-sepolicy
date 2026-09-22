@@ -9,3 +9,5 @@ files_search_default(system_dbusd_t)
 
 # use fd of the kernel library file
 kernel_use_fds(system_dbusd_t)
+
+dbus_rw_system_dbusd_bluetooth_sock(system_dbusd_t)

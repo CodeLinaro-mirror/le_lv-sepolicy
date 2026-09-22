@@ -62,6 +62,7 @@ userdom_rw_user_tmpfs_files(soccp_driver_t)
 userdom_map_user_tmpfs_files(soccp_driver_t)
 userdom_delete_user_tmpfs_files(soccp_driver_t)
 unconfined_signull(soccp_driver_t)
+files_search_default(soccp_driver_t)
 
 # For operations without existing interfaces
 allow soccp_driver_t self:unix_dgram_socket { create connect getopt setopt };
@@ -72,3 +73,5 @@ allow soccp_driver_t self:capability dac_override;
 allow soccp_driver_t self:process getsched;
 
 dev_map_kiumd_dev(soccp_driver_t)
+
+pilrm_use_lrm_run_dir(soccp_driver_t)

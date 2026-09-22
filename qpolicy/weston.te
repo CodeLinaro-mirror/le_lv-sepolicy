@@ -42,6 +42,7 @@ init_signal_script(weston_t)
 init_read_state(weston_t)
 init_stream_connect_script(weston_t)
 # initrc_runtime_t
+init_list_initrc_runtime_dirs(weston_t)
 init_create_initrc_runtime_files(weston_t)
 init_rw_initrc_runtime_files(weston_t)
 init_create_initrc_runtime_sock_files(weston_t)
@@ -239,3 +240,5 @@ allow weston_t weston_exec_t:file execute_no_trans;
 allow weston_t weston_tmpfs_t:file delete_file_perms;
 allow weston_t weston_tmp_t:sock_file { create_file_perms delete_sock_file_perms write };
 allow kernel_t weston_lib_t:file { getattr open read };
+
+pilrm_use_lrm_run_dir(weston_t)

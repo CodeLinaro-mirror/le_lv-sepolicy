@@ -114,3 +114,5 @@ allow diag_service_t self:process signal;
 files_manage_var_dirs(diag_service_t)
 files_manage_var_files(diag_service_t)
 files_manage_var_symlinks(diag_service_t)
+
+pilrm_use_lrm_run_dir(diag_service_t)

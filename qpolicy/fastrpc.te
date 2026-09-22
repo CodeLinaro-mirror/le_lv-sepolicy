@@ -54,3 +54,5 @@ files_read_usr_files(fastrpc_t)
 
 allow fastrpc_t self:capability { sys_resource };
 allow fastrpc_t self:process signal;
+
+pilrm_use_lrm_run_dir(fastrpc_t)

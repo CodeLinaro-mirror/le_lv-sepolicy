@@ -1,0 +1,40 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary>Policy for qlf-kernel-loggingd SELinux policy and userland applications.</summary>
+
+######################################
+## <summary>
+##  Map, read and write qlf-kernel-logging tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`qlflogging_mmap_rw_tmpfs_files',`
+    gen_require(`
+        type qlf_logging_tmpfs_t;
+    ')
+
+    mmap_rw_files_pattern($1, qlf_logging_tmpfs_t, qlf_logging_tmpfs_t)
+')
+
+######################################
+## <summary>
+##  Read and write qlf-kernel-logging tmpfs files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`qlflogging_rw_tmpfs_files',`
+    gen_require(`
+        type qlf_logging_tmpfs_t;
+    ')
+
+    rw_files_pattern($1, qlf_logging_tmpfs_t, qlf_logging_tmpfs_t)
+')

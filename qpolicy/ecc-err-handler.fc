@@ -3,3 +3,4 @@
 
 /usr/bin/ecc-err-handler       --      gen_context(system_u:object_r:ecc_err_handler_exec_t,s0)
 /dev/psail_auditor             -c      gen_context(system_u:object_r:ecc_err_handler_rm_umd_dev_t,s0)
+/usr/share/ecc-err-handler(/.*)?        gen_context(system_u:object_r:ecc_err_handler_data_t,s0)

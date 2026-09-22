@@ -114,3 +114,5 @@ systemd_dbus_chat_logind(vmm_t)
 files_manage_var_dirs(vmm_t)
 files_manage_var_files(vmm_t)
 files_manage_var_symlinks(vmm_t)
+
+pilrm_use_lrm_run_dir(vmm_t)

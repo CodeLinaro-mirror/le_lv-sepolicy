@@ -212,3 +212,100 @@ interface(`pilrm_map_umd_dev',`
 
     allow $1 pil_rm_umd_dev_t:chr_file map;
 ')
+
+######################################
+## <summary>
+##  Search pil-rm run directory (/run/lrm/).
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`pilrm_search_run_dir',`
+    gen_require(`
+        type pil_rm_run_t;
+    ')
+
+    search_dirs_pattern($1, pil_rm_run_t, pil_rm_run_t)
+')
+
+######################################
+## <summary>
+##  Create socket files in pil-rm run directory (/run/lrm/).
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`pilrm_create_sock_files_run_dir',`
+    gen_require(`
+        type pil_rm_run_t;
+    ')
+
+    search_dirs_pattern($1, pil_rm_run_t, pil_rm_run_t)
+    manage_sock_files_pattern($1, pil_rm_run_t, pil_rm_run_t)
+')
+
+######################################
+## <summary>
+##  Connect to sockets in pil-rm run directory (/run/lrm/).
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`pilrm_connectto_run_sock_files',`
+    gen_require(`
+        type pil_rm_run_t;
+        type pil_rm_t;
+    ')
+
+    search_dirs_pattern($1, pil_rm_run_t, pil_rm_run_t)
+    allow $1 pil_rm_run_t:sock_file { read write };
+    allow $1 pil_rm_t:unix_stream_socket connectto;
+')
+
+######################################
+## <summary>
+##  Full access to /run/lrm/ - search, create/manage sock_files,
+##  connect to any LRM service socket (pil_rm, ssr_rm, smcinvoke, self).
+##  Use this for any domain that participates in LRM IPC.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`pilrm_use_lrm_run_dir',`
+    gen_require(`
+        type pil_rm_run_t;
+        type pil_rm_t;
+        type ssr_rm_t;
+        type smcinvoke_service_t;
+        type openwfd_server_t;
+        type glinkserver_t;
+        type syscache_rm_t;
+        type fastrpc_rm_t;
+        type diag_service_t;
+    ')
+
+    search_dirs_pattern($1, pil_rm_run_t, pil_rm_run_t)
+    allow $1 pil_rm_run_t:dir { write add_name };
+    allow $1 pil_rm_run_t:sock_file { create read write getattr setattr };
+    allow $1 pil_rm_t:unix_stream_socket connectto;
+    allow $1 ssr_rm_t:unix_stream_socket connectto;
+    allow $1 smcinvoke_service_t:unix_stream_socket connectto;
+    allow $1 openwfd_server_t:unix_stream_socket connectto;
+    allow $1 glinkserver_t:unix_stream_socket connectto;
+    allow $1 syscache_rm_t:unix_stream_socket connectto;
+    allow $1 fastrpc_rm_t:unix_stream_socket connectto;
+    allow $1 diag_service_t:unix_stream_socket connectto;
+    allow $1 $1:unix_stream_socket connectto;
+')
