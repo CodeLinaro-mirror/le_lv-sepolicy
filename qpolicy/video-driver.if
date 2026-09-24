@@ -42,6 +42,42 @@ interface(`video_driver_read_pid',`
 
 ######################################
 ## <summary>
+##  Allow a domain to use file descriptors owned by video_driver_t.
+## </summary>
+## <param name="domain">
+##  <summary>
+##   Domain that is allowed to use video_driver_t FDs.
+##  </summary>
+## </param>
+#
+interface(`video_driver_use_fds',`
+    gen_require(`
+        type video_driver_t;
+    ')
+
+    allow $1 video_driver_t:fd use;
+')
+
+######################################
+## <summary>
+##  Allow a domain to use Unix stream sockets owned by video_driver_t.
+## </summary>
+## <param name="domain">
+##  <summary>
+##   Domain that is allowed to use video_driver_t stream sockets.
+##  </summary>
+## </param>
+#
+interface(`video_driver_use_stream_sockets',`
+    gen_require(`
+        type video_driver_t;
+    ')
+
+    allow $1 video_driver_t:unix_stream_socket { read write shutdown };
+')
+
+######################################
+## <summary>
 ##  Map, read and write video-driver tmpfs files.
 ## </summary>
 ## <param name="domain">
