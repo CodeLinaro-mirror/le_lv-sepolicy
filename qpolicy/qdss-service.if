@@ -165,3 +165,42 @@ interface(`qdssservice_delete_tmpfs_files',`
 
     delete_files_pattern($1, qdss_service_tmpfs_t, qdss_service_tmpfs_t)
 ')
+######################################
+## <summary>
+##  Search the qdss-service dump directory under /var/volatile/log.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`qdssservice_search_var_dirs',`
+    gen_require(`
+        type qdss_service_var_t;
+    ')
+
+    search_dirs_pattern($1, qdss_service_var_t, qdss_service_var_t)
+    allow $1 qdss_service_var_t:dir getattr;
+')
+######################################
+## <summary>
+##  Create subdirectories under the qdss-service dump directory
+##  (/var/volatile/log/qlf_dumps) and write dump files into them.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`qdssservice_manage_var_dumps',`
+    gen_require(`
+        type qdss_service_var_t;
+    ')
+
+    qdssservice_search_var_dirs($1)
+    allow $1 qdss_service_var_t:dir { open read write add_name create };
+    allow $1 qdss_service_var_t:file { create open read write append
+                                       getattr setattr ioctl };
+')

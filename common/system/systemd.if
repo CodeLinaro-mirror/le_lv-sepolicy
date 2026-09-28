@@ -298,6 +298,24 @@ interface(`systemd_userdbd_nnp_trans',`
 
 ########################################
 ## <summary>
+##  Transition to systemd_nspawn_t when NNP has been set.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  The type of the process performing this action.
+##  </summary>
+## </param>
+#
+interface(`systemd_nspawn_nnp_trans',`
+    gen_require(`
+        type systemd_nspawn_t;
+    ')
+
+    allow $1 systemd_nspawn_t:process2 nnp_transition;
+')
+
+########################################
+## <summary>
 ##  Allow the specified domain to read and write
 ##  the systemd-logind linger files
 ## </summary>

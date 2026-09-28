@@ -41,3 +41,21 @@ interface(`keymaster_delete_lib_files',`
 ')
 
 
+
+########################################
+## <summary>
+##  Get the attributes of keymaster library files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`keymaster_getattr_lib_files',`
+    gen_require(`
+        type keymaster_lib_t;
+    ')
+
+    allow $1 keymaster_lib_t:file getattr;
+')

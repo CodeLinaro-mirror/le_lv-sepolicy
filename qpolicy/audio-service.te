@@ -222,3 +222,9 @@ audioservice_map_kiumd_dev(audio_service_t)
 vendor_search_dir(audio_service_t)
 
 pilrm_use_lrm_run_dir(audio_service_t)
+
+# qdss-service collects QLF dumps under /var/volatile/log/qlf_dumps; the
+# reporting clients create their own subdirectory there and write dumps:
+#   avc: denied { create } name="qlf_dumps" tclass=dir
+#     scontext=...:audio_service_t tcontext=...:qdss_service_var_t
+qdssservice_manage_var_dumps(audio_service_t)

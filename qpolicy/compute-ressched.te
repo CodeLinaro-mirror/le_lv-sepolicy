@@ -84,3 +84,9 @@ ssrrm_rw_tmpfs_files(compressch_t)
 power_use_pm_register(compressch_t, compressch_power_t)
 
 pilrm_use_lrm_run_dir(compressch_t)
+
+# qdss-service collects QLF dumps under /var/volatile/log/qlf_dumps; the
+# reporting clients create their own subdirectory there and write dumps:
+#   avc: denied { create } name="qlf_dumps" tclass=dir
+#     scontext=...:compressch_t tcontext=...:qdss_service_var_t
+qdssservice_manage_var_dumps(compressch_t)

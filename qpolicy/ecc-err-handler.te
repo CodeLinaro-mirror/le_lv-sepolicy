@@ -82,3 +82,15 @@ files_read_safety_config_files(ecc_err_handler_t)
 
 power_use_pm_register(ecc_err_handler_t, ecc_err_handler_power_t)
 ecc_err_handlerrm_map_umd_dev(ecc_err_handler_t)
+
+# qdss-service collects QLF dumps under /var/volatile/log/qlf_dumps; the
+# reporting clients create their own subdirectory there and write dumps:
+#   avc: denied { create } name="qlf_dumps" tclass=dir
+#     scontext=...:ecc_err_handler_t tcontext=...:qdss_service_var_t
+qdssservice_manage_var_dumps(ecc_err_handler_t)
+
+# The daemon registers with the safety monitor over the shared LRM run
+# directory, creating its own endpoint under /run/lrm:
+#   avc: denied { create } name="..." tclass=sock_file
+#     scontext=...:ecc_err_handler_t tcontext=...:pil_rm_run_t
+pilrm_use_lrm_run_dir(ecc_err_handler_t)
