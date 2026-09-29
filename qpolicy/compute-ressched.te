@@ -46,6 +46,8 @@ logging_read_syslog_pid(compressch_t)
 logging_send_syslog_msg(compressch_t)
 
 safetymonitor_rw_tmpfs_files(compressch_t)
+#xml reading access /etc/safety_config
+files_read_safety_config_files(compressch_t)
 
 #For getting domain IDs
 fastrpc_rm_rw_tmpfs_files(compressch_t)
