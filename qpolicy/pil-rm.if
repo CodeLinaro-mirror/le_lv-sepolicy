@@ -294,6 +294,8 @@ interface(`pilrm_use_lrm_run_dir',`
         type syscache_rm_t;
         type fastrpc_rm_t;
         type diag_service_t;
+        type safetymonitor_t;
+        type initrc_t;
     ')
 
     search_dirs_pattern($1, pil_rm_run_t, pil_rm_run_t)
@@ -307,5 +309,15 @@ interface(`pilrm_use_lrm_run_dir',`
     allow $1 syscache_rm_t:unix_stream_socket connectto;
     allow $1 fastrpc_rm_t:unix_stream_socket connectto;
     allow $1 diag_service_t:unix_stream_socket connectto;
+    # /run/lrm/safetymonitor.sock -- the safety monitor listens on the shared
+    # LRM run directory and every registering client connects to it:
+    #   avc: denied { connectto } path="/run/lrm/safetymonitor.sock"
+    #     scontext=...:$1 tcontext=...:safetymonitor_t
+    allow $1 safetymonitor_t:unix_stream_socket connectto;
+    # /run/lrm/qlf_event.sock and /run/lrm/nspconfig_serv.sock are opened by
+    # helpers that stay in initrc_t, so the peer label is initrc_t:
+    #   avc: denied { connectto } path="/run/lrm/qlf_event.sock"
+    #     scontext=...:$1 tcontext=...:initrc_t
+    allow $1 initrc_t:unix_stream_socket connectto;
     allow $1 $1:unix_stream_socket connectto;
 ')

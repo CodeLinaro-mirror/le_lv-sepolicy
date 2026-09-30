@@ -119,3 +119,9 @@ evauto_mmap_rw_tmpfs_files(eva_auto_t)
 kernel_read_unlabeled_state(eva_auto_t)
 
 pilrm_use_lrm_run_dir(eva_auto_t)
+
+# qdss-service collects QLF dumps under /var/volatile/log/qlf_dumps; the
+# reporting clients create their own subdirectory there and write dumps:
+#   avc: denied { create } name="qlf_dumps" tclass=dir
+#     scontext=...:eva_auto_t tcontext=...:qdss_service_var_t
+qdssservice_manage_var_dumps(eva_auto_t)

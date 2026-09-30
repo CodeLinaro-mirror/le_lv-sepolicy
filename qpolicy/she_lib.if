@@ -41,3 +41,21 @@ interface(`delete_she_lib_files',`
     delete_files_pattern($1, lib_t, she_lib_t)
 ')
 
+
+########################################
+## <summary>
+##  Get the attributes of SHE library files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`getattr_she_lib_files',`
+    gen_require(`
+        type she_lib_t;
+    ')
+
+    allow $1 she_lib_t:file getattr;
+')

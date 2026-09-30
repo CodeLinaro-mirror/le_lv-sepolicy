@@ -22,6 +22,10 @@ fs_getattr_xattr_fs(qdss_service_t)
 
 #for fs check
 fs_associate(qdss_service_var_t)
+# /var/volatile is a tmpfs mount, so the dump directory is created on tmpfs:
+#   avc: denied { associate } scontext=...:qdss_service_var_t
+#     tcontext=...:tmpfs_t tclass=filesystem
+fs_associate_tmpfs(qdss_service_var_t)
 
 dev_map_kiumd_dev(qdss_service_t)
 dev_rw_kiumd_dev(qdss_service_t)

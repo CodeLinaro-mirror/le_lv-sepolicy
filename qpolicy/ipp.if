@@ -93,3 +93,21 @@ interface(`ipp_initrc_nnp_transition',`
 
     allow $1 ipp_t:process2 nnp_transition;
 ')
+
+########################################
+## <summary>
+##  Get the attributes of ipp library files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`ipp_getattr_lib_files',`
+    gen_require(`
+        type ipp_lib_t;
+    ')
+
+    allow $1 ipp_lib_t:file getattr;
+')

@@ -78,3 +78,9 @@ files_manage_default_dirs(subsys_ramdump_util_t)
 files_manage_default_files(subsys_ramdump_util_t)
 
 pilrm_use_lrm_run_dir(subsys_ramdump_util_t)
+
+# qdss-service collects QLF dumps under /var/volatile/log/qlf_dumps; the
+# reporting clients create their own subdirectory there and write dumps:
+#   avc: denied { create } name="qlf_dumps" tclass=dir
+#     scontext=...:subsys_ramdump_util_t tcontext=...:qdss_service_var_t
+qdssservice_manage_var_dumps(subsys_ramdump_util_t)
