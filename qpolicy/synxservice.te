@@ -59,6 +59,9 @@ qcxserver_rw_map_tmpfs_files(synxservice_t)
 safetymonitor_signull(synxservice_t)
 safetymonitor_rw_tmpfs_files(synxservice_t)
 
+# /etc/safety_config/*.xml
+files_read_safety_config_files(synxservice_t)
+
 allow synxservice_t self:unix_dgram_socket { create connect write getopt setopt };
 allow synxservice_t self:process { setrlimit signull setsched getsched signal };
 allow synxservice_t self:capability { net_admin sys_nice sys_resource dac_override };
