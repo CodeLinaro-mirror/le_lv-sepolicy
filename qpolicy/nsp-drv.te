@@ -9,6 +9,7 @@ type nsp_drv_tmp_t;
 type nsp_drv_tmpfs_t;
 type nsp_drv_conf_t;
 type umd_nsp_drv_device_t;
+type nsp_drv_run_t;
 
 init_daemon_domain(nsp_drv_t, nsp_drv_exec_t)
 dev_node(umd_nsp_drv_device_t)
@@ -125,3 +126,10 @@ allow nsp_drv_t nsp_drv_tmpfs_t:file map;
 allow nsp_drv_t nsp_drv_tmpfs_t:file unlink;
 
 pilrm_use_lrm_run_dir(nsp_drv_t)
+
+# nsp_drv creates its socket directly under /run (var_run_t);
+# transition it to its own dedicated type instead of the shared
+# var_run_t:
+files_runtime_file(nsp_drv_run_t)
+files_pid_filetrans(nsp_drv_t, nsp_drv_run_t, sock_file)
+manage_sock_files_pattern(nsp_drv_t, nsp_drv_run_t, nsp_drv_run_t)

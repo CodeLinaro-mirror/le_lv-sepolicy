@@ -8,6 +8,7 @@ type synxservice_exec_t;
 type synxservice_tmp_t;
 type synxservice_tmpfs_t;
 type synxservice_dev_t;
+type synxservice_run_t;
 
 init_daemon_domain(synxservice_t, synxservice_exec_t)
 
@@ -71,3 +72,9 @@ userdom_map_tmp_files(synxservice_t)
 fs_manage_tmpfs_files(synxservice_t)
 
 pilrm_use_lrm_run_dir(synxservice_t)
+# synxservice creates its socket directly under /run (var_run_t);
+# transition it to its own dedicated type instead of the shared
+# var_run_t:
+files_runtime_file(synxservice_run_t)
+files_pid_filetrans(synxservice_t, synxservice_run_t, sock_file)
+manage_sock_files_pattern(synxservice_t, synxservice_run_t, synxservice_run_t)

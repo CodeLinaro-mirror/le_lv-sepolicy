@@ -129,3 +129,23 @@ interface(`sailmb_map_umd_ota_dev',`
 
     allow $1 sail_mailbox_ota_device_t:chr_file map;
 ')
+
+######################################
+## <summary>
+##  Connect to the sail-mailbox unix stream socket (/run/sailmb_server.sock).
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`sailmb_stream_connect',`
+    gen_require(`
+        type sail_mailbox_t;
+        type sail_mailbox_run_t;
+    ')
+
+    allow $1 sail_mailbox_run_t:sock_file { read write getattr };
+    allow $1 sail_mailbox_t:unix_stream_socket connectto;
+')

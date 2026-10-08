@@ -5,6 +5,7 @@ policy_module(ssgtz-daemon, 1.0)
 
 type ssgtz_daemon_t;
 type ssgtz_daemon_exec_t;
+type ssgtz_daemon_run_t;
 
 init_daemon_domain(ssgtz_daemon_t, ssgtz_daemon_exec_t)
 
@@ -75,7 +76,14 @@ kernel_mounton_unlabeled_dirs(ssgtz_daemon_t)
 files_list_default(ssgtz_daemon_t)
 
 # The daemon registers with the safety monitor over the shared LRM run
-# directory, creating its own endpoint under /run/lrm:
+# directory, creating its own endpoint directly under /run:
 #   avc: denied { create } name="..." tclass=sock_file
-#     scontext=...:ssgtz_daemon_t tcontext=...:pil_rm_run_t
+#     scontext=...:ssgtz_daemon_t tcontext=...:var_run_t
 pilrm_use_lrm_run_dir(ssgtz_daemon_t)
+
+# ssgtz-daemon creates its socket directly under /run (var_run_t);
+# transition it to its own dedicated type instead of the shared
+# var_run_t:
+files_runtime_file(ssgtz_daemon_run_t)
+files_pid_filetrans(ssgtz_daemon_t, ssgtz_daemon_run_t, sock_file)
+manage_sock_files_pattern(ssgtz_daemon_t, ssgtz_daemon_run_t, ssgtz_daemon_run_t)

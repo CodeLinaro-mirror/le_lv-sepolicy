@@ -65,6 +65,8 @@ gen_require(`
 allow sdv_dice_t sail_mailbox_tmpfs_t:file { read write open getattr };
 # SAIL mailbox worker sends signull to check sdv_dice_service is alive
 allow sail_mailbox_t sdv_dice_t:process signull;
+# sdv_dice connects to the sail-mailbox server socket (/run/sailmb_server.sock)
+sailmb_stream_connect(sdv_dice_t)
 
 # Mink/SMCInvoke client library
 minkdescriptor_mmap_lib_files(sdv_dice_t)
