@@ -7,6 +7,7 @@ type pfm_t;
 type pfm_exec_t;
 type pfm_tmp_t;
 type pfm_tmpfs_t;
+type pfm_run_t;
 
 init_daemon_domain(pfm_t, pfm_exec_t)
 
@@ -62,6 +63,17 @@ term_rw_devpts_chr_files(pfm_t)
 userdom_manage_user_tmpfs_files(pfm_t)
 unconfined_signull(pfm_t)
 mmap_rw_files_pattern(pfm_t,user_tmpfs_t,user_tmpfs_t)
+
+# pfm_service is both an LRM client (lrmc_server_ready("/safetymonitor"))
+# and server (lrms_open(PFM_DEV_NAME, ...)): grant it the shared client
+# access to other LRM participants' sockets:
+pilrm_use_lrm_run_dir(pfm_t)
+
+# pfm creates its own socket directly under /run (var_run_t); transition
+# it to its own dedicated type instead of the shared var_run_t:
+files_runtime_file(pfm_run_t)
+files_pid_filetrans(pfm_t, pfm_run_t, sock_file)
+manage_sock_files_pattern(pfm_t, pfm_run_t, pfm_run_t)
 
 # ========== local ==========
 allow pfm_t self:unix_dgram_socket { create connect };

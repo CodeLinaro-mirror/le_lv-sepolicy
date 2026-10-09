@@ -92,8 +92,9 @@ dev_read_sysfs(ssr_rm_t)
 
 pilrm_use_lrm_run_dir(ssr_rm_t)
 
-# /run/ssr-rm/
+# ssr-rm creates ssr_lrm.sock directly under /run (var_run_t) now that
+# /run/ssr-rm/ no longer exists; transition it to its own dedicated
+# type instead of the shared var_run_t:
 files_runtime_file(ssr_rm_run_t)
-files_pid_filetrans(ssr_rm_t, ssr_rm_run_t, dir)
-manage_dirs_pattern(ssr_rm_t, ssr_rm_run_t, ssr_rm_run_t)
-manage_files_pattern(ssr_rm_t, ssr_rm_run_t, ssr_rm_run_t)
+files_pid_filetrans(ssr_rm_t, ssr_rm_run_t, sock_file)
+manage_sock_files_pattern(ssr_rm_t, ssr_rm_run_t, ssr_rm_run_t)

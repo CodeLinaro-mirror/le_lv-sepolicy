@@ -9,6 +9,7 @@ type soccp_driver_power_t;
 type soccp_driver_scmi_dev_t;
 type soccp_driver_tmp_t;
 type soccp_driver_tmpfs_t;
+type soccp_driver_run_t;
 
 init_daemon_domain(soccp_driver_t, soccp_driver_exec_t)
 
@@ -75,3 +76,10 @@ allow soccp_driver_t self:process getsched;
 dev_map_kiumd_dev(soccp_driver_t)
 
 pilrm_use_lrm_run_dir(soccp_driver_t)
+
+# soccp-driver creates its socket directly under /run (var_run_t);
+# transition it to its own dedicated type instead of the shared
+# var_run_t:
+files_runtime_file(soccp_driver_run_t)
+files_pid_filetrans(soccp_driver_t, soccp_driver_run_t, sock_file)
+manage_sock_files_pattern(soccp_driver_t, soccp_driver_run_t, soccp_driver_run_t)

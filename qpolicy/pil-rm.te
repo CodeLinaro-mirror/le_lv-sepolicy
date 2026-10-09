@@ -7,11 +7,11 @@ type pil_rm_t;
 type pil_rm_exec_t;
 type pil_rm_tmp_t;
 type pil_rm_tmpfs_t;
-type pil_rm_run_t;
 type pil_rm_power_t;
 type pil_rm_scmi_dev_t;
 type pil_done_dev_t;
 type pil_rm_umd_dev_t;
+type pil_rm_run_t;
 
 files_type(pil_done_dev_t)
 pilrm_create_pil_done_filetrans(pil_rm_t, "pil-done")
@@ -132,11 +132,22 @@ soccp_driver_signull(pil_rm_t)
 # Allow pil-rm to access glinkserver tmpfs files (for shared memory lock)
 glinkserver_mmap_rw_tmpfs_files(pil_rm_t)
 
-# /run/lrm/
+# /run/lrm/ no longer exists as a dedicated subdirectory; pil-rm creates
+# and owns its socket directly under /run (var_run_t). Give it its own
+# dedicated type via a creation-time transition instead of granting
+# broad var_run_t:sock_file create to every caller (mirrors the
+# per-domain dedicated tmpfs type pattern used for /dev/mqueue, e.g.
+# compressch_tmpfs_t):
+#   avc: denied { write } name="/" dev="tmpfs" ino=1 tclass=dir
+#     scontext=...:pil_rm_t tcontext=...:var_run_t
+files_search_pids(pil_rm_t)
 files_runtime_file(pil_rm_run_t)
-files_pid_filetrans(pil_rm_t, pil_rm_run_t, dir)
-manage_dirs_pattern(pil_rm_t, pil_rm_run_t, pil_rm_run_t)
-manage_files_pattern(pil_rm_t, pil_rm_run_t, pil_rm_run_t)
+files_pid_filetrans(pil_rm_t, pil_rm_run_t, sock_file)
 manage_sock_files_pattern(pil_rm_t, pil_rm_run_t, pil_rm_run_t)
 
+require {
+    type ssr_rm_t;
+    type ssr_rm_run_t;
+}
+allow pil_rm_t ssr_rm_run_t:sock_file { read write };
 allow pil_rm_t ssr_rm_t:unix_stream_socket connectto;

@@ -10,6 +10,7 @@ type video_driver_tmpfs_t;
 type video_driver_dev_t;
 type video_driver_power_t;
 type video_driver_etc_t;
+type video_driver_run_t;
 
 init_daemon_domain(video_driver_t, video_driver_exec_t)
 
@@ -177,3 +178,9 @@ userdom_manage_user_tmpfs_files(video_driver_t)
 mmap_rw_files_pattern(video_driver_t,user_tmpfs_t,user_tmpfs_t)
 
 pilrm_use_lrm_run_dir(video_driver_t)
+# videoCore creates its socket directly under /run (var_run_t);
+# transition it to its own dedicated type instead of the shared
+# var_run_t:
+files_runtime_file(video_driver_run_t)
+files_pid_filetrans(video_driver_t, video_driver_run_t, sock_file)
+manage_sock_files_pattern(video_driver_t, video_driver_run_t, video_driver_run_t)
