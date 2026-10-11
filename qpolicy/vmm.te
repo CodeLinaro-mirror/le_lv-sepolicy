@@ -73,6 +73,9 @@ kernel_read_debugfs(vmm_t);
 files_create_default_dirs(vmm_t);
 files_manage_default_files(vmm_t);
 
+# allow vmm-ramdump to check qlf dump directory
+qdssservice_search_var_dirs(vmm_t)
+
 allow vmm_t self:unix_dgram_socket { create connect };
 allow vmm_t self:capability { sys_resource sys_nice net_admin dac_override sys_admin };
 allow vmm_t self:process { setrlimit setsched getsched signal };
