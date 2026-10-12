@@ -10,6 +10,7 @@ type eva_auto_tmpfs_t;
 type eva_auto_dev_t;
 type eva_auto_power_t;
 type eva_auto_etc_t;
+type eva_auto_run_t;
 
 init_daemon_domain(eva_auto_t, eva_auto_exec_t)
 
@@ -119,6 +120,13 @@ evauto_mmap_rw_tmpfs_files(eva_auto_t)
 kernel_read_unlabeled_state(eva_auto_t)
 
 pilrm_use_lrm_run_dir(eva_auto_t)
+
+# sv_server creates qlf_sv_server.sock and svCore.sock directly under
+# /run (var_run_t); transition them to its own dedicated type instead
+# of the shared var_run_t:
+files_runtime_file(eva_auto_run_t)
+files_pid_filetrans(eva_auto_t, eva_auto_run_t, sock_file)
+manage_sock_files_pattern(eva_auto_t, eva_auto_run_t, eva_auto_run_t)
 
 # qdss-service collects QLF dumps under /var/volatile/log/qlf_dumps; the
 # reporting clients create their own subdirectory there and write dumps:

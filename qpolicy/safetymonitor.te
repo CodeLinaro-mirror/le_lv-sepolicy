@@ -150,8 +150,10 @@ pciesm_mmap_rw_tmpfs_files(safetymonitor_t)
 
 pilrm_use_lrm_run_dir(safetymonitor_t)
 
-# /run/safetymonitor/
+# safetymonitor creates safetymonitor.sock/qlf_safetymonitor.sock
+# directly under /run (var_run_t) now that /run/safetymonitor/ no
+# longer exists; transition it to its own dedicated type instead of
+# the shared var_run_t:
 files_runtime_file(safetymonitor_run_t)
-files_pid_filetrans(safetymonitor_t, safetymonitor_run_t, dir)
-manage_dirs_pattern(safetymonitor_t, safetymonitor_run_t, safetymonitor_run_t)
-manage_files_pattern(safetymonitor_t, safetymonitor_run_t, safetymonitor_run_t)
+files_pid_filetrans(safetymonitor_t, safetymonitor_run_t, sock_file)
+manage_sock_files_pattern(safetymonitor_t, safetymonitor_run_t, safetymonitor_run_t)

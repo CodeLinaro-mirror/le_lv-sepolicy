@@ -7,6 +7,7 @@ type vmm_t;
 type vmm_exec_t;
 type vmm_tmp_t;
 type vmm_tmpfs_t;
+type vmm_run_t;
 
 init_daemon_domain(vmm_t, vmm_exec_t)
 
@@ -116,3 +117,10 @@ files_manage_var_files(vmm_t)
 files_manage_var_symlinks(vmm_t)
 
 pilrm_use_lrm_run_dir(vmm_t)
+
+# vmm_service/vmm-ramdump create their socket directly under /run
+# (var_run_t); transition it to its own dedicated type instead of the
+# shared var_run_t:
+files_runtime_file(vmm_run_t)
+files_pid_filetrans(vmm_t, vmm_run_t, sock_file)
+manage_sock_files_pattern(vmm_t, vmm_run_t, vmm_run_t)

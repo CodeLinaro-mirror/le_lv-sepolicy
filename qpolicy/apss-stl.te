@@ -10,6 +10,7 @@ type apss_stl_tmpfs_t;
 type apss_stl_power_t;
 type apss_stl_config_etc_t;
 type apss_stl_dev_t;
+type apss_stl_run_t;
 
 init_daemon_domain(apss_stl_t, apss_stl_exec_t)
 init_rw_script_stream_sockets(apss_stl_t)
@@ -67,7 +68,14 @@ allow apss_stl_t self:process { setrlimit setsched getsched signal execmem };
 allow apss_stl_t self:capability { sys_resource sys_nice };
 
 # The daemon registers with the safety monitor over the shared LRM run
-# directory, creating its own endpoint under /run/lrm:
+# directory, creating its own endpoint directly under /run:
 #   avc: denied { create } name="..." tclass=sock_file
-#     scontext=...:apss_stl_t tcontext=...:pil_rm_run_t
+#     scontext=...:apss_stl_t tcontext=...:var_run_t
 pilrm_use_lrm_run_dir(apss_stl_t)
+
+# apss_stl creates apss_stl.sock directly under /run (var_run_t);
+# transition it to its own dedicated type instead of the shared
+# var_run_t:
+files_runtime_file(apss_stl_run_t)
+files_pid_filetrans(apss_stl_t, apss_stl_run_t, sock_file)
+manage_sock_files_pattern(apss_stl_t, apss_stl_run_t, apss_stl_run_t)

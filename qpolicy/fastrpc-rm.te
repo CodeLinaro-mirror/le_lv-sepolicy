@@ -7,6 +7,7 @@ type fastrpc_rm_t;
 type fastrpc_rm_exec_t;
 type fastrpc_rm_tmp_t;
 type fastrpc_rm_tmpfs_t;
+type fastrpc_rm_run_t;
 
 init_daemon_domain(fastrpc_rm_t, fastrpc_rm_exec_t)
 
@@ -101,3 +102,9 @@ nsp_drv_signull(fastrpc_rm_t)
 fastrpc_signull(fastrpc_rm_t)
 
 pilrm_use_lrm_run_dir(fastrpc_rm_t)
+# fastrpc-rm creates its socket directly under /run (var_run_t);
+# transition it to its own dedicated type instead of the shared
+# var_run_t:
+files_runtime_file(fastrpc_rm_run_t)
+files_pid_filetrans(fastrpc_rm_t, fastrpc_rm_run_t, sock_file)
+manage_sock_files_pattern(fastrpc_rm_t, fastrpc_rm_run_t, fastrpc_rm_run_t)

@@ -14,6 +14,7 @@ type openwfd_server_dev_t;
 type openwfd_server_power_t;
 type vfio_dpu_safe_device_0_t;
 type vfio_dpu_safe_device_1_t;
+type openwfd_server_run_t;
 
 init_daemon_domain(bridgeship_server_t, bridgeship_server_exec_t)
 init_daemon_domain(openwfd_server_t, openwfd_server_exec_t)
@@ -183,6 +184,12 @@ compresmgr_rw_etc_files(openwfd_server_t)
 safetymonitor_rw_tmpfs_files(openwfd_server_t)
 
 pilrm_use_lrm_run_dir(openwfd_server_t)
+# owfds creates its socket directly under /run (var_run_t);
+# transition it to its own dedicated type instead of the shared
+# var_run_t:
+files_runtime_file(openwfd_server_run_t)
+files_pid_filetrans(openwfd_server_t, openwfd_server_run_t, sock_file)
+manage_sock_files_pattern(openwfd_server_t, openwfd_server_run_t, openwfd_server_run_t)
 smcinvoke_server_stream_connectto(openwfd_server_t)
 allow openwfd_server_t self:unix_stream_socket connectto;
 

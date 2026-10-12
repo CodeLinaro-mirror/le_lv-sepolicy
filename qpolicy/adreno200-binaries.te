@@ -9,6 +9,7 @@ type adreno200_tmp_t;
 type adreno200_tmpfs_t;
 type adreno200_dev_t;
 type adreno200_power_t;
+type adreno200_run_t;
 
 init_daemon_domain(adreno200_t, adreno200_exec_t)
 
@@ -171,3 +172,10 @@ pilrm_use_lrm_run_dir(adreno200_t)
 
 adreno200_map_rgs_dev(adreno200_t)
 dev_map_input_dev(adreno200_t)
+
+# kgsl creates its QLF sockets (/qlf_gpu0, /qlf_gpu1) directly under /run
+# (var_run_t); transition it to its own dedicated type instead of the
+# shared var_run_t:
+files_runtime_file(adreno200_run_t)
+files_pid_filetrans(adreno200_t, adreno200_run_t, sock_file)
+manage_sock_files_pattern(adreno200_t, adreno200_run_t, adreno200_run_t)
