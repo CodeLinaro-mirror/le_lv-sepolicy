@@ -36,3 +36,25 @@ interface(`kernel_read_proc_files',`
 
     read_files_pattern($1, proc_t, proc_t)
 ')
+
+########################################
+## <summary>
+## Mount on /proc/irq for a private /proc instance
+## (e.g. systemd-nspawn mounting a container-private
+## /proc). Mounting on the private /proc instance's
+## own files and on /boot/system.map is covered by
+## refpolicy's files_mounton_non_security().
+## </summary>
+## <param name="domain">
+## <summary>
+## Domain allowed access.
+## </summary>
+## </param>
+#
+interface(`kernel_mounton_sysctl_irq_dir',`
+    gen_require(`
+        type sysctl_irq_t;
+    ')
+
+    allow $1 sysctl_irq_t:dir { getattr mounton };
+')

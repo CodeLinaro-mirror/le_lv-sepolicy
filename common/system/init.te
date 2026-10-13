@@ -114,3 +114,10 @@ qdssservice_manage_var_dumps(initrc_t)
 #   avc: denied { nnp_transition } comm="(spawn)" tclass=process2
 #     scontext=...:initrc_t tcontext=...:systemd_nspawn_t
 systemd_nspawn_nnp_trans(initrc_t)
+
+# systemd-machined (spawned by nspawn when it registers the container via
+# --register=yes) is likewise launched from an init script with
+# NoNewPrivileges set:
+#   avc: denied { nnp_transition } comm="(machined)" tclass=process2
+#     scontext=...:initrc_t tcontext=...:systemd_machined_t
+systemd_machined_nnp_trans(initrc_t)

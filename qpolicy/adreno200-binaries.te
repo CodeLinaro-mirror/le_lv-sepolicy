@@ -179,3 +179,8 @@ dev_map_input_dev(adreno200_t)
 files_runtime_file(adreno200_run_t)
 files_pid_filetrans(adreno200_t, adreno200_run_t, sock_file)
 manage_sock_files_pattern(adreno200_t, adreno200_run_t, adreno200_run_t)
+
+# systemd-nspawn passes dmabuf fds back to adreno200_t during the
+# AV-container's weston-simple-egl EGL initialisation; the GPU service
+# thread servicing that client inherits an fd opened by systemd_nspawn_t.
+systemd_nspawn_use_fds(adreno200_t)
