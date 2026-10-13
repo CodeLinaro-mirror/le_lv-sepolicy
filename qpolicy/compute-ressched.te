@@ -35,7 +35,7 @@ dev_read_sysfs(compressch_t)
 
 allow compressch_t self:process { setrlimit setsched getsched signull signal };
 allow compressch_t self:unix_dgram_socket { create connect };
-allow compressch_t self:capability { sys_resource sys_nice chown };
+allow compressch_t self:capability { sys_resource sys_nice chown dac_override };
 userdom_map_tmp_files(compressch_t)
 
 logging_create_devlog_dev(compressch_t)
@@ -63,6 +63,7 @@ userdom_map_user_tmpfs_files(compressch_t)
 glinkserver_rw_tmpfs_files(compressch_t)
 glinkserver_ptrace(compressch_t)
 glinkserver_use_fds(compressch_t)
+compressch_unlink_tmpfs_files(compressch_t)
 
 unconfined_signull(compressch_t)
 userdom_manage_tmp_files(compressch_t)
@@ -93,6 +94,12 @@ ssrrm_rw_tmpfs_files(compressch_t)
 power_use_pm_register(compressch_t, compressch_power_t)
 
 pilrm_use_lrm_run_dir(compressch_t)
+
+# DMA-BUF carveout heap access for resource scheduler shared memory (/dev/dma_heap/*)
+dev_rw_dma_dev(compressch_t)
+
+# SCM node access for Gunyah hypervisor memory permission assignment (/dev/scmnode)
+dev_rw_scmnode_dev(compressch_t)
 
 # compute-ressched creates qlf_compute-ressched.sock directly under
 # /run (var_run_t); transition it to its own dedicated type instead
