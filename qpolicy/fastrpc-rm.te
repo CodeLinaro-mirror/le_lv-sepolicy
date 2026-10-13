@@ -54,6 +54,7 @@ unconfined_ptrace(fastrpc_rm_t)
 allow fastrpc_rm_t self:unix_dgram_socket { create connect getopt setopt };
 allow fastrpc_rm_t self:capability { sys_resource sys_nice net_admin sys_ptrace dac_override };
 allow fastrpc_rm_t self:process { setrlimit setsched getsched signal};
+allow fastrpc_rm_t initrc_t:unix_dgram_socket sendto;
 
 # /persist
 files_list_default_dirs(fastrpc_rm_t)
@@ -102,9 +103,16 @@ nsp_drv_signull(fastrpc_rm_t)
 fastrpc_signull(fastrpc_rm_t)
 
 pilrm_use_lrm_run_dir(fastrpc_rm_t)
-# fastrpc-rm creates its socket directly under /run (var_run_t);
+# fastrpc-rm creates its LRM socket directly under /run (var_run_t);
 # transition it to its own dedicated type instead of the shared
 # var_run_t:
 files_runtime_file(fastrpc_rm_run_t)
 files_pid_filetrans(fastrpc_rm_t, fastrpc_rm_run_t, sock_file)
 manage_sock_files_pattern(fastrpc_rm_t, fastrpc_rm_run_t, fastrpc_rm_run_t)
+
+# /run/fastrpc/ - fastrpc IPC moved from POSIX mqueues to pathname AF_UNIX
+# sockets (FRPC_IPC_SOCK_DIR in fastrpc_ipc.c, container support, mproc-umd
+# commit b5c3938), so fastrpc-rm now mkdir()s this directory itself and
+# binds its frpc_{rx,tx} sockets inside it. Transition the directory to
+# the same dedicated type:
+fastrpc_rm_use_ipc_run_dir(fastrpc_rm_t)

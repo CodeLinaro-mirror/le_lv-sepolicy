@@ -223,6 +223,7 @@ audioservice_map_kiumd_dev(audio_service_t)
 vendor_search_dir(audio_service_t)
 
 pilrm_use_lrm_run_dir(audio_service_t)
+fastrpc_rm_use_ipc_run_dir(audio_service_t)
 # awe_audio_service creates its socket directly under /run (var_run_t);
 # transition it to its own dedicated type instead of the shared
 # var_run_t:
