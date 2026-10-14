@@ -114,6 +114,10 @@ files_read_var_symlinks(nsp_drv_t)
 # /var overlay
 kernel_read_unlabeled_state(nsp_drv_t)
 
+# allow NSP STL to search /proc/sys/vm
+kernel_search_vm_sysctl(nsp_drv_t)
+kernel_read_vm_overcommit_sysctl(nsp_drv_t)
+
 ## ========== local ==========
 allow nsp_drv_t self:unix_dgram_socket { create connect getopt setopt };
 allow nsp_drv_t self:unix_stream_socket { listen };

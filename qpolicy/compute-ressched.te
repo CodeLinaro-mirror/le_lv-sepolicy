@@ -81,7 +81,10 @@ files_create_var_dirs(compressch_t)
 files_read_var_symlinks(compressch_t)
 
 # allow NSP STL mqueue access
-nspdrv_read_tmpfs_files(compressch_t)
+nspdrv_mmap_rw_tmpfs_files(compressch_t)
+
+# allow compute-ressched to check NSP STL process status
+nsp_drv_signull(compressch_t)
 
 #allow ssr
 ssrrm_rw_tmpfs_files(compressch_t)
