@@ -9,6 +9,7 @@ type nsp_drv_tmp_t;
 type nsp_drv_tmpfs_t;
 type nsp_drv_conf_t;
 type umd_nsp_drv_device_t;
+type nsp_drv_run_t;
 
 init_daemon_domain(nsp_drv_t, nsp_drv_exec_t)
 dev_node(umd_nsp_drv_device_t)
@@ -55,6 +56,18 @@ nspconfig_create_tmpfs_files(nsp_drv_t)
 nspconfig_mmap_rw_tmpfs_files(nsp_drv_t)
 nspconfig_rw_tmpfs_files(nsp_drv_t)
 
+# /vendor/dsp - allow fastrpc-debug's reverse listener (frpc_listener2) to
+# open DSP shell/skel/oemconfig libraries that the DSP requests via apps_std
+# (e.g. /vendor/dsp/<nsp>/oemconfig.so, fastrpc_shell_*).
+#
+# vendor_search_dir() grants the search-only traversal of /vendor itself
+# (labeled vendor_dir_t by the `vendor` module). The firmware_*_dsp_*
+# interfaces grant access to the contents of /vendor/dsp.
+vendor_search_dir(nsp_drv_t)
+firmware_search_dsp_dirs(nsp_drv_t)
+firmware_read_dsp_lnk_files(nsp_drv_t)
+firmware_read_dsp_files(nsp_drv_t)
+
 #libkiumd
 libkiumd_mmap_exec_lib_file(nsp_drv_t)
 nsp_drv_rm_map_umd_dev(nsp_drv_t)
@@ -67,6 +80,9 @@ power_setattr_sock_files(nsp_drv_t)
 
 # /etc/compresmgr_cpu_config.xml
 compresmgr_rw_etc_files(nsp_drv_t)
+
+# /dev/mqueue/compute-ressched
+compressch_mmap_rw_tmpfs_files(nsp_drv_t)
 
 # /dev/mqueue/fastrpc-rm
 fastrpc_rm_rw_tmpfs_files(nsp_drv_t)
@@ -98,6 +114,10 @@ files_read_var_symlinks(nsp_drv_t)
 # /var overlay
 kernel_read_unlabeled_state(nsp_drv_t)
 
+# allow NSP STL to search /proc/sys/vm
+kernel_search_vm_sysctl(nsp_drv_t)
+kernel_read_vm_overcommit_sysctl(nsp_drv_t)
+
 ## ========== local ==========
 allow nsp_drv_t self:unix_dgram_socket { create connect getopt setopt };
 allow nsp_drv_t self:unix_stream_socket { listen };
@@ -110,3 +130,10 @@ allow nsp_drv_t nsp_drv_tmpfs_t:file map;
 allow nsp_drv_t nsp_drv_tmpfs_t:file unlink;
 
 pilrm_use_lrm_run_dir(nsp_drv_t)
+
+# nsp_drv creates its socket directly under /run (var_run_t);
+# transition it to its own dedicated type instead of the shared
+# var_run_t:
+files_runtime_file(nsp_drv_run_t)
+files_pid_filetrans(nsp_drv_t, nsp_drv_run_t, sock_file)
+manage_sock_files_pattern(nsp_drv_t, nsp_drv_run_t, nsp_drv_run_t)

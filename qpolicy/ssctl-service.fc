@@ -2,3 +2,4 @@
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 /usr/bin/ssctl-service               --      gen_context(system_u:object_r:ssctl_service_exec_t,s0)
+/dev/ssctl_service                           -c      gen_context(system_u:object_r:umd_ssctl_device_t,s0)

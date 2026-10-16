@@ -237,3 +237,21 @@ interface(`weston_use_fds',`
 
     allow $1 weston_t:fd use;
 ')
+
+########################################
+## <summary>
+##  Get the attributes of weston library files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`weston_getattr_lib_files',`
+    gen_require(`
+        type weston_lib_t;
+    ')
+
+    allow $1 weston_lib_t:file getattr;
+')

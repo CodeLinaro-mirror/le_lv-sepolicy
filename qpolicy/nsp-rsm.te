@@ -5,6 +5,7 @@ policy_module(nsp-rsm, 1.0)
 
 type nsp_rsm_t;
 type nsp_rsm_exec_t;
+type nsp_rsm_run_t;
 
 #============= nsp_rsm_t ==============
 init_daemon_domain(nsp_rsm_t, nsp_rsm_exec_t)
@@ -55,4 +56,16 @@ compresmgr_rw_etc_files(nsp_rsm_t)
 #files_create_var_dirs(nsp_rsm_t)
 # Allow qlf to check file status in /var/log/
 #files_read_var_symlinks(nsp_rsm_t)
+
+# nsp-rsm calls lrms_open(COMP_RSM_DEV_PATH, ...), making it an LRM
+# server; grant it the shared client access to other LRM participants'
+# sockets too:
+pilrm_use_lrm_run_dir(nsp_rsm_t)
+
+# nsp-rsm creates its own socket directly under /run (var_run_t);
+# transition it to its own dedicated type instead of the shared
+# var_run_t:
+files_runtime_file(nsp_rsm_run_t)
+files_pid_filetrans(nsp_rsm_t, nsp_rsm_run_t, sock_file)
+manage_sock_files_pattern(nsp_rsm_t, nsp_rsm_run_t, nsp_rsm_run_t)
 

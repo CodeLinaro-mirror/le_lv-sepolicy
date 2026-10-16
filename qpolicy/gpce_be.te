@@ -11,6 +11,7 @@ type gpce_be_tmpfs_t;
 type gpce_be_tmp_t;
 type gpce_be_etc_t;
 type gpce_be_power_t;
+type gpce_be_run_t;
 
 init_daemon_domain(gpce_be_t,gpce_be_exec_t)
 
@@ -78,3 +79,10 @@ allow gpce_be_t self:process { setrlimit setsched getsched signal };
 allow gpce_be_t self:capability { sys_resource sys_nice dac_override};
 
 pilrm_use_lrm_run_dir(gpce_be_t)
+
+# gpce_be creates gpce_be_server.sock directly under /run (var_run_t);
+# transition it to its own dedicated type instead of the shared
+# var_run_t:
+files_runtime_file(gpce_be_run_t)
+files_pid_filetrans(gpce_be_t, gpce_be_run_t, sock_file)
+manage_sock_files_pattern(gpce_be_t, gpce_be_run_t, gpce_be_run_t)

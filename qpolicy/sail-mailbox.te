@@ -109,9 +109,14 @@ power_use_pm_register(sail_mailbox_t, sail_mailbox_power_t)
 
 pilrm_use_lrm_run_dir(sail_mailbox_t)
 
-# /run/lrm/
+# sail-mailbox creates its socket directly under /run (var_run_t);
+# transition it to its own dedicated type instead of the shared
+# var_run_t:
 files_runtime_file(sail_mailbox_run_t)
+files_pid_filetrans(sail_mailbox_t, sail_mailbox_run_t, sock_file)
+manage_sock_files_pattern(sail_mailbox_t, sail_mailbox_run_t, sail_mailbox_run_t)
+
+# /run/lrm/
 files_pid_filetrans(sail_mailbox_t, sail_mailbox_run_t, dir, "lrm")
 manage_dirs_pattern(sail_mailbox_t, sail_mailbox_run_t, sail_mailbox_run_t)
 manage_files_pattern(sail_mailbox_t, sail_mailbox_run_t, sail_mailbox_run_t)
-manage_sock_files_pattern(sail_mailbox_t, sail_mailbox_run_t, sail_mailbox_run_t)

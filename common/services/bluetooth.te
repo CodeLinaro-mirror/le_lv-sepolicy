@@ -1,0 +1,6 @@
+# bluetoothd (bluetooth_t) inherits a unix_stream_socket from initrc_t
+# across the nnp_transition exec boundary (systemd passes down the
+# notification/stdio socket when starting bluetooth.service). This is
+# the same pattern already granted to system_dbusd_t via
+# init_rw_script_stream_sockets(system_dbusd_t) in dbus.te.
+init_rw_script_stream_sockets(bluetooth_t)

@@ -72,7 +72,7 @@ allow vhost_user_qti_vm3_t vhost_user_tmp_vm3_t:sock_file unlink;
 
 allow vhost_user_qti_t self:unix_stream_socket { listen accept };
 allow vhost_user_qti_t self:process { setsched };
-allow vhost_user_qti_vm3_t self:process { setsched };
+allow vhost_user_qti_vm3_t self:process { setsched signal };
 allow vhost_user_qti_t self:capability { net_admin sys_nice };
 allow vhost_user_qti_vm3_t self:capability { net_admin sys_nice };
 
