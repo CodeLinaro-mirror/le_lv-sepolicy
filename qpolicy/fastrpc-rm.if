@@ -274,3 +274,28 @@ interface(`fastrpc_rm_interact',`
     allow $1 fastrpc_rm_t:fd use;
     allow $1 fastrpc_rm_t:process ptrace;
 ')
+
+######################################
+## <summary>
+##  Use the fastrpc IPC socket directory (/run/fastrpc/). Every fastrpc
+##  client (frpc_ipc_infra_init() reader role) races fastrpc-rm to mkdir
+##  the directory - infra_init_common() ignores EEXIST - so callers need
+##  create/add_name on the dir itself, not just search, plus bind/unlink
+##  of their own frpc_rx_/frpc_tx_ socket and read/write of fastrpc-rm's.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`fastrpc_rm_use_ipc_run_dir',`
+    gen_require(`
+        type fastrpc_rm_run_t;
+    ')
+
+    search_dirs_pattern($1, fastrpc_rm_run_t, fastrpc_rm_run_t)
+    files_pid_filetrans($1, fastrpc_rm_run_t, dir, "fastrpc")
+    manage_dirs_pattern($1, fastrpc_rm_run_t, fastrpc_rm_run_t)
+    manage_sock_files_pattern($1, fastrpc_rm_run_t, fastrpc_rm_run_t)
+')

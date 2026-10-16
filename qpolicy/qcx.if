@@ -113,6 +113,26 @@ interface(`qcxserver_lock_tmpfs_dirs',`
 
 ######################################
 ## <summary>
+##  Traverse the qcxserver /tmp/camera directory for cleanup purposes:
+##  search/getattr/read/lock the directory and getattr its socket files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`qcxserver_clean_tmpfs_dirs',`
+    gen_require(`
+        type qcx_server_tmpfs_t;
+    ')
+
+    allow $1 qcx_server_tmpfs_t:dir { search getattr read lock };
+    allow $1 qcx_server_tmpfs_t:sock_file getattr;
+')
+
+######################################
+## <summary>
 ##  Send signull to qcx_server_t.
 ## </summary>
 ## <param name="domain">

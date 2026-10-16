@@ -52,6 +52,7 @@ files_read_safety_config_files(compressch_t)
 
 #For getting domain IDs
 fastrpc_rm_rw_tmpfs_files(compressch_t)
+fastrpc_rm_use_ipc_run_dir(compressch_t)
 
 # pfm
 pfm_rw_tmpfs_files(compressch_t)

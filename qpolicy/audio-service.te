@@ -209,6 +209,7 @@ compresmgr_rw_etc_files(audio_service_t)
 
 # fastrpc
 fastrpc_rm_use_fds(audio_service_t)
+fastrpc_rm_use_ipc_run_dir(audio_service_t)
 files_exec_usr_files(audio_service_t)
 fs_rw_tracefs_files(audio_service_t)
 files_read_var_symlinks(audio_service_t)

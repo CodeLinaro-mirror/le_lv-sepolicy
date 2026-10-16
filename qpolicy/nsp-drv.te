@@ -97,6 +97,13 @@ ssrrm_signull(nsp_drv_t)
 # dmabuf
 fastrpc_rm_use_fds(nsp_drv_t)
 
+# /run/fastrpc - nsp0_stl is a fastrpc-rm IPC client like fastrpc_t/
+# audio_service_t/compresmon_t/compressch_t, so it needs the same pathname
+# socket directory access introduced for the fastrpc IPC migration:
+#   avc: denied { search } comm="nsp0_stl" name="fastrpc" tclass=dir
+#     scontext=...:nsp_drv_t tcontext=...:fastrpc_rm_run_t
+fastrpc_rm_use_ipc_run_dir(nsp_drv_t)
+
 # dm-0, vendor
 files_search_default(nsp_drv_t)
 

@@ -80,6 +80,7 @@ kernel_read_proc_files(compresmon_t)
 safetymonitor_rw_tmpfs_files(compresmon_t)
 
 fastrpc_rm_rw_tmpfs_files(compresmon_t)
+fastrpc_rm_use_ipc_run_dir(compresmon_t)
 
 #Updated policies for nord onwards features
 userdom_rw_user_tmpfs_files(compresmon_t)

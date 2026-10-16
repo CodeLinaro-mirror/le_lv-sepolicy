@@ -105,6 +105,10 @@ allow eva_auto_t self:unix_stream_socket { listen };
 allow eva_auto_t self:process { setrlimit setsched getsched signal signull ptrace };
 allow eva_auto_t self:capability { sys_resource sys_nice net_admin dac_override sys_ptrace dac_read_search kill };
 
+# sv_server connects back to its LRM callback socket while running in
+# initrc_t.
+init_stream_connect_script(eva_auto_t)
+
 files_tmp_file(eva_auto_tmp_t)
 files_tmp_filetrans(eva_auto_t, eva_auto_tmp_t, { dir fifo_file file lnk_file })
 manage_files_pattern(eva_auto_t, eva_auto_tmp_t, eva_auto_tmp_t)

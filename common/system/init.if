@@ -148,6 +148,25 @@ interface(`init_create_initrc_runtime_sock_files',`
 
 ########################################
 ## <summary>
+## Get the attributes of fifo files under
+## initrc_runtime_t directories.
+## </summary>
+## <param name="domain">
+## <summary>
+## Domain allowed access.
+## </summary>
+## </param>
+#
+interface(`init_getattr_initrc_runtime_fifo_files',`
+    gen_require(`
+        type initrc_runtime_t;
+    ')
+
+    allow $1 initrc_runtime_t:fifo_file getattr;
+')
+
+########################################
+## <summary>
 ## init binder
 ## </summary>
 ## <param name="domain">
