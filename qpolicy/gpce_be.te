@@ -12,7 +12,22 @@ type gpce_be_tmp_t;
 type gpce_be_etc_t;
 type gpce_be_power_t;
 
+require {
+    type compresmgr_etc_t;
+    type initrc_t;
+    type power_qcom_pm_t;
+    type safetymonitor_t;
+    type tmpfs_t;
+    class file { getattr map open read setattr write };
+    class process signull;
+    class process2 nnp_transition;
+    class sock_file unlink;
+}
+
 init_daemon_domain(gpce_be_t,gpce_be_exec_t)
+
+# systemd starts gpce_be with no_new_privs set from initrc_t.
+allow initrc_t gpce_be_t:process2 nnp_transition;
 
 init_rw_script_stream_sockets(gpce_be_t)
 init_signull_script(gpce_be_t)
@@ -21,6 +36,7 @@ init_signull_script(gpce_be_t)
 files_config_file(gpce_be_etc_t)
 gpce_be_rw_etc_files(gpce_be_t)
 files_read_etc_files(gpce_be_t)
+allow gpce_be_t compresmgr_etc_t:file { getattr open read };
 
 dev_node(gpce_be_dev_t)
 
@@ -34,7 +50,11 @@ gpce_be_mmap_rw_tmpfs_files(gpce_be_t)
 gpce_be_rw_tmpfs_files(gpce_be_t)
 dev_rw_hab_dev(gpce_be_t)
 ipp_gpce_be_process(gpce_be_t)
+safetymonitor_rw_tmpfs_files(gpce_be_t)
 
+# Safety Monitor reads/writes GPCE LRMC queues and monitors gpce_be.
+allow safetymonitor_t gpce_be_tmpfs_t:file { getattr open read write map };
+allow safetymonitor_t gpce_be_t:process signull;
 
 # /dev/shm/lrmc_rq_*
 files_tmpfs_file(gpce_be_tmpfs_t)
@@ -68,6 +88,9 @@ unconfined_ptrace(gpce_be_t)
 
 power_use_pm_register(gpce_be_t, gpce_be_power_t)
 
+# Remove a stale socket created with the parent qcom_pm label before registering.
+allow gpce_be_t power_qcom_pm_t:sock_file unlink;
+
 # /tmp/lrms_log_*.txt
 files_tmp_file(gpce_be_tmp_t)
 files_tmp_filetrans(gpce_be_t, gpce_be_tmp_t, { dir file })
@@ -76,5 +99,7 @@ manage_files_pattern(gpce_be_t, gpce_be_tmp_t, gpce_be_tmp_t)
 #================local===================
 allow gpce_be_t self:process { setrlimit setsched getsched signal };
 allow gpce_be_t self:capability { sys_resource sys_nice dac_override};
+allow gpce_be_t tmpfs_t:file setattr;
+allow gpce_be_t gpce_be_tmpfs_t:file setattr;
 
 pilrm_use_lrm_run_dir(gpce_be_t)
