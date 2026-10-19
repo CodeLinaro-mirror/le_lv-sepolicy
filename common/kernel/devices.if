@@ -390,3 +390,43 @@ interface(`qcom_vm_cpufreq_dev',`
       # CPU_PERF_TRANSITION_LATENCY_GET _IOR(0xBB, 4, ...) → 0xBB04
       allowxperm $1 qcom_vm_cpufreq_device_t:chr_file ioctl { 0xBB01 0xBB02 0xBB03 0xBB04 };
 ')
+
+########################################
+## <summary>
+##  Allow a domain to access event_device_t
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`dev_map_input_dev',`
+    gen_require(`
+        type event_device_t;
+    ')
+    allow $1 event_device_t:chr_file map;
+')
+
+########################################
+## <summary>
+##  Allow a domain to issue the vfio group ioctl used
+##  to bind a dmabuf heap to a vfio container (e.g.
+##  dmabuf_heap_sharing under systemd-nspawn). Base
+##  read/write access to the vfio device itself is
+##  granted separately via dev_rw_vfio_dev().
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`dev_vfio_group_get_device_fd',`
+    gen_require(`
+        type vfio_device_t;
+    ')
+
+    # VFIO_GROUP_GET_DEVICE_FD
+    allowxperm $1 vfio_device_t:chr_file ioctl { 0x3b68 };
+')

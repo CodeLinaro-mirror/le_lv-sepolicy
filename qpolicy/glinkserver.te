@@ -8,6 +8,7 @@ type glinkserver_exec_t;
 type glinkserver_tmp_t;
 type glinkserver_tmpfs_t;
 type umd_glink_device_t;
+type glinkserver_run_t;
 
 init_daemon_domain(glinkserver_t, glinkserver_exec_t)
 dev_node(umd_glink_device_t)
@@ -85,3 +86,9 @@ files_manage_var_files(glinkserver_t)
 files_manage_var_symlinks(glinkserver_t)
 
 pilrm_use_lrm_run_dir(glinkserver_t)
+# glinkserver creates its socket directly under /run (var_run_t);
+# transition it to its own dedicated type instead of the shared
+# var_run_t:
+files_runtime_file(glinkserver_run_t)
+files_pid_filetrans(glinkserver_t, glinkserver_run_t, sock_file)
+manage_sock_files_pattern(glinkserver_t, glinkserver_run_t, glinkserver_run_t)

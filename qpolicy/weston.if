@@ -237,3 +237,78 @@ interface(`weston_use_fds',`
 
     allow $1 weston_t:fd use;
 ')
+
+########################################
+## <summary>
+##  Get the attributes of weston library files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`weston_getattr_lib_files',`
+    gen_require(`
+        type weston_lib_t;
+    ')
+
+    allow $1 weston_lib_t:file getattr;
+')
+
+######################################
+## <summary>
+##  Connect to the Weston unix stream socket.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`weston_stream_connectto',`
+    gen_require(`
+        type weston_t;
+    ')
+
+    allow $1 weston_t:unix_stream_socket connectto;
+')
+
+######################################
+## <summary>
+##  Write to the Weston Wayland socket file (e.g. wayland-0) itself,
+##  as opposed to connecting to it.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`weston_write_tmp_sock_files',`
+    gen_require(`
+        type weston_tmp_t;
+    ')
+
+    allow $1 weston_tmp_t:sock_file write;
+')
+
+######################################
+## <summary>
+##  Execute weston_exec_t in the caller's domain
+##  (e.g. weston-simple-egl exec'd directly out of
+##  the bind-mounted host /vendor tree).
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`weston_exec',`
+    gen_require(`
+        type weston_exec_t;
+    ')
+
+    can_exec($1, weston_exec_t)
+')

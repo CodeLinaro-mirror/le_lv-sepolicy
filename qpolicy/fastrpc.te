@@ -56,3 +56,9 @@ allow fastrpc_t self:capability { sys_resource };
 allow fastrpc_t self:process signal;
 
 pilrm_use_lrm_run_dir(fastrpc_t)
+
+# fastrpc-debug links libfastrpc.so, whose frpc_ipc_infra_init() (reader
+# role) binds its own rx socket under /run/fastrpc/, racing fastrpc-rm to
+# mkdir the directory:
+fastrpc_rm_use_ipc_run_dir(fastrpc_t)
+files_search_default(fastrpc_t)

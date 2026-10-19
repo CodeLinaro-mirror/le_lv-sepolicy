@@ -31,7 +31,12 @@ allow compresmgr_t self:unix_dgram_socket { create connect };
 allow compresmgr_t self:capability { sys_resource sys_nice net_admin};
 allow compresmgr_t compresmgr_tmpfs_t:file { map open read write };
 
-kernel_read_vm_sysctls(compresmgr_t)
+#sysctl_vm_t (dir search only)
+kernel_search_vm_sysctl(compresmgr_t)
+
+#sysctl_vm_overcommit_t (read-only; granting write to
+#this sensitive system-wide tunable is unnecessary)
+kernel_read_vm_overcommit_sysctl(compresmgr_t)
 
 unconfined_server_signull(compresmgr_t)
 dev_manage_sysfs_dirs(compresmgr_t)
@@ -93,9 +98,9 @@ compresmgr_map_hscnoc_dev(compresmgr_t)
 
 pilrm_use_lrm_run_dir(compresmgr_t)
 
-# /run/compresmgr/
+# compresmgr creates its sockets directly under /run (var_run_t) now that
+# /run/compresmgr/ no longer exists; transition it to its own dedicated
+# type instead of the shared var_run_t:
 files_runtime_file(compresmgr_run_t)
-files_pid_filetrans(compresmgr_t, compresmgr_run_t, dir)
-manage_dirs_pattern(compresmgr_t, compresmgr_run_t, compresmgr_run_t)
-manage_files_pattern(compresmgr_t, compresmgr_run_t, compresmgr_run_t)
-
+files_pid_filetrans(compresmgr_t, compresmgr_run_t, sock_file)
+manage_sock_files_pattern(compresmgr_t, compresmgr_run_t, compresmgr_run_t)

@@ -10,6 +10,7 @@ type audio_service_tmpfs_t;
 type audio_etc_t;
 type audio_device_t;
 type audio_power_t;
+type audio_service_run_t;
 
 init_daemon_domain(audio_service_t, audio_service_exec_t)
 
@@ -89,6 +90,7 @@ pilrm_rw_tmpfs_files(audio_service_t)
 kernel_read_debugfs(audio_service_t)
 kernel_read_proc_files(audio_service_t)
 kernel_search_vm_sysctl(audio_service_t)
+kernel_rw_vm_overcommit_sysctl(audio_service_t)
 #early stage policy
 fs_manage_tmpfs_sockets(audio_service_t)
 
@@ -105,6 +107,8 @@ allow audio_service_t initrc_t:unix_stream_socket connectto;
 # Allow audio_service_t to send D-Bus messages to other audio_service_t processes
 # If the service is registered on the system bus, allow acquiring the service
 audioservice_dbus_chat(audio_service_t)
+unconfined_dbus_send(audio_service_t)
+unconfined_dbus_connect(audio_service_t)
 audioservice_ipc_sockets(audio_service_t)
 audioservice_process_control(audio_service_t)
 audioservice_tcp_comm(audio_service_t)
@@ -205,6 +209,7 @@ compresmgr_rw_etc_files(audio_service_t)
 
 # fastrpc
 fastrpc_rm_use_fds(audio_service_t)
+fastrpc_rm_use_ipc_run_dir(audio_service_t)
 files_exec_usr_files(audio_service_t)
 fs_rw_tracefs_files(audio_service_t)
 files_read_var_symlinks(audio_service_t)
@@ -219,3 +224,15 @@ audioservice_map_kiumd_dev(audio_service_t)
 vendor_search_dir(audio_service_t)
 
 pilrm_use_lrm_run_dir(audio_service_t)
+# awe_audio_service creates its socket directly under /run (var_run_t);
+# transition it to its own dedicated type instead of the shared
+# var_run_t:
+files_runtime_file(audio_service_run_t)
+files_pid_filetrans(audio_service_t, audio_service_run_t, sock_file)
+manage_sock_files_pattern(audio_service_t, audio_service_run_t, audio_service_run_t)
+
+# qdss-service collects QLF dumps under /var/volatile/log/qlf_dumps; the
+# reporting clients create their own subdirectory there and write dumps:
+#   avc: denied { create } name="qlf_dumps" tclass=dir
+#     scontext=...:audio_service_t tcontext=...:qdss_service_var_t
+qdssservice_manage_var_dumps(audio_service_t)

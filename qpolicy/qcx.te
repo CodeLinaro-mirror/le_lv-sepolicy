@@ -10,6 +10,7 @@ type qcx_server_tmpfs_t;
 type qcx_server_dev_t;
 type qcx_server_power_t;
 type qcx_server_config_t;
+type qcx_server_run_t;
 
 require {
     type qgptp_device_t;
@@ -142,11 +143,27 @@ synxservice_ptrace(qcx_server_t)
 synxservice_use_fds(qcx_server_t)
 synxservice_rw_tmpfs_files(qcx_server_t)
 
+# qcxserver creates its socket directly under /run (var_run_t);
+# transition it to its own dedicated type instead of the shared
+# var_run_t:
+files_runtime_file(qcx_server_run_t)
+files_pid_filetrans(qcx_server_t, qcx_server_run_t, sock_file)
+manage_sock_files_pattern(qcx_server_t, qcx_server_run_t, qcx_server_run_t)
+
 
 allow qcx_server_t self:process { setrlimit setsched ptrace };
 allow qcx_server_t self:unix_stream_socket { listen };
 allow qcx_server_t self:capability { sys_resource sys_nice dac_override sys_ptrace net_admin };
 allow qcx_server_t self:fifo_file { read write };
+
+# /tmp/camera/qcx_socket_<hex> -- dynamically-named sockets qcx_server and
+# qcx_be_server create to talk to each other:
+#   avc: denied { write } name="qcx_socket_007c8c8c" tclass=sock_file
+#     scontext=...:qcx_server_t tcontext=...:qcx_server_tmpfs_t
+#   avc: denied { connectto } path="/tmp/camera/qcx_socket_007c8c8c"
+#     scontext=...:qcx_server_t tcontext=...:qcx_be_server_t
+allow qcx_server_t qcx_server_tmpfs_t:sock_file write;
+allow qcx_server_t qcx_be_server_t:unix_stream_socket connectto;
 
 pilrm_rw_tmpfs_files(qcx_server_t);
 pilrm_read_pil_done(qcx_server_t);
@@ -215,6 +232,17 @@ allow qcx_be_server_t self:capability { sys_resource sys_nice dac_override net_a
 allow qcx_be_server_t qcx_server_tmpfs_t:dir { add_name write };
 allow qcx_be_server_t qcx_server_tmpfs_t:file create;
 
+# /tmp/camera/qcx_socket_<hex> -- dynamically-named sockets qcx_be_server
+# creates/writes to talk to qcx_server, and unlinks once done with them:
+#   avc: denied { write create } name="qcx_socket_debfcadf" tclass=sock_file
+#     scontext=...:qcx_be_server_t tcontext=...:qcx_server_tmpfs_t
+#   avc: denied { connectto } path="/tmp/camera/qcx_socket_debfcadf"
+#     scontext=...:qcx_be_server_t tcontext=...:qcx_server_t
+#   avc: denied { unlink } comm="beServer_thrdRe" name="qcx_socket_0002eb00" tclass=sock_file
+#     scontext=...:qcx_be_server_t tcontext=...:qcx_server_tmpfs_t
+allow qcx_be_server_t qcx_server_tmpfs_t:sock_file { create write unlink };
+allow qcx_be_server_t qcx_server_t:unix_stream_socket connectto;
+
 kernel_read_unlabeled_state(qcx_be_server_t)
 
 qcxserver_init_manage_runtime_files(qcx_be_server_t)
@@ -225,5 +253,9 @@ allow qcx_be_server_t tmp_t:dir search;
 #============= systemd_tmpfiles_t ==============
 
 #!!!! This avc can be allowed using the boolean 'systemd_tmpfiles_manage_all'
-allow systemd_tmpfiles_t qcx_server_tmpfs_t:dir read;
+# systemd-tmpfiles periodically stats the qcx_be_server/qcx_server dynamically
+# named sockets under /tmp/camera while scanning for stale entries:
+#   avc: denied { getattr } comm="systemd-tmpfile" name="qcx_socket_debfcae1" tclass=sock_file
+#     scontext=...:systemd_tmpfiles_t tcontext=...:qcx_server_tmpfs_t
+qcxserver_clean_tmpfs_dirs(systemd_tmpfiles_t)
 pilrm_use_lrm_run_dir(qcx_server_t)

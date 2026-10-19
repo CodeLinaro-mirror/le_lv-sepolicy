@@ -8,6 +8,7 @@ type synxservice_exec_t;
 type synxservice_tmp_t;
 type synxservice_tmpfs_t;
 type synxservice_dev_t;
+type synxservice_run_t;
 
 init_daemon_domain(synxservice_t, synxservice_exec_t)
 
@@ -59,6 +60,9 @@ qcxserver_rw_map_tmpfs_files(synxservice_t)
 safetymonitor_signull(synxservice_t)
 safetymonitor_rw_tmpfs_files(synxservice_t)
 
+# /etc/safety_config/*.xml
+files_read_safety_config_files(synxservice_t)
+
 allow synxservice_t self:unix_dgram_socket { create connect write getopt setopt };
 allow synxservice_t self:process { setrlimit signull setsched getsched signal };
 allow synxservice_t self:capability { net_admin sys_nice sys_resource dac_override };
@@ -68,3 +72,9 @@ userdom_map_tmp_files(synxservice_t)
 fs_manage_tmpfs_files(synxservice_t)
 
 pilrm_use_lrm_run_dir(synxservice_t)
+# synxservice creates its socket directly under /run (var_run_t);
+# transition it to its own dedicated type instead of the shared
+# var_run_t:
+files_runtime_file(synxservice_run_t)
+files_pid_filetrans(synxservice_t, synxservice_run_t, sock_file)
+manage_sock_files_pattern(synxservice_t, synxservice_run_t, synxservice_run_t)
