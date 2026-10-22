@@ -7,6 +7,7 @@ type vmm_t;
 type vmm_exec_t;
 type vmm_tmp_t;
 type vmm_tmpfs_t;
+type vmm_run_t;
 
 init_daemon_domain(vmm_t, vmm_exec_t)
 
@@ -72,6 +73,9 @@ kernel_read_debugfs(vmm_t);
 files_create_default_dirs(vmm_t);
 files_manage_default_files(vmm_t);
 
+# allow vmm-ramdump to check qlf dump directory
+qdssservice_search_var_dirs(vmm_t)
+
 allow vmm_t self:unix_dgram_socket { create connect };
 allow vmm_t self:capability { sys_resource sys_nice net_admin dac_override sys_admin };
 allow vmm_t self:process { setrlimit setsched getsched signal };
@@ -116,3 +120,10 @@ files_manage_var_files(vmm_t)
 files_manage_var_symlinks(vmm_t)
 
 pilrm_use_lrm_run_dir(vmm_t)
+
+# vmm_service/vmm-ramdump create their socket directly under /run
+# (var_run_t); transition it to its own dedicated type instead of the
+# shared var_run_t:
+files_runtime_file(vmm_run_t)
+files_pid_filetrans(vmm_t, vmm_run_t, sock_file)
+manage_sock_files_pattern(vmm_t, vmm_run_t, vmm_run_t)

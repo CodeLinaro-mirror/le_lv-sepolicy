@@ -42,6 +42,247 @@ init_read_runtime_files(systemd_logind_t)
 files_read_var_symlinks(systemd_userdbd_t)
 init_read_runtime_files(systemd_userdbd_t)
 
+########################################
+# systemd-nspawn (AV-container)
+#
+# The container is started from an init script as
+#   systemd-nspawn --volatile=yes --machine=AV-container ...
+# so nspawn runs in systemd_nspawn_t while it populates the volatile tmpfs
+# root and stats every bind-mount source named on the command line.
+
+gen_require(`
+    type systemd_nspawn_t;
+    type tmpfs_t, lib_t, device_t, dosfs_t;
+    type kiumd_device_t, ksync_device_t, scmnode_device_t;
+')
+
+# nspawn inherits /dev/pts/0 from the init script it was launched from:
+#   avc: denied { read write ioctl } comm="systemd-nspawn" tclass=chr_file
+#     scontext=...:systemd_nspawn_t tcontext=...:initrc_devpts_t
+init_use_inherited_script_ptys(systemd_nspawn_t)
+
+# nspawn reads /proc/sys/fs/* (nr_open, inotify limits) during setup:
+#   avc: denied { read open getattr ioctl } comm="systemd-nspawn" tclass=file
+#     scontext=...:systemd_nspawn_t tcontext=...:sysctl_fs_t
+kernel_search_fs_sysctls(systemd_nspawn_t)
+kernel_read_fs_sysctls(systemd_nspawn_t)
+
+# nspawn statfs()es the cgroup hierarchy to pick the cgroup version:
+#   avc: denied { getattr } comm="systemd-nspawn" tclass=filesystem
+#     scontext=...:systemd_nspawn_t tcontext=...:cgroup_t
+fs_getattr_cgroup(systemd_nspawn_t)
+
+# --volatile=yes gives the container a tmpfs root, which nspawn then fills in
+# with the directories, /bin compat symlink, os-release file and device nodes
+# the guest expects, and mounts the bind sources on top of them:
+#   avc: denied { create mounton setattr } comm="systemd-nspawn" tclass=dir
+#     scontext=...:systemd_nspawn_t tcontext=...:tmpfs_t
+#   avc: denied { create setattr } name="bin" tclass=lnk_file
+#     scontext=...:systemd_nspawn_t tcontext=...:tmpfs_t
+fs_manage_tmpfs_dirs(systemd_nspawn_t)
+fs_manage_tmpfs_files(systemd_nspawn_t)
+fs_manage_tmpfs_symlinks(systemd_nspawn_t)
+fs_manage_tmpfs_sockets(systemd_nspawn_t)
+fs_manage_tmpfs_blk_files(systemd_nspawn_t)
+manage_fifo_files_pattern(systemd_nspawn_t, tmpfs_t, tmpfs_t)
+fs_mounton_tmpfs(systemd_nspawn_t)
+fs_mounton_tmpfs_files(systemd_nspawn_t)
+
+# nspawn bind-mounts the host's /usr/lib/os-release over the copy it created
+# in the volatile root; the host file is labelled lib_t on this image:
+#   avc: denied { mounton } comm="systemd-nspawn" tclass=file
+#     scontext=...:systemd_nspawn_t tcontext=...:lib_t
+allow systemd_nspawn_t lib_t:file mounton;
+
+# nspawn remounts /sys/fs/selinux read-only and mounts it into the container.
+# This keeps selinuxfs reachable without enabling the labeled-namespace
+# tunable, which stays off on this target:
+#   avc: denied { remount } comm="systemd-nspawn" tclass=filesystem
+#     scontext=...:systemd_nspawn_t tcontext=...:security_t
+#   avc: denied { mounton } comm="systemd-nspawn" tclass=dir
+#     scontext=...:systemd_nspawn_t tcontext=...:security_t
+selinux_remount_fs(systemd_nspawn_t)
+selinux_mounton_dirs(systemd_nspawn_t)
+
+# The command binds /data, which carries the default label on this image:
+#   avc: denied { getattr } comm="systemd-nspawn" tclass=dir
+#     scontext=...:systemd_nspawn_t tcontext=...:default_t
+files_getattr_default_dirs(systemd_nspawn_t)
+
+# nspawn stats each bind source under /dev before adding it to the container
+# mount table. Some devtmpfs entries are reported as regular files and others
+# as character devices, so keep both permissions metadata-only:
+#   avc: denied { getattr } comm="systemd-nspawn" tclass={ file chr_file }
+#     scontext=...:systemd_nspawn_t tcontext=...:device_t
+allow systemd_nspawn_t device_t:file getattr;
+allow systemd_nspawn_t device_t:chr_file getattr;
+
+# The same stat pass covers the Qualcomm-specific device nodes named with
+# --bind and DeviceAllow (/dev/kiumd, /dev/ksync, /dev/scmnode):
+#   avc: denied { getattr } comm="systemd-nspawn" tclass=chr_file
+#     scontext=...:systemd_nspawn_t tcontext=...:{ kiumd ksync scmnode }_device_t
+allow systemd_nspawn_t {
+    kiumd_device_t ksync_device_t scmnode_device_t
+}:chr_file getattr;
+
+# ...and the /firmware bind source, which is a vfat mount:
+#   avc: denied { getattr } comm="systemd-nspawn" tclass=dir
+#     scontext=...:systemd_nspawn_t tcontext=...:dosfs_t
+allow systemd_nspawn_t dosfs_t:dir getattr;
+
+# nspawn stats the shared libraries under the host's /usr/lib while resolving
+# the container's dynamic linker search path against the bind mounted host
+# tree, repeated for each vendor lib type present there:
+#   avc: denied { getattr } comm="systemd-nspawn" tclass=file
+#     scontext=...:systemd_nspawn_t tcontext=...:<vendor>_lib_t
+gpce_be_getattr_lib_files(systemd_nspawn_t)
+keymaster_getattr_lib_files(systemd_nspawn_t)
+gptee_getattr_lib_files(systemd_nspawn_t)
+getattr_she_lib_files(systemd_nspawn_t)
+minkdescriptor_getattr_lib_files(systemd_nspawn_t)
+ipp_getattr_lib_files(systemd_nspawn_t)
+weston_getattr_lib_files(systemd_nspawn_t)
+
+# The guest's weston-simple-egl/dmabuf_heap_sharing/hyp_udmabuf_test/she_client
+# binaries need deeper access than the metadata-only stat pass above once they
+# actually run inside the container (map/manage, not just getattr):
+minkdescriptor_mmap_lib_files(systemd_nspawn_t)
+gpce_be_map_lib_files(systemd_nspawn_t)
+gptee_mmap_lib_files(systemd_nspawn_t)
+keymaster_mmap_lib_files(systemd_nspawn_t)
+ipp_manage_lib_files(systemd_nspawn_t)
+weston_map_lib_files(systemd_nspawn_t)
+owfds_map_lib_files(systemd_nspawn_t)
+libkiumd_mmap_exec_lib_file(systemd_nspawn_t)
+allow_she_lib_files(systemd_nspawn_t)
+
+# --bind=/dev/vfio plus the vfio DeviceAllow entries:
+#   avc: denied { open read write ioctl } comm="dmabuf_heap_sharing" tclass=chr_file
+#     scontext=...:systemd_nspawn_t tcontext=...:vfio_device_t
+dev_rw_vfio_dev(systemd_nspawn_t)
+dev_vfio_group_get_device_fd(systemd_nspawn_t)
+
+# generic /dev stat/read pass for the remaining bind sources (/dev/log, etc.)
+dev_getattr_generic_chr_files(systemd_nspawn_t)
+dev_read_generic_files(systemd_nspawn_t)
+
+# IPC with the on-host LRM/fastrpc-rm/smcinvoke/qcx/weston services the
+# container's binaries talk to over /run sockets bind-mounted in as
+# /run/lrm:
+fastrpc_rm_use_ipc_run_dir(systemd_nspawn_t)
+pilrm_use_lrm_run_dir(systemd_nspawn_t)
+smcinvoke_server_stream_connectto(systemd_nspawn_t)
+weston_stream_connectto(systemd_nspawn_t)
+weston_write_tmp_sock_files(systemd_nspawn_t)
+qcxserver_clean_tmpfs_dirs(systemd_nspawn_t)
+
+# weston-simple-egl is exec'd directly out of the bind-mounted host /vendor
+# tree rather than copied into the volatile root:
+#   avc: denied { execute } name="weston-simple-egl" tclass=file
+#     scontext=...:systemd_nspawn_t tcontext=...:weston_exec_t
+weston_exec(systemd_nspawn_t)
+
+# nspawn mounts /proc/sys read-only into the container and probes a few more
+# sysctls/debugfs/proc entries during setup:
+kernel_mounton_sysctl_files(systemd_nspawn_t)
+kernel_search_debugfs(systemd_nspawn_t)
+kernel_getattr_proc(systemd_nspawn_t)
+
+# nspawn probes whether SELinux is enabled on the host before deciding how to
+# label the container's filesystem view:
+#   avc: denied { getattr } comm="systemd-nspawn" tclass={ filesystem dir }
+#     scontext=...:systemd_nspawn_t tcontext=...:{ security_t selinux_config_t sysfs_t }
+selinux_getattr_fs(systemd_nspawn_t)
+selinux_getattr_dirs(systemd_nspawn_t)
+seutil_search_config(systemd_nspawn_t)
+
+# nspawn allocates a pty pair for the container console and inherits the
+# init script's controlling tty:
+init_use_script_ptys(systemd_nspawn_t)
+term_use_generic_ptys(systemd_nspawn_t)
+
+# nspawn reads runtime state files under /run (machine registration, etc.)
+# and chats with systemd-resolved for container DNS stub setup:
+init_read_runtime_files(systemd_nspawn_t)
+systemd_dbus_chat_resolved(systemd_nspawn_t)
+systemd_read_resolved_runtime(systemd_nspawn_t)
+
+# nspawn execs host binaries (busybox, etc.) still referenced from the
+# volatile root during early container setup:
+corecmd_exec_bin(systemd_nspawn_t)
+
+fs_search_tmpfs(systemd_nspawn_t)
+fs_map_tmpfs_files(systemd_nspawn_t)
+
+# nspawn mounts a private cgroup hierarchy for the container:
+#   avc: denied { mount mounton create write add_name } comm="systemd-nspawn" tclass=dir
+#     scontext=...:systemd_nspawn_t tcontext=...:cgroup_t
+fs_mount_cgroup(systemd_nspawn_t)
+fs_mounton_cgroup(systemd_nspawn_t)
+fs_manage_cgroup_dirs(systemd_nspawn_t)
+fs_write_cgroup_files(systemd_nspawn_t)
+
+# --bind=/data, which carries the default label on this image, needs more
+# than the getattr already granted above once nspawn walks into it:
+files_search_default(systemd_nspawn_t)
+allow systemd_nspawn_t default_t:dir read;
+
+userdom_search_user_runtime(systemd_nspawn_t)
+power_create_pm_dirs(systemd_nspawn_t)
+
+# --bind=/vendor is stated by nspawn before mounting it in:
+#   avc: denied { getattr } comm="systemd-nspawn" path="/vendor" tclass=dir
+#     scontext=...:systemd_nspawn_t tcontext=...:vendor_dir_t
+vendor_search_dir(systemd_nspawn_t)
+
+# --bind=/firmware (vfat) needs more than the dir getattr already granted
+# above:
+fs_search_dos(systemd_nspawn_t)
+fs_read_dos_files(systemd_nspawn_t)
+
+# --bind=/var
+files_create_var_dirs(systemd_nspawn_t)
+files_write_var_dirs(systemd_nspawn_t)
+files_read_var_symlinks(systemd_nspawn_t)
+
+fs_unmount_xattr_fs(systemd_nspawn_t)
+allow systemd_nspawn_t self:fifo_file { getattr read };
+
+# nspawn mounts a private /proc instance for the container:
+#   avc: denied { mounton } comm="systemd-nspawn" tclass=file
+#     scontext=...:systemd_nspawn_t tcontext=...:{ proc_t system_map_t }
+#   avc: denied { getattr mounton } comm="systemd-nspawn" tclass=dir
+#     scontext=...:systemd_nspawn_t tcontext=...:sysctl_irq_t
+files_mounton_non_security(systemd_nspawn_t)
+kernel_mounton_sysctl_irq_dir(systemd_nspawn_t)
+
+allow systemd_nspawn_t self:process setpgid;
+allow systemd_nspawn_t self:udp_socket create_socket_perms;
+allow systemd_nspawn_t self:unix_dgram_socket connect;
+
+# the guest's weston-simple-egl/dmabuf_heap_sharing EGL init hands dmabuf fds
+# back out to the host's GPU/compositor/kiumd services, and nspawn itself
+# inherits a /dev/log fd opened by the init script:
+#   avc: denied { use } comm="weston-simple-egl" tclass=fd
+#     scontext=...:adreno200_t,weston_t tcontext=...:systemd_nspawn_t
+# (adreno200_t and weston_t grants live in their own modules: see
+# qpolicy/adreno200-binaries.te and qpolicy/weston.te)
+weston_rw_tmpfs_files(systemd_nspawn_t)
+dev_rw_generic_chr_files(systemd_nspawn_t)
+
+# nspawn logs container lifecycle events to the host journald/syslog and the
+# container's systemd-userdbd talks to the host's systemd-machined over
+# /run/systemd/machine:
+logging_send_syslog_msg(systemd_nspawn_t)
+logging_dgram_send(systemd_nspawn_t)
+systemd_connect_machined(systemd_userdbd_t)
+init_rw_script_stream_sockets(systemd_machined_t)
+init_read_runtime_files(systemd_machined_t)
+domain_search_all_domains_state(systemd_machined_t)
+
+# the dmabuf_heap_sharing test queries RLIMIT_MEMLOCK:
+allow systemd_nspawn_t self:capability sys_resource;
+
 # systemd-logind read init proc info, /proc/<pid>/cgroup
 init_read_script_state(systemd_logind_t)
 getty_read_files(systemd_logind_t)
@@ -150,6 +391,12 @@ kernel_relabelfrom_unlabeled_symlinks(systemd_tmpfiles_t)
 soccp_driver_read_tmpfs_files(systemd_tmpfiles_t)
 
 init_getattr_utmp(systemd_tmpfiles_t)
+
+# systemd-tmpfiles also stats the vpp debug fifo while scanning /tmp/vpp:
+#   avc: denied { getattr } comm="systemd-tmpfile" name="dbg_node" tclass=fifo_file
+#     scontext=...:systemd_tmpfiles_t tcontext=...:initrc_runtime_t
+init_getattr_initrc_runtime_fifo_files(systemd_tmpfiles_t)
+
 # Allow systemd_generator to create blacklist conf in /run/modprobe.d
 files_create_runtime_dirs(systemd_generator_t)
 files_create_var_run_files(systemd_generator_t)
@@ -157,3 +404,4 @@ files_rw_var_run_files(systemd_generator_t)
 # Allow systemd_modules_load to list /run/modprobe.d
 files_list_runtime(systemd_modules_load_t)
 files_read_runtime_files(systemd_modules_load_t)
+systemd_dbus_chat_logind(systemd_networkd_t)

@@ -9,6 +9,7 @@ type ipp_lib_t;
 type ipp_tmpfs_t;
 type ipp_tmp_t;
 type ipp_power_t;
+type ipp_run_t;
 
 init_daemon_domain(ipp_t,ipp_exec_t)
 
@@ -72,3 +73,10 @@ files_read_default_files(ipp_t)
 files_read_generic_tmp_files(ipp_t)
 
 pilrm_use_lrm_run_dir(ipp_t)
+
+# ippserver creates ipp_server.sock directly under /run (var_run_t);
+# transition it to its own dedicated type instead of the shared
+# var_run_t:
+files_runtime_file(ipp_run_t)
+files_pid_filetrans(ipp_t, ipp_run_t, sock_file)
+manage_sock_files_pattern(ipp_t, ipp_run_t, ipp_run_t)

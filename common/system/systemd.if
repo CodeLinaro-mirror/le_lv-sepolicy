@@ -298,6 +298,42 @@ interface(`systemd_userdbd_nnp_trans',`
 
 ########################################
 ## <summary>
+##  Transition to systemd_nspawn_t when NNP has been set.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  The type of the process performing this action.
+##  </summary>
+## </param>
+#
+interface(`systemd_nspawn_nnp_trans',`
+    gen_require(`
+        type systemd_nspawn_t;
+    ')
+
+    allow $1 systemd_nspawn_t:process2 nnp_transition;
+')
+
+########################################
+## <summary>
+##  Transition to systemd_machined_t when NNP has been set.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  The type of the process performing this action.
+##  </summary>
+## </param>
+#
+interface(`systemd_machined_nnp_trans',`
+    gen_require(`
+        type systemd_machined_t;
+    ')
+
+    allow $1 systemd_machined_t:process2 nnp_transition;
+')
+
+########################################
+## <summary>
 ##  Allow the specified domain to read and write
 ##  the systemd-logind linger files
 ## </summary>
@@ -408,4 +444,43 @@ interface(`systemd_getattr_power_unit_files',`
     ')
 
     allow $1 power_unit_t:file getattr;
+')
+
+########################################
+## <summary>
+##  Allow a domain to use file descriptors
+##  passed to it by systemd_nspawn_t (e.g. a
+##  dmabuf fd handed out across a Wayland
+##  connection into the container).
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`systemd_nspawn_use_fds',`
+    gen_require(`
+        type systemd_nspawn_t;
+    ')
+
+    allow $1 systemd_nspawn_t:fd use;
+')
+
+########################################
+## <summary>
+##  Allow a domain to ptrace systemd_nspawn_t.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`systemd_nspawn_ptrace',`
+    gen_require(`
+        type systemd_nspawn_t;
+    ')
+
+    allow $1 systemd_nspawn_t:process ptrace;
 ')

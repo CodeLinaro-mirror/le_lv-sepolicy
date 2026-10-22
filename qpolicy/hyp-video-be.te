@@ -34,6 +34,13 @@ qseecomd_search_data_dirs(hyp_video_t)
 
 videodriver_rw_tmpfs_files(hyp_video_t)
 
+# Use callback and heartbeat socket descriptors passed by the video driver.
+video_driver_use_fds(hyp_video_t)
+video_driver_use_stream_sockets(hyp_video_t)
+
+# video driver unix_stream_socket connect
+video_driver_socket_connect(hyp_video_t)
+
 # ========== local ==========
 allow hyp_video_t self:unix_dgram_socket { create connect getopt setopt };
 allow hyp_video_t self:process { setsched };

@@ -8,6 +8,7 @@ type compressch_exec_t;
 type compressch_etc_t;
 type compressch_power_t;
 type compressch_tmpfs_t;
+type compressch_run_t;
 
 init_daemon_domain(compressch_t, compressch_exec_t)
 
@@ -21,6 +22,7 @@ fs_tmpfs_filetrans(compressch_t, compressch_tmpfs_t, { dir file })
 compressch_create_tmpfs_files(compressch_t)
 compressch_mmap_rw_tmpfs_files(compressch_t)
 compressch_setattr_tmpfs_files(compressch_t)
+allow compressch_t compressch_tmpfs_t:file unlink;
 
 init_rw_script_stream_sockets(compressch_t)
 init_signull_script(compressch_t)
@@ -45,9 +47,12 @@ logging_read_syslog_pid(compressch_t)
 logging_send_syslog_msg(compressch_t)
 
 safetymonitor_rw_tmpfs_files(compressch_t)
+#xml reading access /etc/safety_config
+files_read_safety_config_files(compressch_t)
 
 #For getting domain IDs
 fastrpc_rm_rw_tmpfs_files(compressch_t)
+fastrpc_rm_use_ipc_run_dir(compressch_t)
 
 # pfm
 pfm_rw_tmpfs_files(compressch_t)
@@ -76,6 +81,12 @@ files_create_var_dirs(compressch_t)
 # Allow qlf to check file status in /var/log/
 files_read_var_symlinks(compressch_t)
 
+# allow NSP STL mqueue access
+nspdrv_mmap_rw_tmpfs_files(compressch_t)
+
+# allow compute-ressched to check NSP STL process status
+nsp_drv_signull(compressch_t)
+
 #allow ssr
 ssrrm_rw_tmpfs_files(compressch_t)
 
@@ -83,3 +94,16 @@ ssrrm_rw_tmpfs_files(compressch_t)
 power_use_pm_register(compressch_t, compressch_power_t)
 
 pilrm_use_lrm_run_dir(compressch_t)
+
+# compute-ressched creates qlf_compute-ressched.sock directly under
+# /run (var_run_t); transition it to its own dedicated type instead
+# of the shared var_run_t:
+files_runtime_file(compressch_run_t)
+files_pid_filetrans(compressch_t, compressch_run_t, sock_file)
+manage_sock_files_pattern(compressch_t, compressch_run_t, compressch_run_t)
+
+# qdss-service collects QLF dumps under /var/volatile/log/qlf_dumps; the
+# reporting clients create their own subdirectory there and write dumps:
+#   avc: denied { create } name="qlf_dumps" tclass=dir
+#     scontext=...:compressch_t tcontext=...:qdss_service_var_t
+qdssservice_manage_var_dumps(compressch_t)

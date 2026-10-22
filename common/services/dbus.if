@@ -140,3 +140,22 @@ interface(`dbus_write_system_dbusd_runtime_sock',`
 
     allow $1 system_dbusd_runtime_t:sock_file write;
 ')
+
+########################################
+## <summary>
+## Allow domain to read/write to bluetooth_socket file.
+## </summary>
+## <param name="domain">
+## <summary>
+## Domain allowed access.
+## </summary>
+## </param>
+#
+interface(`dbus_rw_system_dbusd_bluetooth_sock',`
+    gen_require(`
+        type bluetooth_t;
+    ')
+
+    allow $1 bluetooth_t:bluetooth_socket { read write };
+    allow $1 bluetooth_t:fd use;
+')

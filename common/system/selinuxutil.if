@@ -64,3 +64,24 @@ interface(`seutil_nnp_trans',`
 
     allow $1 setfiles_t:process2 nnp_transition;
 ')
+
+########################################
+## <summary>
+##  Search the SELinux configuration directory
+##  (e.g. probing whether SELinux is enabled on
+##  the host before deciding how to label a
+##  filesystem view).
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`seutil_search_config',`
+    gen_require(`
+        type selinux_config_t;
+    ')
+
+    allow $1 selinux_config_t:dir search_dir_perms;
+')

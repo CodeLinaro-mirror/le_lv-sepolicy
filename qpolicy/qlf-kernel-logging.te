@@ -1,0 +1,99 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(qlf-kernel-logging, 1.0)
+
+type qlf_logging_t;
+type qlf_logging_exec_t;
+type qlf_logging_tmp_t;
+type qlf_logging_tmpfs_t;
+type qlf_logging_var_t;
+
+init_daemon_domain(qlf_logging_t, qlf_logging_exec_t)
+
+init_rw_script_stream_sockets(qlf_logging_t)
+init_signull_script(qlf_logging_t)
+
+logging_send_syslog_msg(qlf_logging_t)
+
+# /usr/lib/liblrms.so, liblrmc.so, libkiumd.so (all labeled libkiumd_lib_t)
+libkiumd_mmap_exec_lib_file(qlf_logging_t)
+
+# /var/qlf_trace_events.xml
+files_config_file(qlf_logging_var_t)
+files_manage_var_files(qlf_logging_t)
+files_manage_var_dirs(qlf_logging_t)
+files_read_var_symlinks(qlf_logging_t)
+
+# /tmp/<subsystem>_<ts>.trace snapshot files
+files_tmp_file(qlf_logging_tmp_t)
+files_tmp_filetrans(qlf_logging_t, qlf_logging_tmp_t, { dir file })
+manage_files_pattern(qlf_logging_t, qlf_logging_tmp_t, qlf_logging_tmp_t)
+
+# tmpfs (shared memory)
+files_tmpfs_file(qlf_logging_tmpfs_t)
+fs_tmpfs_filetrans(qlf_logging_t, qlf_logging_tmpfs_t, { dir file })
+fs_manage_tmpfs_files(qlf_logging_t)
+fs_map_tmpfs_files(qlf_logging_t)
+fs_rw_tmpfs_files(qlf_logging_t)
+create_files_pattern(qlf_logging_t, qlf_logging_tmpfs_t, qlf_logging_tmpfs_t)
+manage_files_pattern(qlf_logging_t, qlf_logging_tmpfs_t, qlf_logging_tmpfs_t)
+qlflogging_mmap_rw_tmpfs_files(qlf_logging_t)
+qlflogging_rw_tmpfs_files(qlf_logging_t)
+
+# /dev/kmsg — read kernel messages for dmesg snapshot in log files
+# syslog_read on system class is also required to open /dev/kmsg for reading
+dev_read_kmsg(qlf_logging_t)
+allow qlf_logging_t kernel_t:system syslog_read;
+
+# /proc/sys/vm/ — libbpf probes overcommit_memory and max_map_count
+kernel_search_vm_sysctl(qlf_logging_t)
+require {
+    type sysctl_vm_overcommit_t;
+}
+allow qlf_logging_t sysctl_vm_overcommit_t:file { open read getattr };
+
+# debugfs: search /sys/kernel/debug/ root to reach tracefs mount and tracepoint IDs
+kernel_read_debugfs(qlf_logging_t)
+
+# /sys/fs/bpf/ — libbpf reads this directory to check for pinned maps
+require {
+    type bpf_t;
+}
+allow qlf_logging_t bpf_t:dir { search read open getattr };
+allow qlf_logging_t bpf_t:file { read open getattr };
+
+# tracefs: read/write tracefs files and create per-subsystem ftrace instances
+# /sys/kernel/debug/tracing/instances/<subsys>/...
+fs_search_tracefs_dirs(qlf_logging_t)
+fs_rw_tracefs_files(qlf_logging_t)
+
+require {
+    type tracefs_t;
+}
+# mkdir/rmdir of ftrace instances under /sys/kernel/debug/tracing/instances/
+allow qlf_logging_t tracefs_t:dir { add_name create getattr read remove_name rmdir search write };
+
+# /dev/kmsg
+dev_read_sysfs(qlf_logging_t)
+
+# /usr/lib/ebpf/pr_err_trace_ebpf.o (labeled qlf_logging_exec_t in .fc)
+allow qlf_logging_t qlf_logging_exec_t:file { getattr open read map };
+
+# eBPF: load program and attach to tracepoint/printk/console
+# capability2 bpf    - grants CAP_BPF for bpf() syscall capability check
+# capability2 perfmon - grants CAP_PERFMON for perf_event_open() tracepoint attachment
+# self:bpf           - SELinux bpf object class checks on BPF_PROG_LOAD / BPF_MAP_CREATE
+allow qlf_logging_t self:capability2 { bpf perfmon };
+allow qlf_logging_t self:bpf { map_create map_read map_write prog_load prog_run };
+
+# perf_event: open kernel tracepoint, read ring buffer events
+allow qlf_logging_t self:perf_event { open cpu kernel tracepoint read write };
+
+# POSIX mqueue /dev/mqueue/kernel_log
+allow qlf_logging_t self:msgq { create destroy associate read write };
+
+# process controls
+allow qlf_logging_t self:process { setrlimit setsched getsched };
+allow qlf_logging_t self:capability { sys_resource sys_nice dac_read_search };
+allow qlf_logging_t self:unix_stream_socket { listen };
