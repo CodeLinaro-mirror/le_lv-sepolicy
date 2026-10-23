@@ -8,6 +8,7 @@ type diag_service_exec_t;
 type diag_service_tmp_t;
 type diag_service_tmpfs_t;
 type diag_service_power_t;
+type diag_service_run_t;
 
 init_daemon_domain(diag_service_t, diag_service_exec_t)
 
@@ -116,3 +117,9 @@ files_manage_var_files(diag_service_t)
 files_manage_var_symlinks(diag_service_t)
 
 pilrm_use_lrm_run_dir(diag_service_t)
+# diag-service creates its socket directly under /run (var_run_t);
+# transition it to its own dedicated type instead of the shared
+# var_run_t:
+files_runtime_file(diag_service_run_t)
+files_pid_filetrans(diag_service_t, diag_service_run_t, sock_file)
+manage_sock_files_pattern(diag_service_t, diag_service_run_t, diag_service_run_t)

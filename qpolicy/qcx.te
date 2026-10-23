@@ -10,6 +10,7 @@ type qcx_server_tmpfs_t;
 type qcx_server_dev_t;
 type qcx_server_power_t;
 type qcx_server_config_t;
+type qcx_server_run_t;
 
 require {
     type qgptp_device_t;
@@ -141,6 +142,13 @@ dev_rw_scmnode_sec_dev(qcx_server_t)
 synxservice_ptrace(qcx_server_t)
 synxservice_use_fds(qcx_server_t)
 synxservice_rw_tmpfs_files(qcx_server_t)
+
+# qcxserver creates its socket directly under /run (var_run_t);
+# transition it to its own dedicated type instead of the shared
+# var_run_t:
+files_runtime_file(qcx_server_run_t)
+files_pid_filetrans(qcx_server_t, qcx_server_run_t, sock_file)
+manage_sock_files_pattern(qcx_server_t, qcx_server_run_t, qcx_server_run_t)
 
 
 allow qcx_server_t self:process { setrlimit setsched ptrace };

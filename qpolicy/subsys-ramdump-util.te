@@ -9,6 +9,7 @@ type ssrdump_var_t;
 type ssrdump_tmp_t;
 type ssrdump_tmpfs_t;
 type subsystem_ramdump_util_device_t;
+type subsys_ramdump_util_run_t;
 
 init_daemon_domain(subsys_ramdump_util_t, subsys_ramdump_util_exec_t)
 dev_node(subsystem_ramdump_util_device_t)
@@ -78,3 +79,16 @@ files_manage_default_dirs(subsys_ramdump_util_t)
 files_manage_default_files(subsys_ramdump_util_t)
 
 pilrm_use_lrm_run_dir(subsys_ramdump_util_t)
+
+# subsys-ramdump-util creates tpm.sock directly under /run
+# (var_run_t); transition it to its own dedicated type instead of the
+# shared var_run_t:
+files_runtime_file(subsys_ramdump_util_run_t)
+files_pid_filetrans(subsys_ramdump_util_t, subsys_ramdump_util_run_t, sock_file)
+manage_sock_files_pattern(subsys_ramdump_util_t, subsys_ramdump_util_run_t, subsys_ramdump_util_run_t)
+
+# qdss-service collects QLF dumps under /var/volatile/log/qlf_dumps; the
+# reporting clients create their own subdirectory there and write dumps:
+#   avc: denied { create } name="qlf_dumps" tclass=dir
+#     scontext=...:subsys_ramdump_util_t tcontext=...:qdss_service_var_t
+qdssservice_manage_var_dumps(subsys_ramdump_util_t)

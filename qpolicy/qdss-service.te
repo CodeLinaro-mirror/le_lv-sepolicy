@@ -10,6 +10,7 @@ type qdss_service_tmpfs_t;
 type qdss_service_device_t;
 type qdss_service_power_t;
 type qdss_service_var_t;
+type qdss_service_run_t;
 
 init_daemon_domain(qdss_service_t, qdss_service_exec_t)
 dev_node(qdss_service_device_t)
@@ -22,6 +23,10 @@ fs_getattr_xattr_fs(qdss_service_t)
 
 #for fs check
 fs_associate(qdss_service_var_t)
+# /var/volatile is a tmpfs mount, so the dump directory is created on tmpfs:
+#   avc: denied { associate } scontext=...:qdss_service_var_t
+#     tcontext=...:tmpfs_t tclass=filesystem
+fs_associate_tmpfs(qdss_service_var_t)
 
 dev_map_kiumd_dev(qdss_service_t)
 dev_rw_kiumd_dev(qdss_service_t)
@@ -151,3 +156,9 @@ files_list_default_dirs(qdss_service_t)
 allow qdss_service_t unreserved_port_t:tcp_socket name_bind;
 
 pilrm_use_lrm_run_dir(qdss_service_t)
+# qdss-service creates its socket directly under /run (var_run_t);
+# transition it to its own dedicated type instead of the shared
+# var_run_t:
+files_runtime_file(qdss_service_run_t)
+files_pid_filetrans(qdss_service_t, qdss_service_run_t, sock_file)
+manage_sock_files_pattern(qdss_service_t, qdss_service_run_t, qdss_service_run_t)

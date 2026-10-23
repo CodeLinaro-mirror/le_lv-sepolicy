@@ -39,6 +39,7 @@ unconfined_server_signull(fastrpc_rm_t)
 unconfined_signull(fastrpc_rm_t)
 unconfined_server_ptrace(fastrpc_rm_t)
 unconfined_ptrace(fastrpc_rm_t)
+unconfined_use_fds(fastrpc_rm_t)
 
 # ========== local ==========
 allow fastrpc_rm_t self:unix_dgram_socket { create connect getopt setopt };

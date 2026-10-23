@@ -184,3 +184,21 @@ interface(`gpce_be_rw_etc_files',`
     list_dirs_pattern($1, etc_t, gpce_be_etc_t)
     rw_files_pattern($1, etc_t, gpce_be_etc_t)
 ')
+
+########################################
+## <summary>
+##  Get the attributes of gpce_be library files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`gpce_be_getattr_lib_files',`
+    gen_require(`
+        type gpce_be_lib_t;
+    ')
+
+    allow $1 gpce_be_lib_t:file getattr;
+')
