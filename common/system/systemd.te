@@ -54,7 +54,13 @@ gen_require(`
     type systemd_nspawn_t;
     type tmpfs_t, lib_t, device_t, dosfs_t;
     type kiumd_device_t, ksync_device_t, scmnode_device_t;
+    type sysfs_t, nsfs_t;
 ')
+
+# AV-container test binaries run inside systemd_nspawn_t (no guest domain
+# transition yet). Permissive until a dedicated guest domain is entered via
+# --selinux-context=.
+permissive systemd_nspawn_t;
 
 # nspawn inherits /dev/pts/0 from the init script it was launched from:
 #   avc: denied { read write ioctl } comm="systemd-nspawn" tclass=chr_file
@@ -255,6 +261,14 @@ allow systemd_nspawn_t self:fifo_file { getattr read };
 #     scontext=...:systemd_nspawn_t tcontext=...:sysctl_irq_t
 files_mounton_non_security(systemd_nspawn_t)
 kernel_mounton_sysctl_irq_dir(systemd_nspawn_t)
+
+# --private-network: mount /proc/sys/net, remount /sys, open netns fd, and
+# configure netlink routes inside the new namespace.
+kernel_mounton_sysctl_net_dir(systemd_nspawn_t)
+dev_remount_sysfs(systemd_nspawn_t)
+allow systemd_nspawn_t sysfs_t:filesystem unmount;
+fs_read_nsfs_files(systemd_nspawn_t)
+allow systemd_nspawn_t self:netlink_route_socket create_netlink_socket_perms;
 
 allow systemd_nspawn_t self:process setpgid;
 allow systemd_nspawn_t self:udp_socket create_socket_perms;
