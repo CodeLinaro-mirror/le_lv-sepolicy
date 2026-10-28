@@ -1,0 +1,58 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+## <summary>Policy for GStreamer multimedia applications.</summary>
+
+######################################
+## <summary>
+##  Transition to gstreamer_t under NoNewPrivileges (NNP).
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain performing the NNP transition (typically initrc_t).
+##  </summary>
+## </param>
+#
+interface(`gstreamer_nnp_trans',`
+    gen_require(`
+        type gstreamer_t;
+    ')
+
+    allow $1 gstreamer_t:process2 nnp_transition;
+')
+
+######################################
+## <summary>
+##  Use gstreamer file descriptors.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`gstreamer_use_fds',`
+    gen_require(`
+        type gstreamer_t;
+    ')
+
+    allow $1 gstreamer_t:fd use;
+')
+
+######################################
+## <summary>
+##  Make binder calls and transfers to gstreamer.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`gstreamer_binder',`
+    gen_require(`
+        type gstreamer_t;
+    ')
+
+    allow $1 gstreamer_t:binder { call transfer };
+')

@@ -1,0 +1,17 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+# Used to generate file contexts for gstreamer policy
+/usr/bin/gst-play-1.0             --    gen_context(system_u:object_r:gstreamer_exec_t,s0)
+/usr/bin/gst-launch-1.0           --    gen_context(system_u:object_r:gstreamer_exec_t,s0)
+/usr/bin/gst-inspect-1.0          --    gen_context(system_u:object_r:gstreamer_exec_t,s0)
+/usr/bin/gst-device-monitor-1.0   --    gen_context(system_u:object_r:gstreamer_exec_t,s0)
+/usr/bin/gst-typefind-1.0         --    gen_context(system_u:object_r:gstreamer_exec_t,s0)
+/usr/bin/gst-discoverer-1.0       --    gen_context(system_u:object_r:gstreamer_exec_t,s0)
+/usr/bin/gst-stats-1.0            --    gen_context(system_u:object_r:gstreamer_exec_t,s0)
+/usr/bin/gst-transcoder-1.0       --    gen_context(system_u:object_r:gstreamer_exec_t,s0)
+/usr/bin/gst-drm-player-example   --    gen_context(system_u:object_r:gstreamer_exec_t,s0)
+/usr/bin/test_seek                --    gen_context(system_u:object_r:gstreamer_exec_t,s0)
+/usr/bin/secure-gst-codec2        --    gen_context(system_u:object_r:gstreamer_exec_t,s0)
+/usr/bin/qappsrc_sample           --    gen_context(system_u:object_r:gstreamer_exec_t,s0)
+/usr/bin/mm-c2d-test              --    gen_context(system_u:object_r:gstreamer_exec_t,s0)

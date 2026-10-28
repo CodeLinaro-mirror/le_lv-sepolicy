@@ -144,10 +144,47 @@ interface(`userdom_manage_tmp_sockets',`
 ##  </summary>                                                                                                                              
 ## </param>                                                                                                                                 
 #                                                                                                                                           
-interface(`userdom_mmap_rw_user_runtime_files',`                                                                                             
-    gen_require(`                                                                                                                           
-        type user_runtime_t;                                                                                                                
-    ')                                                                                                                                      
-                                                                                                                                            
-    allow $1 user_runtime_t:file mmap_rw_file_perms;                                                                                         
+interface(`userdom_mmap_rw_user_runtime_files',`
+    gen_require(`
+        type user_runtime_t;
+    ')
+
+    allow $1 user_runtime_t:file mmap_rw_file_perms;
+')
+
+########################################
+## <summary>
+##  Create, read, write, map, and delete user runtime files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`userdom_manage_user_runtime_files',`
+    gen_require(`
+        type user_runtime_t;
+    ')
+
+    allow $1 user_runtime_t:file mmap_manage_file_perms;
+    userdom_search_user_runtime($1)
+')
+
+########################################
+## <summary>
+##  Execute user runtime files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`userdom_exec_user_runtime_files',`
+    gen_require(`
+        type user_runtime_t;
+    ')
+
+    allow $1 user_runtime_t:file execute;
 ')
