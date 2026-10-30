@@ -165,6 +165,7 @@ interface(`qdssservice_delete_tmpfs_files',`
 
     delete_files_pattern($1, qdss_service_tmpfs_t, qdss_service_tmpfs_t)
 ')
+
 ######################################
 ## <summary>
 ##  Search the qdss-service dump directory under /var/volatile/log.
@@ -203,4 +204,80 @@ interface(`qdssservice_manage_var_dumps',`
     allow $1 qdss_service_var_t:dir { open read write add_name create };
     allow $1 qdss_service_var_t:file { create open read write append
                                        getattr setattr ioctl };
+')
+
+######################################
+## <summary>
+##  Search and stat the qdss-service var directory
+##  (typically /var/log/qlf_dumps).
+##
+##  Use this from any QLF-producing service that needs to traverse
+##  /var/log/qlf_dumps to reach its own subdirectory (e.g. audio,
+##  video, gpu, camera, eva, syscache, ecc-err-handler). Grants only
+##  the minimum needed to stat and enter the parent directory.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`qdssservice_search_var_dir',`
+    gen_require(`
+        type qdss_service_var_t;
+    ')
+
+    allow $1 qdss_service_var_t:dir { search getattr open read };
+')
+
+######################################
+## <summary>
+##  Manage subdirectories under the qdss-service var directory
+##  (typically /var/log/qlf_dumps/[per-service-subdir]). Grants what
+##  a QLF-producing service needs to create and manage its own
+##  subdirectory of dumps beneath /var/log/qlf_dumps.
+##
+##  Note: this permits creating entries INSIDE qdss_service_var_t,
+##  not deleting or modifying the parent qdss_service_var_t
+##  directory itself. Files and subdirs created here will normally
+##  inherit qdss_service_var_t unless the caller declares a
+##  name-based type transition.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`qdssservice_manage_var_subdirs',`
+    gen_require(`
+        type qdss_service_var_t;
+    ')
+
+    allow $1 qdss_service_var_t:dir { search getattr open read
+                                      add_name remove_name write };
+    manage_dirs_pattern($1, qdss_service_var_t, qdss_service_var_t)
+    manage_files_pattern($1, qdss_service_var_t, qdss_service_var_t)
+')
+
+######################################
+## <summary>
+##  Auto-transition to qdss_service_t when the calling domain
+##  executes qdss_service_exec_t (qdss-service, qdss-util,
+##  qdss-sysfs). Required for any parent domain that spawns
+##  qdss-util (e.g. tpm) so its LRMC mqueues get the correct label.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain that will auto-transition to qdss_service_t on exec.
+##  </summary>
+## </param>
+#
+interface(`qdssservice_domtrans',`
+    gen_require(`
+        type qdss_service_t, qdss_service_exec_t;
+    ')
+
+    domtrans_pattern($1, qdss_service_exec_t, qdss_service_t)
+    allow $1 qdss_service_t:process { signal signull };
 ')
