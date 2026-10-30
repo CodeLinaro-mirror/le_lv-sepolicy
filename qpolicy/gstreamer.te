@@ -1,0 +1,95 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+
+policy_module(gstreamer, 1.0)
+
+type gstreamer_t;
+type gstreamer_exec_t;
+init_daemon_domain(gstreamer_t, gstreamer_exec_t)
+
+alsa_read_config(gstreamer_t)
+dev_read_rand(gstreamer_t)
+dev_read_sound(gstreamer_t)
+dev_read_urand(gstreamer_t)
+dev_read_video_dev(gstreamer_t)
+dev_rw_dri(gstreamer_t)
+dev_rw_map_generic_chr_files(gstreamer_t)
+dev_rw_sysfs(gstreamer_t)
+dev_write_generic_sockets(gstreamer_t)
+dev_write_video_dev(gstreamer_t)
+files_manage_default_dirs(gstreamer_t)
+files_manage_default_files(gstreamer_t)
+files_manage_isid_type_dirs(gstreamer_t)
+files_manage_isid_type_files(gstreamer_t)
+files_map_etc_files(gstreamer_t)
+files_read_etc_files(gstreamer_t)
+files_read_etc_symlinks(gstreamer_t)
+files_read_usr_files(gstreamer_t)
+files_search_tmp(gstreamer_t)
+fs_list_tmpfs(gstreamer_t)
+fs_map_tmpfs_files(gstreamer_t)
+fs_rw_tmpfs_files(gstreamer_t)
+init_read_var_run_files(gstreamer_t)
+init_stream_connect_script(gstreamer_t)
+kernel_read_system_state(gstreamer_t)
+kernel_read_vm_overcommit_sysctl(gstreamer_t)
+kernel_search_debugfs(gstreamer_t)
+logging_dgram_send(gstreamer_t)
+logging_read_syslog_pid(gstreamer_t)
+logging_write_devlog_sock(gstreamer_t)
+miscfiles_read_localization(gstreamer_t)
+pulseaudio_exec(gstreamer_t)
+sysadm_stream_connect(gstreamer_t)
+sysadm_use_fds(gstreamer_t)
+udev_read_pid_files(gstreamer_t)
+userdom_manage_user_runtime_dirs(gstreamer_t)
+userdom_manage_user_runtime_files(gstreamer_t)
+userdom_rw_user_tmpfs_files(gstreamer_t)
+userdom_write_user_tmp_sockets(gstreamer_t)
+
+# Shared libraries and plugins come from the /usr/lib overlay, whose
+# mmap'ed fds belong to kernel_t; some overlay plugins are default_t.
+kernel_use_fds(gstreamer_t)
+files_mmap_default_files(gstreamer_t)
+
+# gst-inspect/gst-launch spawn gst-plugin-scanner (bin_t) in-domain.
+corecmd_exec_bin(gstreamer_t)
+
+# Codec2 client: binder to agl-c2service (initrc_t) and dma-buf heap.
+fs_list_binderfs_dirs(gstreamer_t)
+dev_rw_binder_dev(gstreamer_t)
+init_binder(gstreamer_t)
+dev_rw_dma_dev(gstreamer_t)
+
+# waylandsink/glimagesink: wayland socket and Adreno hgsl.
+weston_write_tmp_sock_files(gstreamer_t)
+weston_stream_connectto(gstreamer_t)
+dev_rw_hgsl_dev(gstreamer_t)
+
+# Property lookups through leprop-service.
+system_core_connectto_leprop(gstreamer_t)
+
+# Launched from adb shell (initrc_t): inherited stdio/tmp files.
+init_use_script_fds(gstreamer_t)
+init_rw_script_tmp_files(gstreamer_t)
+
+# Test streams and dumps under /tmp (tmp_t).
+files_manage_generic_tmp_dirs(gstreamer_t)
+files_manage_generic_tmp_files(gstreamer_t)
+
+# ORC JIT code is written to and executed from $XDG_RUNTIME_DIR.
+userdom_exec_user_runtime_files(gstreamer_t)
+
+allow gstreamer_t self:capability { dac_override sys_admin };
+allow gstreamer_t self:fifo_file { getattr ioctl read write };
+allow gstreamer_t self:netlink_kobject_uevent_socket { bind create getattr setopt };
+allow gstreamer_t self:process { setcap setsched signal };
+allow gstreamer_t self:unix_dgram_socket { connect create write };
+
+#============= sysadm_t ==============
+dev_read_video_dev(sysadm_t)
+dev_write_video_dev(sysadm_t)
+sysadm_use_domain_fds(gstreamer_t)
+
+#============= syslogd_t ==============
+logging_signull_domain(gstreamer_t)

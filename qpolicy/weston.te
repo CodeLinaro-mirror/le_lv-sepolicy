@@ -66,6 +66,7 @@ unconfined_use_fds(weston_t)
 adreno200_ptrace(weston_t)
 
 adreno200_use_fds(weston_t)
+gstreamer_use_fds(weston_t)
 
 # /run/systemd/seats/seat0
 systemd_read_logind_sessions_files(weston_t)

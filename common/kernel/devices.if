@@ -430,3 +430,22 @@ interface(`dev_vfio_group_get_device_fd',`
     # VFIO_GROUP_GET_DEVICE_FD
     allowxperm $1 vfio_device_t:chr_file ioctl { 0x3b68 };
 ')
+
+########################################
+## <summary>
+##  Read, write, and map generic character device files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`dev_rw_map_generic_chr_files',`
+    gen_require(`
+        type device_t;
+    ')
+
+    rw_chr_files_pattern($1, device_t, device_t)
+    allow $1 device_t:chr_file map;
+')

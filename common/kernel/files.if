@@ -956,3 +956,22 @@ interface(`files_read_safety_config_files',`
 
     allow $1 safety_config_etc_t:file { read open getattr };
 ')
+
+########################################
+## <summary>
+##  Create, read, write, map, and delete files on
+##  new filesystems that have not yet been labeled.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`files_manage_isid_type_files',`
+    gen_require(`
+        type unlabeled_t;
+    ')
+
+    allow $1 unlabeled_t:file { create getattr map open read rename unlink write };
+')
