@@ -18,3 +18,21 @@ interface(`mount_nnp_trans',`
 
     allow $1 mount_t:process2 nnp_transition;
 ')
+
+########################################
+## <summary>
+##  Transition to unconfined_mount_t when NNP has been set.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  The type of the process performing this action.
+##  </summary>
+## </param>
+#
+interface(`mount_nnp_trans_unconfined',`
+    gen_require(`
+        type unconfined_mount_t;
+    ')
+
+    allow $1 unconfined_mount_t:process2 nnp_transition;
+')
