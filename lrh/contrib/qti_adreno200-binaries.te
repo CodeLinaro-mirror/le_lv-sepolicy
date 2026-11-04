@@ -128,3 +128,9 @@ allow adreno200_t self:process { signull ptrace setrlimit setsched };
 allow adreno200_t self:capability { sys_resource sys_nice sys_ptrace dac_override };
 allow adreno200_t self:fifo_file { rw_fifo_file_perms };
 allow adreno200_t adreno200_tmpfs_t:file { delete_file_perms append };
+gen_require(`
+    type proc_t;
+    class dir { read open search };
+')
+
+allow adreno200_t proc_t:dir { read open search };
