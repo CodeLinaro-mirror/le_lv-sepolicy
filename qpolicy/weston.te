@@ -78,7 +78,7 @@ dbus_write_pid_sock_files(weston_t)
 # pm_register
 power_use_pm_register(weston_t, weston_power_t)
 
-dev_read_sysfs(weston_t)
+dev_rw_sysfs(weston_t)
 
 # /dev/socket/leprop-service
 dev_manage_generic_sockets(weston_t)

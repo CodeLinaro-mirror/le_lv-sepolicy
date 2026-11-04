@@ -15,6 +15,9 @@ init_rw_script_stream_sockets(sdv_dice_t);
 dev_node(sdv_dice_opendice_t)
 dev_node(sdv_dice_vm_t)
 
+# LE property service
+system_core_connectto_leprop(sdv_dice_t)
+
 # Read /etc/vm_config.xml
 files_read_etc_files(sdv_dice_t)
 
@@ -44,7 +47,7 @@ fs_rw_tmpfs_dirs(sdv_dice_t)
 
 # self
 allow sdv_dice_t self:unix_dgram_socket { connect create write };
-allow sdv_dice_t self:unix_stream_socket { create bind listen accept read write };
+allow sdv_dice_t self:unix_stream_socket { create bind listen accept connect read write };
 allow sdv_dice_t self:process { setrlimit setsched getsched signull signal };
 allow sdv_dice_t self:capability sys_resource;
 

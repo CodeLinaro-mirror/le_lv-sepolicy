@@ -164,6 +164,13 @@ files_create_var_dirs(audio_service_t)
 # Allow qlf to check file status in /var/log/
 files_read_var_symlinks(audio_service_t)
 
+# Allow traversal of /var/log/qlf_dumps (labeled qdss_service_var_t
+# by qdss-service's files_var_filetrans rule) so audio's qlf_cmd_thread
+# can stat the parent dir and place its dump under
+# /var/log/qlf_dumps/qlf_awe_audio_service/.
+qdssservice_search_var_dir(audio_service_t)
+qdssservice_manage_var_subdirs(audio_service_t)
+
 # port 15002
 corenet_tcp_bind_generic_port(audio_service_t)
 corenet_tcp_bind_generic_node(audio_service_t)

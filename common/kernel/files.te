@@ -2,3 +2,12 @@
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 type safety_config_etc_t;
+
+# Allow systemd-tmpfiles to manage generic tmp/var labeled objects
+# during early boot.
+optional_policy(`
+  systemd_tmpfilesd_managed(var_t)
+')
+optional_policy(`
+  systemd_tmpfilesd_managed(tmp_t)
+')
