@@ -7,6 +7,7 @@ type fastrpc_rm_t;
 type fastrpc_rm_exec_t;
 type fastrpc_rm_tmp_t;
 type fastrpc_rm_tmpfs_t;
+type fastrpc_rm_run_t;
 
 init_daemon_domain(fastrpc_rm_t, fastrpc_rm_exec_t)
 
@@ -43,6 +44,7 @@ glinkserver_ptrace(fastrpc_rm_t)
 glinkserver_use_fds(fastrpc_rm_t)
 
 audio_service_signull(fastrpc_rm_t)
+audioservice_dgram_send(fastrpc_rm_t)
 
 unconfined_server_signull(fastrpc_rm_t)
 unconfined_signull(fastrpc_rm_t)
@@ -94,3 +96,6 @@ nsp_drv_signull(fastrpc_rm_t)
 fastrpc_signull(fastrpc_rm_t)
 
 pilrm_use_lrm_run_dir(fastrpc_rm_t)
+
+# Runtime directory and IPC sockets under /run/fastrpc.
+files_runtime_file(fastrpc_rm_run_t)
