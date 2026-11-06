@@ -44,6 +44,7 @@ glinkserver_ptrace(fastrpc_rm_t)
 glinkserver_use_fds(fastrpc_rm_t)
 
 audio_service_signull(fastrpc_rm_t)
+audioservice_dgram_send(fastrpc_rm_t)
 
 unconfined_server_signull(fastrpc_rm_t)
 unconfined_signull(fastrpc_rm_t)

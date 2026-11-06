@@ -299,3 +299,21 @@ interface(`fastrpc_rm_use_ipc_run_dir',`
     manage_dirs_pattern($1, fastrpc_rm_run_t, fastrpc_rm_run_t)
     manage_sock_files_pattern($1, fastrpc_rm_run_t, fastrpc_rm_run_t)
 ')
+
+######################################
+## <summary>
+##  Send to fastrpc-rm unix domain datagram socket.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`fastrpc_rm_dgram_send',`
+    gen_require(`
+        type fastrpc_rm_t;
+    ')
+
+    allow $1 fastrpc_rm_t:unix_dgram_socket sendto;
+')
