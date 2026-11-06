@@ -42,6 +42,24 @@ interface(`audio_service_signull',`
 
 ######################################
 ## <summary>
+##  Send to audio-service unix domain datagram socket.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`audioservice_dgram_send',`
+    gen_require(`
+        type audio_service_t;
+    ')
+
+    allow $1 audio_service_t:unix_dgram_socket sendto;
+')
+
+######################################
+## <summary>
 ##  Map, read and write audio-service tmpfs files.
 ## </summary>
 ## <param name="domain">
