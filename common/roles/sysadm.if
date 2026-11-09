@@ -55,3 +55,39 @@ interface(`sysadm_inherit_process_attributes',`
 
     allow $1 sysadm_t:process { noatsecure rlimitinh siginh };
 ')
+
+########################################
+## <summary>
+##  Allow sysadm to use file descriptors from the specified domain.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain whose file descriptors sysadm may use.
+##  </summary>
+## </param>
+#
+interface(`sysadm_use_domain_fds',`
+    gen_require(`
+        type sysadm_t;
+    ')
+
+    allow sysadm_t $1:fd use;
+')
+
+########################################
+## <summary>
+##  Allow sysadm to connect to the specified domain unix stream socket.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`sysadm_stream_connect',`
+    gen_require(`
+        type sysadm_t;
+    ')
+
+    allow $1 sysadm_t:unix_stream_socket connectto;
+')

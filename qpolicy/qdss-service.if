@@ -204,6 +204,7 @@ interface(`qdssservice_manage_var_dumps',`
     allow $1 qdss_service_var_t:dir { open read write add_name create };
     allow $1 qdss_service_var_t:file { create open read write append
                                        getattr setattr ioctl };
+    files_var_filetrans($1, qdss_service_var_t, dir, "qlf_dumps")
 ')
 
 ######################################

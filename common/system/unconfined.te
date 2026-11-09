@@ -46,3 +46,5 @@ minkdescriptor_delete_lib_files(unconfined_t)
 delete_she_lib_files(unconfined_t)
 
 init_binder(unconfined_t)
+
+mount_nnp_trans_unconfined(unconfined_t)

@@ -274,3 +274,23 @@ interface(`init_map_initrc_devpts',`
 
     allow $1 initrc_devpts_t:chr_file map;
 ')
+
+########################################
+## <summary>
+##  Search and read files in the init var/run directory.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`init_read_var_run_files',`
+    gen_require(`
+        type init_var_run_t;
+    ')
+
+    files_search_pids($1)
+    allow $1 init_var_run_t:dir search_dir_perms;
+    read_files_pattern($1, init_var_run_t, init_var_run_t)
+')
