@@ -39,6 +39,9 @@ files_manage_var_dirs(ecc_err_handler_t)
 
 ecc_err_handlerrm_rw_umd_dev(ecc_err_handler_t)
 
+# /usr/share/ecc-err-handler
+files_config_file(ecc_err_handler_data_t)
+
 safetymonitor_rw_tmpfs_files(ecc_err_handler_t)
 kernel_read_debugfs(ecc_err_handler_t)
 
