@@ -58,3 +58,21 @@ interface(`kernel_mounton_sysctl_irq_dir',`
 
     allow $1 sysctl_irq_t:dir { getattr mounton };
 ')
+
+########################################
+## <summary>
+## Mount on /proc/sys/net for a private network namespace.
+## </summary>
+## <param name="domain">
+## <summary>
+## Domain allowed access.
+## </summary>
+## </param>
+#
+interface(`kernel_mounton_sysctl_net_dir',`
+    gen_require(`
+        type sysctl_net_t;
+    ')
+
+    allow $1 sysctl_net_t:dir { getattr mounton };
+')
