@@ -80,6 +80,14 @@ files_manage_generic_tmp_files(gstreamer_t)
 # ORC JIT code is written to and executed from $XDG_RUNTIME_DIR.
 userdom_exec_user_runtime_files(gstreamer_t)
 
+# PulseAudio audio sink: read /etc/pulse/client.conf and connect to native
+# socket under /run/user/0/pulse (user_tmp_t); PA runs as unconfined_t.
+pulseaudio_read_etc_files(gstreamer_t)
+unconfined_stream_connect(gstreamer_t)
+unconfined_use_fds(gstreamer_t)
+userdom_list_user_tmp(gstreamer_t)
+userdom_map_user_tmpfs_files(gstreamer_t)
+
 allow gstreamer_t self:capability { dac_override sys_admin };
 allow gstreamer_t self:fifo_file { getattr ioctl read write };
 allow gstreamer_t self:netlink_kobject_uevent_socket { bind create getattr setopt };

@@ -21,6 +21,24 @@ interface(`pulseaudio_nnp_transition',`
 
 ########################################
 ## <summary>
+##  Read pulseaudio config files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`pulseaudio_read_etc_files',`
+    gen_require(`
+        type pulseaudio_etc_t;
+    ')
+
+    read_files_pattern($1, pulseaudio_etc_t, pulseaudio_etc_t)
+')
+
+########################################
+## <summary>
 ##  Manage  pulseaudio config files
 ## </summary>
 ## <param name="domain">
