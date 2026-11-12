@@ -255,3 +255,21 @@ interface(`init_map_initrc_devpts',`
 
     allow $1 initrc_devpts_t:chr_file map;
 ')
+
+######################################
+## <summary>
+##  Map, read and write initrc tmp files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed.
+##  </summary>
+## </param>
+#
+interface(`init_mmap_rw_initrc_tmp_files',`
+    gen_require(`
+        type initrc_tmp_t;
+    ')
+
+    mmap_rw_files_pattern($1, initrc_tmp_t, initrc_tmp_t)
+')
