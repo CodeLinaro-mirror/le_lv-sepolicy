@@ -2,3 +2,5 @@
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 /usr/bin/fastrpc-rm       --      gen_context(system_u:object_r:fastrpc_rm_exec_t,s0)
+/run/fastrpc              -d      gen_context(system_u:object_r:fastrpc_rm_run_t,s0)
+/run/fastrpc/frpc_.*      -s      gen_context(system_u:object_r:fastrpc_rm_run_t,s0)

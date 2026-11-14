@@ -40,6 +40,8 @@ adreno200_read_pid(pil_rm_t)
 ssctl_service_signull(pil_rm_t)
 subsys_ramdump_rw_files(pil_rm_t)
 
+pilrm_use_lrm_run_dir(pil_rm_t)
+
 ssrrm_rw_tmpfs_files(pil_rm_t)
 ssrrm_signull(pil_rm_t)
 ssrrm_tmpfs_map_files(pil_rm_t)
